@@ -63,6 +63,11 @@ def classify_hand(a: list[tuple], b: list[tuple] | None = None) -> tuple:
       - high card
     """
     cards = a if b is None else b
+    if len(cards) == 0:
+        return (-1,)
+    if len(cards) < 5:
+        values = sorted((v for v, _ in cards), reverse=True)
+        return (0, *values)
     if len(cards) == 5:
         return _score_five(cards)
     return max(_score_five(list(combo)) for combo in combinations(cards, 5))

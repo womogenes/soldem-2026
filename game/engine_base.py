@@ -47,6 +47,7 @@ class Game:
         """
         # Deal cards
         deck = copy.deepcopy(BASE_DECK)
+        random.shuffle(deck)
         for i in range(N_PLAYERS):
             self.player_cards[i] = deck[:N_PLAYER_CARDS]
             deck = deck[N_PLAYER_CARDS:]
@@ -156,7 +157,7 @@ class Game:
 
         self.auc_cards = list(self.player_cards[self.seller_idx])
         self.player_bids = [None] * N_PLAYERS
-        
+
         return {
             "game_over": False,
             "seller_idx": self.seller_idx,
