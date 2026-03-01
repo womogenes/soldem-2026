@@ -68,3 +68,5 @@ Local time: 2026-03-01 04:34 PST
 - `1a62ea5`: Bedrock preflight smoke logged in runbooks.
 - `7052415`: handoff checkpoint refresh after `0.26` calibration commit.
 - `4aa0808`: human training drills aligned with current policy cues.
+- `e73ee05`: final pre-7 countdown checklist added.
+- `5be08c0`: HUD reason codes now shown with plain-English descriptions.

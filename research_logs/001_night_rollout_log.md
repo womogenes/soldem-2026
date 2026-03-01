@@ -931,3 +931,8 @@ Local time: 2026-03-01 01:25:02 PST
   - `pnpm -C web check` -> 0 errors / 0 warnings
   - `pnpm -C web build` -> successful build.
 - Updated status snapshot to note human-readable reason descriptions.
+
+## 2026-03-01 05:52:31 PST
+
+- Refreshed pre-7 handoff commit checkpoints with latest operator-facing commits:
+  - `e73ee05`, `5be08c0`.
