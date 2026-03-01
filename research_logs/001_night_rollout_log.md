@@ -483,3 +483,20 @@ Local time: 2026-03-01 01:25:02 PST
     - `ev=equity_evolved_v1`
     - `first_place=meta_switch`
     - `robustness=equity_evolved_v1`
+
+## 2026-03-01 04:20:23 PST
+
+- Ran updated horizon sensitivity sweeps for latest strategy set (`5/10/20` games):
+  - no-correlation artifacts:
+    - `night_horizon_ev_5g_none_seed55005.json`
+    - `night_horizon_ev_10g_none_seed55010.json`
+    - `night_horizon_ev_20g_none_seed55020.json`
+  - respect-correlation artifacts (`strength=0.35`):
+    - `night_horizon_ev_5g_respect35_seed55105.json`
+    - `night_horizon_ev_10g_respect35_seed55110.json`
+    - `night_horizon_ev_20g_respect35_seed55120.json`
+- Result:
+  - `equity_evolved_v1` won EV in every tested horizon and regime.
+  - no evidence from this pass that longer horizons favor reverting to `conservative_plus`.
+- Added summary:
+  - `research_logs/011_horizon_sensitivity.md`

@@ -48,6 +48,8 @@ Latest evidence:
 - weird-variant stress runs (`n_tables=40`) show:
   - EV and robustness: `equity_evolved_v1` in 5/5 tested mixed overrides.
   - first-place: `pot_fraction` only in sprint profiles (`n_orbits=2`, low starting stacks).
+- horizon sensitivity check (`5/10/20` games, none+respect correlation):
+  - EV winner remained `equity_evolved_v1` in all tested horizons and regimes.
 
 ## How to run now
 
