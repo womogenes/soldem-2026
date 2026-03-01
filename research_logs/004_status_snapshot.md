@@ -90,7 +90,7 @@ Policy-routing smoke option:
 Latest integrated preflight (`tests + web + policy smoke`) completed at `2026-03-01 07:03 PST` using API `:8026`.
 Latest full-stack preflight including PocketBase + Bedrock completed at `2026-03-01 06:56 PST` using API `:8023`.
 Latest policy-smoke pass completed at `2026-03-01 07:03 PST` using API `:8026` with expanded WTA branch checks.
-Full backend discovery tests currently pass: `36/36`.
+Full backend discovery tests currently pass: `37/37`.
 Bedrock smoke check is included in the full-stack preflight above.
 
 4. Open HUD and use quick controls.

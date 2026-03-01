@@ -37,7 +37,7 @@ Local time: 2026-03-01 06:34 PST
 
 - Autosolve default runtime benchmark: about `22.9s`.
 - Autosolve first-place guardrail default: `first_gap=0.07`.
-- Backend tests currently passing: `36/36`.
+- Backend tests currently passing: `37/37`.
 - Frontend check/build passing.
 - HUD input now supports non-5-player variants (`n_players`-aware seat bounds and dynamic stacks).
 - Integrated preflight (`tests + web + policy smoke`) passed at `2026-03-01 07:03 PST`.
@@ -89,4 +89,5 @@ Local time: 2026-03-01 06:34 PST
 - `5ef9e69`: session/profile `n_players` sync fix + correlated-pair smoke coverage.
 - `b3d22cc`: final 06:58 policy-smoke readiness timestamp refresh.
 - `01ee7da`: advisor request normalization to active rule-profile bounds.
+- `b5e1b20`: readiness docs refreshed after `07:03` integrated preflight.
 - `1271c5b`: pre-7 summary refreshed with final readiness commit trail.

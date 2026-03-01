@@ -1185,3 +1185,14 @@ Local time: 2026-03-01 01:25:02 PST
   - backend tests: `36/36` pass
   - web check: pass
   - policy smoke: pass, including correlated-pair defensive branch.
+
+## 2026-03-01 07:05:30 PST
+
+- Fixed champion recompute path to preserve active rule overrides:
+  - `Session.recompute_champions` now passes current `rule_profile` overrides into `run_population_tournament`.
+  - prevents UI `Recompute champions` from silently reverting to profile-name defaults and wrong player count.
+- Added regression test (`test_recompute_champions_uses_active_rule_overrides`) in `tests/test_api_session.py`.
+- Validation:
+  - backend tests: `37/37` pass
+  - web check: pass
+  - API smoke: `top2_split + n_players=6 + overrides` recompute path passes.

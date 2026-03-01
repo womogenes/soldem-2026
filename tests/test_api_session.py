@@ -1,9 +1,11 @@
 import unittest
+from unittest.mock import patch
 
 from game.api import (
     Session,
     SessionEventReq,
     SetChampionsReq,
+    RecomputeChampionsReq,
     normalize_round_request,
     resolver_reason_text,
 )
@@ -381,6 +383,50 @@ class ApiSessionTests(unittest.TestCase):
         )
         read = s.infer_table_read()
         self.assertEqual(read["n_auction_results"], 1)
+
+    def test_recompute_champions_uses_active_rule_overrides(self):
+        s = Session()
+        s.apply_profile(
+            "top2_split",
+            {
+                "n_players": 6,
+                "start_chips": 220,
+                "ante_amt": 33,
+                "n_orbits": 4,
+            },
+        )
+        board = [
+            {
+                "tag": "equity_evolved_v1",
+                "expected_pnl": 1.0,
+                "first_place_rate": 0.2,
+                "robustness": 0.1,
+                "composites": {},
+            },
+            {
+                "tag": "meta_switch",
+                "expected_pnl": 0.9,
+                "first_place_rate": 0.1,
+                "robustness": 0.05,
+                "composites": {},
+            },
+        ]
+        with patch("game.api.run_population_tournament", return_value={"leaderboard": board}) as mocked:
+            s.recompute_champions(
+                RecomputeChampionsReq(
+                    n_matches=2,
+                    n_games_per_match=2,
+                    seed=7,
+                )
+            )
+        self.assertEqual(mocked.call_count, 3)
+        for call in mocked.call_args_list:
+            kwargs = call.kwargs
+            self.assertEqual(kwargs["rule_profile"], "top2_split")
+            self.assertEqual(kwargs["rule_overrides"]["n_players"], 6)
+            self.assertEqual(kwargs["rule_overrides"]["start_chips"], 220)
+            self.assertEqual(kwargs["rule_overrides"]["ante_amt"], 33)
+            self.assertEqual(kwargs["rule_overrides"]["n_orbits"], 4)
 
 
 if __name__ == "__main__":

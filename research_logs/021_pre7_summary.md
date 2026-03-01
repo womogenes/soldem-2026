@@ -1,6 +1,6 @@
 # Pre-7 summary
 
-Local time: 2026-03-01 07:03:14 PST
+Local time: 2026-03-01 07:05:30 PST
 
 ## What is ready
 
@@ -28,10 +28,11 @@ Local time: 2026-03-01 07:03:14 PST
 - Policy evaluator: `research_logs/experiment_outputs/first_place_policy_eval_post_wta_banding.json` (best fit `68/80`, `0.850`).
 
 4. Validation is green:
-- Backend tests: `36/36` pass.
+- Backend tests: `37/37` pass.
 - Web check/build: pass.
 - Policy smoke: pass for baseline, WTA pot-pressure, WTA high-stack relief, and 6-player branch.
 - Latest integrated preflight (`tests + web + policy smoke`) passed at `2026-03-01 07:03 PST`.
+- Variant recompute smoke (`top2_split` + `n_players=6` + overrides) passed at `2026-03-01 07:05 PST`.
 
 ## How to use at game time
 

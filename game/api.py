@@ -429,9 +429,14 @@ class Session:
         tag, _reason = self.resolve_champion_with_reason(objective)
         return tag
 
+    def _active_rule_overrides_for_sim(self) -> dict[str, Any]:
+        raw = self.rule_profile.to_dict()
+        return {k: v for k, v in raw.items() if k != "name"}
+
     def recompute_champions(self, req: RecomputeChampionsReq) -> dict[str, Any]:
         strategy_tags = list(built_in_strategy_factories().keys())
         leaderboards: dict[str, list[dict[str, Any]]] = {}
+        overrides = self._active_rule_overrides_for_sim()
 
         objective_to_key = {
             "ev": "expected_pnl",
@@ -445,6 +450,7 @@ class Session:
                 n_matches=req.n_matches,
                 n_games_per_match=req.n_games_per_match,
                 rule_profile=self.rule_profile.name,
+                rule_overrides=overrides,
                 seed=req.seed + (101 * len(leaderboards)),
                 objective=objective,
             )
