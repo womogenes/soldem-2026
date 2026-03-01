@@ -19,7 +19,7 @@ Current champion is strong in all three objective settings:
 Distributed EC2 confirmation:
 
 - In a 216-scenario run with `n_matches=120`, this strategy won 199 scenarios.
-- Across three distributed runs (648 scenarios total), this strategy won 571 scenarios.
+- Across four high-confidence distributed runs (864 scenarios total), this strategy won 777 scenarios.
 
 ## Turn-by-turn guidance
 

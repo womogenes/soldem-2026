@@ -83,6 +83,7 @@ Higher-confidence distributed fallback maps are also available:
 - `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-015615.json`
 - `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-020134.json`
 - `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-021037.json`
+- `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-023132.json`
 - `research_logs/experiment_outputs/distributed_master_summary_20260301.json`
 
 ## Patch templates for unknown new rule types

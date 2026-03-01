@@ -1,0 +1,2635 @@
+{
+  "worker_idx": 0,
+  "worker_count": 12,
+  "n_matches": 180,
+  "rows": [
+    {
+      "worker_idx": 0,
+      "scenario_idx": 0,
+      "profile": "baseline_v1",
+      "objective": "ev",
+      "horizon": 5,
+      "correlation": "none",
+      "seed": 20260311,
+      "metric_key": "expected_pnl",
+      "winner_tag": "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.086,sell_count=2",
+      "winner_metric": 151.90952380952382,
+      "leaderboard": [
+        {
+          "tag": "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.086,sell_count=2",
+          "samples": 420,
+          "expected_pnl": 151.90952380952382,
+          "first_place_rate": 0.5595238095238095,
+          "robustness": 151.90952380952382,
+          "composites": {
+            "balanced_50_30_20": 123.12238095238095,
+            "upside_60_30_10": 123.12238095238095,
+            "robust_40_20_40": 132.71809523809526
+          }
+        },
+        {
+          "tag": "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.106,sell_count=2",
+          "samples": 370,
+          "expected_pnl": 131.98108108108107,
+          "first_place_rate": 0.4540540540540541,
+          "robustness": 113.29189189189188,
+          "composites": {
+            "balanced_50_30_20": 102.27054054054052,
+            "upside_60_30_10": 104.13945945945945,
+            "robust_40_20_40": 107.19027027027028
+          }
+        },
+        {
+          "tag": "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.099,sell_count=1",
+          "samples": 350,
+          "expected_pnl": 102.48,
+          "first_place_rate": 0.3914285714285714,
+          "robustness": 86.2657142857143,
+          "composites": {
+            "balanced_50_30_20": 80.236,
+            "upside_60_30_10": 81.85742857142856,
+            "robust_40_20_40": 83.32685714285715
+          }
+        },
+        {
+          "tag": "conservative",
+          "samples": 435,
+          "expected_pnl": 51.99540229885057,
+          "first_place_rate": 0.21839080459770116,
+          "robustness": -37.21149425287357,
+          "composites": {
+            "balanced_50_30_20": 25.107126436781606,
+            "upside_60_30_10": 34.027816091954016,
+            "robust_40_20_40": 10.281379310344823
+          }
+        },
+        {
+          "tag": "risk_sniper:bid_scale=0.769,late_round_bonus=0.311,sell_count=2,stack_cap_fraction=0.258,trigger_delta=1600",
+          "samples": 425,
+          "expected_pnl": 11.263529411764706,
+          "first_place_rate": 0.05647058823529412,
+          "robustness": -60.17176470588235,
+          "composites": {
+            "balanced_50_30_20": -4.708470588235295,
+            "upside_60_30_10": 2.4350588235294115,
+            "robust_40_20_40": -18.43388235294118
+          }
+        },
+        {
+          "tag": "pot_fraction",
+          "samples": 370,
+          "expected_pnl": -0.16216216216216217,
+          "first_place_rate": 0.12702702702702703,
+          "robustness": -195.77027027027026,
+          "composites": {
+            "balanced_50_30_20": -35.42432432432433,
+            "upside_60_30_10": -15.863513513513515,
+            "robust_40_20_40": -75.83243243243244
+          }
+        },
+        {
+          "tag": "seller_profit",
+          "samples": 465,
+          "expected_pnl": -27.873118279569894,
+          "first_place_rate": 0.0989247311827957,
+          "robustness": -227.8731182795699,
+          "composites": {
+            "balanced_50_30_20": -56.54344086021506,
+            "upside_60_30_10": -36.54344086021506,
+            "robust_40_20_40": -100.32000000000001
+          }
+        },
+        {
+          "tag": "random",
+          "samples": 440,
+          "expected_pnl": -64.675,
+          "first_place_rate": 0.12954545454545455,
+          "robustness": -259.2204545454545,
+          "composites": {
+            "balanced_50_30_20": -80.29522727272727,
+            "upside_60_30_10": -60.84068181818182,
+            "robust_40_20_40": -126.96727272727273
+          }
+        },
+        {
+          "tag": "adaptive_profile",
+          "samples": 430,
+          "expected_pnl": -82.33720930232558,
+          "first_place_rate": 0.07906976744186046,
+          "robustness": -282.33720930232556,
+          "composites": {
+            "balanced_50_30_20": -95.2639534883721,
+            "upside_60_30_10": -75.2639534883721,
+            "robust_40_20_40": -144.28837209302324
+          }
+        },
+        {
+          "tag": "bully",
+          "samples": 365,
+          "expected_pnl": -86.17808219178082,
+          "first_place_rate": 0.1095890410958904,
+          "robustness": -286.17808219178085,
+          "composites": {
+            "balanced_50_30_20": -97.03698630136986,
+            "upside_60_30_10": -77.03698630136986,
+            "robust_40_20_40": -146.75068493150687
+          }
+        },
+        {
+          "tag": "delta_value",
+          "samples": 430,
+          "expected_pnl": -157.13953488372093,
+          "first_place_rate": 0.03953488372093023,
+          "robustness": -357.1395348837209,
+          "composites": {
+            "balanced_50_30_20": -148.81162790697675,
+            "upside_60_30_10": -128.81162790697672,
+            "robust_40_20_40": -204.92093023255813
+          }
+        }
+      ]
+    },
+    {
+      "worker_idx": 0,
+      "scenario_idx": 12,
+      "profile": "baseline_v1",
+      "objective": "first_place",
+      "horizon": 5,
+      "correlation": "none",
+      "seed": 20260323,
+      "metric_key": "first_place_rate",
+      "winner_tag": "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.086,sell_count=2",
+      "winner_metric": 0.549367088607595,
+      "leaderboard": [
+        {
+          "tag": "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.086,sell_count=2",
+          "samples": 395,
+          "expected_pnl": 144.75189873417722,
+          "first_place_rate": 0.549367088607595,
+          "robustness": 144.75189873417722,
+          "composites": {
+            "balanced_50_30_20": 117.80734177215189,
+            "upside_60_30_10": 117.80734177215189,
+            "robust_40_20_40": 126.78886075949369
+          }
+        },
+        {
+          "tag": "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.099,sell_count=1",
+          "samples": 440,
+          "expected_pnl": 105.74318181818182,
+          "first_place_rate": 0.3613636363636364,
+          "robustness": 78.45909090909092,
+          "composites": {
+            "balanced_50_30_20": 79.40431818181818,
+            "upside_60_30_10": 82.13272727272727,
+            "robust_40_20_40": 80.90818181818183
+          }
+        },
+        {
+          "tag": "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.106,sell_count=2",
+          "samples": 430,
+          "expected_pnl": 99.8906976744186,
+          "first_place_rate": 0.3395348837209302,
+          "robustness": 77.65813953488372,
+          "composites": {
+            "balanced_50_30_20": 75.66302325581395,
+            "upside_60_30_10": 77.88627906976744,
+            "robust_40_20_40": 77.81023255813955
+          }
+        },
+        {
+          "tag": "conservative",
+          "samples": 360,
+          "expected_pnl": 54.861111111111114,
+          "first_place_rate": 0.24722222222222223,
+          "robustness": -45.236111111111114,
+          "composites": {
+            "balanced_50_30_20": 25.799999999999997,
+            "upside_60_30_10": 35.80972222222222,
+            "robust_40_20_40": 8.794444444444448
+          }
+        },
+        {
+          "tag": "risk_sniper:bid_scale=0.769,late_round_bonus=0.311,sell_count=2,stack_cap_fraction=0.258,trigger_delta=1600",
+          "samples": 390,
+          "expected_pnl": 19.31025641025641,
+          "first_place_rate": 0.09743589743589744,
+          "robustness": -59.63846153846153,
+          "composites": {
+            "balanced_50_30_20": 0.650512820512823,
+            "upside_60_30_10": 8.545384615384616,
+            "robust_40_20_40": -14.182564102564097
+          }
+        },
+        {
+          "tag": "pot_fraction",
+          "samples": 405,
+          "expected_pnl": 6.353086419753087,
+          "first_place_rate": 0.14814814814814814,
+          "robustness": -189.2888888888889,
+          "composites": {
+            "balanced_50_30_20": -30.23679012345679,
+            "upside_60_30_10": -10.672592592592594,
+            "robust_40_20_40": -70.21135802469135
+          }
+        },
+        {
+          "tag": "seller_profit",
+          "samples": 380,
+          "expected_pnl": -48.660526315789475,
+          "first_place_rate": 0.09473684210526316,
+          "robustness": -248.66052631578947,
+          "composites": {
+            "balanced_50_30_20": -71.22026315789475,
+            "upside_60_30_10": -51.220263157894735,
+            "robust_40_20_40": -117.03368421052633
+          }
+        },
+        {
+          "tag": "random",
+          "samples": 455,
+          "expected_pnl": -61.18021978021978,
+          "first_place_rate": 0.11868131868131868,
+          "robustness": -256.1802197802198,
+          "composites": {
+            "balanced_50_30_20": -78.2657142857143,
+            "upside_60_30_10": -58.76571428571428,
+            "robust_40_20_40": -124.57054945054946
+          }
+        },
+        {
+          "tag": "adaptive_profile",
+          "samples": 395,
+          "expected_pnl": -74.15949367088608,
+          "first_place_rate": 0.10886075949367088,
+          "robustness": -274.1594936708861,
+          "composites": {
+            "balanced_50_30_20": -88.64582278481014,
+            "upside_60_30_10": -68.64582278481014,
+            "robust_40_20_40": -137.15037974683545
+          }
+        },
+        {
+          "tag": "bully",
+          "samples": 460,
+          "expected_pnl": -92.93695652173913,
+          "first_place_rate": 0.09565217391304348,
+          "robustness": -292.93695652173915,
+          "composites": {
+            "balanced_50_30_20": -102.1863043478261,
+            "upside_60_30_10": -82.18630434782608,
+            "robust_40_20_40": -152.43652173913046
+          }
+        },
+        {
+          "tag": "delta_value",
+          "samples": 390,
+          "expected_pnl": -149.07435897435897,
+          "first_place_rate": 0.035897435897435895,
+          "robustness": -349.074358974359,
+          "composites": {
+            "balanced_50_30_20": -143.2751282051282,
+            "upside_60_30_10": -123.2751282051282,
+            "robust_40_20_40": -198.54153846153847
+          }
+        }
+      ]
+    },
+    {
+      "worker_idx": 0,
+      "scenario_idx": 24,
+      "profile": "baseline_v1",
+      "objective": "robustness",
+      "horizon": 5,
+      "correlation": "none",
+      "seed": 20260335,
+      "metric_key": "robustness",
+      "winner_tag": "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.086,sell_count=2",
+      "winner_metric": 147.03076923076924,
+      "leaderboard": [
+        {
+          "tag": "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.086,sell_count=2",
+          "samples": 390,
+          "expected_pnl": 147.03076923076924,
+          "first_place_rate": 0.5641025641025641,
+          "robustness": 147.03076923076924,
+          "composites": {
+            "balanced_50_30_20": 119.8446153846154,
+            "upside_60_30_10": 119.84461538461538,
+            "robust_40_20_40": 128.9066666666667
+          }
+        },
+        {
+          "tag": "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.099,sell_count=1",
+          "samples": 340,
+          "expected_pnl": 129.2735294117647,
+          "first_place_rate": 0.45,
+          "robustness": 122.25882352941177,
+          "composites": {
+            "balanced_50_30_20": 102.58852941176471,
+            "upside_60_30_10": 103.28999999999999,
+            "robust_40_20_40": 109.6129411764706
+          }
+        },
+        {
+          "tag": "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.106,sell_count=2",
+          "samples": 335,
+          "expected_pnl": 115.86865671641792,
+          "first_place_rate": 0.3880597014925373,
+          "robustness": 88.19701492537314,
+          "composites": {
+            "balanced_50_30_20": 87.2155223880597,
+            "upside_60_30_10": 89.98268656716418,
+            "robust_40_20_40": 89.38746268656718
+          }
+        },
+        {
+          "tag": "conservative",
+          "samples": 410,
+          "expected_pnl": 77.70731707317073,
+          "first_place_rate": 0.2634146341463415,
+          "robustness": 10.182926829268283,
+          "composites": {
+            "balanced_50_30_20": 48.79268292682926,
+            "upside_60_30_10": 55.5451219512195,
+            "robust_40_20_40": 40.42439024390244
+          }
+        },
+        {
+          "tag": "risk_sniper:bid_scale=0.769,late_round_bonus=0.311,sell_count=2,stack_cap_fraction=0.258,trigger_delta=1600",
+          "samples": 485,
+          "expected_pnl": 9.290721649484537,
+          "first_place_rate": 0.061855670103092786,
+          "robustness": -63.56494845360824,
+          "composites": {
+            "balanced_50_30_20": -6.2119587628865975,
+            "upside_60_30_10": 1.0736082474226816,
+            "robust_40_20_40": -20.47257731958763
+          }
+        },
+        {
+          "tag": "pot_fraction",
+          "samples": 420,
+          "expected_pnl": 0.23095238095238096,
+          "first_place_rate": 0.1523809523809524,
+          "robustness": -197.66190476190476,
+          "composites": {
+            "balanced_50_30_20": -34.84547619047619,
+            "upside_60_30_10": -15.056190476190476,
+            "robust_40_20_40": -75.92476190476191
+          }
+        },
+        {
+          "tag": "seller_profit",
+          "samples": 385,
+          "expected_pnl": -56.33246753246753,
+          "first_place_rate": 0.09610389610389611,
+          "robustness": -256.33246753246755,
+          "composites": {
+            "balanced_50_30_20": -76.5496103896104,
+            "upside_60_30_10": -56.54961038961039,
+            "robust_40_20_40": -123.14389610389611
+          }
+        },
+        {
+          "tag": "adaptive_profile",
+          "samples": 450,
+          "expected_pnl": -64.49333333333334,
+          "first_place_rate": 0.10666666666666667,
+          "robustness": -264.49333333333334,
+          "composites": {
+            "balanced_50_30_20": -81.94533333333334,
+            "upside_60_30_10": -61.94533333333334,
+            "robust_40_20_40": -129.46133333333336
+          }
+        },
+        {
+          "tag": "random",
+          "samples": 445,
+          "expected_pnl": -67.86966292134831,
+          "first_place_rate": 0.14382022471910114,
+          "robustness": -262.6786516853933,
+          "composites": {
+            "balanced_50_30_20": -82.15595505617978,
+            "upside_60_30_10": -62.675056179775275,
+            "robust_40_20_40": -129.34292134831463
+          }
+        },
+        {
+          "tag": "bully",
+          "samples": 450,
+          "expected_pnl": -81.65333333333334,
+          "first_place_rate": 0.07555555555555556,
+          "robustness": -281.6533333333333,
+          "composites": {
+            "balanced_50_30_20": -94.89066666666668,
+            "upside_60_30_10": -74.89066666666666,
+            "robust_40_20_40": -143.81155555555557
+          }
+        },
+        {
+          "tag": "delta_value",
+          "samples": 390,
+          "expected_pnl": -151.07179487179488,
+          "first_place_rate": 0.03076923076923077,
+          "robustness": -351.07179487179485,
+          "composites": {
+            "balanced_50_30_20": -144.82717948717948,
+            "upside_60_30_10": -124.82717948717948,
+            "robust_40_20_40": -200.24205128205128
+          }
+        }
+      ]
+    },
+    {
+      "worker_idx": 0,
+      "scenario_idx": 36,
+      "profile": "standard_rankings",
+      "objective": "ev",
+      "horizon": 5,
+      "correlation": "none",
+      "seed": 20260347,
+      "metric_key": "expected_pnl",
+      "winner_tag": "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.086,sell_count=2",
+      "winner_metric": 113.12682926829268,
+      "leaderboard": [
+        {
+          "tag": "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.086,sell_count=2",
+          "samples": 410,
+          "expected_pnl": 113.12682926829268,
+          "first_place_rate": 0.47317073170731705,
+          "robustness": 94.7,
+          "composites": {
+            "balanced_50_30_20": 89.69853658536584,
+            "upside_60_30_10": 91.54121951219511,
+            "robust_40_20_40": 92.59414634146341
+          }
+        },
+        {
+          "tag": "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.106,sell_count=2",
+          "samples": 445,
+          "expected_pnl": 100.80898876404494,
+          "first_place_rate": 0.37303370786516854,
+          "robustness": 67.0561797752809,
+          "composites": {
+            "balanced_50_30_20": 75.00674157303371,
+            "upside_60_30_10": 78.3820224719101,
+            "robust_40_20_40": 74.60674157303372
+          }
+        },
+        {
+          "tag": "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.099,sell_count=1",
+          "samples": 405,
+          "expected_pnl": 94.78518518518518,
+          "first_place_rate": 0.38271604938271603,
+          "robustness": 62.72345679012346,
+          "composites": {
+            "balanced_50_30_20": 71.41876543209877,
+            "upside_60_30_10": 74.62493827160493,
+            "robust_40_20_40": 70.65777777777778
+          }
+        },
+        {
+          "tag": "conservative",
+          "samples": 465,
+          "expected_pnl": 73.16129032258064,
+          "first_place_rate": 0.25806451612903225,
+          "robustness": 15.763440860215049,
+          "composites": {
+            "balanced_50_30_20": 47.475268817204295,
+            "upside_60_30_10": 53.21505376344086,
+            "robust_40_20_40": 40.73118279569893
+          }
+        },
+        {
+          "tag": "risk_sniper:bid_scale=0.769,late_round_bonus=0.311,sell_count=2,stack_cap_fraction=0.258,trigger_delta=1600",
+          "samples": 435,
+          "expected_pnl": 15.498850574712643,
+          "first_place_rate": 0.10804597701149425,
+          "robustness": -63.84597701149425,
+          "composites": {
+            "balanced_50_30_20": -1.7783908045977004,
+            "upside_60_30_10": 6.156091954022988,
+            "robust_40_20_40": -17.177931034482757
+          }
+        },
+        {
+          "tag": "pot_fraction",
+          "samples": 395,
+          "expected_pnl": -12.260759493670886,
+          "first_place_rate": 0.13670886075949368,
+          "robustness": -212.2607594936709,
+          "composites": {
+            "balanced_50_30_20": -44.48126582278481,
+            "upside_60_30_10": -24.48126582278481,
+            "robust_40_20_40": -87.07443037974684
+          }
+        },
+        {
+          "tag": "adaptive_profile",
+          "samples": 455,
+          "expected_pnl": -51,
+          "first_place_rate": 0.07252747252747253,
+          "robustness": -251,
+          "composites": {
+            "balanced_50_30_20": -73.52417582417583,
+            "upside_60_30_10": -53.52417582417583,
+            "robust_40_20_40": -119.34945054945055
+          }
+        },
+        {
+          "tag": "random",
+          "samples": 380,
+          "expected_pnl": -71.71578947368421,
+          "first_place_rate": 0.1394736842105263,
+          "robustness": -266.2026315789474,
+          "composites": {
+            "balanced_50_30_20": -84.9142105263158,
+            "upside_60_30_10": -65.46552631578948,
+            "robust_40_20_40": -132.3778947368421
+          }
+        },
+        {
+          "tag": "seller_profit",
+          "samples": 395,
+          "expected_pnl": -79.29113924050633,
+          "first_place_rate": 0.06582278481012659,
+          "robustness": -279.2911392405063,
+          "composites": {
+            "balanced_50_30_20": -93.52911392405062,
+            "upside_60_30_10": -73.52911392405062,
+            "robust_40_20_40": -142.11645569620254
+          }
+        },
+        {
+          "tag": "bully",
+          "samples": 360,
+          "expected_pnl": -79.6,
+          "first_place_rate": 0.12222222222222222,
+          "robustness": -279.6,
+          "composites": {
+            "balanced_50_30_20": -92.05333333333334,
+            "upside_60_30_10": -72.05333333333334,
+            "robust_40_20_40": -141.23555555555558
+          }
+        },
+        {
+          "tag": "delta_value",
+          "samples": 355,
+          "expected_pnl": -155.256338028169,
+          "first_place_rate": 0.022535211267605635,
+          "robustness": -355.256338028169,
+          "composites": {
+            "balanced_50_30_20": -148.00338028169014,
+            "upside_60_30_10": -128.00338028169014,
+            "robust_40_20_40": -203.75436619718312
+          }
+        }
+      ]
+    },
+    {
+      "worker_idx": 0,
+      "scenario_idx": 48,
+      "profile": "standard_rankings",
+      "objective": "first_place",
+      "horizon": 5,
+      "correlation": "none",
+      "seed": 20260359,
+      "metric_key": "first_place_rate",
+      "winner_tag": "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.086,sell_count=2",
+      "winner_metric": 0.5075,
+      "leaderboard": [
+        {
+          "tag": "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.086,sell_count=2",
+          "samples": 400,
+          "expected_pnl": 129.675,
+          "first_place_rate": 0.5075,
+          "robustness": 129.675,
+          "composites": {
+            "balanced_50_30_20": 105.9975,
+            "upside_60_30_10": 105.9975,
+            "robust_40_20_40": 113.89000000000001
+          }
+        },
+        {
+          "tag": "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.106,sell_count=2",
+          "samples": 420,
+          "expected_pnl": 106.4,
+          "first_place_rate": 0.3547619047619048,
+          "robustness": 67.82857142857144,
+          "composites": {
+            "balanced_50_30_20": 77.40857142857143,
+            "upside_60_30_10": 81.26571428571428,
+            "robust_40_20_40": 76.78666666666668
+          }
+        },
+        {
+          "tag": "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.099,sell_count=1",
+          "samples": 445,
+          "expected_pnl": 103.97752808988764,
+          "first_place_rate": 0.3775280898876405,
+          "robustness": 72.10112359550561,
+          "composites": {
+            "balanced_50_30_20": 77.73483146067416,
+            "upside_60_30_10": 80.92247191011236,
+            "robust_40_20_40": 77.98202247191011
+          }
+        },
+        {
+          "tag": "conservative",
+          "samples": 380,
+          "expected_pnl": 78.27368421052631,
+          "first_place_rate": 0.2789473684210526,
+          "robustness": 17.497368421052627,
+          "composites": {
+            "balanced_50_30_20": 51.00473684210526,
+            "upside_60_30_10": 57.08236842105263,
+            "robust_40_20_40": 43.88736842105263
+          }
+        },
+        {
+          "tag": "risk_sniper:bid_scale=0.769,late_round_bonus=0.311,sell_count=2,stack_cap_fraction=0.258,trigger_delta=1600",
+          "samples": 400,
+          "expected_pnl": 3.6675,
+          "first_place_rate": 0.0725,
+          "robustness": -76.345,
+          "composites": {
+            "balanced_50_30_20": -11.26025,
+            "upside_60_30_10": -3.2590000000000003,
+            "robust_40_20_40": -27.621000000000002
+          }
+        },
+        {
+          "tag": "pot_fraction",
+          "samples": 450,
+          "expected_pnl": 0.6,
+          "first_place_rate": 0.18666666666666668,
+          "robustness": -199.02222222222224,
+          "composites": {
+            "balanced_50_30_20": -33.90444444444445,
+            "upside_60_30_10": -13.942222222222224,
+            "robust_40_20_40": -75.63555555555557
+          }
+        },
+        {
+          "tag": "seller_profit",
+          "samples": 350,
+          "expected_pnl": -59.86,
+          "first_place_rate": 0.06571428571428571,
+          "robustness": -259.86,
+          "composites": {
+            "balanced_50_30_20": -79.93057142857144,
+            "upside_60_30_10": -59.93057142857143,
+            "robust_40_20_40": -126.5737142857143
+          }
+        },
+        {
+          "tag": "random",
+          "samples": 435,
+          "expected_pnl": -63.342528735632186,
+          "first_place_rate": 0.135632183908046,
+          "robustness": -258.3540229885058,
+          "composites": {
+            "balanced_50_30_20": -79.27310344827588,
+            "upside_60_30_10": -59.77195402298851,
+            "robust_40_20_40": -125.96597701149429
+          }
+        },
+        {
+          "tag": "adaptive_profile",
+          "samples": 405,
+          "expected_pnl": -70.05679012345679,
+          "first_place_rate": 0.07407407407407407,
+          "robustness": -270.0567901234568,
+          "composites": {
+            "balanced_50_30_20": -86.81753086419754,
+            "upside_60_30_10": -66.81753086419754,
+            "robust_40_20_40": -134.56395061728395
+          }
+        },
+        {
+          "tag": "bully",
+          "samples": 400,
+          "expected_pnl": -80.9475,
+          "first_place_rate": 0.1025,
+          "robustness": -280.9475,
+          "composites": {
+            "balanced_50_30_20": -93.58825,
+            "upside_60_30_10": -73.58825,
+            "robust_40_20_40": -142.708
+          }
+        },
+        {
+          "tag": "delta_value",
+          "samples": 415,
+          "expected_pnl": -156.75180722891565,
+          "first_place_rate": 0.01927710843373494,
+          "robustness": -356.75180722891565,
+          "composites": {
+            "balanced_50_30_20": -149.14795180722894,
+            "upside_60_30_10": -129.14795180722894,
+            "robust_40_20_40": -205.01590361445784
+          }
+        }
+      ]
+    },
+    {
+      "worker_idx": 0,
+      "scenario_idx": 60,
+      "profile": "standard_rankings",
+      "objective": "robustness",
+      "horizon": 5,
+      "correlation": "none",
+      "seed": 20260371,
+      "metric_key": "robustness",
+      "winner_tag": "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.099,sell_count=1",
+      "winner_metric": 107.04651162790697,
+      "leaderboard": [
+        {
+          "tag": "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.086,sell_count=2",
+          "samples": 355,
+          "expected_pnl": 123.94084507042254,
+          "first_place_rate": 0.5070422535211268,
+          "robustness": 106.70140845070424,
+          "composites": {
+            "balanced_50_30_20": 98.52197183098593,
+            "upside_60_30_10": 100.24591549295775,
+            "robust_40_20_40": 102.39774647887324
+          }
+        },
+        {
+          "tag": "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.099,sell_count=1",
+          "samples": 430,
+          "expected_pnl": 120.15116279069767,
+          "first_place_rate": 0.45813953488372094,
+          "robustness": 107.04651162790697,
+          "composites": {
+            "balanced_50_30_20": 95.22906976744186,
+            "upside_60_30_10": 96.53953488372092,
+            "robust_40_20_40": 100.04186046511627
+          }
+        },
+        {
+          "tag": "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.106,sell_count=2",
+          "samples": 430,
+          "expected_pnl": 115.62325581395349,
+          "first_place_rate": 0.37906976744186044,
+          "robustness": 92.07674418604651,
+          "composites": {
+            "balanced_50_30_20": 87.59906976744186,
+            "upside_60_30_10": 89.95372093023256,
+            "robust_40_20_40": 90.66139534883722
+          }
+        },
+        {
+          "tag": "conservative",
+          "samples": 400,
+          "expected_pnl": 77.325,
+          "first_place_rate": 0.27,
+          "robustness": 14.875,
+          "composites": {
+            "balanced_50_30_20": 49.737500000000004,
+            "upside_60_30_10": 55.9825,
+            "robust_40_20_40": 42.28000000000001
+          }
+        },
+        {
+          "tag": "risk_sniper:bid_scale=0.769,late_round_bonus=0.311,sell_count=2,stack_cap_fraction=0.258,trigger_delta=1600",
+          "samples": 395,
+          "expected_pnl": 10.989873417721519,
+          "first_place_rate": 0.08860759493670886,
+          "robustness": -64.36455696202532,
+          "composites": {
+            "balanced_50_30_20": -4.71974683544304,
+            "upside_60_30_10": 2.815696202531644,
+            "robust_40_20_40": -19.577721518987346
+          }
+        },
+        {
+          "tag": "pot_fraction",
+          "samples": 420,
+          "expected_pnl": -4.6761904761904765,
+          "first_place_rate": 0.10238095238095238,
+          "robustness": -201.93809523809523,
+          "composites": {
+            "balanced_50_30_20": -39.65428571428571,
+            "upside_60_30_10": -19.92809523809524,
+            "robust_40_20_40": -80.59809523809524
+          }
+        },
+        {
+          "tag": "seller_profit",
+          "samples": 455,
+          "expected_pnl": -39.44835164835165,
+          "first_place_rate": 0.10989010989010989,
+          "robustness": -239.44835164835166,
+          "composites": {
+            "balanced_50_30_20": -64.31714285714287,
+            "upside_60_30_10": -44.31714285714286,
+            "robust_40_20_40": -109.36087912087913
+          }
+        },
+        {
+          "tag": "random",
+          "samples": 420,
+          "expected_pnl": -59.43333333333333,
+          "first_place_rate": 0.1357142857142857,
+          "robustness": -254.33809523809524,
+          "composites": {
+            "balanced_50_30_20": -76.51285714285714,
+            "upside_60_30_10": -57.022380952380956,
+            "robust_40_20_40": -122.79428571428572
+          }
+        },
+        {
+          "tag": "adaptive_profile",
+          "samples": 400,
+          "expected_pnl": -79.3075,
+          "first_place_rate": 0.08,
+          "robustness": -279.3075,
+          "composites": {
+            "balanced_50_30_20": -93.11525,
+            "upside_60_30_10": -73.11525,
+            "robust_40_20_40": -141.846
+          }
+        },
+        {
+          "tag": "bully",
+          "samples": 410,
+          "expected_pnl": -98.77073170731707,
+          "first_place_rate": 0.07073170731707316,
+          "robustness": -298.77073170731705,
+          "composites": {
+            "balanced_50_30_20": -107.01756097560974,
+            "upside_60_30_10": -87.01756097560974,
+            "robust_40_20_40": -157.6019512195122
+          }
+        },
+        {
+          "tag": "delta_value",
+          "samples": 385,
+          "expected_pnl": -165.08831168831168,
+          "first_place_rate": 0.015584415584415584,
+          "robustness": -365.0883116883117,
+          "composites": {
+            "balanced_50_30_20": -155.09428571428572,
+            "upside_60_30_10": -135.09428571428572,
+            "robust_40_20_40": -211.75896103896105
+          }
+        }
+      ]
+    },
+    {
+      "worker_idx": 0,
+      "scenario_idx": 72,
+      "profile": "seller_self_bid",
+      "objective": "ev",
+      "horizon": 5,
+      "correlation": "none",
+      "seed": 20260383,
+      "metric_key": "expected_pnl",
+      "winner_tag": "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.086,sell_count=2",
+      "winner_metric": 140.09756097560975,
+      "leaderboard": [
+        {
+          "tag": "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.086,sell_count=2",
+          "samples": 410,
+          "expected_pnl": 140.09756097560975,
+          "first_place_rate": 0.4853658536585366,
+          "robustness": 140.09756097560975,
+          "composites": {
+            "balanced_50_30_20": 112.62926829268292,
+            "upside_60_30_10": 112.62926829268292,
+            "robust_40_20_40": 121.78536585365853
+          }
+        },
+        {
+          "tag": "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.099,sell_count=1",
+          "samples": 395,
+          "expected_pnl": 128.65316455696203,
+          "first_place_rate": 0.49873417721518987,
+          "robustness": 117.56455696202532,
+          "composites": {
+            "balanced_50_30_20": 102.80151898734178,
+            "upside_60_30_10": 103.91037974683545,
+            "robust_40_20_40": 108.46177215189874
+          }
+        },
+        {
+          "tag": "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.106,sell_count=2",
+          "samples": 350,
+          "expected_pnl": 102.08285714285714,
+          "first_place_rate": 0.3142857142857143,
+          "robustness": 82.03999999999999,
+          "composites": {
+            "balanced_50_30_20": 76.878,
+            "upside_60_30_10": 78.8822857142857,
+            "robust_40_20_40": 79.93485714285714
+          }
+        },
+        {
+          "tag": "conservative",
+          "samples": 455,
+          "expected_pnl": 73.38241758241759,
+          "first_place_rate": 0.2857142857142857,
+          "robustness": -6.716483516483507,
+          "composites": {
+            "balanced_50_30_20": 43.91934065934066,
+            "upside_60_30_10": 51.92923076923077,
+            "robust_40_20_40": 32.38065934065935
+          }
+        },
+        {
+          "tag": "risk_sniper:bid_scale=0.769,late_round_bonus=0.311,sell_count=2,stack_cap_fraction=0.258,trigger_delta=1600",
+          "samples": 395,
+          "expected_pnl": 18.270886075949367,
+          "first_place_rate": 0.07341772151898734,
+          "robustness": -51.70379746835444,
+          "composites": {
+            "balanced_50_30_20": 0.9972151898734154,
+            "upside_60_30_10": 7.994683544303797,
+            "robust_40_20_40": -11.90481012658228
+          }
+        },
+        {
+          "tag": "pot_fraction",
+          "samples": 420,
+          "expected_pnl": -13.202380952380953,
+          "first_place_rate": 0.15714285714285714,
+          "robustness": -213.1904761904762,
+          "composites": {
+            "balanced_50_30_20": -44.525000000000006,
+            "upside_60_30_10": -24.52619047619048,
+            "robust_40_20_40": -87.41428571428573
+          }
+        },
+        {
+          "tag": "seller_profit",
+          "samples": 380,
+          "expected_pnl": -39.5921052631579,
+          "first_place_rate": 0.12368421052631579,
+          "robustness": -239.5921052631579,
+          "composites": {
+            "balanced_50_30_20": -64.00394736842105,
+            "upside_60_30_10": -44.00394736842105,
+            "robust_40_20_40": -109.2
+          }
+        },
+        {
+          "tag": "adaptive_profile",
+          "samples": 445,
+          "expected_pnl": -71.81797752808988,
+          "first_place_rate": 0.08764044943820225,
+          "robustness": -271.8179775280899,
+          "composites": {
+            "balanced_50_30_20": -87.64337078651685,
+            "upside_60_30_10": -67.64337078651685,
+            "robust_40_20_40": -135.70157303370786
+          }
+        },
+        {
+          "tag": "random",
+          "samples": 440,
+          "expected_pnl": -77.72954545454546,
+          "first_place_rate": 0.09772727272727273,
+          "robustness": -272.38863636363635,
+          "composites": {
+            "balanced_50_30_20": -90.41068181818181,
+            "upside_60_30_10": -70.94477272727273,
+            "robust_40_20_40": -138.09272727272727
+          }
+        },
+        {
+          "tag": "bully",
+          "samples": 410,
+          "expected_pnl": -86.67073170731707,
+          "first_place_rate": 0.07317073170731707,
+          "robustness": -286.6707317073171,
+          "composites": {
+            "balanced_50_30_20": -98.47439024390245,
+            "upside_60_30_10": -78.47439024390243,
+            "robust_40_20_40": -147.87317073170735
+          }
+        },
+        {
+          "tag": "delta_value",
+          "samples": 400,
+          "expected_pnl": -155.77,
+          "first_place_rate": 0.025,
+          "robustness": -355.77,
+          "composites": {
+            "balanced_50_30_20": -148.289,
+            "upside_60_30_10": -128.289,
+            "robust_40_20_40": -204.11599999999999
+          }
+        }
+      ]
+    },
+    {
+      "worker_idx": 0,
+      "scenario_idx": 84,
+      "profile": "seller_self_bid",
+      "objective": "first_place",
+      "horizon": 5,
+      "correlation": "none",
+      "seed": 20260395,
+      "metric_key": "first_place_rate",
+      "winner_tag": "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.086,sell_count=2",
+      "winner_metric": 0.5279069767441861,
+      "leaderboard": [
+        {
+          "tag": "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.086,sell_count=2",
+          "samples": 430,
+          "expected_pnl": 151.96511627906978,
+          "first_place_rate": 0.5279069767441861,
+          "robustness": 151.96511627906978,
+          "composites": {
+            "balanced_50_30_20": 122.21279069767442,
+            "upside_60_30_10": 122.21279069767442,
+            "robust_40_20_40": 132.13023255813954
+          }
+        },
+        {
+          "tag": "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.106,sell_count=2",
+          "samples": 400,
+          "expected_pnl": 112.9075,
+          "first_place_rate": 0.345,
+          "robustness": 89.37,
+          "composites": {
+            "balanced_50_30_20": 84.67775,
+            "upside_60_30_10": 87.0315,
+            "robust_40_20_40": 87.811
+          }
+        },
+        {
+          "tag": "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.099,sell_count=1",
+          "samples": 410,
+          "expected_pnl": 101.76341463414634,
+          "first_place_rate": 0.3170731707317073,
+          "robustness": 76.65365853658537,
+          "composites": {
+            "balanced_50_30_20": 75.72463414634146,
+            "upside_60_30_10": 78.23560975609756,
+            "robust_40_20_40": 77.70829268292684
+          }
+        },
+        {
+          "tag": "conservative",
+          "samples": 375,
+          "expected_pnl": 49.328,
+          "first_place_rate": 0.23466666666666666,
+          "robustness": -42.81866666666666,
+          "composites": {
+            "balanced_50_30_20": 23.14026666666667,
+            "upside_60_30_10": 32.354933333333335,
+            "robust_40_20_40": 7.297066666666673
+          }
+        },
+        {
+          "tag": "pot_fraction",
+          "samples": 370,
+          "expected_pnl": 30.35945945945946,
+          "first_place_rate": 0.23243243243243245,
+          "robustness": -167.72162162162164,
+          "composites": {
+            "balanced_50_30_20": -11.391621621621628,
+            "upside_60_30_10": 8.41648648648648,
+            "robust_40_20_40": -50.29621621621622
+          }
+        },
+        {
+          "tag": "risk_sniper:bid_scale=0.769,late_round_bonus=0.311,sell_count=2,stack_cap_fraction=0.258,trigger_delta=1600",
+          "samples": 365,
+          "expected_pnl": 0.8684931506849315,
+          "first_place_rate": 0.06575342465753424,
+          "robustness": -79.62465753424658,
+          "composites": {
+            "balanced_50_30_20": -13.518082191780824,
+            "upside_60_30_10": -5.468767123287673,
+            "robust_40_20_40": -30.187397260273976
+          }
+        },
+        {
+          "tag": "seller_profit",
+          "samples": 420,
+          "expected_pnl": -35.75,
+          "first_place_rate": 0.11666666666666667,
+          "robustness": -235.75,
+          "composites": {
+            "balanced_50_30_20": -61.525000000000006,
+            "upside_60_30_10": -41.525000000000006,
+            "robust_40_20_40": -106.26666666666668
+          }
+        },
+        {
+          "tag": "random",
+          "samples": 430,
+          "expected_pnl": -60.22790697674419,
+          "first_place_rate": 0.1325581395348837,
+          "robustness": -252.56511627906977,
+          "composites": {
+            "balanced_50_30_20": -76.65023255813954,
+            "upside_60_30_10": -57.416511627906985,
+            "robust_40_20_40": -122.46604651162791
+          }
+        },
+        {
+          "tag": "adaptive_profile",
+          "samples": 440,
+          "expected_pnl": -69.42727272727272,
+          "first_place_rate": 0.1,
+          "robustness": -269.42727272727274,
+          "composites": {
+            "balanced_50_30_20": -85.5990909090909,
+            "upside_60_30_10": -65.5990909090909,
+            "robust_40_20_40": -133.5418181818182
+          }
+        },
+        {
+          "tag": "bully",
+          "samples": 395,
+          "expected_pnl": -90.9873417721519,
+          "first_place_rate": 0.10632911392405063,
+          "robustness": -290.9873417721519,
+          "composites": {
+            "balanced_50_30_20": -100.5012658227848,
+            "upside_60_30_10": -80.5012658227848,
+            "robust_40_20_40": -150.66329113924053
+          }
+        },
+        {
+          "tag": "delta_value",
+          "samples": 465,
+          "expected_pnl": -161.02795698924731,
+          "first_place_rate": 0.03225806451612903,
+          "robustness": -361.0279569892473,
+          "composites": {
+            "balanced_50_30_20": -151.75182795698925,
+            "upside_60_30_10": -131.75182795698925,
+            "robust_40_20_40": -208.17720430107528
+          }
+        }
+      ]
+    },
+    {
+      "worker_idx": 0,
+      "scenario_idx": 96,
+      "profile": "seller_self_bid",
+      "objective": "robustness",
+      "horizon": 5,
+      "correlation": "none",
+      "seed": 20260407,
+      "metric_key": "robustness",
+      "winner_tag": "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.086,sell_count=2",
+      "winner_metric": 154.2225352112676,
+      "leaderboard": [
+        {
+          "tag": "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.086,sell_count=2",
+          "samples": 355,
+          "expected_pnl": 154.2225352112676,
+          "first_place_rate": 0.5661971830985916,
+          "robustness": 154.2225352112676,
+          "composites": {
+            "balanced_50_30_20": 124.94169014084507,
+            "upside_60_30_10": 124.94169014084507,
+            "robust_40_20_40": 134.7019718309859
+          }
+        },
+        {
+          "tag": "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.099,sell_count=1",
+          "samples": 405,
+          "expected_pnl": 113.62469135802469,
+          "first_place_rate": 0.4074074074074074,
+          "robustness": 98.85925925925926,
+          "composites": {
+            "balanced_50_30_20": 88.80641975308642,
+            "upside_60_30_10": 90.28296296296296,
+            "robust_40_20_40": 93.14172839506173
+          }
+        },
+        {
+          "tag": "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.106,sell_count=2",
+          "samples": 460,
+          "expected_pnl": 106.94565217391305,
+          "first_place_rate": 0.33695652173913043,
+          "robustness": 89.3804347826087,
+          "composites": {
+            "balanced_50_30_20": 81.45760869565218,
+            "upside_60_30_10": 83.2141304347826,
+            "robust_40_20_40": 85.26956521739132
+          }
+        },
+        {
+          "tag": "conservative",
+          "samples": 440,
+          "expected_pnl": 49.43409090909091,
+          "first_place_rate": 0.23863636363636365,
+          "robustness": -55.088636363636354,
+          "composites": {
+            "balanced_50_30_20": 20.858409090909095,
+            "upside_60_30_10": 31.31068181818182,
+            "robust_40_20_40": 2.5109090909090988
+          }
+        },
+        {
+          "tag": "pot_fraction",
+          "samples": 385,
+          "expected_pnl": 8.737662337662337,
+          "first_place_rate": 0.15324675324675324,
+          "robustness": -189.8987012987013,
+          "composites": {
+            "balanced_50_30_20": -29.013506493506494,
+            "upside_60_30_10": -9.14987012987013,
+            "robust_40_20_40": -69.39948051948052
+          }
+        },
+        {
+          "tag": "risk_sniper:bid_scale=0.769,late_round_bonus=0.311,sell_count=2,stack_cap_fraction=0.258,trigger_delta=1600",
+          "samples": 415,
+          "expected_pnl": 6.768674698795181,
+          "first_place_rate": 0.06265060240963856,
+          "robustness": -70.18313253012049,
+          "composites": {
+            "balanced_50_30_20": -8.772771084337352,
+            "upside_60_30_10": -1.0775903614457842,
+            "robust_40_20_40": -24.112771084337353
+          }
+        },
+        {
+          "tag": "seller_profit",
+          "samples": 390,
+          "expected_pnl": -41.784615384615385,
+          "first_place_rate": 0.09487179487179487,
+          "robustness": -241.7846153846154,
+          "composites": {
+            "balanced_50_30_20": -66.40307692307692,
+            "upside_60_30_10": -46.403076923076924,
+            "robust_40_20_40": -111.53025641025641
+          }
+        },
+        {
+          "tag": "random",
+          "samples": 375,
+          "expected_pnl": -63.816,
+          "first_place_rate": 0.13066666666666665,
+          "robustness": -256.416,
+          "composites": {
+            "balanced_50_30_20": -79.27120000000001,
+            "upside_60_30_10": -60.0112,
+            "robust_40_20_40": -125.47946666666667
+          }
+        },
+        {
+          "tag": "bully",
+          "samples": 410,
+          "expected_pnl": -75.97317073170731,
+          "first_place_rate": 0.11951219512195121,
+          "robustness": -275.97317073170734,
+          "composites": {
+            "balanced_50_30_20": -89.59585365853658,
+            "upside_60_30_10": -69.59585365853658,
+            "robust_40_20_40": -138.38829268292685
+          }
+        },
+        {
+          "tag": "adaptive_profile",
+          "samples": 425,
+          "expected_pnl": -77.3035294117647,
+          "first_place_rate": 0.09176470588235294,
+          "robustness": -277.3035294117647,
+          "composites": {
+            "balanced_50_30_20": -91.35952941176471,
+            "upside_60_30_10": -71.35952941176471,
+            "robust_40_20_40": -140.00752941176472
+          }
+        },
+        {
+          "tag": "delta_value",
+          "samples": 440,
+          "expected_pnl": -167.4,
+          "first_place_rate": 0.03409090909090909,
+          "robustness": -367.4,
+          "composites": {
+            "balanced_50_30_20": -156.15727272727275,
+            "upside_60_30_10": -136.15727272727273,
+            "robust_40_20_40": -213.23818181818183
+          }
+        }
+      ]
+    },
+    {
+      "worker_idx": 0,
+      "scenario_idx": 108,
+      "profile": "top2_split",
+      "objective": "ev",
+      "horizon": 5,
+      "correlation": "none",
+      "seed": 20260419,
+      "metric_key": "expected_pnl",
+      "winner_tag": "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.106,sell_count=2",
+      "winner_metric": 137.27894736842106,
+      "leaderboard": [
+        {
+          "tag": "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.106,sell_count=2",
+          "samples": 380,
+          "expected_pnl": 137.27894736842106,
+          "first_place_rate": 0.5631578947368421,
+          "robustness": 131.43684210526317,
+          "composites": {
+            "balanced_50_30_20": 111.82157894736842,
+            "upside_60_30_10": 112.40578947368421,
+            "robust_40_20_40": 118.74947368421053
+          }
+        },
+        {
+          "tag": "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.086,sell_count=2",
+          "samples": 410,
+          "expected_pnl": 128.31463414634146,
+          "first_place_rate": 0.5609756097560976,
+          "robustness": 128.31463414634146,
+          "composites": {
+            "balanced_50_30_20": 106.64951219512196,
+            "upside_60_30_10": 106.64951219512194,
+            "robust_40_20_40": 113.87121951219513
+          }
+        },
+        {
+          "tag": "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.099,sell_count=1",
+          "samples": 450,
+          "expected_pnl": 119.68666666666667,
+          "first_place_rate": 0.54,
+          "robustness": 105.25333333333333,
+          "composites": {
+            "balanced_50_30_20": 97.09400000000001,
+            "upside_60_30_10": 98.53733333333334,
+            "robust_40_20_40": 100.77600000000001
+          }
+        },
+        {
+          "tag": "conservative",
+          "samples": 395,
+          "expected_pnl": 60.57215189873418,
+          "first_place_rate": 0.28607594936708863,
+          "robustness": -8.073417721518993,
+          "composites": {
+            "balanced_50_30_20": 37.253670886075945,
+            "upside_60_30_10": 44.11822784810126,
+            "robust_40_20_40": 26.72101265822785
+          }
+        },
+        {
+          "tag": "risk_sniper:bid_scale=0.769,late_round_bonus=0.311,sell_count=2,stack_cap_fraction=0.258,trigger_delta=1600",
+          "samples": 435,
+          "expected_pnl": 25.567816091954022,
+          "first_place_rate": 0.15632183908045977,
+          "robustness": -41.94942528735633,
+          "composites": {
+            "balanced_50_30_20": 9.083678160919538,
+            "upside_60_30_10": 15.835402298850571,
+            "robust_40_20_40": -3.4262068965517276
+          }
+        },
+        {
+          "tag": "pot_fraction",
+          "samples": 410,
+          "expected_pnl": -29.87317073170732,
+          "first_place_rate": 0.04878048780487805,
+          "robustness": -178.3609756097561,
+          "composites": {
+            "balanced_50_30_20": -49.14536585365855,
+            "upside_60_30_10": -34.29658536585366,
+            "robust_40_20_40": -82.31804878048781
+          }
+        },
+        {
+          "tag": "seller_profit",
+          "samples": 395,
+          "expected_pnl": -64.35696202531645,
+          "first_place_rate": 0.017721518987341773,
+          "robustness": -252.91392405063291,
+          "composites": {
+            "balanced_50_30_20": -82.22962025316455,
+            "upside_60_30_10": -63.37392405063291,
+            "robust_40_20_40": -126.55392405063292
+          }
+        },
+        {
+          "tag": "random",
+          "samples": 345,
+          "expected_pnl": -73.80869565217391,
+          "first_place_rate": 0.005797101449275362,
+          "robustness": -261.8521739130435,
+          "composites": {
+            "balanced_50_30_20": -89.1008695652174,
+            "upside_60_30_10": -70.29652173913044,
+            "robust_40_20_40": -134.14840579710145
+          }
+        },
+        {
+          "tag": "adaptive_profile",
+          "samples": 440,
+          "expected_pnl": -85.94318181818181,
+          "first_place_rate": 0.004545454545454545,
+          "robustness": -285.7613636363636,
+          "composites": {
+            "balanced_50_30_20": -99.98750000000001,
+            "upside_60_30_10": -80.00568181818181,
+            "robust_40_20_40": -148.5909090909091
+          }
+        },
+        {
+          "tag": "bully",
+          "samples": 395,
+          "expected_pnl": -91.15189873417721,
+          "first_place_rate": 0.0,
+          "robustness": -291.1518987341772,
+          "composites": {
+            "balanced_50_30_20": -103.80632911392405,
+            "upside_60_30_10": -83.80632911392405,
+            "robust_40_20_40": -152.92151898734178
+          }
+        },
+        {
+          "tag": "delta_value",
+          "samples": 445,
+          "expected_pnl": -127.4808988764045,
+          "first_place_rate": 0.0022471910112359553,
+          "robustness": -327.48089887640447,
+          "composites": {
+            "balanced_50_30_20": -129.16921348314605,
+            "upside_60_30_10": -109.16921348314607,
+            "robust_40_20_40": -181.93977528089886
+          }
+        }
+      ]
+    },
+    {
+      "worker_idx": 0,
+      "scenario_idx": 120,
+      "profile": "top2_split",
+      "objective": "first_place",
+      "horizon": 5,
+      "correlation": "none",
+      "seed": 20260431,
+      "metric_key": "first_place_rate",
+      "winner_tag": "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.099,sell_count=1",
+      "winner_metric": 0.6195121951219512,
+      "leaderboard": [
+        {
+          "tag": "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.099,sell_count=1",
+          "samples": 410,
+          "expected_pnl": 134.90731707317073,
+          "first_place_rate": 0.6195121951219512,
+          "robustness": 134.90731707317073,
+          "composites": {
+            "balanced_50_30_20": 113.02048780487804,
+            "upside_60_30_10": 113.02048780487806,
+            "robust_40_20_40": 120.31609756097562
+          }
+        },
+        {
+          "tag": "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.106,sell_count=2",
+          "samples": 375,
+          "expected_pnl": 126.968,
+          "first_place_rate": 0.504,
+          "robustness": 125.248,
+          "composites": {
+            "balanced_50_30_20": 103.6536,
+            "upside_60_30_10": 103.82560000000001,
+            "robust_40_20_40": 110.96640000000001
+          }
+        },
+        {
+          "tag": "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.086,sell_count=2",
+          "samples": 375,
+          "expected_pnl": 118.61866666666667,
+          "first_place_rate": 0.568,
+          "robustness": 118.61866666666667,
+          "composites": {
+            "balanced_50_30_20": 100.07306666666668,
+            "upside_60_30_10": 100.07306666666666,
+            "robust_40_20_40": 106.25493333333334
+          }
+        },
+        {
+          "tag": "conservative",
+          "samples": 460,
+          "expected_pnl": 80.9304347826087,
+          "first_place_rate": 0.3521739130434783,
+          "robustness": 17.21304347826087,
+          "composites": {
+            "balanced_50_30_20": 54.47304347826087,
+            "upside_60_30_10": 60.844782608695645,
+            "robust_40_20_40": 46.3008695652174
+          }
+        },
+        {
+          "tag": "risk_sniper:bid_scale=0.769,late_round_bonus=0.311,sell_count=2,stack_cap_fraction=0.258,trigger_delta=1600",
+          "samples": 430,
+          "expected_pnl": 20.027906976744188,
+          "first_place_rate": 0.11627906976744186,
+          "robustness": -48.48372093023255,
+          "composites": {
+            "balanced_50_30_20": 3.80558139534884,
+            "upside_60_30_10": 10.656744186046513,
+            "robust_40_20_40": -9.056744186046508
+          }
+        },
+        {
+          "tag": "pot_fraction",
+          "samples": 435,
+          "expected_pnl": -28.45977011494253,
+          "first_place_rate": 0.052873563218390804,
+          "robustness": -169.57471264367817,
+          "composites": {
+            "balanced_50_30_20": -46.55862068965518,
+            "upside_60_30_10": -32.44712643678161,
+            "robust_40_20_40": -78.15632183908048
+          }
+        },
+        {
+          "tag": "seller_profit",
+          "samples": 455,
+          "expected_pnl": -58.465934065934064,
+          "first_place_rate": 0.013186813186813187,
+          "robustness": -237.8615384615385,
+          "composites": {
+            "balanced_50_30_20": -76.40967032967035,
+            "upside_60_30_10": -58.470109890109896,
+            "robust_40_20_40": -118.26725274725277
+          }
+        },
+        {
+          "tag": "random",
+          "samples": 410,
+          "expected_pnl": -79.98048780487805,
+          "first_place_rate": 0.0024390243902439024,
+          "robustness": -269.9317073170732,
+          "composites": {
+            "balanced_50_30_20": -93.90341463414634,
+            "upside_60_30_10": -74.90829268292684,
+            "robust_40_20_40": -139.91609756097563
+          }
+        },
+        {
+          "tag": "adaptive_profile",
+          "samples": 410,
+          "expected_pnl": -87.62926829268292,
+          "first_place_rate": 0.0,
+          "robustness": -287.3853658536585,
+          "composites": {
+            "balanced_50_30_20": -101.29170731707316,
+            "upside_60_30_10": -81.3160975609756,
+            "robust_40_20_40": -150.00585365853658
+          }
+        },
+        {
+          "tag": "bully",
+          "samples": 390,
+          "expected_pnl": -94.93076923076923,
+          "first_place_rate": 0.0,
+          "robustness": -294.9307692307692,
+          "composites": {
+            "balanced_50_30_20": -106.45153846153846,
+            "upside_60_30_10": -86.45153846153846,
+            "robust_40_20_40": -155.9446153846154
+          }
+        },
+        {
+          "tag": "delta_value",
+          "samples": 350,
+          "expected_pnl": -138.6342857142857,
+          "first_place_rate": 0.005714285714285714,
+          "robustness": -338.63428571428574,
+          "composites": {
+            "balanced_50_30_20": -136.87257142857143,
+            "upside_60_30_10": -116.87257142857143,
+            "robust_40_20_40": -190.79314285714287
+          }
+        }
+      ]
+    },
+    {
+      "worker_idx": 0,
+      "scenario_idx": 132,
+      "profile": "top2_split",
+      "objective": "robustness",
+      "horizon": 5,
+      "correlation": "none",
+      "seed": 20260443,
+      "metric_key": "robustness",
+      "winner_tag": "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.086,sell_count=2",
+      "winner_metric": 134.87021276595743,
+      "leaderboard": [
+        {
+          "tag": "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.086,sell_count=2",
+          "samples": 470,
+          "expected_pnl": 134.87021276595743,
+          "first_place_rate": 0.5893617021276596,
+          "robustness": 134.87021276595743,
+          "composites": {
+            "balanced_50_30_20": 112.08999999999997,
+            "upside_60_30_10": 112.08999999999999,
+            "robust_40_20_40": 119.68340425531915
+          }
+        },
+        {
+          "tag": "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.099,sell_count=1",
+          "samples": 425,
+          "expected_pnl": 108.00470588235294,
+          "first_place_rate": 0.5270588235294118,
+          "robustness": 91.18117647058823,
+          "composites": {
+            "balanced_50_30_20": 88.05035294117647,
+            "upside_60_30_10": 89.73270588235293,
+            "robust_40_20_40": 90.21552941176469
+          }
+        },
+        {
+          "tag": "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.106,sell_count=2",
+          "samples": 405,
+          "expected_pnl": 99.2641975308642,
+          "first_place_rate": 0.43703703703703706,
+          "robustness": 73.30123456790123,
+          "composites": {
+            "balanced_50_30_20": 77.40345679012346,
+            "upside_60_30_10": 79.99975308641974,
+            "robust_40_20_40": 77.76691358024692
+          }
+        },
+        {
+          "tag": "conservative",
+          "samples": 445,
+          "expected_pnl": 57.41348314606741,
+          "first_place_rate": 0.29213483146067415,
+          "robustness": -23.86741573033708,
+          "composites": {
+            "balanced_50_30_20": 32.69730337078652,
+            "upside_60_30_10": 40.82539325842696,
+            "robust_40_20_40": 19.261123595505616
+          }
+        },
+        {
+          "tag": "risk_sniper:bid_scale=0.769,late_round_bonus=0.311,sell_count=2,stack_cap_fraction=0.258,trigger_delta=1600",
+          "samples": 445,
+          "expected_pnl": 22.514606741573033,
+          "first_place_rate": 0.1393258426966292,
+          "robustness": -46.833707865168535,
+          "composites": {
+            "balanced_50_30_20": 6.070337078651686,
+            "upside_60_30_10": 13.00516853932584,
+            "robust_40_20_40": -6.941123595505616
+          }
+        },
+        {
+          "tag": "pot_fraction",
+          "samples": 390,
+          "expected_pnl": -36.6051282051282,
+          "first_place_rate": 0.05384615384615385,
+          "robustness": -182.73333333333335,
+          "composites": {
+            "balanced_50_30_20": -53.23384615384616,
+            "upside_60_30_10": -38.62102564102564,
+            "robust_40_20_40": -86.65846153846155
+          }
+        },
+        {
+          "tag": "seller_profit",
+          "samples": 340,
+          "expected_pnl": -65.95294117647059,
+          "first_place_rate": 0.0058823529411764705,
+          "robustness": -246.1588235294118,
+          "composites": {
+            "balanced_50_30_20": -82.03176470588235,
+            "upside_60_30_10": -64.01117647058824,
+            "robust_40_20_40": -124.72705882352943
+          }
+        },
+        {
+          "tag": "adaptive_profile",
+          "samples": 365,
+          "expected_pnl": -77.46849315068494,
+          "first_place_rate": 0.0027397260273972603,
+          "robustness": -276.2219178082192,
+          "composites": {
+            "balanced_50_30_20": -93.8964383561644,
+            "upside_60_30_10": -74.02109589041098,
+            "robust_40_20_40": -141.42136986301372
+          }
+        },
+        {
+          "tag": "random",
+          "samples": 450,
+          "expected_pnl": -78.98444444444445,
+          "first_place_rate": 0.0,
+          "robustness": -265.90666666666664,
+          "composites": {
+            "balanced_50_30_20": -92.67355555555555,
+            "upside_60_30_10": -73.98133333333334,
+            "robust_40_20_40": -137.95644444444443
+          }
+        },
+        {
+          "tag": "bully",
+          "samples": 355,
+          "expected_pnl": -89.76901408450705,
+          "first_place_rate": 0.0,
+          "robustness": -289.76901408450703,
+          "composites": {
+            "balanced_50_30_20": -102.83830985915493,
+            "upside_60_30_10": -82.83830985915493,
+            "robust_40_20_40": -151.81521126760563
+          }
+        },
+        {
+          "tag": "delta_value",
+          "samples": 410,
+          "expected_pnl": -128.4731707317073,
+          "first_place_rate": 0.014634146341463415,
+          "robustness": -328.47317073170734,
+          "composites": {
+            "balanced_50_30_20": -129.49219512195123,
+            "upside_60_30_10": -109.49219512195123,
+            "robust_40_20_40": -182.4858536585366
+          }
+        }
+      ]
+    },
+    {
+      "worker_idx": 0,
+      "scenario_idx": 144,
+      "profile": "high_low_split",
+      "objective": "ev",
+      "horizon": 5,
+      "correlation": "none",
+      "seed": 20260455,
+      "metric_key": "expected_pnl",
+      "winner_tag": "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.086,sell_count=2",
+      "winner_metric": 234.53924050632912,
+      "leaderboard": [
+        {
+          "tag": "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.086,sell_count=2",
+          "samples": 395,
+          "expected_pnl": 234.53924050632912,
+          "first_place_rate": 0.759493670886076,
+          "robustness": 234.53924050632912,
+          "composites": {
+            "balanced_50_30_20": 186.96227848101267,
+            "upside_60_30_10": 186.96227848101265,
+            "robust_40_20_40": 202.82126582278482
+          }
+        },
+        {
+          "tag": "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.099,sell_count=1",
+          "samples": 400,
+          "expected_pnl": 200.12,
+          "first_place_rate": 0.63,
+          "robustness": 197.87,
+          "composites": {
+            "balanced_50_30_20": 158.53400000000002,
+            "upside_60_30_10": 158.75900000000001,
+            "robust_40_20_40": 171.796
+          }
+        },
+        {
+          "tag": "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.106,sell_count=2",
+          "samples": 415,
+          "expected_pnl": 136.2722891566265,
+          "first_place_rate": 0.3566265060240964,
+          "robustness": 116.54939759036144,
+          "composites": {
+            "balanced_50_30_20": 102.14481927710844,
+            "upside_60_30_10": 104.11710843373493,
+            "robust_40_20_40": 108.26120481927711
+          }
+        },
+        {
+          "tag": "conservative",
+          "samples": 470,
+          "expected_pnl": 75.6468085106383,
+          "first_place_rate": 0.2425531914893617,
+          "robustness": -25.56595744680851,
+          "composites": {
+            "balanced_50_30_20": 39.98680851063829,
+            "upside_60_30_10": 50.10808510638297,
+            "robust_40_20_40": 24.88340425531915
+          }
+        },
+        {
+          "tag": "risk_sniper:bid_scale=0.769,late_round_bonus=0.311,sell_count=2,stack_cap_fraction=0.258,trigger_delta=1600",
+          "samples": 425,
+          "expected_pnl": 27.769411764705882,
+          "first_place_rate": 0.1411764705882353,
+          "robustness": -51.371764705882356,
+          "composites": {
+            "balanced_50_30_20": 7.845647058823529,
+            "upside_60_30_10": 15.75976470588235,
+            "robust_40_20_40": -6.617411764705885
+          }
+        },
+        {
+          "tag": "pot_fraction",
+          "samples": 425,
+          "expected_pnl": -66.6964705882353,
+          "first_place_rate": 0.05411764705882353,
+          "robustness": -266.61411764705883,
+          "composites": {
+            "balanced_50_30_20": -85.04752941176471,
+            "upside_60_30_10": -65.05576470588235,
+            "robust_40_20_40": -132.2418823529412
+          }
+        },
+        {
+          "tag": "random",
+          "samples": 370,
+          "expected_pnl": -102.67567567567568,
+          "first_place_rate": 0.005405405405405406,
+          "robustness": -297.9324324324324,
+          "composites": {
+            "balanced_50_30_20": -110.76216216216216,
+            "upside_60_30_10": -91.23648648648648,
+            "robust_40_20_40": -160.13513513513513
+          }
+        },
+        {
+          "tag": "seller_profit",
+          "samples": 415,
+          "expected_pnl": -111.7710843373494,
+          "first_place_rate": 0.0,
+          "robustness": -311.7710843373494,
+          "composites": {
+            "balanced_50_30_20": -118.23975903614459,
+            "upside_60_30_10": -98.23975903614458,
+            "robust_40_20_40": -169.41686746987955
+          }
+        },
+        {
+          "tag": "adaptive_profile",
+          "samples": 375,
+          "expected_pnl": -121.17066666666666,
+          "first_place_rate": 0.0026666666666666666,
+          "robustness": -321.17066666666665,
+          "composites": {
+            "balanced_50_30_20": -124.73946666666666,
+            "upside_60_30_10": -104.73946666666666,
+            "robust_40_20_40": -176.8832
+          }
+        },
+        {
+          "tag": "bully",
+          "samples": 400,
+          "expected_pnl": -129.9525,
+          "first_place_rate": 0.0,
+          "robustness": -329.9525,
+          "composites": {
+            "balanced_50_30_20": -130.96675,
+            "upside_60_30_10": -110.96674999999999,
+            "robust_40_20_40": -183.962
+          }
+        },
+        {
+          "tag": "delta_value",
+          "samples": 410,
+          "expected_pnl": -162.0951219512195,
+          "first_place_rate": 0.0,
+          "robustness": -362.09512195121954,
+          "composites": {
+            "balanced_50_30_20": -153.46658536585366,
+            "upside_60_30_10": -133.46658536585366,
+            "robust_40_20_40": -209.67609756097562
+          }
+        }
+      ]
+    },
+    {
+      "worker_idx": 0,
+      "scenario_idx": 156,
+      "profile": "high_low_split",
+      "objective": "first_place",
+      "horizon": 5,
+      "correlation": "none",
+      "seed": 20260467,
+      "metric_key": "first_place_rate",
+      "winner_tag": "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.086,sell_count=2",
+      "winner_metric": 0.7488372093023256,
+      "leaderboard": [
+        {
+          "tag": "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.086,sell_count=2",
+          "samples": 430,
+          "expected_pnl": 240.09767441860464,
+          "first_place_rate": 0.7488372093023256,
+          "robustness": 240.09767441860464,
+          "composites": {
+            "balanced_50_30_20": 190.53348837209302,
+            "upside_60_30_10": 190.53348837209302,
+            "robust_40_20_40": 207.05488372093023
+          }
+        },
+        {
+          "tag": "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.099,sell_count=1",
+          "samples": 365,
+          "expected_pnl": 197.1260273972603,
+          "first_place_rate": 0.6410958904109589,
+          "robustness": 197.1260273972603,
+          "composites": {
+            "balanced_50_30_20": 157.221095890411,
+            "upside_60_30_10": 157.22109589041096,
+            "robust_40_20_40": 170.52273972602742
+          }
+        },
+        {
+          "tag": "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.106,sell_count=2",
+          "samples": 415,
+          "expected_pnl": 132.4265060240964,
+          "first_place_rate": 0.3542168674698795,
+          "robustness": 112.40240963855423,
+          "composites": {
+            "balanced_50_30_20": 99.32024096385544,
+            "upside_60_30_10": 101.32265060240965,
+            "robust_40_20_40": 105.01590361445784
+          }
+        },
+        {
+          "tag": "conservative",
+          "samples": 450,
+          "expected_pnl": 73.81111111111112,
+          "first_place_rate": 0.20666666666666667,
+          "robustness": -9.74444444444444,
+          "composites": {
+            "balanced_50_30_20": 41.15666666666667,
+            "upside_60_30_10": 49.51222222222223,
+            "robust_40_20_40": 29.760000000000005
+          }
+        },
+        {
+          "tag": "risk_sniper:bid_scale=0.769,late_round_bonus=0.311,sell_count=2,stack_cap_fraction=0.258,trigger_delta=1600",
+          "samples": 385,
+          "expected_pnl": 48.71688311688312,
+          "first_place_rate": 0.17662337662337663,
+          "robustness": -20.361038961038965,
+          "composites": {
+            "balanced_50_30_20": 25.584935064935067,
+            "upside_60_30_10": 32.49272727272727,
+            "robust_40_20_40": 14.874805194805194
+          }
+        },
+        {
+          "tag": "pot_fraction",
+          "samples": 470,
+          "expected_pnl": -59.44893617021277,
+          "first_place_rate": 0.05531914893617021,
+          "robustness": -259.4489361702128,
+          "composites": {
+            "balanced_50_30_20": -79.95468085106384,
+            "upside_60_30_10": -59.954680851063834,
+            "robust_40_20_40": -126.45276595744681
+          }
+        },
+        {
+          "tag": "random",
+          "samples": 355,
+          "expected_pnl": -110.29577464788733,
+          "first_place_rate": 0.008450704225352112,
+          "robustness": -305.7323943661972,
+          "composites": {
+            "balanced_50_30_20": -116.04084507042253,
+            "upside_60_30_10": -96.49718309859155,
+            "robust_40_20_40": -166.24225352112677
+          }
+        },
+        {
+          "tag": "seller_profit",
+          "samples": 400,
+          "expected_pnl": -110.69,
+          "first_place_rate": 0.0025,
+          "robustness": -310.69,
+          "composites": {
+            "balanced_50_30_20": -117.408,
+            "upside_60_30_10": -97.408,
+            "robust_40_20_40": -168.502
+          }
+        },
+        {
+          "tag": "adaptive_profile",
+          "samples": 405,
+          "expected_pnl": -135.0962962962963,
+          "first_place_rate": 0.0,
+          "robustness": -335.09629629629626,
+          "composites": {
+            "balanced_50_30_20": -134.56740740740742,
+            "upside_60_30_10": -114.5674074074074,
+            "robust_40_20_40": -188.07703703703703
+          }
+        },
+        {
+          "tag": "bully",
+          "samples": 435,
+          "expected_pnl": -135.816091954023,
+          "first_place_rate": 0.006896551724137931,
+          "robustness": -335.816091954023,
+          "composites": {
+            "balanced_50_30_20": -134.86436781609194,
+            "upside_60_30_10": -114.86436781609194,
+            "robust_40_20_40": -188.51494252873565
+          }
+        },
+        {
+          "tag": "delta_value",
+          "samples": 390,
+          "expected_pnl": -146.03846153846155,
+          "first_place_rate": 0.007692307692307693,
+          "robustness": -346.03846153846155,
+          "composites": {
+            "balanced_50_30_20": -141.99615384615385,
+            "upside_60_30_10": -121.99615384615385,
+            "robust_40_20_40": -196.6769230769231
+          }
+        }
+      ]
+    },
+    {
+      "worker_idx": 0,
+      "scenario_idx": 168,
+      "profile": "high_low_split",
+      "objective": "robustness",
+      "horizon": 5,
+      "correlation": "none",
+      "seed": 20260479,
+      "metric_key": "robustness",
+      "winner_tag": "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.086,sell_count=2",
+      "winner_metric": 261.7542168674699,
+      "leaderboard": [
+        {
+          "tag": "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.086,sell_count=2",
+          "samples": 415,
+          "expected_pnl": 261.7542168674699,
+          "first_place_rate": 0.8120481927710843,
+          "robustness": 261.7542168674699,
+          "composites": {
+            "balanced_50_30_20": 207.58939759036144,
+            "upside_60_30_10": 207.58939759036144,
+            "robust_40_20_40": 225.6443373493976
+          }
+        },
+        {
+          "tag": "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.099,sell_count=1",
+          "samples": 405,
+          "expected_pnl": 202.97037037037038,
+          "first_place_rate": 0.6296296296296297,
+          "robustness": 189.11851851851853,
+          "composites": {
+            "balanced_50_30_20": 158.1977777777778,
+            "upside_60_30_10": 159.58296296296297,
+            "robust_40_20_40": 169.42814814814818
+          }
+        },
+        {
+          "tag": "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.106,sell_count=2",
+          "samples": 385,
+          "expected_pnl": 154.83636363636364,
+          "first_place_rate": 0.4025974025974026,
+          "robustness": 130.65454545454546,
+          "composites": {
+            "balanced_50_30_20": 115.62701298701299,
+            "upside_60_30_10": 118.04519480519481,
+            "robust_40_20_40": 122.24831168831169
+          }
+        },
+        {
+          "tag": "conservative",
+          "samples": 435,
+          "expected_pnl": 68.7977011494253,
+          "first_place_rate": 0.19310344827586207,
+          "robustness": -18.83448275862068,
+          "composites": {
+            "balanced_50_30_20": 36.425057471264374,
+            "upside_60_30_10": 45.18827586206898,
+            "robust_40_20_40": 23.84735632183909
+          }
+        },
+        {
+          "tag": "risk_sniper:bid_scale=0.769,late_round_bonus=0.311,sell_count=2,stack_cap_fraction=0.258,trigger_delta=1600",
+          "samples": 400,
+          "expected_pnl": 43.3325,
+          "first_place_rate": 0.1575,
+          "robustness": -25.555,
+          "composites": {
+            "balanced_50_30_20": 21.28025,
+            "upside_60_30_10": 28.168999999999997,
+            "robust_40_20_40": 10.261
+          }
+        },
+        {
+          "tag": "pot_fraction",
+          "samples": 390,
+          "expected_pnl": -82.43846153846154,
+          "first_place_rate": 0.010256410256410256,
+          "robustness": -282.23333333333335,
+          "composites": {
+            "balanced_50_30_20": -97.35820512820513,
+            "upside_60_30_10": -77.37871794871795,
+            "robust_40_20_40": -145.66358974358977
+          }
+        },
+        {
+          "tag": "random",
+          "samples": 400,
+          "expected_pnl": -101.5775,
+          "first_place_rate": 0.0025,
+          "robustness": -295.39,
+          "composites": {
+            "balanced_50_30_20": -109.79175000000001,
+            "upside_60_30_10": -90.4105,
+            "robust_40_20_40": -158.73700000000002
+          }
+        },
+        {
+          "tag": "seller_profit",
+          "samples": 385,
+          "expected_pnl": -113.74285714285715,
+          "first_place_rate": 0.0,
+          "robustness": -313.74285714285713,
+          "composites": {
+            "balanced_50_30_20": -119.62,
+            "upside_60_30_10": -99.62,
+            "robust_40_20_40": -170.99428571428572
+          }
+        },
+        {
+          "tag": "adaptive_profile",
+          "samples": 415,
+          "expected_pnl": -133.0674698795181,
+          "first_place_rate": 0.0024096385542168677,
+          "robustness": -333.06746987951806,
+          "composites": {
+            "balanced_50_30_20": -133.07493975903614,
+            "upside_60_30_10": -113.07493975903614,
+            "robust_40_20_40": -186.40578313253013
+          }
+        },
+        {
+          "tag": "bully",
+          "samples": 440,
+          "expected_pnl": -135.53863636363636,
+          "first_place_rate": 0.0,
+          "robustness": -335.53863636363633,
+          "composites": {
+            "balanced_50_30_20": -134.87704545454545,
+            "upside_60_30_10": -114.87704545454545,
+            "robust_40_20_40": -188.4309090909091
+          }
+        },
+        {
+          "tag": "delta_value",
+          "samples": 430,
+          "expected_pnl": -154.11627906976744,
+          "first_place_rate": 0.0,
+          "robustness": -354.1162790697674,
+          "composites": {
+            "balanced_50_30_20": -147.8813953488372,
+            "upside_60_30_10": -127.8813953488372,
+            "robust_40_20_40": -203.29302325581395
+          }
+        }
+      ]
+    },
+    {
+      "worker_idx": 0,
+      "scenario_idx": 180,
+      "profile": "single_card_sell",
+      "objective": "ev",
+      "horizon": 5,
+      "correlation": "none",
+      "seed": 20260491,
+      "metric_key": "expected_pnl",
+      "winner_tag": "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.086,sell_count=2",
+      "winner_metric": 142.64893617021278,
+      "leaderboard": [
+        {
+          "tag": "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.086,sell_count=2",
+          "samples": 470,
+          "expected_pnl": 142.64893617021278,
+          "first_place_rate": 0.5191489361702127,
+          "robustness": 142.64893617021278,
+          "composites": {
+            "balanced_50_30_20": 115.42872340425534,
+            "upside_60_30_10": 115.42872340425532,
+            "robust_40_20_40": 124.50212765957448
+          }
+        },
+        {
+          "tag": "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.099,sell_count=1",
+          "samples": 450,
+          "expected_pnl": 115.06666666666666,
+          "first_place_rate": 0.3844444444444444,
+          "robustness": 99.47777777777777,
+          "composites": {
+            "balanced_50_30_20": 88.96222222222222,
+            "upside_60_30_10": 90.5211111111111,
+            "robust_40_20_40": 93.50666666666667
+          }
+        },
+        {
+          "tag": "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.106,sell_count=2",
+          "samples": 315,
+          "expected_pnl": 92.87301587301587,
+          "first_place_rate": 0.33650793650793653,
+          "robustness": 54.920634920634924,
+          "composites": {
+            "balanced_50_30_20": 67.51587301587301,
+            "upside_60_30_10": 71.31111111111112,
+            "robust_40_20_40": 65.84761904761906
+          }
+        },
+        {
+          "tag": "conservative",
+          "samples": 410,
+          "expected_pnl": 61.23658536585366,
+          "first_place_rate": 0.24634146341463414,
+          "robustness": -35.04390243902439,
+          "composites": {
+            "balanced_50_30_20": 30.999756097560976,
+            "upside_60_30_10": 40.62780487804878,
+            "robust_40_20_40": 15.403902439024389
+          }
+        },
+        {
+          "tag": "pot_fraction",
+          "samples": 400,
+          "expected_pnl": 21.26,
+          "first_place_rate": 0.1775,
+          "robustness": -172.6775,
+          "composites": {
+            "balanced_50_30_20": -18.580500000000004,
+            "upside_60_30_10": 0.8132499999999965,
+            "robust_40_20_40": -57.01700000000001
+          }
+        },
+        {
+          "tag": "risk_sniper:bid_scale=0.769,late_round_bonus=0.311,sell_count=2,stack_cap_fraction=0.258,trigger_delta=1600",
+          "samples": 365,
+          "expected_pnl": 16.427397260273974,
+          "first_place_rate": 0.06027397260273973,
+          "robustness": -52.16164383561643,
+          "composites": {
+            "balanced_50_30_20": -0.4104109589041087,
+            "upside_60_30_10": 6.448493150684932,
+            "robust_40_20_40": -13.088219178082191
+          }
+        },
+        {
+          "tag": "seller_profit",
+          "samples": 425,
+          "expected_pnl": -41.004705882352944,
+          "first_place_rate": 0.11058823529411765,
+          "robustness": -241.00470588235294,
+          "composites": {
+            "balanced_50_30_20": -65.38564705882354,
+            "upside_60_30_10": -45.38564705882354,
+            "robust_40_20_40": -110.59200000000001
+          }
+        },
+        {
+          "tag": "adaptive_profile",
+          "samples": 440,
+          "expected_pnl": -77.77045454545454,
+          "first_place_rate": 0.07045454545454545,
+          "robustness": -277.7704545454545,
+          "composites": {
+            "balanced_50_30_20": -92.3256818181818,
+            "upside_60_30_10": -72.32568181818182,
+            "robust_40_20_40": -140.80727272727273
+          }
+        },
+        {
+          "tag": "random",
+          "samples": 440,
+          "expected_pnl": -84.65,
+          "first_place_rate": 0.09090909090909091,
+          "robustness": -280.775,
+          "composites": {
+            "balanced_50_30_20": -95.75272727272727,
+            "upside_60_30_10": -76.14022727272727,
+            "robust_40_20_40": -144.3518181818182
+          }
+        },
+        {
+          "tag": "bully",
+          "samples": 415,
+          "expected_pnl": -96.2144578313253,
+          "first_place_rate": 0.11566265060240964,
+          "robustness": -296.2144578313253,
+          "composites": {
+            "balanced_50_30_20": -103.88024096385543,
+            "upside_60_30_10": -83.88024096385543,
+            "robust_40_20_40": -154.65831325301207
+          }
+        },
+        {
+          "tag": "delta_value",
+          "samples": 370,
+          "expected_pnl": -159.0972972972973,
+          "first_place_rate": 0.04594594594594595,
+          "robustness": -359.0972972972973,
+          "composites": {
+            "balanced_50_30_20": -149.98972972972973,
+            "upside_60_30_10": -129.98972972972973,
+            "robust_40_20_40": -206.35891891891893
+          }
+        }
+      ]
+    },
+    {
+      "worker_idx": 0,
+      "scenario_idx": 192,
+      "profile": "single_card_sell",
+      "objective": "first_place",
+      "horizon": 5,
+      "correlation": "none",
+      "seed": 20260503,
+      "metric_key": "first_place_rate",
+      "winner_tag": "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.086,sell_count=2",
+      "winner_metric": 0.5027027027027027,
+      "leaderboard": [
+        {
+          "tag": "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.086,sell_count=2",
+          "samples": 370,
+          "expected_pnl": 136.1135135135135,
+          "first_place_rate": 0.5027027027027027,
+          "robustness": 136.1135135135135,
+          "composites": {
+            "balanced_50_30_20": 110.36054054054054,
+            "upside_60_30_10": 110.36054054054054,
+            "robust_40_20_40": 118.94486486486487
+          }
+        },
+        {
+          "tag": "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.099,sell_count=1",
+          "samples": 440,
+          "expected_pnl": 132.3159090909091,
+          "first_place_rate": 0.4636363636363636,
+          "robustness": 118.05454545454545,
+          "composites": {
+            "balanced_50_30_20": 103.67795454545454,
+            "upside_60_30_10": 105.1040909090909,
+            "robust_40_20_40": 109.42090909090909
+          }
+        },
+        {
+          "tag": "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.106,sell_count=2",
+          "samples": 365,
+          "expected_pnl": 98.03835616438356,
+          "first_place_rate": 0.2958904109589041,
+          "robustness": 67.07945205479452,
+          "composites": {
+            "balanced_50_30_20": 71.31178082191781,
+            "upside_60_30_10": 74.40767123287671,
+            "robust_40_20_40": 71.96493150684931
+          }
+        },
+        {
+          "tag": "conservative",
+          "samples": 425,
+          "expected_pnl": 48.99764705882353,
+          "first_place_rate": 0.2164705882352941,
+          "robustness": -41.63764705882353,
+          "composites": {
+            "balanced_50_30_20": 22.66541176470588,
+            "upside_60_30_10": 31.728941176470588,
+            "robust_40_20_40": 7.273411764705884
+          }
+        },
+        {
+          "tag": "pot_fraction",
+          "samples": 380,
+          "expected_pnl": 12.48157894736842,
+          "first_place_rate": 0.18421052631578946,
+          "robustness": -185.2421052631579,
+          "composites": {
+            "balanced_50_30_20": -25.281315789473688,
+            "upside_60_30_10": -5.508947368421055,
+            "robust_40_20_40": -65.42
+          }
+        },
+        {
+          "tag": "risk_sniper:bid_scale=0.769,late_round_bonus=0.311,sell_count=2,stack_cap_fraction=0.258,trigger_delta=1600",
+          "samples": 420,
+          "expected_pnl": 10.642857142857142,
+          "first_place_rate": 0.06666666666666667,
+          "robustness": -61.44047619047619,
+          "composites": {
+            "balanced_50_30_20": -4.966666666666667,
+            "upside_60_30_10": 2.241666666666667,
+            "robust_40_20_40": -18.985714285714288
+          }
+        },
+        {
+          "tag": "seller_profit",
+          "samples": 365,
+          "expected_pnl": -30.334246575342465,
+          "first_place_rate": 0.10410958904109589,
+          "robustness": -230.33424657534246,
+          "composites": {
+            "balanced_50_30_20": -58.11068493150685,
+            "upside_60_30_10": -38.11068493150685,
+            "robust_40_20_40": -102.18520547945207
+          }
+        },
+        {
+          "tag": "adaptive_profile",
+          "samples": 395,
+          "expected_pnl": -53.99240506329114,
+          "first_place_rate": 0.09113924050632911,
+          "robustness": -253.99240506329113,
+          "composites": {
+            "balanced_50_30_20": -75.06050632911392,
+            "upside_60_30_10": -55.06050632911392,
+            "robust_40_20_40": -121.37113924050634
+          }
+        },
+        {
+          "tag": "bully",
+          "samples": 465,
+          "expected_pnl": -76.19569892473119,
+          "first_place_rate": 0.13978494623655913,
+          "robustness": -276.1956989247312,
+          "composites": {
+            "balanced_50_30_20": -89.14344086021507,
+            "upside_60_30_10": -69.14344086021505,
+            "robust_40_20_40": -138.1608602150538
+          }
+        },
+        {
+          "tag": "random",
+          "samples": 440,
+          "expected_pnl": -83.35681818181818,
+          "first_place_rate": 0.12954545454545455,
+          "robustness": -279.9136363636364,
+          "composites": {
+            "balanced_50_30_20": -93.77477272727273,
+            "upside_60_30_10": -74.11909090909091,
+            "robust_40_20_40": -142.71727272727276
+          }
+        },
+        {
+          "tag": "delta_value",
+          "samples": 435,
+          "expected_pnl": -160.67816091954023,
+          "first_place_rate": 0.0367816091954023,
+          "robustness": -360.67816091954023,
+          "composites": {
+            "balanced_50_30_20": -151.37126436781608,
+            "upside_60_30_10": -131.37126436781608,
+            "robust_40_20_40": -207.80689655172415
+          }
+        }
+      ]
+    },
+    {
+      "worker_idx": 0,
+      "scenario_idx": 204,
+      "profile": "single_card_sell",
+      "objective": "robustness",
+      "horizon": 5,
+      "correlation": "none",
+      "seed": 20260515,
+      "metric_key": "robustness",
+      "winner_tag": "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.086,sell_count=2",
+      "winner_metric": 116.62637362637363,
+      "leaderboard": [
+        {
+          "tag": "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.099,sell_count=1",
+          "samples": 405,
+          "expected_pnl": 120.93333333333334,
+          "first_place_rate": 0.4567901234567901,
+          "robustness": 104.8962962962963,
+          "composites": {
+            "balanced_50_30_20": 95.14962962962963,
+            "upside_60_30_10": 96.75333333333333,
+            "robust_40_20_40": 99.46765432098766
+          }
+        },
+        {
+          "tag": "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.086,sell_count=2",
+          "samples": 455,
+          "expected_pnl": 120.42857142857143,
+          "first_place_rate": 0.4593406593406593,
+          "robustness": 116.62637362637363,
+          "composites": {
+            "balanced_50_30_20": 97.31978021978021,
+            "upside_60_30_10": 97.7,
+            "robust_40_20_40": 104.00879120879122
+          }
+        },
+        {
+          "tag": "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.106,sell_count=2",
+          "samples": 395,
+          "expected_pnl": 90.18987341772151,
+          "first_place_rate": 0.30886075949367087,
+          "robustness": 56.69620253164557,
+          "composites": {
+            "balanced_50_30_20": 65.7,
+            "upside_60_30_10": 69.0493670886076,
+            "robust_40_20_40": 64.93164556962024
+          }
+        },
+        {
+          "tag": "conservative",
+          "samples": 415,
+          "expected_pnl": 66.50843373493976,
+          "first_place_rate": 0.2674698795180723,
+          "robustness": -25.76867469879518,
+          "composites": {
+            "balanced_50_30_20": 36.12457831325301,
+            "upside_60_30_10": 45.352289156626505,
+            "robust_40_20_40": 21.645301204819276
+          }
+        },
+        {
+          "tag": "risk_sniper:bid_scale=0.769,late_round_bonus=0.311,sell_count=2,stack_cap_fraction=0.258,trigger_delta=1600",
+          "samples": 415,
+          "expected_pnl": 8.286746987951807,
+          "first_place_rate": 0.05542168674698795,
+          "robustness": -67.54457831325301,
+          "composites": {
+            "balanced_50_30_20": -7.702891566265061,
+            "upside_60_30_10": -0.11975903614457994,
+            "robust_40_20_40": -22.594698795180726
+          }
+        },
+        {
+          "tag": "pot_fraction",
+          "samples": 410,
+          "expected_pnl": -10.814634146341463,
+          "first_place_rate": 0.15121951219512195,
+          "robustness": -210.81463414634146,
+          "composites": {
+            "balanced_50_30_20": -43.033658536585364,
+            "upside_60_30_10": -23.033658536585367,
+            "robust_40_20_40": -85.62731707317073
+          }
+        },
+        {
+          "tag": "seller_profit",
+          "samples": 405,
+          "expected_pnl": -46.22222222222222,
+          "first_place_rate": 0.1037037037037037,
+          "robustness": -246.22222222222223,
+          "composites": {
+            "balanced_50_30_20": -69.24444444444444,
+            "upside_60_30_10": -49.24444444444444,
+            "robust_40_20_40": -114.90370370370371
+          }
+        },
+        {
+          "tag": "random",
+          "samples": 425,
+          "expected_pnl": -67.29882352941176,
+          "first_place_rate": 0.13176470588235295,
+          "robustness": -261.3458823529412,
+          "composites": {
+            "balanced_50_30_20": -81.96564705882354,
+            "upside_60_30_10": -62.56094117647059,
+            "robust_40_20_40": -128.82258823529412
+          }
+        },
+        {
+          "tag": "bully",
+          "samples": 435,
+          "expected_pnl": -71.45977011494253,
+          "first_place_rate": 0.09425287356321839,
+          "robustness": -271.45977011494256,
+          "composites": {
+            "balanced_50_30_20": -87.19425287356322,
+            "upside_60_30_10": -67.19425287356322,
+            "robust_40_20_40": -135.28275862068966
+          }
+        },
+        {
+          "tag": "adaptive_profile",
+          "samples": 355,
+          "expected_pnl": -73.28450704225352,
+          "first_place_rate": 0.08169014084507042,
+          "robustness": -273.2845070422535,
+          "composites": {
+            "balanced_50_30_20": -88.84845070422534,
+            "upside_60_30_10": -68.84845070422536,
+            "robust_40_20_40": -136.9938028169014
+          }
+        },
+        {
+          "tag": "delta_value",
+          "samples": 385,
+          "expected_pnl": -159.95064935064934,
+          "first_place_rate": 0.05194805194805195,
+          "robustness": -359.9506493506493,
+          "composites": {
+            "balanced_50_30_20": -150.407012987013,
+            "upside_60_30_10": -130.407012987013,
+            "robust_40_20_40": -206.92155844155843
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -203,3 +203,21 @@ Local timezone: PST (America/Los_Angeles)
 - Recovered manual smoke run from earlier loop failure:
   - run id: `20260301-022349`
   - collected + synced + terminated workers.
+
+## 2026-03-01 02:39:26 PST
+
+- Completed full high-volume cycle using fixed `scripts/aws/continuous_distributed_loop.sh`:
+  - run id: `20260301-023132`
+  - 12 workers
+  - `n_matches=180`
+  - winner counts:
+    - `seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.086,sell_count=2`: 206
+    - `seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.099,sell_count=1`: 9
+    - `seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.106,sell_count=2`: 1
+- Confirmed loop script end-to-end behavior under heavier settings:
+  - launch -> wait -> collect -> sync -> terminate -> complete.
+- Updated high-confidence distributed master summary:
+  - file: `research_logs/experiment_outputs/distributed_master_summary_20260301.json`
+  - runs included: `20260301-015615`, `20260301-020134`, `20260301-021037`, `20260301-023132`
+  - total scenarios: 864
+  - champion wins (`seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.086,sell_count=2`): 777

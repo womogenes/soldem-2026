@@ -29,7 +29,8 @@ Local timestamp: 2026-03-01 01:45:55 PST
 - run `20260301-015615` (216 scenarios): champion won 160
 - run `20260301-020134` (216 scenarios, `n_matches=120`): champion won 199
 - run `20260301-021037` (216 scenarios, `n_matches=250`): champion won 212
-- combined distributed total: champion won 571 / 648 scenarios
+- run `20260301-023132` (216 scenarios, `n_matches=180`): champion won 206
+- combined distributed total (high-confidence runs): champion won 777 / 864 scenarios
 
 ## Key artifacts
 
@@ -51,11 +52,13 @@ Local timestamp: 2026-03-01 01:45:55 PST
 - `research_logs/experiment_outputs/distributed_20260301-015615/aggregate_summary.json`
 - `research_logs/experiment_outputs/distributed_20260301-020134/aggregate_summary.json`
 - `research_logs/experiment_outputs/distributed_20260301-021037/aggregate_summary.json`
+- `research_logs/experiment_outputs/distributed_20260301-023132/aggregate_summary.json`
 - `research_logs/experiment_outputs/distributed_20260301-022349/aggregate_summary.json`
 - `research_logs/experiment_outputs/distributed_20260301-022736/aggregate_summary.json`
 - `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-015615.json`
 - `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-020134.json`
 - `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-021037.json`
+- `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-023132.json`
 - `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-022349.json`
 - `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-022736.json`
 - `research_logs/experiment_outputs/distributed_master_summary_20260301.json`
