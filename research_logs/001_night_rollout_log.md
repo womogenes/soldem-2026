@@ -548,3 +548,13 @@ Local time: 2026-03-01 01:25:02 PST
   - `research_logs/004_status_snapshot.md`
   - `research_logs/006_variant_lookup_table.md`
   - `research_logs/010_correlation_strength_first_place.md` (marked exploratory).
+
+## 2026-03-01 04:31:17 PST
+
+- Re-seeded PocketBase after first-place horizon updates:
+  - commit: `b9fec0d`
+  - `strategies_updated`: 17
+  - champion map unchanged:
+    - `ev=equity_evolved_v1`
+    - `first_place=meta_switch`
+    - `robustness=equity_evolved_v1`
