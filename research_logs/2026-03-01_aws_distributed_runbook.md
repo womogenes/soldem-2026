@@ -11,6 +11,10 @@ Run large experiment grids in parallel on EC2, collect outputs from S3, and sync
 - Launcher: `scripts/aws/launch_distributed_experiments.sh`
 - Collector: `scripts/aws/collect_distributed_results.py`
 - Continuous loop orchestrator: `scripts/aws/continuous_distributed_loop.sh`
+- Param sweep launcher: `scripts/aws/launch_param_sweep_experiments.sh`
+- Param sweep collector: `scripts/aws/collect_param_sweep_results.py`
+- Evolution launcher: `scripts/aws/launch_evolution_experiments.sh`
+- Evolution collector: `scripts/aws/collect_evolution_results.py`
 - PocketBase schema bootstrap: `scripts/pocketbase/apply_collections.py`
 - PocketBase artifact sync: `scripts/pocketbase/sync_discovery.py`
 
@@ -58,11 +62,37 @@ Run large experiment grids in parallel on EC2, collect outputs from S3, and sync
     - `seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.086,sell_count=2`: 206
     - `seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.099,sell_count=1`: 9
     - `seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.106,sell_count=2`: 1
+- Run `20260301-030400` (expanded strategy pool with `reserve_bid_floor=0.06` variants)
+  - 12x `c7i.large`
+  - scenarios: 216
+  - `n_matches=180` per scenario shard configuration
+  - winner counts:
+    - `seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.06,sell_count=2`: 105
+    - `seller_extraction:opportunistic_delta=3600,reserve_bid_floor=0.06,sell_count=2`: 105
+    - `seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.086,sell_count=2`: 4
+    - `seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.099,sell_count=1`: 2
 
 Combined distributed total across four high-confidence runs:
 
 - scenarios: 864
 - champion wins: 777 (`seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.086,sell_count=2`)
+
+Note: run `20260301-030400` used an expanded strategy pool and should be treated as upgrade validation, not merged into the older 864-scenario pool summary.
+
+## Additional EC2 search runs completed
+
+- Param sweep run `20260301-024646`:
+  - outputs: `research_logs/experiment_outputs/param_sweep_20260301-024646/aggregate_summary.json`
+  - strongest candidate vs old champion:
+    - `seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.06,sell_count=2`
+    - mean delta `+19.424` over 108 scenarios.
+- Evolution runs:
+  - `20260301-025553`:
+    - outputs: `research_logs/experiment_outputs/evolution_20260301-025553/aggregate_summary.json`
+    - candidate pool: `research_logs/experiment_inputs/evolution_candidate_pool_20260301-025553.txt`
+  - `20260301-025732`:
+    - outputs: `research_logs/experiment_outputs/evolution_20260301-025732/aggregate_summary.json`
+    - candidate pool: `research_logs/experiment_inputs/evolution_candidate_pool_20260301-025732.txt`
 
 Loop automation smoke runs:
 
@@ -138,4 +168,9 @@ scripts/aws/continuous_distributed_loop.sh \
 - `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-020134.json`
 - `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-021037.json`
 - `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-023132.json`
+- `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-030400.json`
 - `research_logs/experiment_outputs/distributed_master_summary_20260301.json`
+- `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-030400.json`
+- `research_logs/experiment_outputs/param_sweep_20260301-024646/aggregate_summary.json`
+- `research_logs/experiment_outputs/evolution_20260301-025553/aggregate_summary.json`
+- `research_logs/experiment_outputs/evolution_20260301-025732/aggregate_summary.json`

@@ -13,6 +13,7 @@ Apply new Sold 'Em rule variations and refresh recommendations in under 2 minute
 - Rule model: `game/rules.py` (`RuleProfile` + `resolve_profile`).
 - Engine behavior: `game/engine_base.py`.
 - Strategy selection API: `/strategies/recompute_champions`.
+- Artifact champion load API: `/strategies/load_champions`.
 
 ## Two-minute patch flow
 
@@ -67,16 +68,19 @@ curl -sS http://127.0.0.1:8000/session/state | jq '.rule_profile,.champions'
 
 ## Precomputed fallback mapping
 
-These were top across tested profiles in this rollout:
+Current objective-specific fallback set:
 
-- `baseline_v1`: `seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.086,sell_count=2`
-- `standard_rankings`: same
-- `seller_self_bid`: same
-- `top2_split`: same
-- `high_low_split`: same
-- `single_card_sell`: same
+- `ev`: `seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.06,sell_count=2`
+- `first_place`: `seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.06,sell_count=2`
+- `robustness`: `seller_extraction:opportunistic_delta=3600,reserve_bid_floor=0.06,sell_count=2`
 
-If recompute fails on day-of, hard-set all objectives to that tag in `game/api.py` `Session.__init__`.
+If recompute fails on day-of, load latest artifact champion map:
+
+```bash
+curl -sS -X POST http://127.0.0.1:8000/strategies/load_champions \
+  -H 'content-type: application/json' \
+  -d '{"summary_path": null}'
+```
 
 Higher-confidence distributed fallback maps are also available:
 
@@ -84,7 +88,9 @@ Higher-confidence distributed fallback maps are also available:
 - `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-020134.json`
 - `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-021037.json`
 - `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-023132.json`
+- `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-030400.json`
 - `research_logs/experiment_outputs/distributed_master_summary_20260301.json`
+- `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-030400.json`
 
 ## Patch templates for unknown new rule types
 

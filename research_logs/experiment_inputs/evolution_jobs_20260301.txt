@@ -1,0 +1,13 @@
+# objective/profile/correlation sweeps for distributed evolutionary search
+--generations 6 --population-size 16 --survivors 4 --n-matches 55 --n-games-per-match 10 --rule-profile baseline_v1 --objective ev --correlation-mode none
+--generations 6 --population-size 16 --survivors 4 --n-matches 55 --n-games-per-match 10 --rule-profile baseline_v1 --objective first_place --correlation-mode none
+--generations 6 --population-size 16 --survivors 4 --n-matches 55 --n-games-per-match 10 --rule-profile baseline_v1 --objective robustness --correlation-mode none
+--generations 5 --population-size 14 --survivors 4 --n-matches 50 --n-games-per-match 10 --rule-profile baseline_v1 --objective ev --correlation-mode respect --correlation-strength 0.35 --correlation-pairs 1-2
+--generations 5 --population-size 14 --survivors 4 --n-matches 50 --n-games-per-match 10 --rule-profile baseline_v1 --objective first_place --correlation-mode respect --correlation-strength 0.35 --correlation-pairs 1-2
+--generations 5 --population-size 14 --survivors 4 --n-matches 50 --n-games-per-match 10 --rule-profile baseline_v1 --objective robustness --correlation-mode respect --correlation-strength 0.35 --correlation-pairs 1-2
+--generations 5 --population-size 14 --survivors 4 --n-matches 50 --n-games-per-match 10 --rule-profile seller_self_bid --objective ev --correlation-mode kingmaker --correlation-strength 0.35 --correlation-pairs 0-1
+--generations 5 --population-size 14 --survivors 4 --n-matches 50 --n-games-per-match 10 --rule-profile seller_self_bid --objective first_place --correlation-mode kingmaker --correlation-strength 0.35 --correlation-pairs 0-1
+--generations 5 --population-size 14 --survivors 4 --n-matches 50 --n-games-per-match 10 --rule-profile seller_self_bid --objective robustness --correlation-mode kingmaker --correlation-strength 0.35 --correlation-pairs 0-1
+--generations 5 --population-size 14 --survivors 4 --n-matches 50 --n-games-per-match 10 --rule-profile top2_split --objective ev --correlation-mode herd --correlation-strength 0.30 --correlation-pairs 3-4
+--generations 5 --population-size 14 --survivors 4 --n-matches 50 --n-games-per-match 10 --rule-profile top2_split --objective first_place --correlation-mode herd --correlation-strength 0.30 --correlation-pairs 3-4
+--generations 5 --population-size 14 --survivors 4 --n-matches 50 --n-games-per-match 10 --rule-profile single_card_sell --objective ev --correlation-mode respect --correlation-strength 0.35 --correlation-pairs 2-3

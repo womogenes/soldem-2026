@@ -8,6 +8,10 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
 from game.advisor import recommend_action
+from game.champion_loader import (
+    find_latest_summary_path,
+    load_champions_from_summary_file,
+)
 from game.rules import RuleProfile, resolve_profile
 from sim.metrics import composite_profiles
 from sim.runner import run_population_tournament
@@ -56,7 +60,13 @@ class RecomputeChampionsReq(BaseModel):
     seed: int = 0
 
 
+class LoadChampionsReq(BaseModel):
+    summary_path: str | None = None
+
+
 DISCOVERY_STRATEGY_SPECS = list(built_in_strategy_factories().keys()) + [
+    "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.06,sell_count=2",
+    "seller_extraction:opportunistic_delta=3600,reserve_bid_floor=0.06,sell_count=2",
     "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.086,sell_count=2",
     "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.106,sell_count=2",
     "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.099,sell_count=1",
@@ -77,7 +87,12 @@ class Session:
             "first_place": default_champion,
             "robustness": default_champion,
         }
+        self.default_champion = default_champion
+        self.champion_source = "default"
+        self.champion_loaded_at: float | None = None
+        self.champion_summary: dict[str, Any] = {}
         self.last_leaderboards: dict[str, list[dict[str, Any]]] = {}
+        self.load_champions()
 
     def reset(self):
         self.events = []
@@ -109,6 +124,9 @@ class Session:
         return {
             "rule_profile": self.rule_profile.to_dict(),
             "champions": self.champions,
+            "champion_source": self.champion_source,
+            "champion_loaded_at": self.champion_loaded_at,
+            "champion_summary": self.champion_summary,
             "events_count": len(self.events),
             "recent_events": self.events[-20:],
             "player_profiles": {
@@ -120,6 +138,41 @@ class Session:
                 for i, p in self.player_profiles.items()
             },
             "composite_profiles": composite_profiles(),
+        }
+
+    def load_champions(self, summary_path: str | None = None) -> dict[str, Any]:
+        resolved_path = summary_path
+        if not resolved_path:
+            latest = find_latest_summary_path("research_logs/experiment_outputs")
+            if latest is None:
+                return {
+                    "ok": False,
+                    "error": "No summary files found in research_logs/experiment_outputs",
+                }
+            resolved_path = str(latest)
+
+        try:
+            loaded, details = load_champions_from_summary_file(
+                resolved_path,
+                default_tag=self.default_champion,
+            )
+        except Exception as exc:
+            return {
+                "ok": False,
+                "error": f"Unable to load champions: {exc}",
+                "summary_path": resolved_path,
+            }
+
+        self.champions.update(loaded)
+        self.champion_source = details.get("summary_path", resolved_path)
+        self.champion_summary = details
+        self.champion_loaded_at = time.time()
+        return {
+            "ok": True,
+            "champions": self.champions,
+            "champion_source": self.champion_source,
+            "champion_summary": self.champion_summary,
+            "champion_loaded_at": self.champion_loaded_at,
         }
 
     def recompute_champions(self, req: RecomputeChampionsReq) -> dict[str, Any]:
@@ -148,8 +201,19 @@ class Session:
             leaderboards[objective] = board
 
         self.last_leaderboards = leaderboards
+        self.champion_source = "runtime_recompute"
+        self.champion_loaded_at = time.time()
+        self.champion_summary = {
+            "source_type": "runtime_recompute",
+            "n_matches": req.n_matches,
+            "n_games_per_match": req.n_games_per_match,
+            "seed": req.seed,
+        }
         return {
             "champions": self.champions,
+            "champion_source": self.champion_source,
+            "champion_loaded_at": self.champion_loaded_at,
+            "champion_summary": self.champion_summary,
             "leaderboards": leaderboards,
         }
 
@@ -204,6 +268,11 @@ def strategies_champions():
 @app.post("/strategies/recompute_champions")
 def strategies_recompute(req: RecomputeChampionsReq):
     return session.recompute_champions(req)
+
+
+@app.post("/strategies/load_champions")
+def strategies_load_champions(req: LoadChampionsReq):
+    return session.load_champions(req.summary_path)
 
 
 @app.post("/advisor/recommend")

@@ -1,11 +1,11 @@
 # Sold 'Em system summary
 
-Local timestamp: 2026-03-01 01:45:55 PST
+Local timestamp: 2026-03-01 03:06:58 PST
 
 ## What is ready now
 
 - Verified rules/engine alignment and recomputed full hand rarity counts for the 50-card deck.
-- Implemented parameterized strategy loading with spec strings (for example `seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.086,sell_count=2`).
+- Implemented parameterized strategy loading with spec strings (for example `seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.06,sell_count=2`).
 - Added advanced strategy family:
 - `prob_value`
 - `risk_sniper`
@@ -18,19 +18,24 @@ Local timestamp: 2026-03-01 01:45:55 PST
 
 ## Best current strategy
 
-- Champion spec:
-- `seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.086,sell_count=2`
-- It won all tested matrix slices in this rollout:
-- objective: `ev`, `first_place`, `robustness`
-- horizons: `5`, `10`, `20`
-- correlations: `none`, `respect`, `herd`, `kingmaker`
-- rule profiles: `baseline_v1`, `standard_rankings`, `seller_self_bid`, `top2_split`, `high_low_split`, `single_card_sell`
-- Additional EC2 distributed confirmation:
-- run `20260301-015615` (216 scenarios): champion won 160
-- run `20260301-020134` (216 scenarios, `n_matches=120`): champion won 199
-- run `20260301-021037` (216 scenarios, `n_matches=250`): champion won 212
-- run `20260301-023132` (216 scenarios, `n_matches=180`): champion won 206
-- combined distributed total (high-confidence runs): champion won 777 / 864 scenarios
+- Recommended objective-specific champions:
+- `ev`: `seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.06,sell_count=2`
+- `first_place`: `seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.06,sell_count=2`
+- `robustness`: `seller_extraction:opportunistic_delta=3600,reserve_bid_floor=0.06,sell_count=2`
+- Evidence path:
+- Legacy high-confidence distributed runs favored `reserve_bid_floor=0.086`:
+  - 777 / 864 scenario wins across runs `20260301-015615`, `20260301-020134`, `20260301-021037`, `20260301-023132`.
+- Targeted EC2 param sweep (`20260301-024646`) found stronger `reserve_bid_floor=0.06` variants:
+  - top candidate `seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.06,sell_count=2`
+  - mean delta vs old champion: `+19.424` over 108 scenarios (95 wins, 13 losses).
+- Fresh distributed EC2 validation (`20260301-030400`, 216 scenarios, `n_matches=180`) with expanded pool:
+  - `seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.06,sell_count=2`: 105 wins
+  - `seller_extraction:opportunistic_delta=3600,reserve_bid_floor=0.06,sell_count=2`: 105 wins
+  - old champion `reserve_bid_floor=0.086`: 4 wins
+  - objective leaders:
+    - `ev`: tie between 4000/3600 variants (34 each), session default set to 4000 variant
+    - `first_place`: 4000 variant
+    - `robustness`: 3600 variant
 
 ## Key artifacts
 
@@ -55,13 +60,19 @@ Local timestamp: 2026-03-01 01:45:55 PST
 - `research_logs/experiment_outputs/distributed_20260301-023132/aggregate_summary.json`
 - `research_logs/experiment_outputs/distributed_20260301-022349/aggregate_summary.json`
 - `research_logs/experiment_outputs/distributed_20260301-022736/aggregate_summary.json`
+- `research_logs/experiment_outputs/distributed_20260301-030400/aggregate_summary.json`
 - `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-015615.json`
 - `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-020134.json`
 - `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-021037.json`
 - `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-023132.json`
 - `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-022349.json`
 - `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-022736.json`
+- `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-030400.json`
 - `research_logs/experiment_outputs/distributed_master_summary_20260301.json`
+- `research_logs/experiment_outputs/param_sweep_20260301-024646/aggregate_summary.json`
+- `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-030400.json`
+- `research_logs/experiment_outputs/evolution_20260301-025553/aggregate_summary.json`
+- `research_logs/experiment_outputs/evolution_20260301-025732/aggregate_summary.json`
 
 ## Run instructions
 
@@ -85,6 +96,14 @@ pnpm dev --host 0.0.0.0 --port 4173
 curl -sS -X POST http://127.0.0.1:8000/strategies/recompute_champions \
   -H 'content-type: application/json' \
   -d '{"n_matches": 60, "n_games_per_match": 10, "seed": 12345}'
+```
+
+### Load champions from latest distributed artifact
+
+```bash
+curl -sS -X POST http://127.0.0.1:8000/strategies/load_champions \
+  -H 'content-type: application/json' \
+  -d '{"summary_path": null}'
 ```
 
 ### Run evolutionary search

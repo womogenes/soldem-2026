@@ -1,0 +1,9 @@
+# quick-turn evolution jobs for rapid candidate harvesting
+--generations 3 --population-size 10 --survivors 3 --n-matches 25 --n-games-per-match 10 --rule-profile baseline_v1 --objective ev --correlation-mode none
+--generations 3 --population-size 10 --survivors 3 --n-matches 25 --n-games-per-match 10 --rule-profile baseline_v1 --objective first_place --correlation-mode none
+--generations 3 --population-size 10 --survivors 3 --n-matches 25 --n-games-per-match 10 --rule-profile baseline_v1 --objective robustness --correlation-mode none
+--generations 3 --population-size 10 --survivors 3 --n-matches 25 --n-games-per-match 10 --rule-profile top2_split --objective ev --correlation-mode herd --correlation-strength 0.30 --correlation-pairs 3-4
+--generations 3 --population-size 10 --survivors 3 --n-matches 25 --n-games-per-match 10 --rule-profile seller_self_bid --objective ev --correlation-mode kingmaker --correlation-strength 0.35 --correlation-pairs 0-1
+--generations 3 --population-size 10 --survivors 3 --n-matches 25 --n-games-per-match 10 --rule-profile single_card_sell --objective ev --correlation-mode respect --correlation-strength 0.35 --correlation-pairs 1-2
+--generations 3 --population-size 10 --survivors 3 --n-matches 25 --n-games-per-match 10 --rule-profile standard_rankings --objective ev --correlation-mode none
+--generations 3 --population-size 10 --survivors 3 --n-matches 25 --n-games-per-match 10 --rule-profile high_low_split --objective ev --correlation-mode respect --correlation-strength 0.35 --correlation-pairs 2-3

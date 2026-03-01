@@ -23,6 +23,7 @@
 	let myCardsText = '7H 8H 9H 4C 4D';
 	let auctionCardsText = '10H';
 	let knownCardsText = '';
+	let summaryPath = '';
 	let status = '';
 	let loading = false;
 	let championsLoading = false;
@@ -55,6 +56,11 @@
 
 	function modeEntries(modes: Record<string, any> | undefined): [string, any][] {
 		return Object.entries(modes ?? {});
+	}
+
+	function tsLabel(ts: number | undefined): string {
+		if (!ts) return 'n/a';
+		return new Date(ts * 1000).toLocaleString();
 	}
 
 	async function loadSession() {
@@ -132,6 +138,29 @@
 		}
 	}
 
+	async function loadChampionsFromSummary() {
+		championsLoading = true;
+		status = '';
+		try {
+			const res = await fetch(`${API}/strategies/load_champions`, {
+				method: 'POST',
+				headers: { 'content-type': 'application/json' },
+				body: JSON.stringify({ summary_path: summaryPath || null })
+			});
+			const out = await res.json();
+			if (!out.ok) {
+				throw new Error(out.error ?? 'load_champions failed');
+			}
+			await loadSession();
+			strategyTag = sessionState?.champions?.[objective] ?? strategyTag;
+			status = `Loaded champions from ${out.champion_source}`;
+		} catch (err) {
+			status = `Champion load failed: ${String(err)}`;
+		} finally {
+			championsLoading = false;
+		}
+	}
+
 	function setStack(i: number, value: string) {
 		const n = Number(value);
 		stacks[i] = Number.isFinite(n) ? Math.max(0, n) : 0;
@@ -195,6 +224,13 @@
 					<label class="text-sm">Strategy tag (optional)
 						<input class="mt-1 h-9 w-full border bg-background px-2" placeholder="adaptive_profile" bind:value={strategyTag} />
 					</label>
+					<label class="text-sm sm:col-span-3">Summary path (optional)
+						<input
+							class="mt-1 h-9 w-full border bg-background px-2"
+							placeholder="research_logs/experiment_outputs/distributed_master_summary_20260301.json"
+							bind:value={summaryPath}
+						/>
+					</label>
 				</div>
 
 				<div class="mt-3 grid gap-2 sm:grid-cols-3">
@@ -233,6 +269,9 @@
 					<Button class="rounded-none" variant="outline" onclick={loadSession}>Refresh session</Button>
 					<Button class="rounded-none" variant="outline" onclick={recomputeChampions} disabled={championsLoading}>
 						{championsLoading ? 'Running...' : 'Recompute champions'}
+					</Button>
+					<Button class="rounded-none" variant="outline" onclick={loadChampionsFromSummary} disabled={championsLoading}>
+						{championsLoading ? 'Loading...' : 'Load distributed champions'}
 					</Button>
 				</div>
 			</div>
@@ -307,6 +346,8 @@
 				{#if sessionState}
 					<div class="text-xs">Rule profile: {sessionState.rule_profile?.name}</div>
 					<div class="mt-2 text-xs">Champions: {JSON.stringify(sessionState.champions)}</div>
+					<div class="mt-2 text-xs">Champion source: {sessionState.champion_source ?? 'default'}</div>
+					<div class="mt-1 text-xs">Champion loaded at: {tsLabel(sessionState.champion_loaded_at)}</div>
 					<div class="mt-2 text-xs">Composite presets: {JSON.stringify(sessionState.composite_profiles)}</div>
 					<div class="mt-2 max-h-60 overflow-y-auto text-xs">
 						{#each Object.entries(sessionState.player_profiles ?? {}) as [seatId, profile]}

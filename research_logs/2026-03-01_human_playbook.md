@@ -12,14 +12,17 @@ In this rule set, overpaying in first-price auctions is the biggest leak. The cu
 - If you need to climb aggressively in ~10 games: use `first_place`.
 - Default if uncertain: `ev`.
 
-Current champion is strong in all three objective settings:
+Current objective-specific champion set:
 
-- `seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.086,sell_count=2`
+- `ev`: `seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.06,sell_count=2`
+- `first_place`: `seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.06,sell_count=2`
+- `robustness`: `seller_extraction:opportunistic_delta=3600,reserve_bid_floor=0.06,sell_count=2`
 
-Distributed EC2 confirmation:
+Recent EC2 confirmation path:
 
-- In a 216-scenario run with `n_matches=120`, this strategy won 199 scenarios.
-- Across four high-confidence distributed runs (864 scenarios total), this strategy won 777 scenarios.
+- Old champion (`reserve_bid_floor=0.086`) won 777/864 scenarios in earlier distributed runs.
+- Param sweep run `20260301-024646` found `reserve_bid_floor=0.06` variants with strong positive delta over old champion.
+- Validation run `20260301-030400` with expanded pool gave 210/216 wins to the two `reserve_bid_floor=0.06` variants.
 
 ## Turn-by-turn guidance
 

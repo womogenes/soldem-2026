@@ -221,3 +221,76 @@ Local timezone: PST (America/Los_Angeles)
   - runs included: `20260301-015615`, `20260301-020134`, `20260301-021037`, `20260301-023132`
   - total scenarios: 864
   - champion wins (`seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.086,sell_count=2`): 777
+
+## 2026-03-01 02:56:57 PST
+
+- Added champion summary loader module:
+  - `game/champion_loader.py`
+  - supports distributed winner-count summaries, param-sweep candidate summaries, and profile/objective vote summaries.
+- Updated API session champion flow in `game/api.py`:
+  - new endpoint `POST /strategies/load_champions`
+  - session state now exposes `champion_source`, `champion_loaded_at`, and `champion_summary`
+  - startup attempts to load latest local summary artifact from `research_logs/experiment_outputs`.
+- Updated HUD in `web/src/routes/+page.svelte`:
+  - added summary-path input and `Load distributed champions` action
+  - champions panel now displays champion source and load timestamp.
+- Validation completed:
+  - `uv run python -m unittest discover -s tests -v` -> 14/14 passing.
+  - `pnpm --dir web run check` and `pnpm --dir web run build` -> passing.
+- Added distributed EC2 evolutionary search pipeline:
+  - `research_logs/experiment_inputs/evolution_jobs_20260301.txt`
+  - `scripts/aws/launch_evolution_experiments.sh`
+  - `scripts/aws/collect_evolution_results.py`
+- Uploaded fresh code artifact to S3:
+  - `s3://soldem-2026-539881456097-1772358537/artifacts/soldem_worktree_20260301-025534.tar.gz`.
+- Launched 12-worker EC2 evolution run:
+  - run id: `20260301-025553`
+  - mapping file: `research_logs/aws_evolution_worker_map_20260301-025553.jsonl`.
+- Param sweep run `20260301-024646` remains running concurrently.
+
+## 2026-03-01 03:04:55 PST
+
+- Collected completed EC2 evolution runs:
+  - quick run `20260301-025732` -> `research_logs/experiment_outputs/evolution_20260301-025732/aggregate_summary.json`
+  - high-volume run `20260301-025553` -> `research_logs/experiment_outputs/evolution_20260301-025553/aggregate_summary.json`
+  - generated candidate pools:
+    - `research_logs/experiment_inputs/evolution_candidate_pool_20260301-025732.txt`
+    - `research_logs/experiment_inputs/evolution_candidate_pool_20260301-025553.txt`
+- Collected completed param sweep run `20260301-024646`:
+  - artifact: `research_logs/experiment_outputs/param_sweep_20260301-024646/aggregate_summary.json`
+  - top candidate vs prior champion:
+    - `seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.06,sell_count=2`
+    - mean delta vs prior champion: `+19.424` over 108 scenarios (wins: 95, losses: 13).
+- Built merged evolution candidate input:
+  - `research_logs/experiment_inputs/evolution_candidate_merge_20260301.txt` (24 specs).
+- Terminated completed EC2 runs to control spend:
+  - evolution runs `20260301-025732`, `20260301-025553`
+  - param sweep run `20260301-024646`.
+- Added top param-sweep candidates into API recompute candidate pool:
+  - `game/api.py` discovery set now includes reserve-floor `0.06` variants.
+- Started fresh distributed validation run with new candidates in tournament pool:
+  - script update: `scripts/aws/launch_distributed_experiments.sh`
+  - artifact uploaded: `s3://soldem-2026-539881456097-1772358537/artifacts/soldem_worktree_20260301-030349.tar.gz`
+  - run id: `20260301-030400`
+  - mapping file: `research_logs/aws_worker_map_20260301-030400.jsonl`.
+
+## 2026-03-01 03:15:07 PST
+
+- Completed distributed upgrade validation run `20260301-030400` (12x `c7i.large`, `n_matches=180`, 216 scenarios).
+- Collected artifact:
+  - `research_logs/experiment_outputs/distributed_20260301-030400/aggregate_summary.json`.
+- Winner counts in expanded strategy pool:
+  - `seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.06,sell_count=2`: 105
+  - `seller_extraction:opportunistic_delta=3600,reserve_bid_floor=0.06,sell_count=2`: 105
+  - old champion `reserve_bid_floor=0.086`: 4
+  - `reserve_bid_floor=0.099,sell_count=1`: 2
+- Generated per-profile fallback mapping and recommended objective champions:
+  - `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-030400.json`
+  - `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-030400.json`.
+- Updated champion loader precedence:
+  - now supports `recommended_session_champions` payloads
+  - now checks `distributed_upgrade_validation_*.json` first.
+- Session startup now loads latest recommended champions automatically:
+  - `ev` and `first_place` -> `seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.06,sell_count=2`
+  - `robustness` -> `seller_extraction:opportunistic_delta=3600,reserve_bid_floor=0.06,sell_count=2`.
+- Terminated EC2 run `20260301-030400` instances after collection.
