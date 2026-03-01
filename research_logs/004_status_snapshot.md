@@ -64,6 +64,7 @@ Latest evidence:
 - Click `Use objective champion`.
 - Enter state and click `Get recommendation`.
 - Optional second opinion: click `Get LLM hint` (Bedrock-backed, deterministic recommendation remains primary).
+- Recommendation and LLM panels now show resolved strategy reason labels (for example `baseline_balanced_first_place`, `sprint_profile_first_place`).
 - As events accumulate, use `Use auto table read preset` to apply mode-aware switching.
 - Auto table-read mode map:
   - EV/robustness: keep `equity_evolved_v1`.

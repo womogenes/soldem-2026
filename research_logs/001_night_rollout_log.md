@@ -510,3 +510,14 @@ Local time: 2026-03-01 01:25:02 PST
     - `ev=equity_evolved_v1`
     - `first_place=meta_switch`
     - `robustness=equity_evolved_v1`
+
+## 2026-03-01 04:23:50 PST
+
+- Added resolver explainability output in API/HUD:
+  - session state now includes `resolved_champion_reasons`.
+  - `/advisor/recommend` and `/advisor/llm_hint` now include `strategy_reason`.
+  - HUD displays strategy reason in advisor and LLM hint panels.
+- Revalidated after update:
+  - backend tests: `19/19` pass
+  - frontend `pnpm -C web check`: pass
+  - frontend `pnpm -C web build`: pass

@@ -117,15 +117,21 @@ class Session:
 
     def state(self) -> dict[str, Any]:
         table_read = self.infer_table_read()
+        resolved: dict[str, str] = {}
+        reasons: dict[str, str] = {}
+        for objective in ["ev", "first_place", "robustness"]:
+            tag, reason = self.resolve_champion_with_reason(
+                objective,
+                table_read=table_read,
+            )
+            resolved[objective] = tag
+            reasons[objective] = reason
         return {
             "rule_profile": self.rule_profile.to_dict(),
             "champions": self.champions,
             "dynamic_resolution_enabled": self.dynamic_resolution_enabled,
-            "resolved_champions": {
-                "ev": self.resolve_champion("ev"),
-                "first_place": self.resolve_champion("first_place"),
-                "robustness": self.resolve_champion("robustness"),
-            },
+            "resolved_champions": resolved,
+            "resolved_champion_reasons": reasons,
             "table_read": table_read,
             "recommended_preset": self.recommend_preset(table_read),
             "strategy_presets": self.strategy_presets,
@@ -221,29 +227,38 @@ class Session:
             return "correlated_table"
         return "balanced_default"
 
-    def resolve_champion(self, objective: str) -> str:
+    def resolve_champion_with_reason(
+        self,
+        objective: str,
+        *,
+        table_read: dict[str, Any] | None = None,
+    ) -> tuple[str, str]:
         if not self.dynamic_resolution_enabled:
-            return self.champions.get(objective, "conservative_plus")
+            return self.champions.get(objective, "conservative_plus"), "manual_lock"
 
         # Day-of adjustment from offline short-horizon simulation sweeps.
-        table_read = self.infer_table_read()
-        mode = table_read.get("mode", "balanced")
+        read = table_read or self.infer_table_read()
+        mode = read.get("mode", "balanced")
         sprint_profile = (
             self.rule_profile.n_orbits <= 2 and self.rule_profile.start_chips <= 150
         )
         if objective == "first_place":
-            if mode == "passive" and table_read.get("confidence", 0.0) >= 0.7:
-                return "pot_fraction"
+            if mode == "passive" and read.get("confidence", 0.0) >= 0.7:
+                return "pot_fraction", "passive_high_confidence_first_place"
             if sprint_profile:
-                return "pot_fraction"
+                return "pot_fraction", "sprint_profile_first_place"
             if self.rule_profile.name == "baseline_v1":
                 if mode in {"competitive", "correlated_pair", "aggressive"}:
-                    return "equity_evolved_v1"
-                return "meta_switch"
-            return "equity_evolved_v1"
+                    return "equity_evolved_v1", "baseline_dynamic_mode_first_place"
+                return "meta_switch", "baseline_balanced_first_place"
+            return "equity_evolved_v1", "non_baseline_first_place"
         if objective in {"ev", "robustness"}:
-            return "equity_evolved_v1"
-        return self.champions.get(objective, "equity_evolved_v1")
+            return "equity_evolved_v1", "ev_robust_default"
+        return self.champions.get(objective, "equity_evolved_v1"), "fallback_champion_map"
+
+    def resolve_champion(self, objective: str) -> str:
+        tag, _reason = self.resolve_champion_with_reason(objective)
+        return tag
 
     def recompute_champions(self, req: RecomputeChampionsReq) -> dict[str, Any]:
         strategy_tags = list(built_in_strategy_factories().keys())
@@ -285,14 +300,21 @@ class Session:
             self.champions["robustness"] = req.robustness
         if req.lock_manual:
             self.dynamic_resolution_enabled = False
+        table_read = self.infer_table_read()
+        resolved: dict[str, str] = {}
+        reasons: dict[str, str] = {}
+        for objective in ["ev", "first_place", "robustness"]:
+            tag, reason = self.resolve_champion_with_reason(
+                objective,
+                table_read=table_read,
+            )
+            resolved[objective] = tag
+            reasons[objective] = reason
         return {
             "champions": self.champions,
             "dynamic_resolution_enabled": self.dynamic_resolution_enabled,
-            "resolved_champions": {
-                "ev": self.resolve_champion("ev"),
-                "first_place": self.resolve_champion("first_place"),
-                "robustness": self.resolve_champion("robustness"),
-            },
+            "resolved_champions": resolved,
+            "resolved_champion_reasons": reasons,
         }
 
 
@@ -362,7 +384,11 @@ def strategies_set_champions(req: SetChampionsReq):
 @app.post("/advisor/recommend")
 def advisor_recommend(req: RecommendationReq):
     ranking_policy = req.ranking_policy or session.rule_profile.hand_ranking_policy
-    strategy_tag = req.strategy_tag or session.resolve_champion(req.objective)
+    if req.strategy_tag:
+        strategy_tag = req.strategy_tag
+        strategy_reason = "request_override"
+    else:
+        strategy_tag, strategy_reason = session.resolve_champion_with_reason(req.objective)
 
     if req.output_mode == "all":
         out = {}
@@ -387,6 +413,7 @@ def advisor_recommend(req: RecommendationReq):
             out[mode] = rec.to_dict()
         return {
             "strategy_tag": strategy_tag,
+            "strategy_reason": strategy_reason,
             "rule_profile": session.rule_profile.to_dict(),
             "modes": out,
         }
@@ -409,6 +436,8 @@ def advisor_recommend(req: RecommendationReq):
         known_cards=req.known_cards,
     )
     out = rec.to_dict()
+    out["strategy_tag"] = strategy_tag
+    out["strategy_reason"] = strategy_reason
     out["rule_profile"] = session.rule_profile.to_dict()
     return out
 
@@ -416,7 +445,11 @@ def advisor_recommend(req: RecommendationReq):
 @app.post("/advisor/llm_hint")
 def advisor_llm_hint(req: LlmHintReq):
     ranking_policy = req.ranking_policy or session.rule_profile.hand_ranking_policy
-    strategy_tag = req.strategy_tag or session.resolve_champion(req.objective)
+    if req.strategy_tag:
+        strategy_tag = req.strategy_tag
+        strategy_reason = "request_override"
+    else:
+        strategy_tag, strategy_reason = session.resolve_champion_with_reason(req.objective)
     base = recommend_action(
         phase=req.phase,
         strategy_tag=strategy_tag,
@@ -457,6 +490,7 @@ def advisor_llm_hint(req: LlmHintReq):
     return {
         "ok": llm.get("ok", False),
         "strategy_tag": strategy_tag,
+        "strategy_reason": strategy_reason,
         "rule_profile": session.rule_profile.to_dict(),
         "deterministic": base.to_dict(),
         "llm": llm,

@@ -318,6 +318,9 @@
 				<div class="rounded-none border bg-card p-3">
 					<div class="mb-2 text-sm font-medium">Advisor output</div>
 				{#if recommendation}
+					<div class="mb-2 text-xs text-muted-foreground">
+						strategy: {recommendation.strategy_tag} ({recommendation.strategy_reason})
+					</div>
 					{#if recommendation.modes}
 						<div class="grid gap-2 md:grid-cols-3">
 							{#each modeEntries(recommendation.modes) as [mode, rec]}
@@ -347,6 +350,7 @@
 					<div class="mb-2 text-sm font-medium">LLM hint (optional)</div>
 					{#if llmHint}
 						<div class="text-xs">ok: {String(llmHint.ok)}</div>
+						<div class="mt-1 text-xs">strategy: {llmHint.strategy_tag} ({llmHint.strategy_reason})</div>
 						<div class="mt-1 text-xs">model: {llmHint.llm?.model_id}</div>
 						<div class="mt-1 text-xs">latency ms: {llmHint.llm?.latency_ms}</div>
 						<div class="mt-1 text-xs">hint: {JSON.stringify(llmHint.llm?.hint)}</div>
@@ -403,6 +407,7 @@
 					<div class="mt-2 text-xs">Dynamic resolution: {String(sessionState.dynamic_resolution_enabled)}</div>
 					<div class="mt-2 text-xs">Champions: {JSON.stringify(sessionState.champions)}</div>
 					<div class="mt-2 text-xs">Resolved champions: {JSON.stringify(sessionState.resolved_champions)}</div>
+					<div class="mt-2 text-xs">Resolved reasons: {JSON.stringify(sessionState.resolved_champion_reasons)}</div>
 					<div class="mt-2 text-xs">Table read: {JSON.stringify(sessionState.table_read)}</div>
 					<div class="mt-2 text-xs">Recommended preset: {sessionState.recommended_preset}</div>
 					<div class="mt-2 text-xs">Strategy presets: {JSON.stringify(sessionState.strategy_presets)}</div>
