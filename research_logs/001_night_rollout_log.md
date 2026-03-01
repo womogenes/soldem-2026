@@ -586,3 +586,18 @@ Local time: 2026-03-01 01:25:02 PST
   - fast day-of commands,
   - current runtime and validation status,
   - pointers to latest supporting research docs.
+
+## 2026-03-01 04:40:19 PST
+
+- Ran targeted first-place evolutionary candidate screen:
+  - generation run: `evolve_first_place_58001.json` (top candidate `equity_auto_034`)
+  - multi-seed validation runs:
+    - `night_first_candidate_baseline_none_seed59010/59012/59013.json`
+    - `night_first_candidate_baseline_respect35_seed59011/59014/59015.json`
+- Result:
+  - candidate did not beat both incumbents (`meta_switch`, `equity_evolved_v1`) consistently.
+- Decision:
+  - do **not** promote new first-place candidate at this time.
+  - keep current champion policy unchanged.
+- Added summary:
+  - `research_logs/014_first_place_candidate_screen.md`.
