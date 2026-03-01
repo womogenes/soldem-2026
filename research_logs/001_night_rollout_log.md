@@ -851,3 +851,8 @@ Local time: 2026-03-01 01:25:02 PST
   - `research_logs/003_day_of_fast_patch_guide.md`
   - `research_logs/004_status_snapshot.md`
   - `research_logs/013_pre7_handoff_draft.md`
+
+## 2026-03-01 05:40:18 PST
+
+- Refreshed `research_logs/013_pre7_handoff_draft.md` commit checkpoint list with latest calibration/preflight commits:
+  - `da6c86a`, `9492469`, `b71d8bc`.

@@ -60,3 +60,5 @@ Local time: 2026-03-01 04:34 PST
 - `d382fcd`: preflight + full-suite validation log refresh.
 - `9ebf784`: backend-exported first-place policy cues wired into HUD.
 - `da6c86a`: ante-threshold calibration and updated high-ante trigger.
+- `9492469`: post-calibration full preflight validation log refresh.
+- `b71d8bc`: preflight policy smoke checks for first-place routing.
