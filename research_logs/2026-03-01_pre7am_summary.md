@@ -67,6 +67,7 @@ uv run python scripts/day_of/apply_rule_variation.py \
 - System overview: `research_logs/2026-03-01_system_summary.md`
 - Human playbook: `research_logs/2026-03-01_human_playbook.md`
 - Quick card: `research_logs/2026-03-01_quick_reference_card.md`
+- Mode switching: `research_logs/2026-03-01_mode_switch_policy.md`
 - Day-of patch flow: `research_logs/2026-03-01_day_of_patch_guide.md`
 - AWS operations: `research_logs/2026-03-01_aws_distributed_runbook.md`
 - Full execution timeline: `research_logs/2026-03-01_execution_log.md`
