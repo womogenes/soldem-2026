@@ -17,6 +17,7 @@ Local time: 2026-03-01 04:34 PST
 
 0. Optional preflight:
 - `bash scripts/day_of_preflight.sh --api-url http://127.0.0.1:8000 --pb-url http://18.204.1.6:8090`
+- `bash scripts/day_of_preflight.sh --api-url http://127.0.0.1:8000 --with-policy-smoke`
 
 1. Apply profile quickly:
 - `uv run python scripts/day_of_patch.py --preset baseline`
@@ -36,6 +37,7 @@ Local time: 2026-03-01 04:34 PST
 - Backend tests currently passing: `25/25`.
 - Frontend check/build passing.
 - Preflight smoke (`API + PocketBase`) passed at `2026-03-01 05:37 PST` with backend tests + web check.
+- Policy smoke (`baseline` / `high-ante` / `below-trigger`) passed at `2026-03-01 05:39 PST`.
 
 ## Latest key docs
 

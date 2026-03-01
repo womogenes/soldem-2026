@@ -833,3 +833,21 @@ Local time: 2026-03-01 01:25:02 PST
   - backend tests: `25/25` pass
   - web check: `0` errors, `0` warnings
 - Updated status/handoff docs with this latest validation timestamp.
+
+## 2026-03-01 05:39:12 PST
+
+- Added API policy smoke checker:
+  - `scripts/policy_smoke.py`
+  - validates three critical first-place routing branches against live API:
+    - exact baseline -> `meta_switch`
+    - high-ante winner-takes-all (`200/50/o4`) -> `pot_fraction`
+    - below-trigger winner-takes-all (`140/35/o4`) -> `equity_evolved_v1`
+- Integrated into preflight script:
+  - new flag: `--with-policy-smoke` in `scripts/day_of_preflight.sh`
+- Validation run:
+  - `bash scripts/day_of_preflight.sh --api-url http://127.0.0.1:8012 --with-policy-smoke`
+  - result: pass for all checks.
+- Updated runbooks:
+  - `research_logs/003_day_of_fast_patch_guide.md`
+  - `research_logs/004_status_snapshot.md`
+  - `research_logs/013_pre7_handoff_draft.md`
