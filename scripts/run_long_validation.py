@@ -46,13 +46,17 @@ def summarize(rows: list[dict]) -> dict:
                     tag,
                     {
                         "expected_pnl": [],
+                        "expected_match_pnl": [],
                         "first_place_rate": [],
                         "robustness": [],
+                        "tournament_win_rate": [],
                     },
                 )
                 slot["expected_pnl"].append(float(item["expected_pnl"]))
+                slot["expected_match_pnl"].append(float(item.get("expected_match_pnl", 0.0)))
                 slot["first_place_rate"].append(float(item["first_place_rate"]))
                 slot["robustness"].append(float(item["robustness"]))
+                slot["tournament_win_rate"].append(float(item.get("tournament_win_rate", 0.0)))
 
         merged = []
         for tag, metrics in acc.items():
@@ -60,8 +64,10 @@ def summarize(rows: list[dict]) -> dict:
                 {
                     "tag": tag,
                     "expected_pnl_mean": mean(metrics["expected_pnl"]),
+                    "expected_match_pnl_mean": mean(metrics["expected_match_pnl"]),
                     "first_place_rate_mean": mean(metrics["first_place_rate"]),
                     "robustness_mean": mean(metrics["robustness"]),
+                    "tournament_win_rate_mean": mean(metrics["tournament_win_rate"]),
                     "n_seeds": len(metrics["expected_pnl"]),
                 }
             )
@@ -77,11 +83,18 @@ def summarize(rows: list[dict]) -> dict:
             key=lambda r: r["robustness_mean"],
             reverse=True,
         )
+        by_tournament = sorted(
+            merged,
+            key=lambda r: r["tournament_win_rate_mean"],
+            reverse=True,
+        )
 
         if objective == "first_place":
             top_objective = by_first[0] if by_first else None
         elif objective == "robustness":
             top_objective = by_rob[0] if by_rob else None
+        elif objective == "tournament_win":
+            top_objective = by_tournament[0] if by_tournament else None
         else:
             top_objective = by_ev[0] if by_ev else None
         summary_rows.append(
@@ -93,6 +106,7 @@ def summarize(rows: list[dict]) -> dict:
                 "leaderboard_mean_by_ev": by_ev,
                 "leaderboard_mean_by_first_place": by_first,
                 "leaderboard_mean_by_robustness": by_rob,
+                "leaderboard_mean_by_tournament_win": by_tournament,
             }
         )
 
@@ -104,7 +118,7 @@ def main() -> None:
     ap.add_argument("strategies", nargs="+", help="Strategy tags or Python paths")
     ap.add_argument("--n-matches", type=int, default=600)
     ap.add_argument("--n-games-per-match", default="10", help="CSV horizons, e.g. 5,10,20")
-    ap.add_argument("--objectives", default="ev,first_place,robustness")
+    ap.add_argument("--objectives", default="ev,first_place,robustness,tournament_win")
     ap.add_argument("--correlation-modes", default="none,respect,herd,kingmaker")
     ap.add_argument("--seeds", default="9101,9202,9303")
     ap.add_argument("--rule-profile", default="baseline_v1")

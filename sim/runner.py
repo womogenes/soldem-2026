@@ -202,6 +202,9 @@ def run_population_tournament(
     rng = random.Random(seed)
     per_tag_pnl: dict[str, list[float]] = defaultdict(list)
     per_tag_rankpos: dict[str, list[int]] = defaultdict(list)
+    per_tag_match_pnl: dict[str, list[float]] = defaultdict(list)
+    per_tag_tournament_win: dict[str, list[float]] = defaultdict(list)
+    per_tag_match_top2: dict[str, list[float]] = defaultdict(list)
 
     for mix in range(n_matches):
         seats = rng.sample(strategy_tags, 5)
@@ -214,19 +217,51 @@ def run_population_tournament(
             correlation=correlation,
         )
 
+        seat_total_pnl = [0.0] * 5
+        seat_round_wins = [0] * 5
         for g in out["games"]:
             for seat, tag in enumerate(out["strategy_tags"]):
                 per_tag_pnl[tag].append(g["pnl"][seat])
                 per_tag_rankpos[tag].append(g["rk"][seat])
+                seat_total_pnl[seat] += float(g["pnl"][seat])
+                if g["rk"][seat] == 1:
+                    seat_round_wins[seat] += 1
+
+        seat_keys = [
+            (seat_total_pnl[seat], seat_round_wins[seat])
+            for seat in range(len(out["strategy_tags"]))
+        ]
+        best_key = max(seat_keys)
+        winners = [seat for seat, key in enumerate(seat_keys) if key == best_key]
+        ranked_unique = sorted(set(seat_keys), reverse=True)
+        second_key = ranked_unique[1] if len(ranked_unique) > 1 else ranked_unique[0]
+        top2 = [
+            seat
+            for seat, key in enumerate(seat_keys)
+            if key == best_key or key == second_key
+        ]
+
+        for seat, tag in enumerate(out["strategy_tags"]):
+            per_tag_match_pnl[tag].append(seat_total_pnl[seat])
+            per_tag_tournament_win[tag].append(
+                (1.0 / len(winners)) if seat in winners else 0.0
+            )
+            per_tag_match_top2[tag].append(1.0 if seat in top2 else 0.0)
 
     profiles = composite_profiles()
     leaderboard: list[dict] = []
     for tag in sorted(per_tag_pnl):
         pnl = per_tag_pnl[tag]
         rpos = per_tag_rankpos[tag]
+        match_pnl = per_tag_match_pnl[tag]
+        tour_win = per_tag_tournament_win[tag]
+        top2 = per_tag_match_top2[tag]
         ev = mean(pnl) if pnl else 0.0
+        ev_match = mean(match_pnl) if match_pnl else 0.0
         first = first_place_rate(rpos)
         robust = robustness_score(pnl)
+        tour_win_rate = mean(tour_win) if tour_win else 0.0
+        match_top2_rate = mean(top2) if top2 else 0.0
         scores = {
             name: composite_score(ev, first, robust, weights)
             for name, weights in profiles.items()
@@ -236,8 +271,12 @@ def run_population_tournament(
                 "tag": tag,
                 "samples": len(pnl),
                 "expected_pnl": ev,
+                "expected_match_pnl": ev_match,
                 "first_place_rate": first,
                 "robustness": robust,
+                "tournament_win_rate": tour_win_rate,
+                "match_top2_rate": match_top2_rate,
+                "match_samples": len(match_pnl),
                 "composites": scores,
             }
         )

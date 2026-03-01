@@ -1,0 +1,4430 @@
+{
+  "meta": {
+    "n_matches": 500,
+    "horizons": [
+      10
+    ],
+    "objectives": [
+      "tournament_win"
+    ],
+    "correlation_modes": [
+      "none",
+      "respect",
+      "herd",
+      "kingmaker"
+    ],
+    "seeds": [
+      9911,
+      9922,
+      9933,
+      9944
+    ],
+    "rule_profile": "baseline_v1",
+    "strategies": [
+      "market_maker_v2",
+      "market_maker_tight",
+      "regime_switch_v2",
+      "regime_switch_robust",
+      "market_maker",
+      "regime_switch",
+      "conservative_ultra",
+      "pot_fraction",
+      "random",
+      "bully"
+    ]
+  },
+  "runs": [
+    {
+      "objective": "tournament_win",
+      "horizon": 10,
+      "correlation": {
+        "mode": "none",
+        "strength": 0.0,
+        "pairs": []
+      },
+      "seed": 9911,
+      "leaderboard": [
+        {
+          "tag": "market_maker_v2",
+          "samples": 2370,
+          "expected_pnl": 37.61476793248945,
+          "expected_match_pnl": 376.1476793248945,
+          "first_place_rate": 0.14345991561181434,
+          "robustness": -3.729113924050637,
+          "tournament_win_rate": 0.38396624472573837,
+          "match_top2_rate": 0.6751054852320675,
+          "match_samples": 237,
+          "composites": {
+            "balanced_50_30_20": 22.365358649789027,
+            "upside_60_30_10": 26.499746835443034,
+            "robust_40_20_40": 16.423459915611815
+          }
+        },
+        {
+          "tag": "market_maker_tight",
+          "samples": 2470,
+          "expected_pnl": 25.152631578947368,
+          "expected_match_pnl": 251.52631578947367,
+          "first_place_rate": 0.10080971659919029,
+          "robustness": -24.138866396761134,
+          "tournament_win_rate": 0.2591093117408907,
+          "match_top2_rate": 0.5425101214574899,
+          "match_samples": 247,
+          "composites": {
+            "balanced_50_30_20": 10.772834008097165,
+            "upside_60_30_10": 15.701983805668014,
+            "robust_40_20_40": 2.4217004048582993
+          }
+        },
+        {
+          "tag": "regime_switch_robust",
+          "samples": 2400,
+          "expected_pnl": 24.1175,
+          "expected_match_pnl": 241.175,
+          "first_place_rate": 0.12583333333333332,
+          "robustness": -33.90125,
+          "tournament_win_rate": 0.22916666666666666,
+          "match_top2_rate": 0.49583333333333335,
+          "match_samples": 240,
+          "composites": {
+            "balanced_50_30_20": 9.0535,
+            "upside_60_30_10": 14.855375,
+            "robust_40_20_40": -1.3968333333333316
+          }
+        },
+        {
+          "tag": "regime_switch",
+          "samples": 2360,
+          "expected_pnl": 21.791101694915255,
+          "expected_match_pnl": 217.91101694915255,
+          "first_place_rate": 0.17033898305084746,
+          "robustness": -52.32542372881356,
+          "tournament_win_rate": 0.2754237288135593,
+          "match_top2_rate": 0.4872881355932203,
+          "match_samples": 236,
+          "composites": {
+            "balanced_50_30_20": 5.54063559322034,
+            "upside_60_30_10": 12.95228813559322,
+            "robust_40_20_40": -8.806949152542373
+          }
+        },
+        {
+          "tag": "market_maker",
+          "samples": 2580,
+          "expected_pnl": 19.25232558139535,
+          "expected_match_pnl": 192.52325581395348,
+          "first_place_rate": 0.11434108527131782,
+          "robustness": -42.81356589147286,
+          "tournament_win_rate": 0.2441860465116279,
+          "match_top2_rate": 0.5116279069767442,
+          "match_samples": 258,
+          "composites": {
+            "balanced_50_30_20": 4.4936821705426375,
+            "upside_60_30_10": 10.700271317829458,
+            "robust_40_20_40": -7.137674418604648
+          }
+        },
+        {
+          "tag": "regime_switch_v2",
+          "samples": 2600,
+          "expected_pnl": 18.922307692307694,
+          "expected_match_pnl": 189.22307692307692,
+          "first_place_rate": 0.11961538461538461,
+          "robustness": -45.889230769230764,
+          "tournament_win_rate": 0.23846153846153847,
+          "match_top2_rate": 0.49230769230769234,
+          "match_samples": 260,
+          "composites": {
+            "balanced_50_30_20": 3.8717692307692335,
+            "upside_60_30_10": 10.352923076923076,
+            "robust_40_20_40": -8.394461538461535
+          }
+        },
+        {
+          "tag": "conservative_ultra",
+          "samples": 2630,
+          "expected_pnl": 11.98365019011407,
+          "expected_match_pnl": 119.83650190114068,
+          "first_place_rate": 0.12737642585551331,
+          "robustness": -62.73498098859316,
+          "tournament_win_rate": 0.17870722433460076,
+          "match_top2_rate": 0.4144486692015209,
+          "match_samples": 263,
+          "composites": {
+            "balanced_50_30_20": -2.7338783269961997,
+            "upside_60_30_10": 4.737984790874525,
+            "robust_40_20_40": -17.75300380228137
+          }
+        },
+        {
+          "tag": "pot_fraction",
+          "samples": 2580,
+          "expected_pnl": -19.47984496124031,
+          "expected_match_pnl": -194.7984496124031,
+          "first_place_rate": 0.45232558139534884,
+          "robustness": -219.4798449612403,
+          "tournament_win_rate": 0.050387596899224806,
+          "match_top2_rate": 0.15891472868217055,
+          "match_samples": 258,
+          "composites": {
+            "balanced_50_30_20": -40.06612403100776,
+            "upside_60_30_10": -20.066124031007753,
+            "robust_40_20_40": -86.53736434108528
+          }
+        },
+        {
+          "tag": "random",
+          "samples": 2420,
+          "expected_pnl": -43.58388429752066,
+          "expected_match_pnl": -435.8388429752066,
+          "first_place_rate": 0.3557851239669422,
+          "robustness": -238.00537190082645,
+          "tournament_win_rate": 0.1322314049586777,
+          "match_top2_rate": 0.19008264462809918,
+          "match_samples": 242,
+          "composites": {
+            "balanced_50_30_20": -58.71946280991736,
+            "upside_60_30_10": -39.27731404958678,
+            "robust_40_20_40": -105.52000000000001
+          }
+        },
+        {
+          "tag": "bully",
+          "samples": 2590,
+          "expected_pnl": -90.82548262548262,
+          "expected_match_pnl": -908.2548262548263,
+          "first_place_rate": 0.28494208494208495,
+          "robustness": -290.8254826254826,
+          "tournament_win_rate": 0.03088803088803089,
+          "match_top2_rate": 0.06177606177606178,
+          "match_samples": 259,
+          "composites": {
+            "balanced_50_30_20": -95.02957528957529,
+            "upside_60_30_10": -75.02957528957528,
+            "robust_40_20_40": -146.96154440154442
+          }
+        }
+      ]
+    },
+    {
+      "objective": "tournament_win",
+      "horizon": 10,
+      "correlation": {
+        "mode": "none",
+        "strength": 0.0,
+        "pairs": []
+      },
+      "seed": 9922,
+      "leaderboard": [
+        {
+          "tag": "market_maker_v2",
+          "samples": 2480,
+          "expected_pnl": 41.524193548387096,
+          "expected_match_pnl": 415.241935483871,
+          "first_place_rate": 0.16048387096774194,
+          "robustness": -3.14717741935484,
+          "tournament_win_rate": 0.39919354838709675,
+          "match_top2_rate": 0.6370967741935484,
+          "match_samples": 248,
+          "composites": {
+            "balanced_50_30_20": 24.94717741935484,
+            "upside_60_30_10": 29.41431451612903,
+            "robust_40_20_40": 18.560483870967744
+          }
+        },
+        {
+          "tag": "market_maker_tight",
+          "samples": 2490,
+          "expected_pnl": 29.13574297188755,
+          "expected_match_pnl": 291.3574297188755,
+          "first_place_rate": 0.13253012048192772,
+          "robustness": -20.410441767068274,
+          "tournament_win_rate": 0.3333333333333333,
+          "match_top2_rate": 0.6024096385542169,
+          "match_samples": 249,
+          "composites": {
+            "balanced_50_30_20": 14.461686746987947,
+            "upside_60_30_10": 19.416305220883533,
+            "robust_40_20_40": 6.140722891566265
+          }
+        },
+        {
+          "tag": "regime_switch_v2",
+          "samples": 2410,
+          "expected_pnl": 27.91576763485477,
+          "expected_match_pnl": 279.15767634854774,
+          "first_place_rate": 0.14149377593360996,
+          "robustness": -31.62780082987552,
+          "tournament_win_rate": 0.24481327800829875,
+          "match_top2_rate": 0.5560165975103735,
+          "match_samples": 241,
+          "composites": {
+            "balanced_50_30_20": 11.87713692946058,
+            "upside_60_30_10": 17.831493775933605,
+            "robust_40_20_40": 1.3450622406638981
+          }
+        },
+        {
+          "tag": "market_maker",
+          "samples": 2270,
+          "expected_pnl": 27.668722466960354,
+          "expected_match_pnl": 276.68722466960355,
+          "first_place_rate": 0.1237885462555066,
+          "robustness": -29.793832599118943,
+          "tournament_win_rate": 0.2290748898678414,
+          "match_top2_rate": 0.5242290748898678,
+          "match_samples": 227,
+          "composites": {
+            "balanced_50_30_20": 11.589251101321583,
+            "upside_60_30_10": 17.335506607929513,
+            "robust_40_20_40": 1.6257268722466964
+          }
+        },
+        {
+          "tag": "regime_switch_robust",
+          "samples": 2570,
+          "expected_pnl": 26.87081712062257,
+          "expected_match_pnl": 268.7081712062257,
+          "first_place_rate": 0.13346303501945525,
+          "robustness": -34.23035019455253,
+          "tournament_win_rate": 0.26459143968871596,
+          "match_top2_rate": 0.5058365758754864,
+          "match_samples": 257,
+          "composites": {
+            "balanced_50_30_20": 10.593229571984436,
+            "upside_60_30_10": 16.703346303501945,
+            "robust_40_20_40": -0.27455252918287876
+          }
+        },
+        {
+          "tag": "regime_switch",
+          "samples": 2270,
+          "expected_pnl": 21.36123348017621,
+          "expected_match_pnl": 213.6123348017621,
+          "first_place_rate": 0.160352422907489,
+          "robustness": -55.11674008810573,
+          "tournament_win_rate": 0.2555066079295154,
+          "match_top2_rate": 0.5330396475770925,
+          "match_samples": 227,
+          "composites": {
+            "balanced_50_30_20": 4.46784140969163,
+            "upside_60_30_10": 12.115638766519822,
+            "robust_40_20_40": -10.295154185022028
+          }
+        },
+        {
+          "tag": "conservative_ultra",
+          "samples": 2570,
+          "expected_pnl": 6.6431906614786,
+          "expected_match_pnl": 66.43190661478599,
+          "first_place_rate": 0.11206225680933853,
+          "robustness": -68.53774319066147,
+          "tournament_win_rate": 0.1517509727626459,
+          "match_top2_rate": 0.35797665369649806,
+          "match_samples": 257,
+          "composites": {
+            "balanced_50_30_20": -7.024085603112839,
+            "upside_60_30_10": 0.4940077821011677,
+            "robust_40_20_40": -22.516575875486378
+          }
+        },
+        {
+          "tag": "pot_fraction",
+          "samples": 2620,
+          "expected_pnl": -20.714885496183207,
+          "expected_match_pnl": -207.14885496183206,
+          "first_place_rate": 0.4083969465648855,
+          "robustness": -220.7148854961832,
+          "tournament_win_rate": 0.05725190839694656,
+          "match_top2_rate": 0.17938931297709923,
+          "match_samples": 262,
+          "composites": {
+            "balanced_50_30_20": -42.248511450381685,
+            "upside_60_30_10": -22.248511450381685,
+            "robust_40_20_40": -88.40396946564886
+          }
+        },
+        {
+          "tag": "random",
+          "samples": 2680,
+          "expected_pnl": -49.3455223880597,
+          "expected_match_pnl": -493.45522388059703,
+          "first_place_rate": 0.3376865671641791,
+          "robustness": -243.9033582089552,
+          "tournament_win_rate": 0.09701492537313433,
+          "match_top2_rate": 0.1455223880597015,
+          "match_samples": 268,
+          "composites": {
+            "balanced_50_30_20": -63.32283582089552,
+            "upside_60_30_10": -43.86705223880597,
+            "robust_40_20_40": -110.54582089552238
+          }
+        },
+        {
+          "tag": "bully",
+          "samples": 2640,
+          "expected_pnl": -96.10416666666667,
+          "expected_match_pnl": -961.0416666666666,
+          "first_place_rate": 0.25757575757575757,
+          "robustness": -296.1041666666667,
+          "tournament_win_rate": 0.003787878787878788,
+          "match_top2_rate": 0.041666666666666664,
+          "match_samples": 264,
+          "composites": {
+            "balanced_50_30_20": -99.54564393939395,
+            "upside_60_30_10": -79.54564393939394,
+            "robust_40_20_40": -151.7318181818182
+          }
+        }
+      ]
+    },
+    {
+      "objective": "tournament_win",
+      "horizon": 10,
+      "correlation": {
+        "mode": "none",
+        "strength": 0.0,
+        "pairs": []
+      },
+      "seed": 9933,
+      "leaderboard": [
+        {
+          "tag": "market_maker_v2",
+          "samples": 2740,
+          "expected_pnl": 29.974817518248177,
+          "expected_match_pnl": 299.74817518248176,
+          "first_place_rate": 0.1375912408759124,
+          "robustness": -18.311678832116787,
+          "tournament_win_rate": 0.33211678832116787,
+          "match_top2_rate": 0.6167883211678832,
+          "match_samples": 274,
+          "composites": {
+            "balanced_50_30_20": 15.452810218978104,
+            "upside_60_30_10": 20.2814598540146,
+            "robust_40_20_40": 7.417080291970805
+          }
+        },
+        {
+          "tag": "regime_switch_v2",
+          "samples": 2500,
+          "expected_pnl": 28.3312,
+          "expected_match_pnl": 283.312,
+          "first_place_rate": 0.1536,
+          "robustness": -32.330799999999996,
+          "tournament_win_rate": 0.304,
+          "match_top2_rate": 0.544,
+          "match_samples": 250,
+          "composites": {
+            "balanced_50_30_20": 12.30744,
+            "upside_60_30_10": 18.373639999999998,
+            "robust_40_20_40": 1.4721600000000006
+          }
+        },
+        {
+          "tag": "market_maker_tight",
+          "samples": 2390,
+          "expected_pnl": 28.25899581589958,
+          "expected_match_pnl": 282.58995815899584,
+          "first_place_rate": 0.12175732217573222,
+          "robustness": -22.102928870292885,
+          "tournament_win_rate": 0.29707112970711297,
+          "match_top2_rate": 0.5523012552301255,
+          "match_samples": 239,
+          "composites": {
+            "balanced_50_30_20": 13.361631799163181,
+            "upside_60_30_10": 18.397824267782426,
+            "robust_40_20_40": 4.897573221757323
+          }
+        },
+        {
+          "tag": "regime_switch_robust",
+          "samples": 2530,
+          "expected_pnl": 22.838735177865612,
+          "expected_match_pnl": 228.38735177865613,
+          "first_place_rate": 0.14387351778656127,
+          "robustness": -41.40632411067193,
+          "tournament_win_rate": 0.23715415019762845,
+          "match_top2_rate": 0.5059288537549407,
+          "match_samples": 253,
+          "composites": {
+            "balanced_50_30_20": 7.454308300395256,
+            "upside_60_30_10": 13.87881422924901,
+            "robust_40_20_40": -4.549565217391304
+          }
+        },
+        {
+          "tag": "market_maker",
+          "samples": 2200,
+          "expected_pnl": 21.069545454545455,
+          "expected_match_pnl": 210.69545454545454,
+          "first_place_rate": 0.125,
+          "robustness": -39.49636363636363,
+          "tournament_win_rate": 0.23636363636363636,
+          "match_top2_rate": 0.5,
+          "match_samples": 220,
+          "composites": {
+            "balanced_50_30_20": 6.3855,
+            "upside_60_30_10": 12.44209090909091,
+            "robust_40_20_40": -4.870727272727272
+          }
+        },
+        {
+          "tag": "regime_switch",
+          "samples": 2570,
+          "expected_pnl": 17.779377431906614,
+          "expected_match_pnl": 177.79377431906616,
+          "first_place_rate": 0.16031128404669262,
+          "robustness": -58.97937743190661,
+          "tournament_win_rate": 0.22178988326848248,
+          "match_top2_rate": 0.4591439688715953,
+          "match_samples": 257,
+          "composites": {
+            "balanced_50_30_20": 1.9031517509727625,
+            "upside_60_30_10": 9.579027237354085,
+            "robust_40_20_40": -13.273774319066149
+          }
+        },
+        {
+          "tag": "conservative_ultra",
+          "samples": 2570,
+          "expected_pnl": 8.80739299610895,
+          "expected_match_pnl": 88.07392996108949,
+          "first_place_rate": 0.1198443579766537,
+          "robustness": -65.41245136186771,
+          "tournament_win_rate": 0.16342412451361868,
+          "match_top2_rate": 0.38910505836575876,
+          "match_samples": 257,
+          "composites": {
+            "balanced_50_30_20": -5.083463035019456,
+            "upside_60_30_10": 2.33852140077821,
+            "robust_40_20_40": -20.24513618677043
+          }
+        },
+        {
+          "tag": "pot_fraction",
+          "samples": 2520,
+          "expected_pnl": -20.661507936507938,
+          "expected_match_pnl": -206.61507936507937,
+          "first_place_rate": 0.4111111111111111,
+          "robustness": -220.66150793650795,
+          "tournament_win_rate": 0.07936507936507936,
+          "match_top2_rate": 0.18253968253968253,
+          "match_samples": 252,
+          "composites": {
+            "balanced_50_30_20": -42.12972222222223,
+            "upside_60_30_10": -22.129722222222227,
+            "robust_40_20_40": -88.30698412698413
+          }
+        },
+        {
+          "tag": "random",
+          "samples": 2440,
+          "expected_pnl": -45.88360655737705,
+          "expected_match_pnl": -458.8360655737705,
+          "first_place_rate": 0.34262295081967215,
+          "robustness": -240.41639344262296,
+          "tournament_win_rate": 0.10245901639344263,
+          "match_top2_rate": 0.1762295081967213,
+          "match_samples": 244,
+          "composites": {
+            "balanced_50_30_20": -60.74639344262295,
+            "upside_60_30_10": -41.29311475409837,
+            "robust_40_20_40": -107.66754098360656
+          }
+        },
+        {
+          "tag": "bully",
+          "samples": 2540,
+          "expected_pnl": -90.13307086614174,
+          "expected_match_pnl": -901.3307086614174,
+          "first_place_rate": 0.28228346456692915,
+          "robustness": -290.13307086614174,
+          "tournament_win_rate": 0.023622047244094488,
+          "match_top2_rate": 0.07086614173228346,
+          "match_samples": 254,
+          "composites": {
+            "balanced_50_30_20": -94.62464566929134,
+            "upside_60_30_10": -74.62464566929134,
+            "robust_40_20_40": -146.4607874015748
+          }
+        }
+      ]
+    },
+    {
+      "objective": "tournament_win",
+      "horizon": 10,
+      "correlation": {
+        "mode": "none",
+        "strength": 0.0,
+        "pairs": []
+      },
+      "seed": 9944,
+      "leaderboard": [
+        {
+          "tag": "market_maker_v2",
+          "samples": 2520,
+          "expected_pnl": 39.63650793650794,
+          "expected_match_pnl": 396.36507936507934,
+          "first_place_rate": 0.15595238095238095,
+          "robustness": -4.083730158730155,
+          "tournament_win_rate": 0.36507936507936506,
+          "match_top2_rate": 0.6468253968253969,
+          "match_samples": 252,
+          "composites": {
+            "balanced_50_30_20": 23.68007936507937,
+            "upside_60_30_10": 28.05210317460318,
+            "robust_40_20_40": 17.340158730158734
+          }
+        },
+        {
+          "tag": "market_maker_tight",
+          "samples": 2580,
+          "expected_pnl": 31.75736434108527,
+          "expected_match_pnl": 317.5736434108527,
+          "first_place_rate": 0.14224806201550388,
+          "robustness": -17.917054263565895,
+          "tournament_win_rate": 0.3333333333333333,
+          "match_top2_rate": 0.627906976744186,
+          "match_samples": 258,
+          "composites": {
+            "balanced_50_30_20": 16.562713178294572,
+            "upside_60_30_10": 21.530155038759688,
+            "robust_40_20_40": 8.38108527131783
+          }
+        },
+        {
+          "tag": "regime_switch_v2",
+          "samples": 2290,
+          "expected_pnl": 28.207423580786028,
+          "expected_match_pnl": 282.07423580786025,
+          "first_place_rate": 0.14148471615720523,
+          "robustness": -31.139737991266372,
+          "tournament_win_rate": 0.2445414847161572,
+          "match_top2_rate": 0.5458515283842795,
+          "match_samples": 229,
+          "composites": {
+            "balanced_50_30_20": 12.120305676855898,
+            "upside_60_30_10": 18.055021834061133,
+            "robust_40_20_40": 1.656768558951967
+          }
+        },
+        {
+          "tag": "regime_switch_robust",
+          "samples": 2390,
+          "expected_pnl": 20.938912133891215,
+          "expected_match_pnl": 209.38912133891213,
+          "first_place_rate": 0.1297071129707113,
+          "robustness": -43.810041841004185,
+          "tournament_win_rate": 0.24686192468619247,
+          "match_top2_rate": 0.5271966527196653,
+          "match_samples": 239,
+          "composites": {
+            "balanced_50_30_20": 5.598661087866109,
+            "upside_60_30_10": 12.073556485355649,
+            "robust_40_20_40": -6.55430962343096
+          }
+        },
+        {
+          "tag": "regime_switch",
+          "samples": 2320,
+          "expected_pnl": 17.401724137931033,
+          "expected_match_pnl": 174.01724137931035,
+          "first_place_rate": 0.14353448275862069,
+          "robustness": -56.22543103448276,
+          "tournament_win_rate": 0.21551724137931033,
+          "match_top2_rate": 0.4224137931034483,
+          "match_samples": 232,
+          "composites": {
+            "balanced_50_30_20": 1.761810344827584,
+            "upside_60_30_10": 9.124525862068964,
+            "robust_40_20_40": -12.658793103448277
+          }
+        },
+        {
+          "tag": "market_maker",
+          "samples": 2480,
+          "expected_pnl": 15.116129032258064,
+          "expected_match_pnl": 151.16129032258064,
+          "first_place_rate": 0.09717741935483871,
+          "robustness": -45.23064516129032,
+          "tournament_win_rate": 0.2056451612903226,
+          "match_top2_rate": 0.4475806451612903,
+          "match_samples": 248,
+          "composites": {
+            "balanced_50_30_20": 1.4272580645161295,
+            "upside_60_30_10": 7.461935483870968,
+            "robust_40_20_40": -10.102258064516127
+          }
+        },
+        {
+          "tag": "conservative_ultra",
+          "samples": 2720,
+          "expected_pnl": 12.510294117647058,
+          "expected_match_pnl": 125.1029411764706,
+          "first_place_rate": 0.13014705882352942,
+          "robustness": -60.35367647058823,
+          "tournament_win_rate": 0.20220588235294118,
+          "match_top2_rate": 0.4227941176470588,
+          "match_samples": 272,
+          "composites": {
+            "balanced_50_30_20": -1.9111764705882344,
+            "upside_60_30_10": 5.375220588235294,
+            "robust_40_20_40": -16.53441176470588
+          }
+        },
+        {
+          "tag": "pot_fraction",
+          "samples": 2620,
+          "expected_pnl": -22.335114503816794,
+          "expected_match_pnl": -223.35114503816794,
+          "first_place_rate": 0.4312977099236641,
+          "robustness": -222.33511450381678,
+          "tournament_win_rate": 0.07633587786259542,
+          "match_top2_rate": 0.1717557251908397,
+          "match_samples": 262,
+          "composites": {
+            "balanced_50_30_20": -42.69564885496183,
+            "upside_60_30_10": -22.69564885496183,
+            "robust_40_20_40": -89.24213740458016
+          }
+        },
+        {
+          "tag": "random",
+          "samples": 2550,
+          "expected_pnl": -44.20823529411765,
+          "expected_match_pnl": -442.08235294117645,
+          "first_place_rate": 0.35294117647058826,
+          "robustness": -238.77882352941177,
+          "tournament_win_rate": 0.11764705882352941,
+          "match_top2_rate": 0.17647058823529413,
+          "match_samples": 255,
+          "composites": {
+            "balanced_50_30_20": -59.27164705882353,
+            "upside_60_30_10": -39.81458823529412,
+            "robust_40_20_40": -106.13600000000001
+          }
+        },
+        {
+          "tag": "bully",
+          "samples": 2530,
+          "expected_pnl": -93.71383399209486,
+          "expected_match_pnl": -937.1383399209486,
+          "first_place_rate": 0.25612648221343876,
+          "robustness": -293.71383399209486,
+          "tournament_win_rate": 0.003952569169960474,
+          "match_top2_rate": 0.039525691699604744,
+          "match_samples": 253,
+          "composites": {
+            "balanced_50_30_20": -97.91588932806324,
+            "upside_60_30_10": -77.91588932806324,
+            "robust_40_20_40": -149.84853754940713
+          }
+        }
+      ]
+    },
+    {
+      "objective": "tournament_win",
+      "horizon": 10,
+      "correlation": {
+        "mode": "respect",
+        "strength": 0.35,
+        "pairs": [
+          [
+            1,
+            2
+          ],
+          [
+            3,
+            4
+          ]
+        ]
+      },
+      "seed": 9911,
+      "leaderboard": [
+        {
+          "tag": "market_maker_v2",
+          "samples": 2370,
+          "expected_pnl": 35.22784810126582,
+          "expected_match_pnl": 352.27848101265823,
+          "first_place_rate": 0.11012658227848102,
+          "robustness": -9.162447257383967,
+          "tournament_win_rate": 0.3670886075949367,
+          "match_top2_rate": 0.6329113924050633,
+          "match_samples": 237,
+          "composites": {
+            "balanced_50_30_20": 19.08523206751055,
+            "upside_60_30_10": 23.524261603375525,
+            "robust_40_20_40": 12.628691983122364
+          }
+        },
+        {
+          "tag": "regime_switch_robust",
+          "samples": 2400,
+          "expected_pnl": 25.1725,
+          "expected_match_pnl": 251.725,
+          "first_place_rate": 0.12625,
+          "robustness": -32.1775,
+          "tournament_win_rate": 0.26666666666666666,
+          "match_top2_rate": 0.5583333333333333,
+          "match_samples": 240,
+          "composites": {
+            "balanced_50_30_20": 9.93825,
+            "upside_60_30_10": 15.673249999999998,
+            "robust_40_20_40": -0.277000000000001
+          }
+        },
+        {
+          "tag": "market_maker_tight",
+          "samples": 2470,
+          "expected_pnl": 21.1,
+          "expected_match_pnl": 211.0,
+          "first_place_rate": 0.08785425101214575,
+          "robustness": -29.612550607287446,
+          "tournament_win_rate": 0.22267206477732793,
+          "match_top2_rate": 0.5222672064777328,
+          "match_samples": 247,
+          "composites": {
+            "balanced_50_30_20": 7.263117408906884,
+            "upside_60_30_10": 12.334372469635628,
+            "robust_40_20_40": -1.6479352226720625
+          }
+        },
+        {
+          "tag": "regime_switch_v2",
+          "samples": 2600,
+          "expected_pnl": 18.553076923076922,
+          "expected_match_pnl": 185.53076923076924,
+          "first_place_rate": 0.10730769230769231,
+          "robustness": -43.081538461538464,
+          "tournament_win_rate": 0.21153846153846154,
+          "match_top2_rate": 0.49230769230769234,
+          "match_samples": 260,
+          "composites": {
+            "balanced_50_30_20": 3.8794615384615376,
+            "upside_60_30_10": 10.042923076923076,
+            "robust_40_20_40": -7.665230769230771
+          }
+        },
+        {
+          "tag": "market_maker",
+          "samples": 2580,
+          "expected_pnl": 15.77751937984496,
+          "expected_match_pnl": 157.7751937984496,
+          "first_place_rate": 0.10542635658914729,
+          "robustness": -49.01511627906977,
+          "tournament_win_rate": 0.24806201550387597,
+          "match_top2_rate": 0.4496124031007752,
+          "match_samples": 258,
+          "composites": {
+            "balanced_50_30_20": 1.2485271317829447,
+            "upside_60_30_10": 7.727790697674418,
+            "robust_40_20_40": -11.186511627906977
+          }
+        },
+        {
+          "tag": "regime_switch",
+          "samples": 2360,
+          "expected_pnl": 12.655932203389831,
+          "expected_match_pnl": 126.55932203389831,
+          "first_place_rate": 0.14915254237288136,
+          "robustness": -68.33771186440677,
+          "tournament_win_rate": 0.2457627118644068,
+          "match_top2_rate": 0.4406779661016949,
+          "match_samples": 236,
+          "composites": {
+            "balanced_50_30_20": -2.8649999999999984,
+            "upside_60_30_10": 5.234364406779663,
+            "robust_40_20_40": -19.28966101694915
+          }
+        },
+        {
+          "tag": "conservative_ultra",
+          "samples": 2630,
+          "expected_pnl": 7.4543726235741445,
+          "expected_match_pnl": 74.54372623574145,
+          "first_place_rate": 0.11216730038022814,
+          "robustness": -67.67110266159696,
+          "tournament_win_rate": 0.17870722433460076,
+          "match_top2_rate": 0.39923954372623577,
+          "match_samples": 263,
+          "composites": {
+            "balanced_50_30_20": -6.442015209125477,
+            "upside_60_30_10": 1.0705323193916332,
+            "robust_40_20_40": -21.843346007604566
+          }
+        },
+        {
+          "tag": "pot_fraction",
+          "samples": 2580,
+          "expected_pnl": -16.62984496124031,
+          "expected_match_pnl": -166.2984496124031,
+          "first_place_rate": 0.4883720930232558,
+          "robustness": -216.6298449612403,
+          "tournament_win_rate": 0.12403100775193798,
+          "match_top2_rate": 0.2558139534883721,
+          "match_samples": 258,
+          "composites": {
+            "balanced_50_30_20": -36.98972868217055,
+            "upside_60_30_10": -16.989728682170544,
+            "robust_40_20_40": -83.53643410852713
+          }
+        },
+        {
+          "tag": "random",
+          "samples": 2420,
+          "expected_pnl": -43.88719008264463,
+          "expected_match_pnl": -438.8719008264463,
+          "first_place_rate": 0.3632231404958678,
+          "robustness": -236.82314049586776,
+          "tournament_win_rate": 0.10743801652892562,
+          "match_top2_rate": 0.1859504132231405,
+          "match_samples": 242,
+          "composites": {
+            "balanced_50_30_20": -58.41152892561984,
+            "upside_60_30_10": -39.11793388429752,
+            "robust_40_20_40": -105.0196694214876
+          }
+        },
+        {
+          "tag": "bully",
+          "samples": 2590,
+          "expected_pnl": -71.55444015444016,
+          "expected_match_pnl": -715.5444015444016,
+          "first_place_rate": 0.34054054054054056,
+          "robustness": -271.55444015444016,
+          "tournament_win_rate": 0.04633204633204633,
+          "match_top2_rate": 0.0888030888030888,
+          "match_samples": 259,
+          "composites": {
+            "balanced_50_30_20": -79.87189189189189,
+            "upside_60_30_10": -59.87189189189189,
+            "robust_40_20_40": -130.4327413127413
+          }
+        }
+      ]
+    },
+    {
+      "objective": "tournament_win",
+      "horizon": 10,
+      "correlation": {
+        "mode": "respect",
+        "strength": 0.35,
+        "pairs": [
+          [
+            1,
+            2
+          ],
+          [
+            3,
+            4
+          ]
+        ]
+      },
+      "seed": 9922,
+      "leaderboard": [
+        {
+          "tag": "market_maker_v2",
+          "samples": 2480,
+          "expected_pnl": 38.78790322580645,
+          "expected_match_pnl": 387.8790322580645,
+          "first_place_rate": 0.14112903225806453,
+          "robustness": -4.4883064516129,
+          "tournament_win_rate": 0.39314516129032256,
+          "match_top2_rate": 0.6895161290322581,
+          "match_samples": 248,
+          "composites": {
+            "balanced_50_30_20": 22.73016129032258,
+            "upside_60_30_10": 27.057782258064517,
+            "robust_40_20_40": 16.542419354838714
+          }
+        },
+        {
+          "tag": "market_maker_tight",
+          "samples": 2490,
+          "expected_pnl": 25.469076305220884,
+          "expected_match_pnl": 254.69076305220884,
+          "first_place_rate": 0.11365461847389559,
+          "robustness": -24.753815261044178,
+          "tournament_win_rate": 0.26907630522088355,
+          "match_top2_rate": 0.5622489959839357,
+          "match_samples": 249,
+          "composites": {
+            "balanced_50_30_20": 11.193413654618475,
+            "upside_60_30_10": 16.21570281124498,
+            "robust_40_20_40": 2.559196787148595
+          }
+        },
+        {
+          "tag": "regime_switch_robust",
+          "samples": 2570,
+          "expected_pnl": 24.199221789883268,
+          "expected_match_pnl": 241.99221789883268,
+          "first_place_rate": 0.12101167315175097,
+          "robustness": -37.06147859922179,
+          "tournament_win_rate": 0.32684824902723736,
+          "match_top2_rate": 0.5214007782101168,
+          "match_samples": 257,
+          "composites": {
+            "balanced_50_30_20": 8.317665369649804,
+            "upside_60_30_10": 14.443735408560311,
+            "robust_40_20_40": -2.7246692607003897
+          }
+        },
+        {
+          "tag": "regime_switch_v2",
+          "samples": 2410,
+          "expected_pnl": 20.843153526970955,
+          "expected_match_pnl": 208.43153526970954,
+          "first_place_rate": 0.12614107883817427,
+          "robustness": -40.28755186721992,
+          "tournament_win_rate": 0.24896265560165975,
+          "match_top2_rate": 0.4605809128630705,
+          "match_samples": 241,
+          "composites": {
+            "balanced_50_30_20": 6.148298755186721,
+            "upside_60_30_10": 12.26136929460581,
+            "robust_40_20_40": -5.2549377593361
+          }
+        },
+        {
+          "tag": "market_maker",
+          "samples": 2270,
+          "expected_pnl": 19.641850220264317,
+          "expected_match_pnl": 196.41850220264317,
+          "first_place_rate": 0.09823788546255506,
+          "robustness": -38.20837004405286,
+          "tournament_win_rate": 0.22687224669603523,
+          "match_top2_rate": 0.4889867841409692,
+          "match_samples": 227,
+          "composites": {
+            "balanced_50_30_20": 5.126387665198238,
+            "upside_60_30_10": 10.911409691629956,
+            "robust_40_20_40": -5.461850220264317
+          }
+        },
+        {
+          "tag": "regime_switch",
+          "samples": 2270,
+          "expected_pnl": 17.314096916299558,
+          "expected_match_pnl": 173.1409691629956,
+          "first_place_rate": 0.14317180616740088,
+          "robustness": -58.12863436123348,
+          "tournament_win_rate": 0.19383259911894274,
+          "match_top2_rate": 0.5198237885462555,
+          "match_samples": 227,
+          "composites": {
+            "balanced_50_30_20": 1.326475770925109,
+            "upside_60_30_10": 8.870748898678414,
+            "robust_40_20_40": -13.462378854625552
+          }
+        },
+        {
+          "tag": "conservative_ultra",
+          "samples": 2570,
+          "expected_pnl": 1.5712062256809338,
+          "expected_match_pnl": 15.712062256809338,
+          "first_place_rate": 0.08754863813229571,
+          "robustness": -73.08443579766536,
+          "tournament_win_rate": 0.1245136186770428,
+          "match_top2_rate": 0.33073929961089493,
+          "match_samples": 257,
+          "composites": {
+            "balanced_50_30_20": -11.204824902723736,
+            "upside_60_30_10": -3.739260700389105,
+            "robust_40_20_40": -26.85431906614786
+          }
+        },
+        {
+          "tag": "pot_fraction",
+          "samples": 2620,
+          "expected_pnl": -15.208015267175572,
+          "expected_match_pnl": -152.0801526717557,
+          "first_place_rate": 0.45229007633587787,
+          "robustness": -214.40458015267174,
+          "tournament_win_rate": 0.10687022900763359,
+          "match_top2_rate": 0.21755725190839695,
+          "match_samples": 262,
+          "composites": {
+            "balanced_50_30_20": -36.916221374045804,
+            "upside_60_30_10": -16.996564885496184,
+            "robust_40_20_40": -82.79923664122137
+          }
+        },
+        {
+          "tag": "random",
+          "samples": 2680,
+          "expected_pnl": -46.752985074626864,
+          "expected_match_pnl": -467.52985074626866,
+          "first_place_rate": 0.3485074626865672,
+          "robustness": -239.29962686567166,
+          "tournament_win_rate": 0.10820895522388059,
+          "match_top2_rate": 0.1865671641791045,
+          "match_samples": 268,
+          "composites": {
+            "balanced_50_30_20": -60.781194029850745,
+            "upside_60_30_10": -41.526529850746265,
+            "robust_40_20_40": -107.45089552238807
+          }
+        },
+        {
+          "tag": "bully",
+          "samples": 2640,
+          "expected_pnl": -73.79583333333333,
+          "expected_match_pnl": -737.9583333333334,
+          "first_place_rate": 0.32575757575757575,
+          "robustness": -273.79583333333335,
+          "tournament_win_rate": 0.026515151515151516,
+          "match_top2_rate": 0.0946969696969697,
+          "match_samples": 264,
+          "composites": {
+            "balanced_50_30_20": -81.88435606060607,
+            "upside_60_30_10": -61.88435606060606,
+            "robust_40_20_40": -132.52151515151516
+          }
+        }
+      ]
+    },
+    {
+      "objective": "tournament_win",
+      "horizon": 10,
+      "correlation": {
+        "mode": "respect",
+        "strength": 0.35,
+        "pairs": [
+          [
+            1,
+            2
+          ],
+          [
+            3,
+            4
+          ]
+        ]
+      },
+      "seed": 9933,
+      "leaderboard": [
+        {
+          "tag": "market_maker_v2",
+          "samples": 2740,
+          "expected_pnl": 29.427737226277372,
+          "expected_match_pnl": 294.2773722627737,
+          "first_place_rate": 0.11751824817518249,
+          "robustness": -18.340510948905113,
+          "tournament_win_rate": 0.3029197080291971,
+          "match_top2_rate": 0.6313868613138686,
+          "match_samples": 274,
+          "composites": {
+            "balanced_50_30_20": 14.57131386861314,
+            "upside_60_30_10": 19.348138686131385,
+            "robust_40_20_40": 6.785255474452554
+          }
+        },
+        {
+          "tag": "market_maker_tight",
+          "samples": 2390,
+          "expected_pnl": 28.02008368200837,
+          "expected_match_pnl": 280.2008368200837,
+          "first_place_rate": 0.11338912133891213,
+          "robustness": -21.458995815899577,
+          "tournament_win_rate": 0.28451882845188287,
+          "match_top2_rate": 0.5523012552301255,
+          "match_samples": 239,
+          "composites": {
+            "balanced_50_30_20": 13.119916317991631,
+            "upside_60_30_10": 18.067824267782427,
+            "robust_40_20_40": 4.89221757322176
+          }
+        },
+        {
+          "tag": "regime_switch_v2",
+          "samples": 2500,
+          "expected_pnl": 24.84,
+          "expected_match_pnl": 248.4,
+          "first_place_rate": 0.1404,
+          "robustness": -37.144000000000005,
+          "tournament_win_rate": 0.288,
+          "match_top2_rate": 0.524,
+          "match_samples": 250,
+          "composites": {
+            "balanced_50_30_20": 9.203199999999995,
+            "upside_60_30_10": 15.401599999999998,
+            "robust_40_20_40": -2.1136000000000035
+          }
+        },
+        {
+          "tag": "regime_switch_robust",
+          "samples": 2530,
+          "expected_pnl": 22.10790513833992,
+          "expected_match_pnl": 221.07905138339922,
+          "first_place_rate": 0.14466403162055336,
+          "robustness": -43.27351778656127,
+          "tournament_win_rate": 0.23715415019762845,
+          "match_top2_rate": 0.5019762845849802,
+          "match_samples": 253,
+          "composites": {
+            "balanced_50_30_20": 6.739169960474305,
+            "upside_60_30_10": 13.277312252964425,
+            "robust_40_20_40": -5.572964426877473
+          }
+        },
+        {
+          "tag": "market_maker",
+          "samples": 2200,
+          "expected_pnl": 16.76818181818182,
+          "expected_match_pnl": 167.6818181818182,
+          "first_place_rate": 0.11227272727272727,
+          "robustness": -47.39545454545454,
+          "tournament_win_rate": 0.25,
+          "match_top2_rate": 0.4909090909090909,
+          "match_samples": 220,
+          "composites": {
+            "balanced_50_30_20": 2.27318181818182,
+            "upside_60_30_10": 8.689545454545456,
+            "robust_40_20_40": -10.005454545454544
+          }
+        },
+        {
+          "tag": "regime_switch",
+          "samples": 2570,
+          "expected_pnl": 11.491828793774319,
+          "expected_match_pnl": 114.91828793774319,
+          "first_place_rate": 0.13151750972762646,
+          "robustness": -68.64630350194552,
+          "tournament_win_rate": 0.23346303501945526,
+          "match_top2_rate": 0.44357976653696496,
+          "match_samples": 257,
+          "composites": {
+            "balanced_50_30_20": -4.037821011673152,
+            "upside_60_30_10": 3.975992217898833,
+            "robust_40_20_40": -20.23143968871595
+          }
+        },
+        {
+          "tag": "conservative_ultra",
+          "samples": 2570,
+          "expected_pnl": 5.8501945525291825,
+          "expected_match_pnl": 58.50194552529183,
+          "first_place_rate": 0.11245136186770428,
+          "robustness": -68.75875486381322,
+          "tournament_win_rate": 0.1517509727626459,
+          "match_top2_rate": 0.3424124513618677,
+          "match_samples": 257,
+          "composites": {
+            "balanced_50_30_20": -7.453112840466925,
+            "upside_60_30_10": 0.0077821011673151474,
+            "robust_40_20_40": -22.914396887159533
+          }
+        },
+        {
+          "tag": "pot_fraction",
+          "samples": 2520,
+          "expected_pnl": -16.266666666666666,
+          "expected_match_pnl": -162.66666666666666,
+          "first_place_rate": 0.45555555555555555,
+          "robustness": -216.26666666666665,
+          "tournament_win_rate": 0.1388888888888889,
+          "match_top2_rate": 0.25,
+          "match_samples": 252,
+          "composites": {
+            "balanced_50_30_20": -37.72,
+            "upside_60_30_10": -17.72,
+            "robust_40_20_40": -83.90222222222222
+          }
+        },
+        {
+          "tag": "random",
+          "samples": 2440,
+          "expected_pnl": -53.322131147540986,
+          "expected_match_pnl": -533.2213114754098,
+          "first_place_rate": 0.325,
+          "robustness": -247.36106557377047,
+          "tournament_win_rate": 0.06967213114754098,
+          "match_top2_rate": 0.13524590163934427,
+          "match_samples": 244,
+          "composites": {
+            "balanced_50_30_20": -66.3832786885246,
+            "upside_60_30_10": -46.97938524590164,
+            "robust_40_20_40": -113.77327868852458
+          }
+        },
+        {
+          "tag": "bully",
+          "samples": 2540,
+          "expected_pnl": -69.28897637795275,
+          "expected_match_pnl": -692.8897637795276,
+          "first_place_rate": 0.34448818897637795,
+          "robustness": -269.28897637795274,
+          "tournament_win_rate": 0.04330708661417323,
+          "match_top2_rate": 0.1220472440944882,
+          "match_samples": 254,
+          "composites": {
+            "balanced_50_30_20": -78.16763779527558,
+            "upside_60_30_10": -58.16763779527558,
+            "robust_40_20_40": -128.54141732283463
+          }
+        }
+      ]
+    },
+    {
+      "objective": "tournament_win",
+      "horizon": 10,
+      "correlation": {
+        "mode": "respect",
+        "strength": 0.35,
+        "pairs": [
+          [
+            1,
+            2
+          ],
+          [
+            3,
+            4
+          ]
+        ]
+      },
+      "seed": 9944,
+      "leaderboard": [
+        {
+          "tag": "market_maker_v2",
+          "samples": 2520,
+          "expected_pnl": 35.13690476190476,
+          "expected_match_pnl": 351.3690476190476,
+          "first_place_rate": 0.13134920634920635,
+          "robustness": -8.577380952380956,
+          "tournament_win_rate": 0.31746031746031744,
+          "match_top2_rate": 0.6349206349206349,
+          "match_samples": 252,
+          "composites": {
+            "balanced_50_30_20": 19.793452380952377,
+            "upside_60_30_10": 24.16488095238095,
+            "robust_40_20_40": 13.250793650793648
+          }
+        },
+        {
+          "tag": "market_maker_tight",
+          "samples": 2580,
+          "expected_pnl": 30.79341085271318,
+          "expected_match_pnl": 307.9341085271318,
+          "first_place_rate": 0.1375968992248062,
+          "robustness": -19.05348837209302,
+          "tournament_win_rate": 0.29457364341085274,
+          "match_top2_rate": 0.5736434108527132,
+          "match_samples": 258,
+          "composites": {
+            "balanced_50_30_20": 15.713914728682171,
+            "upside_60_30_10": 20.69860465116279,
+            "robust_40_20_40": 7.447906976744188
+          }
+        },
+        {
+          "tag": "regime_switch_v2",
+          "samples": 2290,
+          "expected_pnl": 26.368122270742358,
+          "expected_match_pnl": 263.68122270742356,
+          "first_place_rate": 0.13056768558951964,
+          "robustness": -32.0117903930131,
+          "tournament_win_rate": 0.314410480349345,
+          "match_top2_rate": 0.5807860262008734,
+          "match_samples": 229,
+          "composites": {
+            "balanced_50_30_20": 10.698733624454146,
+            "upside_60_30_10": 16.536724890829696,
+            "robust_40_20_40": 0.3538864628820946
+          }
+        },
+        {
+          "tag": "regime_switch_robust",
+          "samples": 2390,
+          "expected_pnl": 17.022175732217573,
+          "expected_match_pnl": 170.22175732217573,
+          "first_place_rate": 0.1192468619246862,
+          "robustness": -46.94644351464436,
+          "tournament_win_rate": 0.2175732217573222,
+          "match_top2_rate": 0.47280334728033474,
+          "match_samples": 239,
+          "composites": {
+            "balanced_50_30_20": 2.6992050209205,
+            "upside_60_30_10": 9.096066945606694,
+            "robust_40_20_40": -9.58476987447699
+          }
+        },
+        {
+          "tag": "regime_switch",
+          "samples": 2320,
+          "expected_pnl": 16.88362068965517,
+          "expected_match_pnl": 168.83620689655172,
+          "first_place_rate": 0.13620689655172413,
+          "robustness": -60.19827586206897,
+          "tournament_win_rate": 0.23275862068965517,
+          "match_top2_rate": 0.4956896551724138,
+          "match_samples": 232,
+          "composites": {
+            "balanced_50_30_20": 0.4883620689655146,
+            "upside_60_30_10": 8.19655172413793,
+            "robust_40_20_40": -14.601724137931038
+          }
+        },
+        {
+          "tag": "market_maker",
+          "samples": 2480,
+          "expected_pnl": 11.191532258064516,
+          "expected_match_pnl": 111.91532258064517,
+          "first_place_rate": 0.0846774193548387,
+          "robustness": -51.7258064516129,
+          "tournament_win_rate": 0.1814516129032258,
+          "match_top2_rate": 0.42338709677419356,
+          "match_samples": 248,
+          "composites": {
+            "balanced_50_30_20": -2.2090725806451594,
+            "upside_60_30_10": 4.08266129032258,
+            "robust_40_20_40": -14.520161290322578
+          }
+        },
+        {
+          "tag": "conservative_ultra",
+          "samples": 2720,
+          "expected_pnl": 5.1191176470588236,
+          "expected_match_pnl": 51.19117647058823,
+          "first_place_rate": 0.1036764705882353,
+          "robustness": -71.93786764705882,
+          "tournament_win_rate": 0.1801470588235294,
+          "match_top2_rate": 0.34558823529411764,
+          "match_samples": 272,
+          "composites": {
+            "balanced_50_30_20": -8.717720588235295,
+            "upside_60_30_10": -1.01202205882353,
+            "robust_40_20_40": -24.653970588235296
+          }
+        },
+        {
+          "tag": "pot_fraction",
+          "samples": 2620,
+          "expected_pnl": -16.718320610687023,
+          "expected_match_pnl": -167.18320610687022,
+          "first_place_rate": 0.4717557251908397,
+          "robustness": -216.0446564885496,
+          "tournament_win_rate": 0.12595419847328243,
+          "match_top2_rate": 0.24427480916030533,
+          "match_samples": 262,
+          "composites": {
+            "balanced_50_30_20": -37.415419847328245,
+            "upside_60_30_10": -17.482786259541985,
+            "robust_40_20_40": -83.67007633587787
+          }
+        },
+        {
+          "tag": "random",
+          "samples": 2550,
+          "expected_pnl": -46.013333333333335,
+          "expected_match_pnl": -460.1333333333333,
+          "first_place_rate": 0.3423529411764706,
+          "robustness": -238.86235294117648,
+          "tournament_win_rate": 0.10588235294117647,
+          "match_top2_rate": 0.1803921568627451,
+          "match_samples": 255,
+          "composites": {
+            "balanced_50_30_20": -60.508549019607855,
+            "upside_60_30_10": -41.22364705882353,
+            "robust_40_20_40": -107.10321568627452
+          }
+        },
+        {
+          "tag": "bully",
+          "samples": 2530,
+          "expected_pnl": -74.61304347826086,
+          "expected_match_pnl": -746.1304347826087,
+          "first_place_rate": 0.32134387351778654,
+          "robustness": -274.61304347826086,
+          "tournament_win_rate": 0.04743083003952569,
+          "match_top2_rate": 0.08695652173913043,
+          "match_samples": 253,
+          "composites": {
+            "balanced_50_30_20": -82.58881422924901,
+            "upside_60_30_10": -62.58881422924901,
+            "robust_40_20_40": -133.26355731225297
+          }
+        }
+      ]
+    },
+    {
+      "objective": "tournament_win",
+      "horizon": 10,
+      "correlation": {
+        "mode": "herd",
+        "strength": 0.35,
+        "pairs": [
+          [
+            1,
+            2
+          ],
+          [
+            3,
+            4
+          ]
+        ]
+      },
+      "seed": 9911,
+      "leaderboard": [
+        {
+          "tag": "market_maker_v2",
+          "samples": 2370,
+          "expected_pnl": 34.11308016877637,
+          "expected_match_pnl": 341.1308016877637,
+          "first_place_rate": 0.15527426160337554,
+          "robustness": -5.903797468354433,
+          "tournament_win_rate": 0.35443037974683544,
+          "match_top2_rate": 0.6497890295358649,
+          "match_samples": 237,
+          "composites": {
+            "balanced_50_30_20": 20.534008438818564,
+            "upside_60_30_10": 24.535696202531646,
+            "robust_40_20_40": 14.389198312236287
+          }
+        },
+        {
+          "tag": "market_maker_tight",
+          "samples": 2470,
+          "expected_pnl": 24.27813765182186,
+          "expected_match_pnl": 242.78137651821862,
+          "first_place_rate": 0.13157894736842105,
+          "robustness": -24.817004048582998,
+          "tournament_win_rate": 0.3117408906882591,
+          "match_top2_rate": 0.5344129554655871,
+          "match_samples": 247,
+          "composites": {
+            "balanced_50_30_20": 11.123036437246963,
+            "upside_60_30_10": 16.032550607287448,
+            "robust_40_20_40": 2.416032388663968
+          }
+        },
+        {
+          "tag": "regime_switch_v2",
+          "samples": 2600,
+          "expected_pnl": 18.72269230769231,
+          "expected_match_pnl": 187.22692307692307,
+          "first_place_rate": 0.1326923076923077,
+          "robustness": -41.61769230769231,
+          "tournament_win_rate": 0.23461538461538461,
+          "match_top2_rate": 0.47307692307692306,
+          "match_samples": 260,
+          "composites": {
+            "balanced_50_30_20": 5.018576923076925,
+            "upside_60_30_10": 11.052615384615386,
+            "robust_40_20_40": -6.504153846153846
+          }
+        },
+        {
+          "tag": "market_maker",
+          "samples": 2580,
+          "expected_pnl": 18.29108527131783,
+          "expected_match_pnl": 182.9108527131783,
+          "first_place_rate": 0.12093023255813953,
+          "robustness": -35.29612403100775,
+          "tournament_win_rate": 0.20930232558139536,
+          "match_top2_rate": 0.5077519379844961,
+          "match_samples": 258,
+          "composites": {
+            "balanced_50_30_20": 5.71422480620155,
+            "upside_60_30_10": 11.072945736434107,
+            "robust_40_20_40": -4.383410852713178
+          }
+        },
+        {
+          "tag": "regime_switch_robust",
+          "samples": 2400,
+          "expected_pnl": 17.467916666666667,
+          "expected_match_pnl": 174.67916666666667,
+          "first_place_rate": 0.115,
+          "robustness": -40.73,
+          "tournament_win_rate": 0.20416666666666666,
+          "match_top2_rate": 0.4708333333333333,
+          "match_samples": 240,
+          "composites": {
+            "balanced_50_30_20": 4.037958333333334,
+            "upside_60_30_10": 9.85775,
+            "robust_40_20_40": -7.00483333333333
+          }
+        },
+        {
+          "tag": "regime_switch",
+          "samples": 2360,
+          "expected_pnl": 12.849576271186441,
+          "expected_match_pnl": 128.49576271186442,
+          "first_place_rate": 0.13644067796610168,
+          "robustness": -60.59745762711864,
+          "tournament_win_rate": 0.211864406779661,
+          "match_top2_rate": 0.4449152542372881,
+          "match_samples": 236,
+          "composites": {
+            "balanced_50_30_20": -1.6014830508474578,
+            "upside_60_30_10": 5.74322033898305,
+            "robust_40_20_40": -16.370338983050843
+          }
+        },
+        {
+          "tag": "conservative_ultra",
+          "samples": 2630,
+          "expected_pnl": 2.67680608365019,
+          "expected_match_pnl": 26.768060836501903,
+          "first_place_rate": 0.09391634980988593,
+          "robustness": -68.08174904942966,
+          "tournament_win_rate": 0.11026615969581749,
+          "match_top2_rate": 0.3193916349809886,
+          "match_samples": 263,
+          "composites": {
+            "balanced_50_30_20": -9.46045627376426,
+            "upside_60_30_10": -2.3846007604562747,
+            "robust_40_20_40": -24.28365019011407
+          }
+        },
+        {
+          "tag": "pot_fraction",
+          "samples": 2580,
+          "expected_pnl": -16.864728682170544,
+          "expected_match_pnl": -168.64728682170542,
+          "first_place_rate": 0.4310077519379845,
+          "robustness": -215.59728682170544,
+          "tournament_win_rate": 0.14728682170542637,
+          "match_top2_rate": 0.2713178294573643,
+          "match_samples": 258,
+          "composites": {
+            "balanced_50_30_20": -38.62158914728683,
+            "upside_60_30_10": -18.748333333333335,
+            "robust_40_20_40": -84.36465116279071
+          }
+        },
+        {
+          "tag": "random",
+          "samples": 2420,
+          "expected_pnl": -37.09793388429752,
+          "expected_match_pnl": -370.9793388429752,
+          "first_place_rate": 0.36198347107438017,
+          "robustness": -227.9801652892562,
+          "tournament_win_rate": 0.17768595041322313,
+          "match_top2_rate": 0.2603305785123967,
+          "match_samples": 242,
+          "composites": {
+            "balanced_50_30_20": -53.285495867768596,
+            "upside_60_30_10": -34.197272727272725,
+            "robust_40_20_40": -98.79157024793389
+          }
+        },
+        {
+          "tag": "bully",
+          "samples": 2590,
+          "expected_pnl": -70.53474903474904,
+          "expected_match_pnl": -705.3474903474903,
+          "first_place_rate": 0.31544401544401546,
+          "robustness": -270.47876447876445,
+          "tournament_win_rate": 0.05791505791505792,
+          "match_top2_rate": 0.10038610038610038,
+          "match_samples": 259,
+          "composites": {
+            "balanced_50_30_20": -79.89980694980696,
+            "upside_60_30_10": -59.9054054054054,
+            "robust_40_20_40": -130.0965250965251
+          }
+        }
+      ]
+    },
+    {
+      "objective": "tournament_win",
+      "horizon": 10,
+      "correlation": {
+        "mode": "herd",
+        "strength": 0.35,
+        "pairs": [
+          [
+            1,
+            2
+          ],
+          [
+            3,
+            4
+          ]
+        ]
+      },
+      "seed": 9922,
+      "leaderboard": [
+        {
+          "tag": "market_maker_v2",
+          "samples": 2480,
+          "expected_pnl": 39.081854838709674,
+          "expected_match_pnl": 390.81854838709677,
+          "first_place_rate": 0.14879032258064517,
+          "robustness": 0.698790322580642,
+          "tournament_win_rate": 0.375,
+          "match_top2_rate": 0.6733870967741935,
+          "match_samples": 248,
+          "composites": {
+            "balanced_50_30_20": 24.144395161290323,
+            "upside_60_30_10": 27.982701612903224,
+            "robust_40_20_40": 18.88806451612903
+          }
+        },
+        {
+          "tag": "market_maker_tight",
+          "samples": 2490,
+          "expected_pnl": 27.673493975903614,
+          "expected_match_pnl": 276.73493975903614,
+          "first_place_rate": 0.12208835341365462,
+          "robustness": -18.499196787148595,
+          "tournament_win_rate": 0.3132530120481928,
+          "match_top2_rate": 0.5943775100401606,
+          "match_samples": 249,
+          "composites": {
+            "balanced_50_30_20": 13.799558232931728,
+            "upside_60_30_10": 18.416827309236947,
+            "robust_40_20_40": 6.111485943775102
+          }
+        },
+        {
+          "tag": "regime_switch_v2",
+          "samples": 2410,
+          "expected_pnl": 22.4701244813278,
+          "expected_match_pnl": 224.701244813278,
+          "first_place_rate": 0.13153526970954357,
+          "robustness": -33.70622406639004,
+          "tournament_win_rate": 0.23236514522821577,
+          "match_top2_rate": 0.47717842323651455,
+          "match_samples": 241,
+          "composites": {
+            "balanced_50_30_20": 8.4398755186722,
+            "upside_60_30_10": 14.057510373443986,
+            "robust_40_20_40": -1.863734439834026
+          }
+        },
+        {
+          "tag": "market_maker",
+          "samples": 2270,
+          "expected_pnl": 19.61894273127753,
+          "expected_match_pnl": 196.18942731277534,
+          "first_place_rate": 0.10748898678414097,
+          "robustness": -38.39867841409692,
+          "tournament_win_rate": 0.21585903083700442,
+          "match_top2_rate": 0.45374449339207046,
+          "match_samples": 227,
+          "composites": {
+            "balanced_50_30_20": 5.35440528634361,
+            "upside_60_30_10": 11.156167400881055,
+            "robust_40_20_40": -5.362114537444935
+          }
+        },
+        {
+          "tag": "regime_switch_robust",
+          "samples": 2570,
+          "expected_pnl": 19.434630350194553,
+          "expected_match_pnl": 194.34630350194553,
+          "first_place_rate": 0.10311284046692606,
+          "robustness": -36.39027237354085,
+          "tournament_win_rate": 0.20233463035019456,
+          "match_top2_rate": 0.4785992217898833,
+          "match_samples": 257,
+          "composites": {
+            "balanced_50_30_20": 5.532645914396888,
+            "upside_60_30_10": 11.115136186770428,
+            "robust_40_20_40": -4.719999999999999
+          }
+        },
+        {
+          "tag": "regime_switch",
+          "samples": 2270,
+          "expected_pnl": 12.587665198237886,
+          "expected_match_pnl": 125.87665198237886,
+          "first_place_rate": 0.12951541850220263,
+          "robustness": -60.26916299559471,
+          "tournament_win_rate": 0.19383259911894274,
+          "match_top2_rate": 0.4052863436123348,
+          "match_samples": 227,
+          "composites": {
+            "balanced_50_30_20": -1.874537444933921,
+            "upside_60_30_10": 5.411145374449339,
+            "robust_40_20_40": -16.482290748898677
+          }
+        },
+        {
+          "tag": "conservative_ultra",
+          "samples": 2570,
+          "expected_pnl": 5.789105058365759,
+          "expected_match_pnl": 57.89105058365759,
+          "first_place_rate": 0.11050583657587548,
+          "robustness": -65.98910505836575,
+          "tournament_win_rate": 0.15953307392996108,
+          "match_top2_rate": 0.3657587548638132,
+          "match_samples": 257,
+          "composites": {
+            "balanced_50_30_20": -6.9880933852140075,
+            "upside_60_30_10": 0.18972762645914454,
+            "robust_40_20_40": -21.86988326848249
+          }
+        },
+        {
+          "tag": "pot_fraction",
+          "samples": 2620,
+          "expected_pnl": -16.826335877862597,
+          "expected_match_pnl": -168.26335877862596,
+          "first_place_rate": 0.43244274809160305,
+          "robustness": -216.06870229007632,
+          "tournament_win_rate": 0.14122137404580154,
+          "match_top2_rate": 0.2862595419847328,
+          "match_samples": 262,
+          "composites": {
+            "balanced_50_30_20": -38.653625954198475,
+            "upside_60_30_10": -18.7293893129771,
+            "robust_40_20_40": -84.50916030534351
+          }
+        },
+        {
+          "tag": "random",
+          "samples": 2680,
+          "expected_pnl": -50.63694029850746,
+          "expected_match_pnl": -506.3694029850746,
+          "first_place_rate": 0.3335820895522388,
+          "robustness": -243.6294776119403,
+          "tournament_win_rate": 0.12686567164179105,
+          "match_top2_rate": 0.20522388059701493,
+          "match_samples": 268,
+          "composites": {
+            "balanced_50_30_20": -64.03690298507463,
+            "upside_60_30_10": -44.73764925373135,
+            "robust_40_20_40": -111.03492537313434
+          }
+        },
+        {
+          "tag": "bully",
+          "samples": 2640,
+          "expected_pnl": -67.4715909090909,
+          "expected_match_pnl": -674.7159090909091,
+          "first_place_rate": 0.3393939393939394,
+          "robustness": -267.46022727272725,
+          "tournament_win_rate": 0.06060606060606061,
+          "match_top2_rate": 0.10606060606060606,
+          "match_samples": 264,
+          "composites": {
+            "balanced_50_30_20": -77.04602272727273,
+            "upside_60_30_10": -57.04715909090909,
+            "robust_40_20_40": -127.18484848484849
+          }
+        }
+      ]
+    },
+    {
+      "objective": "tournament_win",
+      "horizon": 10,
+      "correlation": {
+        "mode": "herd",
+        "strength": 0.35,
+        "pairs": [
+          [
+            1,
+            2
+          ],
+          [
+            3,
+            4
+          ]
+        ]
+      },
+      "seed": 9933,
+      "leaderboard": [
+        {
+          "tag": "market_maker_v2",
+          "samples": 2740,
+          "expected_pnl": 29.92919708029197,
+          "expected_match_pnl": 299.2919708029197,
+          "first_place_rate": 0.13905109489051096,
+          "robustness": -15.46131386861314,
+          "tournament_win_rate": 0.3686131386861314,
+          "match_top2_rate": 0.6240875912408759,
+          "match_samples": 274,
+          "composites": {
+            "balanced_50_30_20": 16.043868613138688,
+            "upside_60_30_10": 20.58291970802919,
+            "robust_40_20_40": 8.568175182481752
+          }
+        },
+        {
+          "tag": "market_maker_tight",
+          "samples": 2390,
+          "expected_pnl": 25.464435146443513,
+          "expected_match_pnl": 254.64435146443515,
+          "first_place_rate": 0.11841004184100419,
+          "robustness": -21.763598326359833,
+          "tournament_win_rate": 0.2803347280334728,
+          "match_top2_rate": 0.5523012552301255,
+          "match_samples": 239,
+          "composites": {
+            "balanced_50_30_20": 11.931799163179917,
+            "upside_60_30_10": 16.654602510460247,
+            "robust_40_20_40": 3.848535564853556
+          }
+        },
+        {
+          "tag": "regime_switch_v2",
+          "samples": 2500,
+          "expected_pnl": 22.3768,
+          "expected_match_pnl": 223.768,
+          "first_place_rate": 0.1384,
+          "robustness": -36.437200000000004,
+          "tournament_win_rate": 0.256,
+          "match_top2_rate": 0.512,
+          "match_samples": 250,
+          "composites": {
+            "balanced_50_30_20": 8.052959999999999,
+            "upside_60_30_10": 13.93436,
+            "robust_40_20_40": -2.856160000000001
+          }
+        },
+        {
+          "tag": "regime_switch_robust",
+          "samples": 2530,
+          "expected_pnl": 21.199604743083004,
+          "expected_match_pnl": 211.99604743083003,
+          "first_place_rate": 0.13794466403162056,
+          "robustness": -39.3201581027668,
+          "tournament_win_rate": 0.22924901185770752,
+          "match_top2_rate": 0.47035573122529645,
+          "match_samples": 253,
+          "composites": {
+            "balanced_50_30_20": 6.874110671936758,
+            "upside_60_30_10": 12.926086956521738,
+            "robust_40_20_40": -4.489328063241105
+          }
+        },
+        {
+          "tag": "market_maker",
+          "samples": 2200,
+          "expected_pnl": 17.44818181818182,
+          "expected_match_pnl": 174.48181818181817,
+          "first_place_rate": 0.12318181818181818,
+          "robustness": -41.31999999999999,
+          "tournament_win_rate": 0.21818181818181817,
+          "match_top2_rate": 0.4409090909090909,
+          "match_samples": 220,
+          "composites": {
+            "balanced_50_30_20": 4.1555454545454555,
+            "upside_60_30_10": 10.032363636363637,
+            "robust_40_20_40": -7.085090909090907
+          }
+        },
+        {
+          "tag": "regime_switch",
+          "samples": 2570,
+          "expected_pnl": 13.841634241245137,
+          "expected_match_pnl": 138.41634241245137,
+          "first_place_rate": 0.14124513618677043,
+          "robustness": -54.20700389105058,
+          "tournament_win_rate": 0.2178988326848249,
+          "match_top2_rate": 0.4474708171206226,
+          "match_samples": 257,
+          "composites": {
+            "balanced_50_30_20": 0.3167704280155643,
+            "upside_60_30_10": 7.121634241245135,
+            "robust_40_20_40": -13.32124513618677
+          }
+        },
+        {
+          "tag": "conservative_ultra",
+          "samples": 2570,
+          "expected_pnl": 4.6035019455252915,
+          "expected_match_pnl": 46.03501945525292,
+          "first_place_rate": 0.10972762645914397,
+          "robustness": -72.16303501945525,
+          "tournament_win_rate": 0.11284046692607004,
+          "match_top2_rate": 0.36186770428015563,
+          "match_samples": 257,
+          "composites": {
+            "balanced_50_30_20": -8.839027237354086,
+            "upside_60_30_10": -1.1623735408560316,
+            "robust_40_20_40": -24.829260700389103
+          }
+        },
+        {
+          "tag": "pot_fraction",
+          "samples": 2520,
+          "expected_pnl": -15.878571428571428,
+          "expected_match_pnl": -158.78571428571428,
+          "first_place_rate": 0.4222222222222222,
+          "robustness": -214.7654761904762,
+          "tournament_win_rate": 0.11904761904761904,
+          "match_top2_rate": 0.2619047619047619,
+          "match_samples": 252,
+          "composites": {
+            "balanced_50_30_20": -38.2257142857143,
+            "upside_60_30_10": -18.337023809523814,
+            "robust_40_20_40": -83.81317460317462
+          }
+        },
+        {
+          "tag": "random",
+          "samples": 2440,
+          "expected_pnl": -47.84795081967213,
+          "expected_match_pnl": -478.4795081967213,
+          "first_place_rate": 0.35040983606557374,
+          "robustness": -239.65532786885245,
+          "tournament_win_rate": 0.13524590163934427,
+          "match_top2_rate": 0.20491803278688525,
+          "match_samples": 244,
+          "composites": {
+            "balanced_50_30_20": -61.34274590163935,
+            "upside_60_30_10": -42.16200819672131,
+            "robust_40_20_40": -107.99311475409837
+          }
+        },
+        {
+          "tag": "bully",
+          "samples": 2540,
+          "expected_pnl": -71.44488188976378,
+          "expected_match_pnl": -714.4488188976378,
+          "first_place_rate": 0.3173228346456693,
+          "robustness": -271.4448818897638,
+          "tournament_win_rate": 0.05511811023622047,
+          "match_top2_rate": 0.1141732283464567,
+          "match_samples": 254,
+          "composites": {
+            "balanced_50_30_20": -80.49173228346457,
+            "upside_60_30_10": -60.49173228346457,
+            "robust_40_20_40": -130.80944881889766
+          }
+        }
+      ]
+    },
+    {
+      "objective": "tournament_win",
+      "horizon": 10,
+      "correlation": {
+        "mode": "herd",
+        "strength": 0.35,
+        "pairs": [
+          [
+            1,
+            2
+          ],
+          [
+            3,
+            4
+          ]
+        ]
+      },
+      "seed": 9944,
+      "leaderboard": [
+        {
+          "tag": "market_maker_v2",
+          "samples": 2520,
+          "expected_pnl": 33.513888888888886,
+          "expected_match_pnl": 335.1388888888889,
+          "first_place_rate": 0.13452380952380952,
+          "robustness": -9.224206349206355,
+          "tournament_win_rate": 0.3055555555555556,
+          "match_top2_rate": 0.6507936507936508,
+          "match_samples": 252,
+          "composites": {
+            "balanced_50_30_20": 18.947817460317456,
+            "upside_60_30_10": 23.22162698412698,
+            "robust_40_20_40": 12.406349206349203
+          }
+        },
+        {
+          "tag": "market_maker_tight",
+          "samples": 2580,
+          "expected_pnl": 30.68720930232558,
+          "expected_match_pnl": 306.8720930232558,
+          "first_place_rate": 0.15426356589147286,
+          "robustness": -14.198449612403099,
+          "tournament_win_rate": 0.3178294573643411,
+          "match_top2_rate": 0.6162790697674418,
+          "match_samples": 258,
+          "composites": {
+            "balanced_50_30_20": 17.131821705426358,
+            "upside_60_30_10": 21.62038759689922,
+            "robust_40_20_40": 9.680775193798452
+          }
+        },
+        {
+          "tag": "regime_switch_v2",
+          "samples": 2290,
+          "expected_pnl": 24.27467248908297,
+          "expected_match_pnl": 242.74672489082968,
+          "first_place_rate": 0.13275109170305677,
+          "robustness": -30.500436681222705,
+          "tournament_win_rate": 0.2445414847161572,
+          "match_top2_rate": 0.5065502183406113,
+          "match_samples": 229,
+          "composites": {
+            "balanced_50_30_20": 10.019781659388645,
+            "upside_60_30_10": 15.497292576419213,
+            "robust_40_20_40": 0.16471615720524113
+          }
+        },
+        {
+          "tag": "regime_switch_robust",
+          "samples": 2390,
+          "expected_pnl": 18.251882845188284,
+          "expected_match_pnl": 182.51882845188285,
+          "first_place_rate": 0.11631799163179916,
+          "robustness": -39.17071129707113,
+          "tournament_win_rate": 0.2175732217573222,
+          "match_top2_rate": 0.47280334728033474,
+          "match_samples": 239,
+          "composites": {
+            "balanced_50_30_20": 4.781338912133891,
+            "upside_60_30_10": 10.523598326359833,
+            "robust_40_20_40": -6.041171548117154
+          }
+        },
+        {
+          "tag": "regime_switch",
+          "samples": 2320,
+          "expected_pnl": 14.01551724137931,
+          "expected_match_pnl": 140.1551724137931,
+          "first_place_rate": 0.12887931034482758,
+          "robustness": -54.689224137931035,
+          "tournament_win_rate": 0.21551724137931033,
+          "match_top2_rate": 0.375,
+          "match_samples": 232,
+          "composites": {
+            "balanced_50_30_20": -0.06370689655172512,
+            "upside_60_30_10": 6.80676724137931,
+            "robust_40_20_40": -13.691896551724138
+          }
+        },
+        {
+          "tag": "market_maker",
+          "samples": 2480,
+          "expected_pnl": 13.698790322580646,
+          "expected_match_pnl": 136.98790322580646,
+          "first_place_rate": 0.09637096774193549,
+          "robustness": -45.186290322580646,
+          "tournament_win_rate": 0.21774193548387097,
+          "match_top2_rate": 0.45161290322580644,
+          "match_samples": 248,
+          "composites": {
+            "balanced_50_30_20": 0.7032661290322579,
+            "upside_60_30_10": 6.591774193548386,
+            "robust_40_20_40": -10.667580645161289
+          }
+        },
+        {
+          "tag": "conservative_ultra",
+          "samples": 2720,
+          "expected_pnl": 6.23860294117647,
+          "expected_match_pnl": 62.3860294117647,
+          "first_place_rate": 0.10404411764705883,
+          "robustness": -65.95808823529413,
+          "tournament_win_rate": 0.15073529411764705,
+          "match_top2_rate": 0.34191176470588236,
+          "match_samples": 272,
+          "composites": {
+            "balanced_50_30_20": -6.950992647058827,
+            "upside_60_30_10": 0.2686764705882325,
+            "robust_40_20_40": -21.806911764705887
+          }
+        },
+        {
+          "tag": "pot_fraction",
+          "samples": 2620,
+          "expected_pnl": -20.501908396946565,
+          "expected_match_pnl": -205.01908396946564,
+          "first_place_rate": 0.43740458015267175,
+          "robustness": -220.05725190839695,
+          "tournament_win_rate": 0.14122137404580154,
+          "match_top2_rate": 0.2786259541984733,
+          "match_samples": 262,
+          "composites": {
+            "balanced_50_30_20": -41.140267175572525,
+            "upside_60_30_10": -21.184732824427485,
+            "robust_40_20_40": -87.47557251908398
+          }
+        },
+        {
+          "tag": "random",
+          "samples": 2550,
+          "expected_pnl": -39.02039215686275,
+          "expected_match_pnl": -390.20392156862744,
+          "first_place_rate": 0.36980392156862746,
+          "robustness": -229.97529411764708,
+          "tournament_win_rate": 0.14901960784313725,
+          "match_top2_rate": 0.23921568627450981,
+          "match_samples": 255,
+          "composites": {
+            "balanced_50_30_20": -54.41113725490197,
+            "upside_60_30_10": -35.31564705882353,
+            "robust_40_20_40": -100.20219607843138
+          }
+        },
+        {
+          "tag": "bully",
+          "samples": 2530,
+          "expected_pnl": -76.31620553359684,
+          "expected_match_pnl": -763.1620553359684,
+          "first_place_rate": 0.3047430830039526,
+          "robustness": -276.304347826087,
+          "tournament_win_rate": 0.05138339920948617,
+          "match_top2_rate": 0.08695652173913043,
+          "match_samples": 253,
+          "composites": {
+            "balanced_50_30_20": -84.27667984189725,
+            "upside_60_30_10": -64.27786561264823,
+            "robust_40_20_40": -134.9533596837945
+          }
+        }
+      ]
+    },
+    {
+      "objective": "tournament_win",
+      "horizon": 10,
+      "correlation": {
+        "mode": "kingmaker",
+        "strength": 0.35,
+        "pairs": [
+          [
+            1,
+            2
+          ],
+          [
+            3,
+            4
+          ]
+        ]
+      },
+      "seed": 9911,
+      "leaderboard": [
+        {
+          "tag": "market_maker_v2",
+          "samples": 2370,
+          "expected_pnl": 32.858227848101265,
+          "expected_match_pnl": 328.5822784810127,
+          "first_place_rate": 0.10843881856540084,
+          "robustness": -13.635443037974682,
+          "tournament_win_rate": 0.3459915611814346,
+          "match_top2_rate": 0.5991561181434599,
+          "match_samples": 237,
+          "composites": {
+            "balanced_50_30_20": 16.955189873417723,
+            "upside_60_30_10": 21.604556962025317,
+            "robust_40_20_40": 9.85789029535865
+          }
+        },
+        {
+          "tag": "regime_switch_robust",
+          "samples": 2400,
+          "expected_pnl": 25.626666666666665,
+          "expected_match_pnl": 256.26666666666665,
+          "first_place_rate": 0.12458333333333334,
+          "robustness": -32.58375,
+          "tournament_win_rate": 0.26666666666666666,
+          "match_top2_rate": 0.5541666666666667,
+          "match_samples": 240,
+          "composites": {
+            "balanced_50_30_20": 10.034083333333331,
+            "upside_60_30_10": 15.855124999999997,
+            "robust_40_20_40": -0.29116666666666724
+          }
+        },
+        {
+          "tag": "market_maker_tight",
+          "samples": 2470,
+          "expected_pnl": 21.650607287449393,
+          "expected_match_pnl": 216.50607287449392,
+          "first_place_rate": 0.09109311740890688,
+          "robustness": -29.60242914979757,
+          "tournament_win_rate": 0.22672064777327935,
+          "match_top2_rate": 0.5344129554655871,
+          "match_samples": 247,
+          "composites": {
+            "balanced_50_30_20": 7.637611336032389,
+            "upside_60_30_10": 12.762914979757085,
+            "robust_40_20_40": -1.3588663967611314
+          }
+        },
+        {
+          "tag": "regime_switch_v2",
+          "samples": 2600,
+          "expected_pnl": 17.441153846153846,
+          "expected_match_pnl": 174.41153846153847,
+          "first_place_rate": 0.09807692307692308,
+          "robustness": -44.78769230769231,
+          "tournament_win_rate": 0.2,
+          "match_top2_rate": 0.4653846153846154,
+          "match_samples": 260,
+          "composites": {
+            "balanced_50_30_20": 2.7053461538461523,
+            "upside_60_30_10": 8.928230769230767,
+            "robust_40_20_40": -8.977076923076924
+          }
+        },
+        {
+          "tag": "market_maker",
+          "samples": 2580,
+          "expected_pnl": 16.672093023255815,
+          "expected_match_pnl": 166.72093023255815,
+          "first_place_rate": 0.10736434108527132,
+          "robustness": -49.47519379844961,
+          "tournament_win_rate": 0.2596899224806202,
+          "match_top2_rate": 0.437984496124031,
+          "match_samples": 258,
+          "composites": {
+            "balanced_50_30_20": 1.6619379844961255,
+            "upside_60_30_10": 8.276666666666667,
+            "robust_40_20_40": -10.973953488372093
+          }
+        },
+        {
+          "tag": "regime_switch",
+          "samples": 2360,
+          "expected_pnl": 11.963983050847459,
+          "expected_match_pnl": 119.63983050847457,
+          "first_place_rate": 0.1521186440677966,
+          "robustness": -70.75423728813558,
+          "tournament_win_rate": 0.2288135593220339,
+          "match_top2_rate": 0.4406779661016949,
+          "match_samples": 236,
+          "composites": {
+            "balanced_50_30_20": -3.605296610169491,
+            "upside_60_30_10": 4.666525423728813,
+            "robust_40_20_40": -20.47372881355932
+          }
+        },
+        {
+          "tag": "conservative_ultra",
+          "samples": 2630,
+          "expected_pnl": 6.409125475285171,
+          "expected_match_pnl": 64.09125475285171,
+          "first_place_rate": 0.10912547528517111,
+          "robustness": -70.32471482889734,
+          "tournament_win_rate": 0.19391634980988592,
+          "match_top2_rate": 0.3840304182509506,
+          "match_samples": 263,
+          "composites": {
+            "balanced_50_30_20": -7.58661596958175,
+            "upside_60_30_10": 0.08676806083650135,
+            "robust_40_20_40": -23.38372623574145
+          }
+        },
+        {
+          "tag": "pot_fraction",
+          "samples": 2580,
+          "expected_pnl": -16.23565891472868,
+          "expected_match_pnl": -162.35658914728683,
+          "first_place_rate": 0.48875968992248064,
+          "robustness": -216.23565891472867,
+          "tournament_win_rate": 0.13953488372093023,
+          "match_top2_rate": 0.2713178294573643,
+          "match_samples": 258,
+          "composites": {
+            "balanced_50_30_20": -36.702170542635656,
+            "upside_60_30_10": -16.702170542635656,
+            "robust_40_20_40": -83.21333333333334
+          }
+        },
+        {
+          "tag": "random",
+          "samples": 2420,
+          "expected_pnl": -43.00123966942149,
+          "expected_match_pnl": -430.0123966942149,
+          "first_place_rate": 0.359504132231405,
+          "robustness": -236.33595041322315,
+          "tournament_win_rate": 0.10743801652892562,
+          "match_top2_rate": 0.2024793388429752,
+          "match_samples": 242,
+          "composites": {
+            "balanced_50_30_20": -57.98268595041323,
+            "upside_60_30_10": -38.64921487603306,
+            "robust_40_20_40": -104.54479338842975
+          }
+        },
+        {
+          "tag": "bully",
+          "samples": 2590,
+          "expected_pnl": -69.63552123552124,
+          "expected_match_pnl": -696.3552123552123,
+          "first_place_rate": 0.35135135135135137,
+          "robustness": -269.63552123552125,
+          "tournament_win_rate": 0.04633204633204633,
+          "match_top2_rate": 0.13513513513513514,
+          "match_samples": 259,
+          "composites": {
+            "balanced_50_30_20": -78.20432432432433,
+            "upside_60_30_10": -58.204324324324325,
+            "robust_40_20_40": -128.68138996138998
+          }
+        }
+      ]
+    },
+    {
+      "objective": "tournament_win",
+      "horizon": 10,
+      "correlation": {
+        "mode": "kingmaker",
+        "strength": 0.35,
+        "pairs": [
+          [
+            1,
+            2
+          ],
+          [
+            3,
+            4
+          ]
+        ]
+      },
+      "seed": 9922,
+      "leaderboard": [
+        {
+          "tag": "market_maker_v2",
+          "samples": 2480,
+          "expected_pnl": 37.696774193548386,
+          "expected_match_pnl": 376.96774193548384,
+          "first_place_rate": 0.13790322580645162,
+          "robustness": -6.399999999999999,
+          "tournament_win_rate": 0.3790322580645161,
+          "match_top2_rate": 0.6733870967741935,
+          "match_samples": 248,
+          "composites": {
+            "balanced_50_30_20": 21.70548387096774,
+            "upside_60_30_10": 26.11516129032258,
+            "robust_40_20_40": 15.276774193548388
+          }
+        },
+        {
+          "tag": "market_maker_tight",
+          "samples": 2490,
+          "expected_pnl": 25.638152610441768,
+          "expected_match_pnl": 256.3815261044177,
+          "first_place_rate": 0.11325301204819277,
+          "robustness": -25.3718875502008,
+          "tournament_win_rate": 0.2931726907630522,
+          "match_top2_rate": 0.5622489959839357,
+          "match_samples": 249,
+          "composites": {
+            "balanced_50_30_20": 11.142289156626507,
+            "upside_60_30_10": 16.243293172690766,
+            "robust_40_20_40": 2.371566265060242
+          }
+        },
+        {
+          "tag": "regime_switch_robust",
+          "samples": 2570,
+          "expected_pnl": 23.309727626459143,
+          "expected_match_pnl": 233.09727626459144,
+          "first_place_rate": 0.11712062256809339,
+          "robustness": -38.84980544747082,
+          "tournament_win_rate": 0.2801556420233463,
+          "match_top2_rate": 0.5330739299610895,
+          "match_samples": 257,
+          "composites": {
+            "balanced_50_30_20": 7.3985214007782085,
+            "upside_60_30_10": 13.614474708171207,
+            "robust_40_20_40": -3.8736186770428027
+          }
+        },
+        {
+          "tag": "regime_switch_v2",
+          "samples": 2410,
+          "expected_pnl": 21.795435684647302,
+          "expected_match_pnl": 217.95435684647302,
+          "first_place_rate": 0.12946058091286308,
+          "robustness": -41.50954356846473,
+          "tournament_win_rate": 0.25311203319502074,
+          "match_top2_rate": 0.46473029045643155,
+          "match_samples": 241,
+          "composites": {
+            "balanced_50_30_20": 6.479626556016598,
+            "upside_60_30_10": 12.8101244813278,
+            "robust_40_20_40": -5.29643153526971
+          }
+        },
+        {
+          "tag": "market_maker",
+          "samples": 2270,
+          "expected_pnl": 21.022907488986785,
+          "expected_match_pnl": 210.22907488986783,
+          "first_place_rate": 0.10044052863436123,
+          "robustness": -37.60704845814978,
+          "tournament_win_rate": 0.2290748898678414,
+          "match_top2_rate": 0.5022026431718062,
+          "match_samples": 227,
+          "composites": {
+            "balanced_50_30_20": 6.003259911894274,
+            "upside_60_30_10": 11.86625550660793,
+            "robust_40_20_40": -4.624845814977972
+          }
+        },
+        {
+          "tag": "regime_switch",
+          "samples": 2270,
+          "expected_pnl": 13.901762114537444,
+          "expected_match_pnl": 139.01762114537445,
+          "first_place_rate": 0.13876651982378854,
+          "robustness": -65.53436123348017,
+          "tournament_win_rate": 0.20704845814977973,
+          "match_top2_rate": 0.4581497797356828,
+          "match_samples": 227,
+          "composites": {
+            "balanced_50_30_20": -1.9929955947136584,
+            "upside_60_30_10": 5.950616740088105,
+            "robust_40_20_40": -17.877709251101322
+          }
+        },
+        {
+          "tag": "conservative_ultra",
+          "samples": 2570,
+          "expected_pnl": 2.0116731517509727,
+          "expected_match_pnl": 20.116731517509727,
+          "first_place_rate": 0.08910505836575876,
+          "robustness": -75.00583657587549,
+          "tournament_win_rate": 0.1517509727626459,
+          "match_top2_rate": 0.32684824902723736,
+          "match_samples": 257,
+          "composites": {
+            "balanced_50_30_20": -11.32217898832685,
+            "upside_60_30_10": -3.620428015564203,
+            "robust_40_20_40": -27.415564202334636
+          }
+        },
+        {
+          "tag": "pot_fraction",
+          "samples": 2620,
+          "expected_pnl": -15.278244274809161,
+          "expected_match_pnl": -152.7824427480916,
+          "first_place_rate": 0.4454198473282443,
+          "robustness": -215.0969465648855,
+          "tournament_win_rate": 0.0916030534351145,
+          "match_top2_rate": 0.22900763358778625,
+          "match_samples": 262,
+          "composites": {
+            "balanced_50_30_20": -37.29591603053436,
+            "upside_60_30_10": -17.314045801526717,
+            "robust_40_20_40": -83.24167938931299
+          }
+        },
+        {
+          "tag": "random",
+          "samples": 2680,
+          "expected_pnl": -43.8044776119403,
+          "expected_match_pnl": -438.04477611940297,
+          "first_place_rate": 0.3578358208955224,
+          "robustness": -236.48171641791043,
+          "tournament_win_rate": 0.1044776119402985,
+          "match_top2_rate": 0.21641791044776118,
+          "match_samples": 268,
+          "composites": {
+            "balanced_50_30_20": -58.463507462686565,
+            "upside_60_30_10": -39.195783582089554,
+            "robust_40_20_40": -104.95776119402984
+          }
+        },
+        {
+          "tag": "bully",
+          "samples": 2640,
+          "expected_pnl": -74.53939393939395,
+          "expected_match_pnl": -745.3939393939394,
+          "first_place_rate": 0.32765151515151514,
+          "robustness": -274.53939393939396,
+          "tournament_win_rate": 0.03787878787878788,
+          "match_top2_rate": 0.09090909090909091,
+          "match_samples": 264,
+          "composites": {
+            "balanced_50_30_20": -82.34803030303031,
+            "upside_60_30_10": -62.34803030303031,
+            "robust_40_20_40": -133.07848484848486
+          }
+        }
+      ]
+    },
+    {
+      "objective": "tournament_win",
+      "horizon": 10,
+      "correlation": {
+        "mode": "kingmaker",
+        "strength": 0.35,
+        "pairs": [
+          [
+            1,
+            2
+          ],
+          [
+            3,
+            4
+          ]
+        ]
+      },
+      "seed": 9933,
+      "leaderboard": [
+        {
+          "tag": "market_maker_v2",
+          "samples": 2740,
+          "expected_pnl": 28.904744525547446,
+          "expected_match_pnl": 289.04744525547443,
+          "first_place_rate": 0.1135036496350365,
+          "robustness": -20.828832116788323,
+          "tournament_win_rate": 0.30656934306569344,
+          "match_top2_rate": 0.6131386861313869,
+          "match_samples": 274,
+          "composites": {
+            "balanced_50_30_20": 13.691715328467152,
+            "upside_60_30_10": 18.66507299270073,
+            "robust_40_20_40": 5.5004379562043795
+          }
+        },
+        {
+          "tag": "market_maker_tight",
+          "samples": 2390,
+          "expected_pnl": 28.524686192468618,
+          "expected_match_pnl": 285.2468619246862,
+          "first_place_rate": 0.11882845188284519,
+          "robustness": -22.515062761506275,
+          "tournament_win_rate": 0.2719665271966527,
+          "match_top2_rate": 0.5941422594142259,
+          "match_samples": 239,
+          "composites": {
+            "balanced_50_30_20": 13.324184100418409,
+            "upside_60_30_10": 18.4281589958159,
+            "robust_40_20_40": 4.78041841004184
+          }
+        },
+        {
+          "tag": "regime_switch_v2",
+          "samples": 2500,
+          "expected_pnl": 25.7916,
+          "expected_match_pnl": 257.916,
+          "first_place_rate": 0.1448,
+          "robustness": -37.368399999999994,
+          "tournament_win_rate": 0.288,
+          "match_top2_rate": 0.536,
+          "match_samples": 250,
+          "composites": {
+            "balanced_50_30_20": 9.76612,
+            "upside_60_30_10": 16.08212,
+            "robust_40_20_40": -1.7347199999999976
+          }
+        },
+        {
+          "tag": "regime_switch_robust",
+          "samples": 2530,
+          "expected_pnl": 21.247826086956522,
+          "expected_match_pnl": 212.47826086956522,
+          "first_place_rate": 0.14031620553359683,
+          "robustness": -45.73241106719368,
+          "tournament_win_rate": 0.23715415019762845,
+          "match_top2_rate": 0.49407114624505927,
+          "match_samples": 253,
+          "composites": {
+            "balanced_50_30_20": 5.686916996047431,
+            "upside_60_30_10": 12.384940711462448,
+            "robust_40_20_40": -6.987509881422925
+          }
+        },
+        {
+          "tag": "market_maker",
+          "samples": 2200,
+          "expected_pnl": 16.940454545454546,
+          "expected_match_pnl": 169.40454545454546,
+          "first_place_rate": 0.11409090909090909,
+          "robustness": -48.17772727272728,
+          "tournament_win_rate": 0.22272727272727272,
+          "match_top2_rate": 0.42272727272727273,
+          "match_samples": 220,
+          "composites": {
+            "balanced_50_30_20": 2.2574090909090874,
+            "upside_60_30_10": 8.76922727272727,
+            "robust_40_20_40": -10.213090909090916
+          }
+        },
+        {
+          "tag": "regime_switch",
+          "samples": 2570,
+          "expected_pnl": 13.134630350194552,
+          "expected_match_pnl": 131.34630350194553,
+          "first_place_rate": 0.13813229571984437,
+          "robustness": -67.27198443579766,
+          "tournament_win_rate": 0.2607003891050584,
+          "match_top2_rate": 0.4785992217898833,
+          "match_samples": 257,
+          "composites": {
+            "balanced_50_30_20": -2.7431128404669263,
+            "upside_60_30_10": 5.2975486381322945,
+            "robust_40_20_40": -18.892295719844356
+          }
+        },
+        {
+          "tag": "conservative_ultra",
+          "samples": 2570,
+          "expected_pnl": 3.342412451361868,
+          "expected_match_pnl": 33.42412451361868,
+          "first_place_rate": 0.1038910505836576,
+          "robustness": -73.03112840466926,
+          "tournament_win_rate": 0.1517509727626459,
+          "match_top2_rate": 0.33852140077821014,
+          "match_samples": 257,
+          "composites": {
+            "balanced_50_30_20": -9.818287937743193,
+            "upside_60_30_10": -2.180933852140079,
+            "robust_40_20_40": -25.797665369649806
+          }
+        },
+        {
+          "tag": "pot_fraction",
+          "samples": 2520,
+          "expected_pnl": -19.695238095238096,
+          "expected_match_pnl": -196.95238095238096,
+          "first_place_rate": 0.4496031746031746,
+          "robustness": -219.6952380952381,
+          "tournament_win_rate": 0.1111111111111111,
+          "match_top2_rate": 0.2261904761904762,
+          "match_samples": 252,
+          "composites": {
+            "balanced_50_30_20": -40.298571428571435,
+            "upside_60_30_10": -20.298571428571428,
+            "robust_40_20_40": -86.76412698412699
+          }
+        },
+        {
+          "tag": "random",
+          "samples": 2440,
+          "expected_pnl": -52.135245901639344,
+          "expected_match_pnl": -521.3524590163935,
+          "first_place_rate": 0.3274590163934426,
+          "robustness": -246.56352459016392,
+          "tournament_win_rate": 0.0860655737704918,
+          "match_top2_rate": 0.1557377049180328,
+          "match_samples": 244,
+          "composites": {
+            "balanced_50_30_20": -65.55655737704919,
+            "upside_60_30_10": -46.11372950819671,
+            "robust_40_20_40": -112.93032786885246
+          }
+        },
+        {
+          "tag": "bully",
+          "samples": 2540,
+          "expected_pnl": -66.29212598425197,
+          "expected_match_pnl": -662.9212598425197,
+          "first_place_rate": 0.3476377952755906,
+          "robustness": -266.292125984252,
+          "tournament_win_rate": 0.05905511811023622,
+          "match_top2_rate": 0.13385826771653545,
+          "match_samples": 254,
+          "composites": {
+            "balanced_50_30_20": -75.97535433070865,
+            "upside_60_30_10": -55.97535433070866,
+            "robust_40_20_40": -126.08094488188976
+          }
+        }
+      ]
+    },
+    {
+      "objective": "tournament_win",
+      "horizon": 10,
+      "correlation": {
+        "mode": "kingmaker",
+        "strength": 0.35,
+        "pairs": [
+          [
+            1,
+            2
+          ],
+          [
+            3,
+            4
+          ]
+        ]
+      },
+      "seed": 9944,
+      "leaderboard": [
+        {
+          "tag": "market_maker_v2",
+          "samples": 2520,
+          "expected_pnl": 37.31547619047619,
+          "expected_match_pnl": 373.1547619047619,
+          "first_place_rate": 0.14325396825396824,
+          "robustness": -6.767857142857146,
+          "tournament_win_rate": 0.376984126984127,
+          "match_top2_rate": 0.6468253968253969,
+          "match_samples": 252,
+          "composites": {
+            "balanced_50_30_20": 21.601785714285715,
+            "upside_60_30_10": 26.010119047619046,
+            "robust_40_20_40": 15.084126984126982
+          }
+        },
+        {
+          "tag": "market_maker_tight",
+          "samples": 2580,
+          "expected_pnl": 29.8968992248062,
+          "expected_match_pnl": 298.968992248062,
+          "first_place_rate": 0.13062015503875968,
+          "robustness": -21.347286821705428,
+          "tournament_win_rate": 0.29069767441860467,
+          "match_top2_rate": 0.5852713178294574,
+          "match_samples": 258,
+          "composites": {
+            "balanced_50_30_20": 14.597596899224804,
+            "upside_60_30_10": 19.72201550387597,
+            "robust_40_20_40": 6.032248062015503
+          }
+        },
+        {
+          "tag": "regime_switch_v2",
+          "samples": 2290,
+          "expected_pnl": 25.124454148471617,
+          "expected_match_pnl": 251.24454148471617,
+          "first_place_rate": 0.12663755458515283,
+          "robustness": -35.432314410480345,
+          "tournament_win_rate": 0.2925764192139738,
+          "match_top2_rate": 0.5240174672489083,
+          "match_samples": 229,
+          "composites": {
+            "balanced_50_30_20": 9.274890829694325,
+            "upside_60_30_10": 15.33056768558952,
+            "robust_40_20_40": -1.5903930131004334
+          }
+        },
+        {
+          "tag": "regime_switch_robust",
+          "samples": 2390,
+          "expected_pnl": 17.393723849372385,
+          "expected_match_pnl": 173.93723849372384,
+          "first_place_rate": 0.11882845188284519,
+          "robustness": -47.505857740585775,
+          "tournament_win_rate": 0.2217573221757322,
+          "match_top2_rate": 0.49372384937238495,
+          "match_samples": 239,
+          "composites": {
+            "balanced_50_30_20": 2.760543933054393,
+            "upside_60_30_10": 9.250502092050208,
+            "robust_40_20_40": -9.66828451882845
+          }
+        },
+        {
+          "tag": "regime_switch",
+          "samples": 2320,
+          "expected_pnl": 12.953448275862069,
+          "expected_match_pnl": 129.5344827586207,
+          "first_place_rate": 0.125,
+          "robustness": -66.14137931034482,
+          "tournament_win_rate": 0.2025862068965517,
+          "match_top2_rate": 0.46120689655172414,
+          "match_samples": 232,
+          "composites": {
+            "balanced_50_30_20": -3.0015517241379293,
+            "upside_60_30_10": 4.90793103448276,
+            "robust_40_20_40": -18.7751724137931
+          }
+        },
+        {
+          "tag": "market_maker",
+          "samples": 2480,
+          "expected_pnl": 11.708467741935484,
+          "expected_match_pnl": 117.08467741935483,
+          "first_place_rate": 0.08870967741935484,
+          "robustness": -52.934677419354834,
+          "tournament_win_rate": 0.18548387096774194,
+          "match_top2_rate": 0.4314516129032258,
+          "match_samples": 248,
+          "composites": {
+            "balanced_50_30_20": -2.0714112903225796,
+            "upside_60_30_10": 4.392903225806453,
+            "robust_40_20_40": -14.716290322580644
+          }
+        },
+        {
+          "tag": "conservative_ultra",
+          "samples": 2720,
+          "expected_pnl": 5.3305147058823525,
+          "expected_match_pnl": 53.30514705882353,
+          "first_place_rate": 0.10294117647058823,
+          "robustness": -72.78161764705882,
+          "tournament_win_rate": 0.15808823529411764,
+          "match_top2_rate": 0.34558823529411764,
+          "match_samples": 272,
+          "composites": {
+            "balanced_50_30_20": -8.802830882352943,
+            "upside_60_30_10": -0.9916176470588249,
+            "robust_40_20_40": -24.921617647058824
+          }
+        },
+        {
+          "tag": "pot_fraction",
+          "samples": 2620,
+          "expected_pnl": -13.84618320610687,
+          "expected_match_pnl": -138.4618320610687,
+          "first_place_rate": 0.4713740458015267,
+          "robustness": -213.84618320610687,
+          "tournament_win_rate": 0.12595419847328243,
+          "match_top2_rate": 0.2633587786259542,
+          "match_samples": 262,
+          "composites": {
+            "balanced_50_30_20": -35.55110687022901,
+            "upside_60_30_10": -15.55110687022901,
+            "robust_40_20_40": -81.64946564885497
+          }
+        },
+        {
+          "tag": "random",
+          "samples": 2550,
+          "expected_pnl": -48.22588235294118,
+          "expected_match_pnl": -482.25882352941176,
+          "first_place_rate": 0.343921568627451,
+          "robustness": -242.19058823529411,
+          "tournament_win_rate": 0.09019607843137255,
+          "match_top2_rate": 0.16862745098039217,
+          "match_samples": 255,
+          "composites": {
+            "balanced_50_30_20": -62.233411764705885,
+            "upside_60_30_10": -42.83694117647059,
+            "robust_40_20_40": -109.2881568627451
+          }
+        },
+        {
+          "tag": "bully",
+          "samples": 2530,
+          "expected_pnl": -72.96837944664031,
+          "expected_match_pnl": -729.6837944664031,
+          "first_place_rate": 0.3264822134387352,
+          "robustness": -272.9683794466403,
+          "tournament_win_rate": 0.07114624505928854,
+          "match_top2_rate": 0.11067193675889328,
+          "match_samples": 253,
+          "composites": {
+            "balanced_50_30_20": -81.28339920948616,
+            "upside_60_30_10": -61.28339920948616,
+            "robust_40_20_40": -131.84505928853756
+          }
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "summary_cells": [
+      {
+        "objective": "tournament_win",
+        "horizon": 10,
+        "correlation_mode": "herd",
+        "top": {
+          "tag": "market_maker_v2",
+          "expected_pnl_mean": 34.15950524416672,
+          "expected_match_pnl_mean": 341.5950524416673,
+          "first_place_rate_mean": 0.14440987214958528,
+          "robustness_mean": -7.472631840898321,
+          "tournament_win_rate_mean": 0.3508997684971306,
+          "n_seeds": 4
+        },
+        "leaderboard_mean_by_ev": [
+          {
+            "tag": "market_maker_v2",
+            "expected_pnl_mean": 34.15950524416672,
+            "expected_match_pnl_mean": 341.5950524416673,
+            "first_place_rate_mean": 0.14440987214958528,
+            "robustness_mean": -7.472631840898321,
+            "tournament_win_rate_mean": 0.3508997684971306,
+            "n_seeds": 4
+          },
+          {
+            "tag": "market_maker_tight",
+            "expected_pnl_mean": 27.02581901912364,
+            "expected_match_pnl_mean": 270.2581901912364,
+            "first_place_rate_mean": 0.13158522712863818,
+            "robustness_mean": -19.819562193623632,
+            "tournament_win_rate_mean": 0.30578952203356646,
+            "n_seeds": 4
+          },
+          {
+            "tag": "regime_switch_v2",
+            "expected_pnl_mean": 21.96107231952577,
+            "expected_match_pnl_mean": 219.6107231952577,
+            "first_place_rate_mean": 0.13384466727622701,
+            "robustness_mean": -35.565388263826264,
+            "tournament_win_rate_mean": 0.2418805036399394,
+            "n_seeds": 4
+          },
+          {
+            "tag": "regime_switch_robust",
+            "expected_pnl_mean": 19.088508651283128,
+            "expected_match_pnl_mean": 190.88508651283126,
+            "first_place_rate_mean": 0.11809387403258645,
+            "robustness_mean": -38.9027854433447,
+            "tournament_win_rate_mean": 0.21333088265797273,
+            "n_seeds": 4
+          },
+          {
+            "tag": "market_maker",
+            "expected_pnl_mean": 17.264250035839456,
+            "expected_match_pnl_mean": 172.64250035839456,
+            "first_place_rate_mean": 0.11199300131650855,
+            "robustness_mean": -40.05027319192133,
+            "tournament_win_rate_mean": 0.21527127752102224,
+            "n_seeds": 4
+          },
+          {
+            "tag": "regime_switch",
+            "expected_pnl_mean": 13.323598238012194,
+            "expected_match_pnl_mean": 133.23598238012192,
+            "first_place_rate_mean": 0.13402013574997557,
+            "robustness_mean": -57.440712162923745,
+            "tournament_win_rate_mean": 0.20977826999068475,
+            "n_seeds": 4
+          },
+          {
+            "tag": "conservative_ultra",
+            "expected_pnl_mean": 4.827004007179427,
+            "expected_match_pnl_mean": 48.27004007179428,
+            "first_place_rate_mean": 0.10454848262299105,
+            "robustness_mean": -68.0479943406362,
+            "tournament_win_rate_mean": 0.13334374866737392,
+            "n_seeds": 4
+          },
+          {
+            "tag": "pot_fraction",
+            "expected_pnl_mean": -17.517886096387784,
+            "expected_match_pnl_mean": -175.1788609638778,
+            "first_place_rate_mean": 0.43076932560112036,
+            "robustness_mean": -216.6221793026637,
+            "tournament_win_rate_mean": 0.1371942972111621,
+            "n_seeds": 4
+          },
+          {
+            "tag": "random",
+            "expected_pnl_mean": -43.650804289834966,
+            "expected_match_pnl_mean": -436.50804289834963,
+            "first_place_rate_mean": 0.353944829565205,
+            "robustness_mean": -235.31006622192402,
+            "tournament_win_rate_mean": 0.14720428288437393,
+            "n_seeds": 4
+          },
+          {
+            "tag": "bully",
+            "expected_pnl_mean": -71.44185684180015,
+            "expected_match_pnl_mean": -714.4185684180014,
+            "first_place_rate_mean": 0.3192259681218942,
+            "robustness_mean": -271.4220553668356,
+            "tournament_win_rate_mean": 0.05625565699170629,
+            "n_seeds": 4
+          }
+        ],
+        "leaderboard_mean_by_first_place": [
+          {
+            "tag": "pot_fraction",
+            "expected_pnl_mean": -17.517886096387784,
+            "expected_match_pnl_mean": -175.1788609638778,
+            "first_place_rate_mean": 0.43076932560112036,
+            "robustness_mean": -216.6221793026637,
+            "tournament_win_rate_mean": 0.1371942972111621,
+            "n_seeds": 4
+          },
+          {
+            "tag": "random",
+            "expected_pnl_mean": -43.650804289834966,
+            "expected_match_pnl_mean": -436.50804289834963,
+            "first_place_rate_mean": 0.353944829565205,
+            "robustness_mean": -235.31006622192402,
+            "tournament_win_rate_mean": 0.14720428288437393,
+            "n_seeds": 4
+          },
+          {
+            "tag": "bully",
+            "expected_pnl_mean": -71.44185684180015,
+            "expected_match_pnl_mean": -714.4185684180014,
+            "first_place_rate_mean": 0.3192259681218942,
+            "robustness_mean": -271.4220553668356,
+            "tournament_win_rate_mean": 0.05625565699170629,
+            "n_seeds": 4
+          },
+          {
+            "tag": "market_maker_v2",
+            "expected_pnl_mean": 34.15950524416672,
+            "expected_match_pnl_mean": 341.5950524416673,
+            "first_place_rate_mean": 0.14440987214958528,
+            "robustness_mean": -7.472631840898321,
+            "tournament_win_rate_mean": 0.3508997684971306,
+            "n_seeds": 4
+          },
+          {
+            "tag": "regime_switch",
+            "expected_pnl_mean": 13.323598238012194,
+            "expected_match_pnl_mean": 133.23598238012192,
+            "first_place_rate_mean": 0.13402013574997557,
+            "robustness_mean": -57.440712162923745,
+            "tournament_win_rate_mean": 0.20977826999068475,
+            "n_seeds": 4
+          },
+          {
+            "tag": "regime_switch_v2",
+            "expected_pnl_mean": 21.96107231952577,
+            "expected_match_pnl_mean": 219.6107231952577,
+            "first_place_rate_mean": 0.13384466727622701,
+            "robustness_mean": -35.565388263826264,
+            "tournament_win_rate_mean": 0.2418805036399394,
+            "n_seeds": 4
+          },
+          {
+            "tag": "market_maker_tight",
+            "expected_pnl_mean": 27.02581901912364,
+            "expected_match_pnl_mean": 270.2581901912364,
+            "first_place_rate_mean": 0.13158522712863818,
+            "robustness_mean": -19.819562193623632,
+            "tournament_win_rate_mean": 0.30578952203356646,
+            "n_seeds": 4
+          },
+          {
+            "tag": "regime_switch_robust",
+            "expected_pnl_mean": 19.088508651283128,
+            "expected_match_pnl_mean": 190.88508651283126,
+            "first_place_rate_mean": 0.11809387403258645,
+            "robustness_mean": -38.9027854433447,
+            "tournament_win_rate_mean": 0.21333088265797273,
+            "n_seeds": 4
+          },
+          {
+            "tag": "market_maker",
+            "expected_pnl_mean": 17.264250035839456,
+            "expected_match_pnl_mean": 172.64250035839456,
+            "first_place_rate_mean": 0.11199300131650855,
+            "robustness_mean": -40.05027319192133,
+            "tournament_win_rate_mean": 0.21527127752102224,
+            "n_seeds": 4
+          },
+          {
+            "tag": "conservative_ultra",
+            "expected_pnl_mean": 4.827004007179427,
+            "expected_match_pnl_mean": 48.27004007179428,
+            "first_place_rate_mean": 0.10454848262299105,
+            "robustness_mean": -68.0479943406362,
+            "tournament_win_rate_mean": 0.13334374866737392,
+            "n_seeds": 4
+          }
+        ],
+        "leaderboard_mean_by_robustness": [
+          {
+            "tag": "market_maker_v2",
+            "expected_pnl_mean": 34.15950524416672,
+            "expected_match_pnl_mean": 341.5950524416673,
+            "first_place_rate_mean": 0.14440987214958528,
+            "robustness_mean": -7.472631840898321,
+            "tournament_win_rate_mean": 0.3508997684971306,
+            "n_seeds": 4
+          },
+          {
+            "tag": "market_maker_tight",
+            "expected_pnl_mean": 27.02581901912364,
+            "expected_match_pnl_mean": 270.2581901912364,
+            "first_place_rate_mean": 0.13158522712863818,
+            "robustness_mean": -19.819562193623632,
+            "tournament_win_rate_mean": 0.30578952203356646,
+            "n_seeds": 4
+          },
+          {
+            "tag": "regime_switch_v2",
+            "expected_pnl_mean": 21.96107231952577,
+            "expected_match_pnl_mean": 219.6107231952577,
+            "first_place_rate_mean": 0.13384466727622701,
+            "robustness_mean": -35.565388263826264,
+            "tournament_win_rate_mean": 0.2418805036399394,
+            "n_seeds": 4
+          },
+          {
+            "tag": "regime_switch_robust",
+            "expected_pnl_mean": 19.088508651283128,
+            "expected_match_pnl_mean": 190.88508651283126,
+            "first_place_rate_mean": 0.11809387403258645,
+            "robustness_mean": -38.9027854433447,
+            "tournament_win_rate_mean": 0.21333088265797273,
+            "n_seeds": 4
+          },
+          {
+            "tag": "market_maker",
+            "expected_pnl_mean": 17.264250035839456,
+            "expected_match_pnl_mean": 172.64250035839456,
+            "first_place_rate_mean": 0.11199300131650855,
+            "robustness_mean": -40.05027319192133,
+            "tournament_win_rate_mean": 0.21527127752102224,
+            "n_seeds": 4
+          },
+          {
+            "tag": "regime_switch",
+            "expected_pnl_mean": 13.323598238012194,
+            "expected_match_pnl_mean": 133.23598238012192,
+            "first_place_rate_mean": 0.13402013574997557,
+            "robustness_mean": -57.440712162923745,
+            "tournament_win_rate_mean": 0.20977826999068475,
+            "n_seeds": 4
+          },
+          {
+            "tag": "conservative_ultra",
+            "expected_pnl_mean": 4.827004007179427,
+            "expected_match_pnl_mean": 48.27004007179428,
+            "first_place_rate_mean": 0.10454848262299105,
+            "robustness_mean": -68.0479943406362,
+            "tournament_win_rate_mean": 0.13334374866737392,
+            "n_seeds": 4
+          },
+          {
+            "tag": "pot_fraction",
+            "expected_pnl_mean": -17.517886096387784,
+            "expected_match_pnl_mean": -175.1788609638778,
+            "first_place_rate_mean": 0.43076932560112036,
+            "robustness_mean": -216.6221793026637,
+            "tournament_win_rate_mean": 0.1371942972111621,
+            "n_seeds": 4
+          },
+          {
+            "tag": "random",
+            "expected_pnl_mean": -43.650804289834966,
+            "expected_match_pnl_mean": -436.50804289834963,
+            "first_place_rate_mean": 0.353944829565205,
+            "robustness_mean": -235.31006622192402,
+            "tournament_win_rate_mean": 0.14720428288437393,
+            "n_seeds": 4
+          },
+          {
+            "tag": "bully",
+            "expected_pnl_mean": -71.44185684180015,
+            "expected_match_pnl_mean": -714.4185684180014,
+            "first_place_rate_mean": 0.3192259681218942,
+            "robustness_mean": -271.4220553668356,
+            "tournament_win_rate_mean": 0.05625565699170629,
+            "n_seeds": 4
+          }
+        ],
+        "leaderboard_mean_by_tournament_win": [
+          {
+            "tag": "market_maker_v2",
+            "expected_pnl_mean": 34.15950524416672,
+            "expected_match_pnl_mean": 341.5950524416673,
+            "first_place_rate_mean": 0.14440987214958528,
+            "robustness_mean": -7.472631840898321,
+            "tournament_win_rate_mean": 0.3508997684971306,
+            "n_seeds": 4
+          },
+          {
+            "tag": "market_maker_tight",
+            "expected_pnl_mean": 27.02581901912364,
+            "expected_match_pnl_mean": 270.2581901912364,
+            "first_place_rate_mean": 0.13158522712863818,
+            "robustness_mean": -19.819562193623632,
+            "tournament_win_rate_mean": 0.30578952203356646,
+            "n_seeds": 4
+          },
+          {
+            "tag": "regime_switch_v2",
+            "expected_pnl_mean": 21.96107231952577,
+            "expected_match_pnl_mean": 219.6107231952577,
+            "first_place_rate_mean": 0.13384466727622701,
+            "robustness_mean": -35.565388263826264,
+            "tournament_win_rate_mean": 0.2418805036399394,
+            "n_seeds": 4
+          },
+          {
+            "tag": "market_maker",
+            "expected_pnl_mean": 17.264250035839456,
+            "expected_match_pnl_mean": 172.64250035839456,
+            "first_place_rate_mean": 0.11199300131650855,
+            "robustness_mean": -40.05027319192133,
+            "tournament_win_rate_mean": 0.21527127752102224,
+            "n_seeds": 4
+          },
+          {
+            "tag": "regime_switch_robust",
+            "expected_pnl_mean": 19.088508651283128,
+            "expected_match_pnl_mean": 190.88508651283126,
+            "first_place_rate_mean": 0.11809387403258645,
+            "robustness_mean": -38.9027854433447,
+            "tournament_win_rate_mean": 0.21333088265797273,
+            "n_seeds": 4
+          },
+          {
+            "tag": "regime_switch",
+            "expected_pnl_mean": 13.323598238012194,
+            "expected_match_pnl_mean": 133.23598238012192,
+            "first_place_rate_mean": 0.13402013574997557,
+            "robustness_mean": -57.440712162923745,
+            "tournament_win_rate_mean": 0.20977826999068475,
+            "n_seeds": 4
+          },
+          {
+            "tag": "random",
+            "expected_pnl_mean": -43.650804289834966,
+            "expected_match_pnl_mean": -436.50804289834963,
+            "first_place_rate_mean": 0.353944829565205,
+            "robustness_mean": -235.31006622192402,
+            "tournament_win_rate_mean": 0.14720428288437393,
+            "n_seeds": 4
+          },
+          {
+            "tag": "pot_fraction",
+            "expected_pnl_mean": -17.517886096387784,
+            "expected_match_pnl_mean": -175.1788609638778,
+            "first_place_rate_mean": 0.43076932560112036,
+            "robustness_mean": -216.6221793026637,
+            "tournament_win_rate_mean": 0.1371942972111621,
+            "n_seeds": 4
+          },
+          {
+            "tag": "conservative_ultra",
+            "expected_pnl_mean": 4.827004007179427,
+            "expected_match_pnl_mean": 48.27004007179428,
+            "first_place_rate_mean": 0.10454848262299105,
+            "robustness_mean": -68.0479943406362,
+            "tournament_win_rate_mean": 0.13334374866737392,
+            "n_seeds": 4
+          },
+          {
+            "tag": "bully",
+            "expected_pnl_mean": -71.44185684180015,
+            "expected_match_pnl_mean": -714.4185684180014,
+            "first_place_rate_mean": 0.3192259681218942,
+            "robustness_mean": -271.4220553668356,
+            "tournament_win_rate_mean": 0.05625565699170629,
+            "n_seeds": 4
+          }
+        ]
+      },
+      {
+        "objective": "tournament_win",
+        "horizon": 10,
+        "correlation_mode": "kingmaker",
+        "top": {
+          "tag": "market_maker_v2",
+          "expected_pnl_mean": 34.19380568941832,
+          "expected_match_pnl_mean": 341.9380568941832,
+          "first_place_rate_mean": 0.1257749155652143,
+          "robustness_mean": -11.908033074405036,
+          "tournament_win_rate_mean": 0.35214432232394277,
+          "n_seeds": 4
+        },
+        "leaderboard_mean_by_ev": [
+          {
+            "tag": "market_maker_v2",
+            "expected_pnl_mean": 34.19380568941832,
+            "expected_match_pnl_mean": 341.9380568941832,
+            "first_place_rate_mean": 0.1257749155652143,
+            "robustness_mean": -11.908033074405036,
+            "tournament_win_rate_mean": 0.35214432232394277,
+            "n_seeds": 4
+          },
+          {
+            "tag": "market_maker_tight",
+            "expected_pnl_mean": 26.427586328791495,
+            "expected_match_pnl_mean": 264.27586328791494,
+            "first_place_rate_mean": 0.11344868409467612,
+            "robustness_mean": -24.709166570802516,
+            "tournament_win_rate_mean": 0.27063938503789725,
+            "n_seeds": 4
+          },
+          {
+            "tag": "regime_switch_v2",
+            "expected_pnl_mean": 22.53816091981819,
+            "expected_match_pnl_mean": 225.3816091981819,
+            "first_place_rate_mean": 0.12474376464373475,
+            "robustness_mean": -39.77448757165934,
+            "tournament_win_rate_mean": 0.2584221131022486,
+            "n_seeds": 4
+          },
+          {
+            "tag": "regime_switch_robust",
+            "expected_pnl_mean": 21.89448605736368,
+            "expected_match_pnl_mean": 218.9448605736368,
+            "first_place_rate_mean": 0.1252121533294672,
+            "robustness_mean": -41.16795606381257,
+            "tournament_win_rate_mean": 0.25143344526584344,
+            "n_seeds": 4
+          },
+          {
+            "tag": "market_maker",
+            "expected_pnl_mean": 16.58598069990816,
+            "expected_match_pnl_mean": 165.85980699908157,
+            "first_place_rate_mean": 0.10265136405747412,
+            "robustness_mean": -47.04866173717038,
+            "tournament_win_rate_mean": 0.22424398901086906,
+            "n_seeds": 4
+          },
+          {
+            "tag": "regime_switch",
+            "expected_pnl_mean": 12.98845594786038,
+            "expected_match_pnl_mean": 129.88455947860382,
+            "first_place_rate_mean": 0.1385043649028574,
+            "robustness_mean": -67.42549056693956,
+            "tournament_win_rate_mean": 0.22478715336835592,
+            "n_seeds": 4
+          },
+          {
+            "tag": "conservative_ultra",
+            "expected_pnl_mean": 4.273431446070091,
+            "expected_match_pnl_mean": 42.734314460700915,
+            "first_place_rate_mean": 0.10126569017629392,
+            "robustness_mean": -72.78582436412523,
+            "tournament_win_rate_mean": 0.16387663265732383,
+            "n_seeds": 4
+          },
+          {
+            "tag": "pot_fraction",
+            "expected_pnl_mean": -16.263831122720703,
+            "expected_match_pnl_mean": -162.63831122720703,
+            "first_place_rate_mean": 0.46378918941385655,
+            "robustness_mean": -216.2185066952398,
+            "tournament_win_rate_mean": 0.11705081168510957,
+            "n_seeds": 4
+          },
+          {
+            "tag": "random",
+            "expected_pnl_mean": -46.79171138398558,
+            "expected_match_pnl_mean": -467.9171138398558,
+            "first_place_rate_mean": 0.34718013453695523,
+            "robustness_mean": -240.3929449141479,
+            "tournament_win_rate_mean": 0.09704432016777212,
+            "n_seeds": 4
+          },
+          {
+            "tag": "bully",
+            "expected_pnl_mean": -70.85885515145186,
+            "expected_match_pnl_mean": -708.5885515145186,
+            "first_place_rate_mean": 0.33828071880429805,
+            "robustness_mean": -270.85885515145185,
+            "tournament_win_rate_mean": 0.05360304934508974,
+            "n_seeds": 4
+          }
+        ],
+        "leaderboard_mean_by_first_place": [
+          {
+            "tag": "pot_fraction",
+            "expected_pnl_mean": -16.263831122720703,
+            "expected_match_pnl_mean": -162.63831122720703,
+            "first_place_rate_mean": 0.46378918941385655,
+            "robustness_mean": -216.2185066952398,
+            "tournament_win_rate_mean": 0.11705081168510957,
+            "n_seeds": 4
+          },
+          {
+            "tag": "random",
+            "expected_pnl_mean": -46.79171138398558,
+            "expected_match_pnl_mean": -467.9171138398558,
+            "first_place_rate_mean": 0.34718013453695523,
+            "robustness_mean": -240.3929449141479,
+            "tournament_win_rate_mean": 0.09704432016777212,
+            "n_seeds": 4
+          },
+          {
+            "tag": "bully",
+            "expected_pnl_mean": -70.85885515145186,
+            "expected_match_pnl_mean": -708.5885515145186,
+            "first_place_rate_mean": 0.33828071880429805,
+            "robustness_mean": -270.85885515145185,
+            "tournament_win_rate_mean": 0.05360304934508974,
+            "n_seeds": 4
+          },
+          {
+            "tag": "regime_switch",
+            "expected_pnl_mean": 12.98845594786038,
+            "expected_match_pnl_mean": 129.88455947860382,
+            "first_place_rate_mean": 0.1385043649028574,
+            "robustness_mean": -67.42549056693956,
+            "tournament_win_rate_mean": 0.22478715336835592,
+            "n_seeds": 4
+          },
+          {
+            "tag": "market_maker_v2",
+            "expected_pnl_mean": 34.19380568941832,
+            "expected_match_pnl_mean": 341.9380568941832,
+            "first_place_rate_mean": 0.1257749155652143,
+            "robustness_mean": -11.908033074405036,
+            "tournament_win_rate_mean": 0.35214432232394277,
+            "n_seeds": 4
+          },
+          {
+            "tag": "regime_switch_robust",
+            "expected_pnl_mean": 21.89448605736368,
+            "expected_match_pnl_mean": 218.9448605736368,
+            "first_place_rate_mean": 0.1252121533294672,
+            "robustness_mean": -41.16795606381257,
+            "tournament_win_rate_mean": 0.25143344526584344,
+            "n_seeds": 4
+          },
+          {
+            "tag": "regime_switch_v2",
+            "expected_pnl_mean": 22.53816091981819,
+            "expected_match_pnl_mean": 225.3816091981819,
+            "first_place_rate_mean": 0.12474376464373475,
+            "robustness_mean": -39.77448757165934,
+            "tournament_win_rate_mean": 0.2584221131022486,
+            "n_seeds": 4
+          },
+          {
+            "tag": "market_maker_tight",
+            "expected_pnl_mean": 26.427586328791495,
+            "expected_match_pnl_mean": 264.27586328791494,
+            "first_place_rate_mean": 0.11344868409467612,
+            "robustness_mean": -24.709166570802516,
+            "tournament_win_rate_mean": 0.27063938503789725,
+            "n_seeds": 4
+          },
+          {
+            "tag": "market_maker",
+            "expected_pnl_mean": 16.58598069990816,
+            "expected_match_pnl_mean": 165.85980699908157,
+            "first_place_rate_mean": 0.10265136405747412,
+            "robustness_mean": -47.04866173717038,
+            "tournament_win_rate_mean": 0.22424398901086906,
+            "n_seeds": 4
+          },
+          {
+            "tag": "conservative_ultra",
+            "expected_pnl_mean": 4.273431446070091,
+            "expected_match_pnl_mean": 42.734314460700915,
+            "first_place_rate_mean": 0.10126569017629392,
+            "robustness_mean": -72.78582436412523,
+            "tournament_win_rate_mean": 0.16387663265732383,
+            "n_seeds": 4
+          }
+        ],
+        "leaderboard_mean_by_robustness": [
+          {
+            "tag": "market_maker_v2",
+            "expected_pnl_mean": 34.19380568941832,
+            "expected_match_pnl_mean": 341.9380568941832,
+            "first_place_rate_mean": 0.1257749155652143,
+            "robustness_mean": -11.908033074405036,
+            "tournament_win_rate_mean": 0.35214432232394277,
+            "n_seeds": 4
+          },
+          {
+            "tag": "market_maker_tight",
+            "expected_pnl_mean": 26.427586328791495,
+            "expected_match_pnl_mean": 264.27586328791494,
+            "first_place_rate_mean": 0.11344868409467612,
+            "robustness_mean": -24.709166570802516,
+            "tournament_win_rate_mean": 0.27063938503789725,
+            "n_seeds": 4
+          },
+          {
+            "tag": "regime_switch_v2",
+            "expected_pnl_mean": 22.53816091981819,
+            "expected_match_pnl_mean": 225.3816091981819,
+            "first_place_rate_mean": 0.12474376464373475,
+            "robustness_mean": -39.77448757165934,
+            "tournament_win_rate_mean": 0.2584221131022486,
+            "n_seeds": 4
+          },
+          {
+            "tag": "regime_switch_robust",
+            "expected_pnl_mean": 21.89448605736368,
+            "expected_match_pnl_mean": 218.9448605736368,
+            "first_place_rate_mean": 0.1252121533294672,
+            "robustness_mean": -41.16795606381257,
+            "tournament_win_rate_mean": 0.25143344526584344,
+            "n_seeds": 4
+          },
+          {
+            "tag": "market_maker",
+            "expected_pnl_mean": 16.58598069990816,
+            "expected_match_pnl_mean": 165.85980699908157,
+            "first_place_rate_mean": 0.10265136405747412,
+            "robustness_mean": -47.04866173717038,
+            "tournament_win_rate_mean": 0.22424398901086906,
+            "n_seeds": 4
+          },
+          {
+            "tag": "regime_switch",
+            "expected_pnl_mean": 12.98845594786038,
+            "expected_match_pnl_mean": 129.88455947860382,
+            "first_place_rate_mean": 0.1385043649028574,
+            "robustness_mean": -67.42549056693956,
+            "tournament_win_rate_mean": 0.22478715336835592,
+            "n_seeds": 4
+          },
+          {
+            "tag": "conservative_ultra",
+            "expected_pnl_mean": 4.273431446070091,
+            "expected_match_pnl_mean": 42.734314460700915,
+            "first_place_rate_mean": 0.10126569017629392,
+            "robustness_mean": -72.78582436412523,
+            "tournament_win_rate_mean": 0.16387663265732383,
+            "n_seeds": 4
+          },
+          {
+            "tag": "pot_fraction",
+            "expected_pnl_mean": -16.263831122720703,
+            "expected_match_pnl_mean": -162.63831122720703,
+            "first_place_rate_mean": 0.46378918941385655,
+            "robustness_mean": -216.2185066952398,
+            "tournament_win_rate_mean": 0.11705081168510957,
+            "n_seeds": 4
+          },
+          {
+            "tag": "random",
+            "expected_pnl_mean": -46.79171138398558,
+            "expected_match_pnl_mean": -467.9171138398558,
+            "first_place_rate_mean": 0.34718013453695523,
+            "robustness_mean": -240.3929449141479,
+            "tournament_win_rate_mean": 0.09704432016777212,
+            "n_seeds": 4
+          },
+          {
+            "tag": "bully",
+            "expected_pnl_mean": -70.85885515145186,
+            "expected_match_pnl_mean": -708.5885515145186,
+            "first_place_rate_mean": 0.33828071880429805,
+            "robustness_mean": -270.85885515145185,
+            "tournament_win_rate_mean": 0.05360304934508974,
+            "n_seeds": 4
+          }
+        ],
+        "leaderboard_mean_by_tournament_win": [
+          {
+            "tag": "market_maker_v2",
+            "expected_pnl_mean": 34.19380568941832,
+            "expected_match_pnl_mean": 341.9380568941832,
+            "first_place_rate_mean": 0.1257749155652143,
+            "robustness_mean": -11.908033074405036,
+            "tournament_win_rate_mean": 0.35214432232394277,
+            "n_seeds": 4
+          },
+          {
+            "tag": "market_maker_tight",
+            "expected_pnl_mean": 26.427586328791495,
+            "expected_match_pnl_mean": 264.27586328791494,
+            "first_place_rate_mean": 0.11344868409467612,
+            "robustness_mean": -24.709166570802516,
+            "tournament_win_rate_mean": 0.27063938503789725,
+            "n_seeds": 4
+          },
+          {
+            "tag": "regime_switch_v2",
+            "expected_pnl_mean": 22.53816091981819,
+            "expected_match_pnl_mean": 225.3816091981819,
+            "first_place_rate_mean": 0.12474376464373475,
+            "robustness_mean": -39.77448757165934,
+            "tournament_win_rate_mean": 0.2584221131022486,
+            "n_seeds": 4
+          },
+          {
+            "tag": "regime_switch_robust",
+            "expected_pnl_mean": 21.89448605736368,
+            "expected_match_pnl_mean": 218.9448605736368,
+            "first_place_rate_mean": 0.1252121533294672,
+            "robustness_mean": -41.16795606381257,
+            "tournament_win_rate_mean": 0.25143344526584344,
+            "n_seeds": 4
+          },
+          {
+            "tag": "regime_switch",
+            "expected_pnl_mean": 12.98845594786038,
+            "expected_match_pnl_mean": 129.88455947860382,
+            "first_place_rate_mean": 0.1385043649028574,
+            "robustness_mean": -67.42549056693956,
+            "tournament_win_rate_mean": 0.22478715336835592,
+            "n_seeds": 4
+          },
+          {
+            "tag": "market_maker",
+            "expected_pnl_mean": 16.58598069990816,
+            "expected_match_pnl_mean": 165.85980699908157,
+            "first_place_rate_mean": 0.10265136405747412,
+            "robustness_mean": -47.04866173717038,
+            "tournament_win_rate_mean": 0.22424398901086906,
+            "n_seeds": 4
+          },
+          {
+            "tag": "conservative_ultra",
+            "expected_pnl_mean": 4.273431446070091,
+            "expected_match_pnl_mean": 42.734314460700915,
+            "first_place_rate_mean": 0.10126569017629392,
+            "robustness_mean": -72.78582436412523,
+            "tournament_win_rate_mean": 0.16387663265732383,
+            "n_seeds": 4
+          },
+          {
+            "tag": "pot_fraction",
+            "expected_pnl_mean": -16.263831122720703,
+            "expected_match_pnl_mean": -162.63831122720703,
+            "first_place_rate_mean": 0.46378918941385655,
+            "robustness_mean": -216.2185066952398,
+            "tournament_win_rate_mean": 0.11705081168510957,
+            "n_seeds": 4
+          },
+          {
+            "tag": "random",
+            "expected_pnl_mean": -46.79171138398558,
+            "expected_match_pnl_mean": -467.9171138398558,
+            "first_place_rate_mean": 0.34718013453695523,
+            "robustness_mean": -240.3929449141479,
+            "tournament_win_rate_mean": 0.09704432016777212,
+            "n_seeds": 4
+          },
+          {
+            "tag": "bully",
+            "expected_pnl_mean": -70.85885515145186,
+            "expected_match_pnl_mean": -708.5885515145186,
+            "first_place_rate_mean": 0.33828071880429805,
+            "robustness_mean": -270.85885515145185,
+            "tournament_win_rate_mean": 0.05360304934508974,
+            "n_seeds": 4
+          }
+        ]
+      },
+      {
+        "objective": "tournament_win",
+        "horizon": 10,
+        "correlation_mode": "none",
+        "top": {
+          "tag": "market_maker_v2",
+          "expected_pnl_mean": 37.187571733908165,
+          "expected_match_pnl_mean": 371.87571733908163,
+          "first_place_rate_mean": 0.1493718521019624,
+          "robustness_mean": -7.317925083563105,
+          "tournament_win_rate_mean": 0.370088986628342,
+          "n_seeds": 4
+        },
+        "leaderboard_mean_by_ev": [
+          {
+            "tag": "market_maker_v2",
+            "expected_pnl_mean": 37.187571733908165,
+            "expected_match_pnl_mean": 371.87571733908163,
+            "first_place_rate_mean": 0.1493718521019624,
+            "robustness_mean": -7.317925083563105,
+            "tournament_win_rate_mean": 0.370088986628342,
+            "n_seeds": 4
+          },
+          {
+            "tag": "market_maker_tight",
+            "expected_pnl_mean": 28.57618367695494,
+            "expected_match_pnl_mean": 285.7618367695494,
+            "first_place_rate_mean": 0.12433630531808854,
+            "robustness_mean": -21.142322824422045,
+            "tournament_win_rate_mean": 0.3057117770286676,
+            "n_seeds": 4
+          },
+          {
+            "tag": "regime_switch_v2",
+            "expected_pnl_mean": 25.844174726987124,
+            "expected_match_pnl_mean": 258.44174726987126,
+            "first_place_rate_mean": 0.13904846917654995,
+            "robustness_mean": -35.246892397593165,
+            "tournament_win_rate_mean": 0.2579540752964986,
+            "n_seeds": 4
+          },
+          {
+            "tag": "regime_switch_robust",
+            "expected_pnl_mean": 23.691491108094848,
+            "expected_match_pnl_mean": 236.91491108094849,
+            "first_place_rate_mean": 0.1332192497775153,
+            "robustness_mean": -38.336991536557164,
+            "tournament_win_rate_mean": 0.2444435453098009,
+            "n_seeds": 4
+          },
+          {
+            "tag": "market_maker",
+            "expected_pnl_mean": 20.776680633789805,
+            "expected_match_pnl_mean": 207.76680633789806,
+            "first_place_rate_mean": 0.11507676272041578,
+            "robustness_mean": -39.33360182206144,
+            "tournament_win_rate_mean": 0.22881743350835707,
+            "n_seeds": 4
+          },
+          {
+            "tag": "regime_switch",
+            "expected_pnl_mean": 19.58335918623228,
+            "expected_match_pnl_mean": 195.8335918623228,
+            "first_place_rate_mean": 0.15863429319091243,
+            "robustness_mean": -55.661743070827164,
+            "tournament_win_rate_mean": 0.24205936534771688,
+            "n_seeds": 4
+          },
+          {
+            "tag": "conservative_ultra",
+            "expected_pnl_mean": 9.986131991337169,
+            "expected_match_pnl_mean": 99.86131991337169,
+            "first_place_rate_mean": 0.12235752486625874,
+            "robustness_mean": -64.25971300292764,
+            "tournament_win_rate_mean": 0.17402205099095164,
+            "n_seeds": 4
+          },
+          {
+            "tag": "pot_fraction",
+            "expected_pnl_mean": -20.79783822443706,
+            "expected_match_pnl_mean": -207.9783822443706,
+            "first_place_rate_mean": 0.4257828372487524,
+            "robustness_mean": -220.79783822443704,
+            "tournament_win_rate_mean": 0.06583511563096153,
+            "n_seeds": 4
+          },
+          {
+            "tag": "random",
+            "expected_pnl_mean": -45.75531213426876,
+            "expected_match_pnl_mean": -457.55312134268763,
+            "first_place_rate_mean": 0.3472589546053454,
+            "robustness_mean": -240.2759867704541,
+            "tournament_win_rate_mean": 0.11233810138719602,
+            "n_seeds": 4
+          },
+          {
+            "tag": "bully",
+            "expected_pnl_mean": -92.69413853759647,
+            "expected_match_pnl_mean": -926.9413853759647,
+            "first_place_rate_mean": 0.2702319473245526,
+            "robustness_mean": -292.6941385375965,
+            "tournament_win_rate_mean": 0.01556263152249116,
+            "n_seeds": 4
+          }
+        ],
+        "leaderboard_mean_by_first_place": [
+          {
+            "tag": "pot_fraction",
+            "expected_pnl_mean": -20.79783822443706,
+            "expected_match_pnl_mean": -207.9783822443706,
+            "first_place_rate_mean": 0.4257828372487524,
+            "robustness_mean": -220.79783822443704,
+            "tournament_win_rate_mean": 0.06583511563096153,
+            "n_seeds": 4
+          },
+          {
+            "tag": "random",
+            "expected_pnl_mean": -45.75531213426876,
+            "expected_match_pnl_mean": -457.55312134268763,
+            "first_place_rate_mean": 0.3472589546053454,
+            "robustness_mean": -240.2759867704541,
+            "tournament_win_rate_mean": 0.11233810138719602,
+            "n_seeds": 4
+          },
+          {
+            "tag": "bully",
+            "expected_pnl_mean": -92.69413853759647,
+            "expected_match_pnl_mean": -926.9413853759647,
+            "first_place_rate_mean": 0.2702319473245526,
+            "robustness_mean": -292.6941385375965,
+            "tournament_win_rate_mean": 0.01556263152249116,
+            "n_seeds": 4
+          },
+          {
+            "tag": "regime_switch",
+            "expected_pnl_mean": 19.58335918623228,
+            "expected_match_pnl_mean": 195.8335918623228,
+            "first_place_rate_mean": 0.15863429319091243,
+            "robustness_mean": -55.661743070827164,
+            "tournament_win_rate_mean": 0.24205936534771688,
+            "n_seeds": 4
+          },
+          {
+            "tag": "market_maker_v2",
+            "expected_pnl_mean": 37.187571733908165,
+            "expected_match_pnl_mean": 371.87571733908163,
+            "first_place_rate_mean": 0.1493718521019624,
+            "robustness_mean": -7.317925083563105,
+            "tournament_win_rate_mean": 0.370088986628342,
+            "n_seeds": 4
+          },
+          {
+            "tag": "regime_switch_v2",
+            "expected_pnl_mean": 25.844174726987124,
+            "expected_match_pnl_mean": 258.44174726987126,
+            "first_place_rate_mean": 0.13904846917654995,
+            "robustness_mean": -35.246892397593165,
+            "tournament_win_rate_mean": 0.2579540752964986,
+            "n_seeds": 4
+          },
+          {
+            "tag": "regime_switch_robust",
+            "expected_pnl_mean": 23.691491108094848,
+            "expected_match_pnl_mean": 236.91491108094849,
+            "first_place_rate_mean": 0.1332192497775153,
+            "robustness_mean": -38.336991536557164,
+            "tournament_win_rate_mean": 0.2444435453098009,
+            "n_seeds": 4
+          },
+          {
+            "tag": "market_maker_tight",
+            "expected_pnl_mean": 28.57618367695494,
+            "expected_match_pnl_mean": 285.7618367695494,
+            "first_place_rate_mean": 0.12433630531808854,
+            "robustness_mean": -21.142322824422045,
+            "tournament_win_rate_mean": 0.3057117770286676,
+            "n_seeds": 4
+          },
+          {
+            "tag": "conservative_ultra",
+            "expected_pnl_mean": 9.986131991337169,
+            "expected_match_pnl_mean": 99.86131991337169,
+            "first_place_rate_mean": 0.12235752486625874,
+            "robustness_mean": -64.25971300292764,
+            "tournament_win_rate_mean": 0.17402205099095164,
+            "n_seeds": 4
+          },
+          {
+            "tag": "market_maker",
+            "expected_pnl_mean": 20.776680633789805,
+            "expected_match_pnl_mean": 207.76680633789806,
+            "first_place_rate_mean": 0.11507676272041578,
+            "robustness_mean": -39.33360182206144,
+            "tournament_win_rate_mean": 0.22881743350835707,
+            "n_seeds": 4
+          }
+        ],
+        "leaderboard_mean_by_robustness": [
+          {
+            "tag": "market_maker_v2",
+            "expected_pnl_mean": 37.187571733908165,
+            "expected_match_pnl_mean": 371.87571733908163,
+            "first_place_rate_mean": 0.1493718521019624,
+            "robustness_mean": -7.317925083563105,
+            "tournament_win_rate_mean": 0.370088986628342,
+            "n_seeds": 4
+          },
+          {
+            "tag": "market_maker_tight",
+            "expected_pnl_mean": 28.57618367695494,
+            "expected_match_pnl_mean": 285.7618367695494,
+            "first_place_rate_mean": 0.12433630531808854,
+            "robustness_mean": -21.142322824422045,
+            "tournament_win_rate_mean": 0.3057117770286676,
+            "n_seeds": 4
+          },
+          {
+            "tag": "regime_switch_v2",
+            "expected_pnl_mean": 25.844174726987124,
+            "expected_match_pnl_mean": 258.44174726987126,
+            "first_place_rate_mean": 0.13904846917654995,
+            "robustness_mean": -35.246892397593165,
+            "tournament_win_rate_mean": 0.2579540752964986,
+            "n_seeds": 4
+          },
+          {
+            "tag": "regime_switch_robust",
+            "expected_pnl_mean": 23.691491108094848,
+            "expected_match_pnl_mean": 236.91491108094849,
+            "first_place_rate_mean": 0.1332192497775153,
+            "robustness_mean": -38.336991536557164,
+            "tournament_win_rate_mean": 0.2444435453098009,
+            "n_seeds": 4
+          },
+          {
+            "tag": "market_maker",
+            "expected_pnl_mean": 20.776680633789805,
+            "expected_match_pnl_mean": 207.76680633789806,
+            "first_place_rate_mean": 0.11507676272041578,
+            "robustness_mean": -39.33360182206144,
+            "tournament_win_rate_mean": 0.22881743350835707,
+            "n_seeds": 4
+          },
+          {
+            "tag": "regime_switch",
+            "expected_pnl_mean": 19.58335918623228,
+            "expected_match_pnl_mean": 195.8335918623228,
+            "first_place_rate_mean": 0.15863429319091243,
+            "robustness_mean": -55.661743070827164,
+            "tournament_win_rate_mean": 0.24205936534771688,
+            "n_seeds": 4
+          },
+          {
+            "tag": "conservative_ultra",
+            "expected_pnl_mean": 9.986131991337169,
+            "expected_match_pnl_mean": 99.86131991337169,
+            "first_place_rate_mean": 0.12235752486625874,
+            "robustness_mean": -64.25971300292764,
+            "tournament_win_rate_mean": 0.17402205099095164,
+            "n_seeds": 4
+          },
+          {
+            "tag": "pot_fraction",
+            "expected_pnl_mean": -20.79783822443706,
+            "expected_match_pnl_mean": -207.9783822443706,
+            "first_place_rate_mean": 0.4257828372487524,
+            "robustness_mean": -220.79783822443704,
+            "tournament_win_rate_mean": 0.06583511563096153,
+            "n_seeds": 4
+          },
+          {
+            "tag": "random",
+            "expected_pnl_mean": -45.75531213426876,
+            "expected_match_pnl_mean": -457.55312134268763,
+            "first_place_rate_mean": 0.3472589546053454,
+            "robustness_mean": -240.2759867704541,
+            "tournament_win_rate_mean": 0.11233810138719602,
+            "n_seeds": 4
+          },
+          {
+            "tag": "bully",
+            "expected_pnl_mean": -92.69413853759647,
+            "expected_match_pnl_mean": -926.9413853759647,
+            "first_place_rate_mean": 0.2702319473245526,
+            "robustness_mean": -292.6941385375965,
+            "tournament_win_rate_mean": 0.01556263152249116,
+            "n_seeds": 4
+          }
+        ],
+        "leaderboard_mean_by_tournament_win": [
+          {
+            "tag": "market_maker_v2",
+            "expected_pnl_mean": 37.187571733908165,
+            "expected_match_pnl_mean": 371.87571733908163,
+            "first_place_rate_mean": 0.1493718521019624,
+            "robustness_mean": -7.317925083563105,
+            "tournament_win_rate_mean": 0.370088986628342,
+            "n_seeds": 4
+          },
+          {
+            "tag": "market_maker_tight",
+            "expected_pnl_mean": 28.57618367695494,
+            "expected_match_pnl_mean": 285.7618367695494,
+            "first_place_rate_mean": 0.12433630531808854,
+            "robustness_mean": -21.142322824422045,
+            "tournament_win_rate_mean": 0.3057117770286676,
+            "n_seeds": 4
+          },
+          {
+            "tag": "regime_switch_v2",
+            "expected_pnl_mean": 25.844174726987124,
+            "expected_match_pnl_mean": 258.44174726987126,
+            "first_place_rate_mean": 0.13904846917654995,
+            "robustness_mean": -35.246892397593165,
+            "tournament_win_rate_mean": 0.2579540752964986,
+            "n_seeds": 4
+          },
+          {
+            "tag": "regime_switch_robust",
+            "expected_pnl_mean": 23.691491108094848,
+            "expected_match_pnl_mean": 236.91491108094849,
+            "first_place_rate_mean": 0.1332192497775153,
+            "robustness_mean": -38.336991536557164,
+            "tournament_win_rate_mean": 0.2444435453098009,
+            "n_seeds": 4
+          },
+          {
+            "tag": "regime_switch",
+            "expected_pnl_mean": 19.58335918623228,
+            "expected_match_pnl_mean": 195.8335918623228,
+            "first_place_rate_mean": 0.15863429319091243,
+            "robustness_mean": -55.661743070827164,
+            "tournament_win_rate_mean": 0.24205936534771688,
+            "n_seeds": 4
+          },
+          {
+            "tag": "market_maker",
+            "expected_pnl_mean": 20.776680633789805,
+            "expected_match_pnl_mean": 207.76680633789806,
+            "first_place_rate_mean": 0.11507676272041578,
+            "robustness_mean": -39.33360182206144,
+            "tournament_win_rate_mean": 0.22881743350835707,
+            "n_seeds": 4
+          },
+          {
+            "tag": "conservative_ultra",
+            "expected_pnl_mean": 9.986131991337169,
+            "expected_match_pnl_mean": 99.86131991337169,
+            "first_place_rate_mean": 0.12235752486625874,
+            "robustness_mean": -64.25971300292764,
+            "tournament_win_rate_mean": 0.17402205099095164,
+            "n_seeds": 4
+          },
+          {
+            "tag": "random",
+            "expected_pnl_mean": -45.75531213426876,
+            "expected_match_pnl_mean": -457.55312134268763,
+            "first_place_rate_mean": 0.3472589546053454,
+            "robustness_mean": -240.2759867704541,
+            "tournament_win_rate_mean": 0.11233810138719602,
+            "n_seeds": 4
+          },
+          {
+            "tag": "pot_fraction",
+            "expected_pnl_mean": -20.79783822443706,
+            "expected_match_pnl_mean": -207.9783822443706,
+            "first_place_rate_mean": 0.4257828372487524,
+            "robustness_mean": -220.79783822443704,
+            "tournament_win_rate_mean": 0.06583511563096153,
+            "n_seeds": 4
+          },
+          {
+            "tag": "bully",
+            "expected_pnl_mean": -92.69413853759647,
+            "expected_match_pnl_mean": -926.9413853759647,
+            "first_place_rate_mean": 0.2702319473245526,
+            "robustness_mean": -292.6941385375965,
+            "tournament_win_rate_mean": 0.01556263152249116,
+            "n_seeds": 4
+          }
+        ]
+      },
+      {
+        "objective": "tournament_win",
+        "horizon": 10,
+        "correlation_mode": "respect",
+        "top": {
+          "tag": "market_maker_v2",
+          "expected_pnl_mean": 34.6450983288136,
+          "expected_match_pnl_mean": 346.450983288136,
+          "first_place_rate_mean": 0.1250307672652336,
+          "robustness_mean": -10.142161402570734,
+          "tournament_win_rate_mean": 0.34515344859369346,
+          "n_seeds": 4
+        },
+        "leaderboard_mean_by_ev": [
+          {
+            "tag": "market_maker_v2",
+            "expected_pnl_mean": 34.6450983288136,
+            "expected_match_pnl_mean": 346.450983288136,
+            "first_place_rate_mean": 0.1250307672652336,
+            "robustness_mean": -10.142161402570734,
+            "tournament_win_rate_mean": 0.34515344859369346,
+            "n_seeds": 4
+          },
+          {
+            "tag": "market_maker_tight",
+            "expected_pnl_mean": 26.345642709985608,
+            "expected_match_pnl_mean": 263.45642709985606,
+            "first_place_rate_mean": 0.11312372251243992,
+            "robustness_mean": -23.719712514081056,
+            "tournament_win_rate_mean": 0.2677102104652368,
+            "n_seeds": 4
+          },
+          {
+            "tag": "regime_switch_v2",
+            "expected_pnl_mean": 22.651088180197558,
+            "expected_match_pnl_mean": 226.5108818019756,
+            "first_place_rate_mean": 0.12610411418384657,
+            "robustness_mean": -38.131220180442874,
+            "tournament_win_rate_mean": 0.26572789937236657,
+            "n_seeds": 4
+          },
+          {
+            "tag": "regime_switch_robust",
+            "expected_pnl_mean": 22.12545066511019,
+            "expected_match_pnl_mean": 221.2545066511019,
+            "first_place_rate_mean": 0.12779314167424763,
+            "robustness_mean": -39.864734975106856,
+            "tournament_win_rate_mean": 0.26206057191221366,
+            "n_seeds": 4
+          },
+          {
+            "tag": "market_maker",
+            "expected_pnl_mean": 15.844770919088903,
+            "expected_match_pnl_mean": 158.44770919088904,
+            "first_place_rate_mean": 0.10015359716981709,
+            "robustness_mean": -46.58618683004752,
+            "tournament_win_rate_mean": 0.22659646877578427,
+            "n_seeds": 4
+          },
+          {
+            "tag": "regime_switch",
+            "expected_pnl_mean": 14.58636965077972,
+            "expected_match_pnl_mean": 145.86369650779721,
+            "first_place_rate_mean": 0.14001218870490822,
+            "robustness_mean": -63.827731397413686,
+            "tournament_win_rate_mean": 0.22645424167311498,
+            "n_seeds": 4
+          },
+          {
+            "tag": "conservative_ultra",
+            "expected_pnl_mean": 4.998722762210771,
+            "expected_match_pnl_mean": 49.98722762210771,
+            "first_place_rate_mean": 0.10396094274211586,
+            "robustness_mean": -70.3630402425336,
+            "tournament_win_rate_mean": 0.15877971864945473,
+            "n_seeds": 4
+          },
+          {
+            "tag": "pot_fraction",
+            "expected_pnl_mean": -16.205711876442393,
+            "expected_match_pnl_mean": -162.05711876442393,
+            "first_place_rate_mean": 0.46699336252638224,
+            "robustness_mean": -215.83643706728208,
+            "tournament_win_rate_mean": 0.12393608103043573,
+            "n_seeds": 4
+          },
+          {
+            "tag": "random",
+            "expected_pnl_mean": -47.493909909536455,
+            "expected_match_pnl_mean": -474.93909909536455,
+            "first_place_rate_mean": 0.3447708860897264,
+            "robustness_mean": -240.5865464691216,
+            "tournament_win_rate_mean": 0.09780036396038091,
+            "n_seeds": 4
+          },
+          {
+            "tag": "bully",
+            "expected_pnl_mean": -72.31307333599678,
+            "expected_match_pnl_mean": -723.1307333599678,
+            "first_place_rate_mean": 0.3330325446980702,
+            "robustness_mean": -272.31307333599676,
+            "tournament_win_rate_mean": 0.04089627862522419,
+            "n_seeds": 4
+          }
+        ],
+        "leaderboard_mean_by_first_place": [
+          {
+            "tag": "pot_fraction",
+            "expected_pnl_mean": -16.205711876442393,
+            "expected_match_pnl_mean": -162.05711876442393,
+            "first_place_rate_mean": 0.46699336252638224,
+            "robustness_mean": -215.83643706728208,
+            "tournament_win_rate_mean": 0.12393608103043573,
+            "n_seeds": 4
+          },
+          {
+            "tag": "random",
+            "expected_pnl_mean": -47.493909909536455,
+            "expected_match_pnl_mean": -474.93909909536455,
+            "first_place_rate_mean": 0.3447708860897264,
+            "robustness_mean": -240.5865464691216,
+            "tournament_win_rate_mean": 0.09780036396038091,
+            "n_seeds": 4
+          },
+          {
+            "tag": "bully",
+            "expected_pnl_mean": -72.31307333599678,
+            "expected_match_pnl_mean": -723.1307333599678,
+            "first_place_rate_mean": 0.3330325446980702,
+            "robustness_mean": -272.31307333599676,
+            "tournament_win_rate_mean": 0.04089627862522419,
+            "n_seeds": 4
+          },
+          {
+            "tag": "regime_switch",
+            "expected_pnl_mean": 14.58636965077972,
+            "expected_match_pnl_mean": 145.86369650779721,
+            "first_place_rate_mean": 0.14001218870490822,
+            "robustness_mean": -63.827731397413686,
+            "tournament_win_rate_mean": 0.22645424167311498,
+            "n_seeds": 4
+          },
+          {
+            "tag": "regime_switch_robust",
+            "expected_pnl_mean": 22.12545066511019,
+            "expected_match_pnl_mean": 221.2545066511019,
+            "first_place_rate_mean": 0.12779314167424763,
+            "robustness_mean": -39.864734975106856,
+            "tournament_win_rate_mean": 0.26206057191221366,
+            "n_seeds": 4
+          },
+          {
+            "tag": "regime_switch_v2",
+            "expected_pnl_mean": 22.651088180197558,
+            "expected_match_pnl_mean": 226.5108818019756,
+            "first_place_rate_mean": 0.12610411418384657,
+            "robustness_mean": -38.131220180442874,
+            "tournament_win_rate_mean": 0.26572789937236657,
+            "n_seeds": 4
+          },
+          {
+            "tag": "market_maker_v2",
+            "expected_pnl_mean": 34.6450983288136,
+            "expected_match_pnl_mean": 346.450983288136,
+            "first_place_rate_mean": 0.1250307672652336,
+            "robustness_mean": -10.142161402570734,
+            "tournament_win_rate_mean": 0.34515344859369346,
+            "n_seeds": 4
+          },
+          {
+            "tag": "market_maker_tight",
+            "expected_pnl_mean": 26.345642709985608,
+            "expected_match_pnl_mean": 263.45642709985606,
+            "first_place_rate_mean": 0.11312372251243992,
+            "robustness_mean": -23.719712514081056,
+            "tournament_win_rate_mean": 0.2677102104652368,
+            "n_seeds": 4
+          },
+          {
+            "tag": "conservative_ultra",
+            "expected_pnl_mean": 4.998722762210771,
+            "expected_match_pnl_mean": 49.98722762210771,
+            "first_place_rate_mean": 0.10396094274211586,
+            "robustness_mean": -70.3630402425336,
+            "tournament_win_rate_mean": 0.15877971864945473,
+            "n_seeds": 4
+          },
+          {
+            "tag": "market_maker",
+            "expected_pnl_mean": 15.844770919088903,
+            "expected_match_pnl_mean": 158.44770919088904,
+            "first_place_rate_mean": 0.10015359716981709,
+            "robustness_mean": -46.58618683004752,
+            "tournament_win_rate_mean": 0.22659646877578427,
+            "n_seeds": 4
+          }
+        ],
+        "leaderboard_mean_by_robustness": [
+          {
+            "tag": "market_maker_v2",
+            "expected_pnl_mean": 34.6450983288136,
+            "expected_match_pnl_mean": 346.450983288136,
+            "first_place_rate_mean": 0.1250307672652336,
+            "robustness_mean": -10.142161402570734,
+            "tournament_win_rate_mean": 0.34515344859369346,
+            "n_seeds": 4
+          },
+          {
+            "tag": "market_maker_tight",
+            "expected_pnl_mean": 26.345642709985608,
+            "expected_match_pnl_mean": 263.45642709985606,
+            "first_place_rate_mean": 0.11312372251243992,
+            "robustness_mean": -23.719712514081056,
+            "tournament_win_rate_mean": 0.2677102104652368,
+            "n_seeds": 4
+          },
+          {
+            "tag": "regime_switch_v2",
+            "expected_pnl_mean": 22.651088180197558,
+            "expected_match_pnl_mean": 226.5108818019756,
+            "first_place_rate_mean": 0.12610411418384657,
+            "robustness_mean": -38.131220180442874,
+            "tournament_win_rate_mean": 0.26572789937236657,
+            "n_seeds": 4
+          },
+          {
+            "tag": "regime_switch_robust",
+            "expected_pnl_mean": 22.12545066511019,
+            "expected_match_pnl_mean": 221.2545066511019,
+            "first_place_rate_mean": 0.12779314167424763,
+            "robustness_mean": -39.864734975106856,
+            "tournament_win_rate_mean": 0.26206057191221366,
+            "n_seeds": 4
+          },
+          {
+            "tag": "market_maker",
+            "expected_pnl_mean": 15.844770919088903,
+            "expected_match_pnl_mean": 158.44770919088904,
+            "first_place_rate_mean": 0.10015359716981709,
+            "robustness_mean": -46.58618683004752,
+            "tournament_win_rate_mean": 0.22659646877578427,
+            "n_seeds": 4
+          },
+          {
+            "tag": "regime_switch",
+            "expected_pnl_mean": 14.58636965077972,
+            "expected_match_pnl_mean": 145.86369650779721,
+            "first_place_rate_mean": 0.14001218870490822,
+            "robustness_mean": -63.827731397413686,
+            "tournament_win_rate_mean": 0.22645424167311498,
+            "n_seeds": 4
+          },
+          {
+            "tag": "conservative_ultra",
+            "expected_pnl_mean": 4.998722762210771,
+            "expected_match_pnl_mean": 49.98722762210771,
+            "first_place_rate_mean": 0.10396094274211586,
+            "robustness_mean": -70.3630402425336,
+            "tournament_win_rate_mean": 0.15877971864945473,
+            "n_seeds": 4
+          },
+          {
+            "tag": "pot_fraction",
+            "expected_pnl_mean": -16.205711876442393,
+            "expected_match_pnl_mean": -162.05711876442393,
+            "first_place_rate_mean": 0.46699336252638224,
+            "robustness_mean": -215.83643706728208,
+            "tournament_win_rate_mean": 0.12393608103043573,
+            "n_seeds": 4
+          },
+          {
+            "tag": "random",
+            "expected_pnl_mean": -47.493909909536455,
+            "expected_match_pnl_mean": -474.93909909536455,
+            "first_place_rate_mean": 0.3447708860897264,
+            "robustness_mean": -240.5865464691216,
+            "tournament_win_rate_mean": 0.09780036396038091,
+            "n_seeds": 4
+          },
+          {
+            "tag": "bully",
+            "expected_pnl_mean": -72.31307333599678,
+            "expected_match_pnl_mean": -723.1307333599678,
+            "first_place_rate_mean": 0.3330325446980702,
+            "robustness_mean": -272.31307333599676,
+            "tournament_win_rate_mean": 0.04089627862522419,
+            "n_seeds": 4
+          }
+        ],
+        "leaderboard_mean_by_tournament_win": [
+          {
+            "tag": "market_maker_v2",
+            "expected_pnl_mean": 34.6450983288136,
+            "expected_match_pnl_mean": 346.450983288136,
+            "first_place_rate_mean": 0.1250307672652336,
+            "robustness_mean": -10.142161402570734,
+            "tournament_win_rate_mean": 0.34515344859369346,
+            "n_seeds": 4
+          },
+          {
+            "tag": "market_maker_tight",
+            "expected_pnl_mean": 26.345642709985608,
+            "expected_match_pnl_mean": 263.45642709985606,
+            "first_place_rate_mean": 0.11312372251243992,
+            "robustness_mean": -23.719712514081056,
+            "tournament_win_rate_mean": 0.2677102104652368,
+            "n_seeds": 4
+          },
+          {
+            "tag": "regime_switch_v2",
+            "expected_pnl_mean": 22.651088180197558,
+            "expected_match_pnl_mean": 226.5108818019756,
+            "first_place_rate_mean": 0.12610411418384657,
+            "robustness_mean": -38.131220180442874,
+            "tournament_win_rate_mean": 0.26572789937236657,
+            "n_seeds": 4
+          },
+          {
+            "tag": "regime_switch_robust",
+            "expected_pnl_mean": 22.12545066511019,
+            "expected_match_pnl_mean": 221.2545066511019,
+            "first_place_rate_mean": 0.12779314167424763,
+            "robustness_mean": -39.864734975106856,
+            "tournament_win_rate_mean": 0.26206057191221366,
+            "n_seeds": 4
+          },
+          {
+            "tag": "market_maker",
+            "expected_pnl_mean": 15.844770919088903,
+            "expected_match_pnl_mean": 158.44770919088904,
+            "first_place_rate_mean": 0.10015359716981709,
+            "robustness_mean": -46.58618683004752,
+            "tournament_win_rate_mean": 0.22659646877578427,
+            "n_seeds": 4
+          },
+          {
+            "tag": "regime_switch",
+            "expected_pnl_mean": 14.58636965077972,
+            "expected_match_pnl_mean": 145.86369650779721,
+            "first_place_rate_mean": 0.14001218870490822,
+            "robustness_mean": -63.827731397413686,
+            "tournament_win_rate_mean": 0.22645424167311498,
+            "n_seeds": 4
+          },
+          {
+            "tag": "conservative_ultra",
+            "expected_pnl_mean": 4.998722762210771,
+            "expected_match_pnl_mean": 49.98722762210771,
+            "first_place_rate_mean": 0.10396094274211586,
+            "robustness_mean": -70.3630402425336,
+            "tournament_win_rate_mean": 0.15877971864945473,
+            "n_seeds": 4
+          },
+          {
+            "tag": "pot_fraction",
+            "expected_pnl_mean": -16.205711876442393,
+            "expected_match_pnl_mean": -162.05711876442393,
+            "first_place_rate_mean": 0.46699336252638224,
+            "robustness_mean": -215.83643706728208,
+            "tournament_win_rate_mean": 0.12393608103043573,
+            "n_seeds": 4
+          },
+          {
+            "tag": "random",
+            "expected_pnl_mean": -47.493909909536455,
+            "expected_match_pnl_mean": -474.93909909536455,
+            "first_place_rate_mean": 0.3447708860897264,
+            "robustness_mean": -240.5865464691216,
+            "tournament_win_rate_mean": 0.09780036396038091,
+            "n_seeds": 4
+          },
+          {
+            "tag": "bully",
+            "expected_pnl_mean": -72.31307333599678,
+            "expected_match_pnl_mean": -723.1307333599678,
+            "first_place_rate_mean": 0.3330325446980702,
+            "robustness_mean": -272.31307333599676,
+            "tournament_win_rate_mean": 0.04089627862522419,
+            "n_seeds": 4
+          }
+        ]
+      }
+    ]
+  }
+}

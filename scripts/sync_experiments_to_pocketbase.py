@@ -18,6 +18,16 @@ if str(ROOT) not in sys.path:
 from strategies.builtin import built_in_strategy_factories
 
 
+def objective_metric_key(objective: str) -> str:
+    if objective == "first_place":
+        return "first_place_rate"
+    if objective == "robustness":
+        return "robustness"
+    if objective == "tournament_win":
+        return "tournament_win_rate"
+    return "expected_pnl"
+
+
 def _request_json(
     method: str,
     url: str,
@@ -111,12 +121,14 @@ def ingest_population_file(base_url: str, token: str, path: Path) -> None:
         )
         run_id = run["id"]
 
-        top = max(leaderboard, key=lambda row: row.get("expected_pnl", -10**9))
+        metric_key = objective_metric_key(objective)
+        top = max(leaderboard, key=lambda row: row.get(metric_key, -10**9))
         meta = {
             "run_id": run_id,
             "source_file": str(path),
             "rule_profile": rule_profile,
             "horizon": horizon,
+            "objective_metric": metric_key,
         }
         if extra_meta:
             meta.update(extra_meta)
@@ -127,13 +139,13 @@ def ingest_population_file(base_url: str, token: str, path: Path) -> None:
             {
                 "objective": objective,
                 "strategy_tag": top["tag"],
-                "score": float(top.get("expected_pnl", 0.0)),
+                "score": float(top.get(metric_key, 0.0)),
                 "metadata_json": meta,
             },
         )
 
         for i, row in enumerate(
-            sorted(leaderboard, key=lambda x: x.get("expected_pnl", 0.0), reverse=True),
+            sorted(leaderboard, key=lambda x: x.get(metric_key, 0.0), reverse=True),
             start=1,
         ):
             create_record(

@@ -591,6 +591,10 @@ def built_in_strategy_factories() -> dict[str, callable]:
         "seller_profit": lambda: SellerProfitStrategy(),
         "adaptive_profile": lambda: AdaptiveProfileStrategy(),
         "market_maker": lambda: MarketMakerStrategy(),
+        "market_maker_v2": lambda: MarketMakerStrategy(
+            reserve_frac=0.09,
+            tag="market_maker_v2",
+        ),
         "market_maker_tight": lambda: MarketMakerStrategy(
             reserve_frac=0.095,
             tag="market_maker_tight",
@@ -600,6 +604,14 @@ def built_in_strategy_factories() -> dict[str, callable]:
             tag="market_maker_aggr",
         ),
         "regime_switch": lambda: RegimeSwitchStrategy(),
+        "regime_switch_v2": lambda: RegimeSwitchStrategy(
+            reserve_base=0.105,
+            reserve_min=0.070,
+            reserve_max=0.165,
+            eq_samples=16,
+            jitter=0.05,
+            tag="regime_switch_v2",
+        ),
         "regime_switch_robust": lambda: RegimeSwitchStrategy(
             reserve_base=0.105,
             reserve_min=0.07,

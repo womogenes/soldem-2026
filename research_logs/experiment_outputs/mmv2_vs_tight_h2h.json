@@ -1,0 +1,69 @@
+{
+  "meta": {
+    "generated_at": "2026-03-01T06:26:00-08:00",
+    "strategies": [
+      "market_maker_v2",
+      "market_maker_tight",
+      "market_maker",
+      "regime_switch_robust",
+      "regime_switch_v2",
+      "conservative_ultra",
+      "pot_fraction",
+      "random",
+      "bully"
+    ],
+    "rule_profile": "baseline_v1",
+    "objective": "ev",
+    "n_matches": 700,
+    "n_games_per_match": 10,
+    "seeds": [8801, 8802, 8803],
+    "correlation_modes": ["none", "respect", "herd", "kingmaker"],
+    "note": "Direct head-to-head disambiguation from live long run output"
+  },
+  "rows": [
+    {
+      "condition": "baseline_none_h10",
+      "market_maker_v2": {
+        "mean_ev": 41.261,
+        "seed_vals": [38.379, 41.81, 43.593]
+      },
+      "market_maker_tight": {
+        "mean_ev": 33.409,
+        "seed_vals": [32.34, 34.036, 33.851]
+      }
+    },
+    {
+      "condition": "baseline_respect_h10",
+      "market_maker_v2": {
+        "mean_ev": 36.518,
+        "seed_vals": [34.803, 36.746, 38.004]
+      },
+      "market_maker_tight": {
+        "mean_ev": 29.07,
+        "seed_vals": [27.889, 28.853, 30.467]
+      }
+    },
+    {
+      "condition": "baseline_herd_h10",
+      "market_maker_v2": {
+        "mean_ev": 39.379,
+        "seed_vals": [36.637, 39.503, 41.996]
+      },
+      "market_maker_tight": {
+        "mean_ev": 30.174,
+        "seed_vals": [29.105, 31.963, 29.454]
+      }
+    },
+    {
+      "condition": "baseline_kingmaker_h10",
+      "market_maker_v2": {
+        "mean_ev": 35.354,
+        "seed_vals": [34.059, 35.747, 36.256]
+      },
+      "market_maker_tight": {
+        "mean_ev": 29.089,
+        "seed_vals": [28.22, 28.335, 30.713]
+      }
+    }
+  ]
+}

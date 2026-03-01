@@ -1,6 +1,6 @@
 # Day-of runbook
 
-Local timestamp: 2026-03-01 03:10:00 PST
+Local timestamp: 2026-03-01 06:44:00 PST
 
 ## Startup
 
@@ -21,15 +21,16 @@ pnpm --dir web dev --host 127.0.0.1 --port 5173
 ## Live loop
 
 - Enter phase, stacks, your cards, auction cards, and known cards.
-- Keep objective on `ev` unless standings pressure suggests `first_place` or `robustness`.
+- Keep objective on `ev` unless standings pressure suggests `first_place`, `robustness`, or `tournament_win`.
 - Log bids/auction/showdown events in the side panel.
 - Use recommendation as default action, then override for table dynamics.
 
 ## Objective defaults
 
-- `ev`: `market_maker_tight`
-- `first_place`: `market_maker_tight`
-- `robustness`: `regime_switch_robust`
+- `ev`: `market_maker_v2`
+- `first_place`: `market_maker_v2`
+- `robustness`: `regime_switch_v2`
+- `tournament_win`: `market_maker_v2`
 
 ## Optional high-variance mode
 

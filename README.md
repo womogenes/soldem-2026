@@ -11,9 +11,10 @@ This repository contains a full loop for Sold 'Em strategy research:
 
 Current high-confidence defaults:
 
-- `ev`: `market_maker_tight`
-- `first_place` (safe default): `market_maker_tight`
-- `robustness`: `regime_switch_robust`
+- `ev`: `market_maker_v2`
+- `first_place` (safe default): `market_maker_v2`
+- `robustness`: `regime_switch_v2`
+- `tournament_win`: `market_maker_v2`
 - Optional high-variance first-place override: `pot_fraction`
 
 ## Quickstart

@@ -89,6 +89,8 @@ def _estimate_showdown_win_prob(
 def _objective_multiplier(objective: str) -> float:
     if objective == "first_place":
         return 1.2
+    if objective == "tournament_win":
+        return 1.1
     if objective == "robustness":
         return 0.8
     return 1.0

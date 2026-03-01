@@ -20,7 +20,7 @@ RULE_PROFILES = [
     "high_low_split",
     "single_card_sell",
 ]
-OBJECTIVES = ["ev", "first_place", "robustness"]
+OBJECTIVES = ["ev", "first_place", "robustness", "tournament_win"]
 
 
 def main() -> None:

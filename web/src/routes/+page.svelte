@@ -5,8 +5,16 @@
 	type Suit = 'C' | 'D' | 'H' | 'S' | 'X';
 	type Card = [number, Suit];
 	type Phase = 'sell' | 'bid' | 'choose' | 'showdown';
-	type Objective = 'ev' | 'first_place' | 'robustness';
+	type Objective = 'ev' | 'first_place' | 'robustness' | 'tournament_win';
 	type OutputMode = 'action_first' | 'top3' | 'metrics' | 'all';
+	const RULE_PROFILES = [
+		'baseline_v1',
+		'standard_rankings',
+		'seller_self_bid',
+		'top2_split',
+		'high_low_split',
+		'single_card_sell'
+	];
 
 	const API = 'http://127.0.0.1:8000';
 
@@ -14,6 +22,7 @@
 	let objective: Objective = 'ev';
 	let outputMode: OutputMode = 'all';
 	let strategyTag = '';
+	let ruleProfile = 'baseline_v1';
 	let seat = 0;
 	let sellerIdx = -1;
 	let pot = 200;
@@ -26,6 +35,7 @@
 	let status = '';
 	let loading = false;
 	let championsLoading = false;
+	let profileLoading = false;
 	let recommendation: any = null;
 	let sessionState: any = null;
 	let eventType: 'bid' | 'auction_result' | 'showdown' | 'note' = 'bid';
@@ -60,7 +70,16 @@
 	async function loadSession() {
 		const res = await fetch(`${API}/session/state`);
 		sessionState = await res.json();
+		ruleProfile = sessionState?.rule_profile?.name ?? ruleProfile;
 		if (!strategyTag) strategyTag = sessionState?.champions?.ev ?? '';
+	}
+
+	function useChampionForObjective() {
+		const pick = sessionState?.champions?.[objective];
+		if (pick) {
+			strategyTag = pick;
+			status = `Using ${pick} for ${objective}`;
+		}
 	}
 
 	async function recommend() {
@@ -132,6 +151,25 @@
 		}
 	}
 
+	async function applyRuleProfile() {
+		profileLoading = true;
+		status = '';
+		try {
+			await fetch(`${API}/rules/apply_profile`, {
+				method: 'POST',
+				headers: { 'content-type': 'application/json' },
+				body: JSON.stringify({ profile_name: ruleProfile, overrides: {} })
+			});
+			await loadSession();
+			useChampionForObjective();
+			status = `Applied ${ruleProfile}`;
+		} catch (err) {
+			status = `Profile apply failed: ${String(err)}`;
+		} finally {
+			profileLoading = false;
+		}
+	}
+
 	function setStack(i: number, value: string) {
 		const n = Number(value);
 		stacks[i] = Number.isFinite(n) ? Math.max(0, n) : 0;
@@ -167,6 +205,7 @@
 							<option value="ev">ev</option>
 							<option value="first_place">first_place</option>
 							<option value="robustness">robustness</option>
+							<option value="tournament_win">tournament_win</option>
 						</select>
 					</label>
 					<label class="text-sm">Output mode
@@ -191,6 +230,13 @@
 					</label>
 					<label class="text-sm">Orbits
 						<input class="mt-1 h-9 w-full border bg-background px-2" type="number" min="1" bind:value={nOrbits} />
+					</label>
+					<label class="text-sm">Rule profile
+						<select class="mt-1 h-9 w-full border bg-background px-2" bind:value={ruleProfile}>
+							{#each RULE_PROFILES as profile}
+								<option value={profile}>{profile}</option>
+							{/each}
+						</select>
 					</label>
 					<label class="text-sm">Strategy tag (optional)
 						<input class="mt-1 h-9 w-full border bg-background px-2" placeholder="adaptive_profile" bind:value={strategyTag} />
@@ -229,6 +275,12 @@
 				<div class="mt-3 flex flex-wrap gap-2">
 					<Button class="rounded-none" onclick={recommend} disabled={loading}>
 						{loading ? 'Thinking...' : 'Get recommendation'}
+					</Button>
+					<Button class="rounded-none" variant="outline" onclick={useChampionForObjective}>
+						Use objective champion
+					</Button>
+					<Button class="rounded-none" variant="outline" onclick={applyRuleProfile} disabled={profileLoading}>
+						{profileLoading ? 'Applying...' : 'Apply rule profile'}
 					</Button>
 					<Button class="rounded-none" variant="outline" onclick={loadSession}>Refresh session</Button>
 					<Button class="rounded-none" variant="outline" onclick={recomputeChampions} disabled={championsLoading}>

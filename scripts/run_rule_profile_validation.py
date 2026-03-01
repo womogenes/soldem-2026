@@ -30,7 +30,7 @@ def main() -> None:
         "--profiles",
         default="baseline_v1,standard_rankings,seller_self_bid,top2_split,high_low_split,single_card_sell",
     )
-    ap.add_argument("--objectives", default="ev,first_place,robustness")
+    ap.add_argument("--objectives", default="ev,first_place,robustness,tournament_win")
     ap.add_argument("--seeds", default="7001,7002,7003")
     ap.add_argument("--n-matches", type=int, default=400)
     ap.add_argument("--n-games-per-match", type=int, default=10)
@@ -95,13 +95,17 @@ def main() -> None:
 
     summary = []
     for (profile, objective), samples in sorted(grouped.items()):
-        acc = defaultdict(lambda: {"ev": [], "first": [], "rob": []})
+        acc = defaultdict(
+            lambda: {"ev": [], "match_ev": [], "first": [], "rob": [], "tour": []}
+        )
         for sample in samples:
             for item in sample["leaderboard"]:
                 tag = item["tag"]
                 acc[tag]["ev"].append(float(item["expected_pnl"]))
+                acc[tag]["match_ev"].append(float(item.get("expected_match_pnl", 0.0)))
                 acc[tag]["first"].append(float(item["first_place_rate"]))
                 acc[tag]["rob"].append(float(item["robustness"]))
+                acc[tag]["tour"].append(float(item.get("tournament_win_rate", 0.0)))
 
         merged = []
         for tag, vals in acc.items():
@@ -109,8 +113,10 @@ def main() -> None:
                 {
                     "tag": tag,
                     "expected_pnl_mean": mean(vals["ev"]),
+                    "expected_match_pnl_mean": mean(vals["match_ev"]),
                     "first_place_rate_mean": mean(vals["first"]),
                     "robustness_mean": mean(vals["rob"]),
+                    "tournament_win_rate_mean": mean(vals["tour"]),
                     "n_seeds": len(vals["ev"]),
                 }
             )
@@ -126,11 +132,18 @@ def main() -> None:
             key=lambda r: r["robustness_mean"],
             reverse=True,
         )
+        by_tournament = sorted(
+            merged,
+            key=lambda r: r["tournament_win_rate_mean"],
+            reverse=True,
+        )
 
         if objective == "first_place":
             top_objective = by_first[0] if by_first else None
         elif objective == "robustness":
             top_objective = by_rob[0] if by_rob else None
+        elif objective == "tournament_win":
+            top_objective = by_tournament[0] if by_tournament else None
         else:
             top_objective = by_ev[0] if by_ev else None
 
@@ -142,6 +155,7 @@ def main() -> None:
                 "leaderboard_mean_by_ev": by_ev,
                 "leaderboard_mean_by_first_place": by_first,
                 "leaderboard_mean_by_robustness": by_rob,
+                "leaderboard_mean_by_tournament_win": by_tournament,
             }
         )
 

@@ -15,38 +15,44 @@ from strategies import PlayerProfile, built_in_strategy_factories
 
 Phase = Literal["sell", "bid", "choose", "showdown"]
 OutputMode = Literal["action_first", "top3", "metrics", "all"]
-Objective = Literal["ev", "first_place", "robustness"]
+Objective = Literal["ev", "first_place", "robustness", "tournament_win"]
 
 PROFILE_OBJECTIVE_DEFAULTS: dict[str, dict[str, str]] = {
     "baseline_v1": {
-        "ev": "market_maker_tight",
-        "first_place": "market_maker_tight",
-        "robustness": "regime_switch_robust",
+        "ev": "market_maker_v2",
+        "first_place": "market_maker_v2",
+        "robustness": "regime_switch_v2",
+        "tournament_win": "market_maker_v2",
     },
     "standard_rankings": {
-        "ev": "market_maker_tight",
-        "first_place": "market_maker_tight",
-        "robustness": "regime_switch_robust",
+        "ev": "market_maker_v2",
+        "first_place": "market_maker_v2",
+        "robustness": "regime_switch_v2",
+        "tournament_win": "market_maker_v2",
     },
     "seller_self_bid": {
-        "ev": "market_maker_tight",
-        "first_place": "market_maker_tight",
-        "robustness": "regime_switch_robust",
+        "ev": "market_maker_v2",
+        "first_place": "market_maker_v2",
+        "robustness": "regime_switch_v2",
+        "tournament_win": "market_maker_v2",
     },
     "top2_split": {
-        "ev": "market_maker_tight",
-        "first_place": "market_maker_tight",
-        "robustness": "regime_switch_robust",
+        "ev": "market_maker_v2",
+        "first_place": "market_maker_v2",
+        "robustness": "regime_switch_v2",
+        "tournament_win": "market_maker_v2",
     },
     "high_low_split": {
-        "ev": "market_maker_tight",
-        "first_place": "market_maker_tight",
-        "robustness": "regime_switch_robust",
+        "ev": "market_maker_v2",
+        "first_place": "market_maker_v2",
+        "robustness": "regime_switch_v2",
+        "tournament_win": "market_maker_v2",
     },
     "single_card_sell": {
-        "ev": "market_maker_tight",
-        "first_place": "market_maker_tight",
-        "robustness": "regime_switch_robust",
+        "ev": "market_maker_v2",
+        "first_place": "market_maker_v2",
+        "robustness": "regime_switch_v2",
+        "tournament_win": "market_maker_v2",
     },
 }
 
@@ -157,9 +163,10 @@ class Session:
             "ev": "expected_pnl",
             "first_place": "first_place_rate",
             "robustness": "robustness",
+            "tournament_win": "tournament_win_rate",
         }
 
-        for objective in ["ev", "first_place", "robustness"]:
+        for objective in ["ev", "first_place", "robustness", "tournament_win"]:
             out = run_population_tournament(
                 strategy_tags,
                 n_matches=req.n_matches,

@@ -13,7 +13,7 @@ if str(ROOT) not in sys.path:
 from sim import CorrelationModel, run_population_tournament
 
 
-OBJECTIVES = ["ev", "first_place", "robustness"]
+OBJECTIVES = ["ev", "first_place", "robustness", "tournament_win"]
 HORIZONS = [5, 10, 20]
 LLM_MODES = ["offline_only", "fallback_live", "primary_live"]
 CORR_MODES = [
