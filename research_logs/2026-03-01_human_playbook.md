@@ -1,6 +1,6 @@
 # Human playbook for Sold 'Em
 
-Local timestamp: 2026-03-01 06:53:18 PST
+Local timestamp: 2026-03-01 07:08:01 PST
 
 ## Core principle
 
@@ -16,7 +16,7 @@ Current objective-specific champion set:
 
 - `ev`: `seller_extraction:opportunistic_delta=5400,reserve_bid_floor=0.032,sell_count=2`
 - `first_place`: `seller_profit`
-- `robustness`: `seller_extraction:opportunistic_delta=4400,reserve_bid_floor=0.02,sell_count=2`
+- `robustness`: `seller_extraction:opportunistic_delta=4500,reserve_bid_floor=0.02,sell_count=2`
 
 Recent EC2 confirmation path:
 
@@ -63,6 +63,12 @@ Recent EC2 confirmation path:
 - `ev`: `5400/0.032/2`
 - `first_place`: `seller_profit`
 - `robustness`: `4400/0.02/2`
+- Post-7:00 distributed confirmation run `20260301-070229` and 4-run merged promotion (864 scenarios):
+- `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-071000-merged4.json`
+- updated objective split:
+- `ev`: `5400/0.032/2`
+- `first_place`: `seller_profit`
+- `robustness`: `4500/0.02/2`
 
 ## Turn-by-turn guidance
 

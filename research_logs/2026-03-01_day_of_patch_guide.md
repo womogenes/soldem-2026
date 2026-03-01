@@ -1,6 +1,6 @@
 # Day-of rapid patch guide for rule variations
 
-Local timestamp: 2026-03-01 06:54:52 PST
+Local timestamp: 2026-03-01 07:09:04 PST
 
 ## Goal
 
@@ -83,7 +83,7 @@ Current objective-specific fallback set:
 
 - `ev`: `seller_extraction:opportunistic_delta=5400,reserve_bid_floor=0.032,sell_count=2`
 - `first_place`: `seller_profit`
-- `robustness`: `seller_extraction:opportunistic_delta=4400,reserve_bid_floor=0.02,sell_count=2`
+- `robustness`: `seller_extraction:opportunistic_delta=4500,reserve_bid_floor=0.02,sell_count=2`
 
 If recompute fails on day-of, load latest artifact champion map:
 
@@ -109,6 +109,7 @@ Higher-confidence distributed fallback maps are also available:
 - `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-062400-merged.json`
 - `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-064350-safe.json`
 - `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-065230-merged3.json`
+- `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-071000-merged4.json`
 - `research_logs/experiment_outputs/horizon10_confirmation_20260301-033100.json` (10-game extraction)
 
 ## Patch templates for unknown new rule types

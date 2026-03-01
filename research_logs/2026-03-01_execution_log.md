@@ -559,3 +559,29 @@ Local timezone: PST (America/Los_Angeles)
     - `first_place`: `seller_profit`
     - `robustness`: `4400/0.02/2`
 - Reconfirmed no active simulation workers in EC2.
+
+## 2026-03-01 07:10:28 PST
+
+- Continued post-cutoff EC2 validation cycle.
+- Uploaded artifact:
+  - `s3://soldem-2026-539881456097-1772358537/artifacts/soldem_v5_751cce5_20260301-070153.tar.gz`
+- Launched and collected distributed run `20260301-070229`:
+  - 16x `c7i.large`
+  - `n_matches=150`
+  - outputs:
+    - `research_logs/experiment_outputs/distributed_20260301-070229/aggregate_summary.json`
+    - `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-070229.json`
+    - `research_logs/experiment_outputs/upgrade_validation_candidate_20260301-070229.json`
+- Built merged aggregate across four human-focused distributed runs:
+  - source runs: `053816`, `061228`, `064700`, `070229`
+  - merged aggregate:
+    - `research_logs/experiment_outputs/distributed_20260301-071000-merged4/aggregate_summary.json`
+  - promoted artifact:
+    - `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-071000-merged4.json`
+  - promoted objective split:
+    - `ev`: `seller_extraction:opportunistic_delta=5400,reserve_bid_floor=0.032,sell_count=2`
+    - `first_place`: `seller_profit`
+    - `robustness`: `seller_extraction:opportunistic_delta=4500,reserve_bid_floor=0.02,sell_count=2`
+- Added post-cutoff handoff note:
+  - `research_logs/2026-03-01_post7am_update.md`
+- Verified no active EC2 simulation workers after termination.

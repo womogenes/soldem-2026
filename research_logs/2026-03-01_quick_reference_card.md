@@ -1,12 +1,12 @@
 # Sold 'Em quick reference card
 
-Local timestamp: 2026-03-01 06:53:34 PST
+Local timestamp: 2026-03-01 07:08:16 PST
 
 ## Primary strategies
 
 - `ev`: `seller_extraction:opportunistic_delta=5400,reserve_bid_floor=0.032,sell_count=2`
 - `first_place`: `seller_profit`
-- `robustness`: `seller_extraction:opportunistic_delta=4400,reserve_bid_floor=0.02,sell_count=2`
+- `robustness`: `seller_extraction:opportunistic_delta=4500,reserve_bid_floor=0.02,sell_count=2`
 
 ## Why this is current default
 
@@ -29,6 +29,8 @@ Local timestamp: 2026-03-01 06:53:34 PST
 - `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-064350-safe.json`.
 - final merged pre-7am promotion across three human-focused distributed runs:
 - `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-065230-merged3.json`.
+- post-7am merged promotion across four human-focused distributed runs:
+- `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-071000-merged4.json`.
 
 ## Turn actions
 
@@ -43,7 +45,7 @@ Local timestamp: 2026-03-01 06:53:34 PST
 
 ## Objective switch guidance
 
-- If you need low-variance leaderboard defense, use `robustness` strategy `4400/0.02/2`.
+- If you need low-variance leaderboard defense, use `robustness` strategy `4500/0.02/2`.
 - If you need upside in final games, use `first_place` strategy `seller_profit`.
 
 ## Day-of fastest commands
