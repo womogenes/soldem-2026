@@ -20,6 +20,15 @@ Observed latency sample:
 - call_3: 1912 ms
 - average: 3500 ms
 
+Follow-up live hint invocation after parser hardening:
+- latency: 2806 ms
+- parsed output shape:
+  - `bid`: 25
+  - `confidence`: 0.62
+  - `mode`: `balanced`
+  - `rationale`: non-empty short text
+- result confirms the normalization path in `game/llm_advisor.py` handles real model responses.
+
 ## Implication for day-of
 
 - LLM fallback is feasible within a 10-second turn budget if limited to short prompts and profile-based invocation.

@@ -437,3 +437,21 @@ Local time: 2026-03-01 01:25:02 PST
 - Added calibration summary:
   - `research_logs/009_autosolve_guardrail_calibration.md`
 - Updated day-of guide to include stricter first-place margin option (`--first-gap 0.07`) when needed.
+
+## 2026-03-01 04:12:28 PST
+
+- Re-seeded PocketBase with latest strategy metadata commit (`8e60526`):
+  - endpoint: `http://18.204.1.6:8090`
+  - `strategies_updated`: 17
+  - champion map remains:
+    - `ev=equity_evolved_v1`
+    - `first_place=meta_switch`
+    - `robustness=equity_evolved_v1`
+
+## 2026-03-01 04:13:14 PST
+
+- Performed real Bedrock (non-dry) hint call after parser hardening:
+  - model: `us.anthropic.claude-3-5-haiku-20241022-v1:0`
+  - latency: `2806 ms`
+  - output parsed successfully into normalized hint schema (`bid`, `confidence`, `mode`, `rationale`).
+- Updated `research_logs/007_bedrock_latency.md` with this live invocation confirmation.
