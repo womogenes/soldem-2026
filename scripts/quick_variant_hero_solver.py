@@ -15,14 +15,32 @@ if str(ROOT) not in sys.path:
 
 from sim import CorrelationModel, run_match
 from sim.metrics import first_place_rate, robustness_score
+from game.rules import resolve_profile
 
 
-def scenario_models() -> list[tuple[str, CorrelationModel]]:
+def scenario_models(n_players: int) -> list[tuple[str, CorrelationModel]]:
+    def in_bounds(pair: tuple[int, int]) -> bool:
+        a, b = pair
+        return 0 <= a < n_players and 0 <= b < n_players and a != b
+
+    def pick_or_empty(pref: tuple[int, int]) -> list[tuple[int, int]]:
+        if in_bounds(pref):
+            return [pref]
+        if n_players >= 2:
+            return [(0, n_players - 1)]
+        return []
+
     return [
         ("none", CorrelationModel(mode="none", strength=0.0, pairs=[])),
-        ("respect", CorrelationModel(mode="respect", strength=0.35, pairs=[(1, 2)])),
-        ("herd", CorrelationModel(mode="herd", strength=0.30, pairs=[(2, 3)])),
-        ("kingmaker", CorrelationModel(mode="kingmaker", strength=0.35, pairs=[(0, 4)])),
+        (
+            "respect",
+            CorrelationModel(mode="respect", strength=0.35, pairs=pick_or_empty((1, 2))),
+        ),
+        ("herd", CorrelationModel(mode="herd", strength=0.30, pairs=pick_or_empty((2, 3)))),
+        (
+            "kingmaker",
+            CorrelationModel(mode="kingmaker", strength=0.35, pairs=pick_or_empty((0, n_players - 1))),
+        ),
     ]
 
 
@@ -38,11 +56,14 @@ def hero_eval(
     objective: str,
     correlation: CorrelationModel,
 ) -> dict:
+    profile = resolve_profile(rule_profile, **rule_overrides)
+    n_players = max(2, int(profile.n_players))
+    n_opponents = n_players - 1
     rng = random.Random(seed)
     pnls: list[float] = []
     ranks: list[int] = []
     for _ in range(n_tables):
-        opponents = [rng.choice(opponent_pool) for _ in range(4)]
+        opponents = [rng.choice(opponent_pool) for _ in range(n_opponents)]
         lineup = [hero, *opponents]
         rng.shuffle(lineup)
         hero_seat = lineup.index(hero)
@@ -122,7 +143,8 @@ def main() -> None:
 
     idx = 0
     for objective in args.objectives:
-        for label, corr in scenario_models():
+        eval_profile = resolve_profile(args.rule_profile, **overrides)
+        for label, corr in scenario_models(eval_profile.n_players):
             rows = []
             for hix, hero in enumerate(args.strategies):
                 row = hero_eval(

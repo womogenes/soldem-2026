@@ -116,6 +116,8 @@ Then inspect `winner_counts` and choose manual locks only if one strategy domina
 ## Weird-variation checklist
 
 1. Player count changed (`n_players != 5`): patch profile immediately and run a 20-table smoke benchmark if time allows.
+Example:
+`uv run python scripts/quick_variant_hero_solver.py --rule-profile baseline_v1 --rule-overrides-json '{"n_players":6}' --objectives first_place --n-tables 12 --n-games 8 --out research_logs/experiment_outputs/live_n6_probe.json`
 2. Ante/start stack changed: patch `ante_amt` and `start_chips`; this shifts bid caps materially.
 3. Orbits changed: patch `n_orbits`; later-orbit urgency in bidding depends on this.
 4. Pot distribution changed: patch `pot_distribution_policy`; this changes champion preference.

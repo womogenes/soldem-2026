@@ -948,3 +948,19 @@ Local time: 2026-03-01 01:25:02 PST
   - Bedrock smoke pass
   - policy smoke pass
 - Updated status/handoff docs to mark this integrated pass as latest readiness check.
+
+## 2026-03-01 05:58:05 PST
+
+- Fixed variable-player-count failure path for day-of rule variants (`n_players != 5`):
+  - `sim/runner.py` no longer hard-codes 5 seats; now uses resolved rule profile player count.
+  - `scripts/quick_variant_hero_solver.py` now builds lineups and correlation pairs based on profile `n_players`.
+- Added regression tests:
+  - `tests/test_quick_variant_solver.py`
+  - `tests/test_sim_runner.py::test_run_match_smoke_six_players`
+- Validation:
+  - `uv run python scripts/quick_variant_hero_solver.py --rule-overrides-json '{"n_players":6}' ...` now succeeds.
+  - `uv run -m unittest discover -s tests -v` -> `28/28` passing.
+- Updated runbooks:
+  - `research_logs/003_day_of_fast_patch_guide.md` (6-player quick solver example)
+  - `research_logs/004_status_snapshot.md`
+  - `research_logs/013_pre7_handoff_draft.md`

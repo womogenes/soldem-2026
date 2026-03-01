@@ -20,12 +20,13 @@ This workstream follows `research_logs/000_god_prompt.md` as the controlling spe
 - `house_hammer`
 3. Hero-vs-opponent-pool benchmark harness (`scripts/benchmark_hero.py`).
 4. Rule-profile-aware API champion resolution and HUD quick preset controls.
-5. Day-of fast patch script and guide.
-6. One-command autosolve+patch helper:
+5. Simulation and quick-solver path now supports variable player counts (`n_players != 5`) for day-of variant probing.
+6. Day-of fast patch script and guide.
+7. One-command autosolve+patch helper:
 - `scripts/day_of_autosolve_patch.py`
 - includes prior-guardrail filtering to reduce low-sample solver noise by default.
 - prior map is aligned with live resolver first-place rules (exact baseline/meta, winner-takes-all sprint+high-ante pot-fraction pockets).
-7. PocketBase EC2 deployment + schema sync + metadata seeding.
+8. PocketBase EC2 deployment + schema sync + metadata seeding.
 
 ## Best strategy recommendations from rollouts
 
@@ -80,7 +81,7 @@ Policy-routing smoke option:
 `bash scripts/day_of_preflight.sh --api-url http://127.0.0.1:8000 --with-policy-smoke`
 Latest integrated preflight pass completed at `2026-03-01 05:52 PST` using API `:8015` + PocketBase `18.204.1.6:8090` with:
 `--with-tests --with-web --with-policy-smoke --with-bedrock --bedrock-region us-east-1`.
-Full backend discovery tests currently pass: `26/26`.
+Full backend discovery tests currently pass: `28/28`.
 Bedrock smoke check is included in the integrated preflight above.
 
 4. Open HUD and use quick controls.

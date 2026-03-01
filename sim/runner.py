@@ -27,8 +27,12 @@ class MatchConfig:
 
 class MatchRunner:
     def __init__(self, strategy_specs: list[str], config: MatchConfig):
-        if len(strategy_specs) != 5:
-            raise ValueError("Exactly 5 strategy tags are required for one table")
+        self.profile = resolve_profile(config.rule_profile, **(config.rule_overrides or {}))
+        self.n_players = int(self.profile.n_players)
+        if len(strategy_specs) != self.n_players:
+            raise ValueError(
+                f"Exactly {self.n_players} strategy tags are required for one table"
+            )
         self.strategy_specs = list(strategy_specs)
         self.config = config
         self.strategies = [load_strategy(spec) for spec in strategy_specs]
@@ -36,7 +40,6 @@ class MatchRunner:
             getattr(strategy, "tag", spec)
             for strategy, spec in zip(self.strategies, self.strategy_specs)
         ]
-        self.profile = resolve_profile(config.rule_profile, **(config.rule_overrides or {}))
         self.rng = random.Random(config.seed)
 
     def _ctx(
@@ -66,9 +69,9 @@ class MatchRunner:
         compact_log_path: str | None = None,
     ) -> dict:
         correlation = correlation or CorrelationModel()
-        profiles = {i: PlayerProfile(seat=i) for i in range(5)}
-        seat_total_pnl = [0] * 5
-        seat_firsts = [0] * 5
+        profiles = {i: PlayerProfile(seat=i) for i in range(self.n_players)}
+        seat_total_pnl = [0] * self.n_players
+        seat_firsts = [0] * self.n_players
         game_rows: list[dict] = []
 
         log_file = None
@@ -133,14 +136,18 @@ class MatchRunner:
                     if out["game_over"]:
                         stacks = out["player_stacks"]
                         pnl = [s - game.start_chips for s in stacks]
-                        for i in range(5):
+                        for i in range(self.n_players):
                             seat_total_pnl[i] += pnl[i]
 
-                        ranked = sorted(range(5), key=lambda i: (pnl[i], stacks[i]), reverse=True)
-                        rank_pos = [0] * 5
+                        ranked = sorted(
+                            range(self.n_players),
+                            key=lambda i: (pnl[i], stacks[i]),
+                            reverse=True,
+                        )
+                        rank_pos = [0] * self.n_players
                         for pos, seat in enumerate(ranked, start=1):
                             rank_pos[seat] = pos
-                        for i in range(5):
+                        for i in range(self.n_players):
                             if rank_pos[i] == 1:
                                 seat_firsts[i] += 1
 
@@ -150,7 +157,7 @@ class MatchRunner:
                             "pnl": pnl,
                             "rk": rank_pos,
                             "w": out.get("winner_idxs", [out.get("winner_idx", 0)]),
-                            "pp": out.get("payouts", [0] * 5),
+                            "pp": out.get("payouts", [0] * self.n_players),
                         }
                         game_rows.append(row)
                         if log_file:
@@ -205,11 +212,16 @@ def run_population_tournament(
     correlation: CorrelationModel | None = None,
 ) -> dict:
     rng = random.Random(seed)
+    profile = resolve_profile(rule_profile, **(rule_overrides or {}))
+    n_players = int(profile.n_players)
     per_tag_pnl: dict[str, list[float]] = defaultdict(list)
     per_tag_rankpos: dict[str, list[int]] = defaultdict(list)
 
     for mix in range(n_matches):
-        seats = rng.sample(strategy_tags, 5)
+        if len(strategy_tags) >= n_players:
+            seats = rng.sample(strategy_tags, n_players)
+        else:
+            seats = [rng.choice(strategy_tags) for _ in range(n_players)]
         out = run_match(
             seats,
             n_games=n_games_per_match,

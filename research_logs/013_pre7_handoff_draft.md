@@ -34,9 +34,10 @@ Local time: 2026-03-01 04:34 PST
 
 - Autosolve default runtime benchmark: about `22.9s`.
 - Autosolve first-place guardrail default: `first_gap=0.07`.
-- Backend tests currently passing: `26/26`.
+- Backend tests currently passing: `28/28`.
 - Frontend check/build passing.
 - Integrated preflight (`tests + web + policy smoke + bedrock + PB health`) passed at `2026-03-01 05:52 PST`.
+- Quick solver and sim runner now support `n_players != 5` (validated by tests and smoke run).
 
 ## Latest key docs
 
