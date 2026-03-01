@@ -1,6 +1,6 @@
 # Pre-7 summary
 
-Local time: 2026-03-01 06:43:59 PST
+Local time: 2026-03-01 06:50:30 PST
 
 ## What is ready
 
@@ -24,13 +24,14 @@ Local time: 2026-03-01 06:43:59 PST
 3. Supporting evidence is logged:
 - Matrix/horizon runs: `research_logs/experiment_outputs/first_place_rollout_matrix_6c_3h_60m_seed63201.json`
 - Hero confirmations: `research_logs/experiment_outputs/hero_first_place_*.json`
+- Extreme-correlation probe: `research_logs/experiment_outputs/extreme_correlation_probe_3c_3s_80m10g_seed64201.json`
 - Policy evaluator: `research_logs/experiment_outputs/first_place_policy_eval_post_wta_banding.json` (best fit `68/80`, `0.850`).
 
 4. Validation is green:
 - Backend tests: `32/32` pass.
 - Web check/build: pass.
 - Policy smoke: pass for baseline, WTA pot-pressure, WTA high-stack relief, and 6-player branch.
-- Latest integrated preflight (`tests + web + policy smoke`) passed at `2026-03-01 06:42 PST`.
+- Latest integrated preflight (`tests + web + policy smoke`) passed at `2026-03-01 06:50 PST`.
 
 ## How to use at game time
 
@@ -63,6 +64,6 @@ Local time: 2026-03-01 06:43:59 PST
 
 ## Latest commits
 
-- `747aa79` Add winner-takes-all first-place banding with rollout matrix evidence
-- `5726e69` Refresh handoff trail with WTA banding commit
+- `930cced` Make HUD n_players-aware for day-of variant input
+- `bee4a15` Add correlated-pair defensive first-place override
 - `ff3635a` Log final preflight and refresh readiness timestamps

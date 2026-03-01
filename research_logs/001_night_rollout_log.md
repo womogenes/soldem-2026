@@ -1096,3 +1096,14 @@ Local time: 2026-03-01 01:25:02 PST
 - Validation:
   - backend tests `32/32` pass
   - web check pass.
+
+## 2026-03-01 06:50:30 PST
+
+- Ran final integrated preflight after HUD non-5-player hardening and correlated-pair defensive override.
+- Command:
+  - `bash scripts/day_of_preflight.sh --api-url http://127.0.0.1:8020 --with-tests --with-web --with-policy-smoke`
+- Result:
+  - pass
+  - backend tests: `32/32` pass
+  - web check: pass
+  - policy smoke: pass.
