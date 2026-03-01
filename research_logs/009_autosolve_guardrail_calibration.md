@@ -15,7 +15,7 @@ Validate whether low-budget autosolve (`n_tables=12`, `n_games=8`) plus guardrai
 - Seeds: `53001`, `53002`, `53003`
 - Guardrail defaults:
   - `ev_gap=12.0`
-  - `first_gap=0.04`
+  - `first_gap=0.04` (at calibration time)
   - `robustness_gap=20.0`
 - Artifacts:
   - `research_logs/experiment_outputs/autosolve_guardrail_checks/*.json`
@@ -50,4 +50,4 @@ Validate whether low-budget autosolve (`n_tables=12`, `n_games=8`) plus guardrai
 
 - Guardrails substantially reduce small-sample noise for EV and robustness.
 - First-place remains the noisiest objective at this budget.
-- If stricter first-place stability is needed, increase `--first-gap` (for example `0.07`).
+- Default was later tightened to `--first-gap 0.07` for safer day-of operation.

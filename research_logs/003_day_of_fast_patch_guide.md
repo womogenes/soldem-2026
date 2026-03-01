@@ -91,9 +91,10 @@ To disable guardrails and trust raw solver winners:
 
 `uv run python scripts/day_of_autosolve_patch.py --rule-profile baseline_v1 --overrides-json '{"n_orbits":2,"start_chips":140,"ante_amt":30}' --no-prior-guardrail`
 
-To make first-place switching more conservative, raise the first-place margin:
+Default first-place guardrail is `--first-gap 0.07`.
+To make it even more conservative, raise further:
 
-`uv run python scripts/day_of_autosolve_patch.py --rule-profile top2_split --first-gap 0.07`
+`uv run python scripts/day_of_autosolve_patch.py --rule-profile top2_split --first-gap 0.10`
 
 ## Weird-variation checklist
 

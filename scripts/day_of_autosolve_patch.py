@@ -156,7 +156,7 @@ def main() -> None:
     ap.add_argument("--n-games", type=int, default=8)
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--ev-gap", type=float, default=12.0)
-    ap.add_argument("--first-gap", type=float, default=0.04)
+    ap.add_argument("--first-gap", type=float, default=0.07)
     ap.add_argument("--robustness-gap", type=float, default=20.0)
     ap.add_argument("--no-prior-guardrail", action="store_true")
     ap.add_argument("--keep-dynamic", action="store_true")

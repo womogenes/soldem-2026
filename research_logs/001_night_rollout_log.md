@@ -558,3 +558,14 @@ Local time: 2026-03-01 01:25:02 PST
     - `ev=equity_evolved_v1`
     - `first_place=meta_switch`
     - `robustness=equity_evolved_v1`
+
+## 2026-03-01 04:32:29 PST
+
+- Tightened autosolve first-place guardrail default in `scripts/day_of_autosolve_patch.py`:
+  - `first_gap`: `0.04` -> `0.07`
+- Motivation:
+  - reduce noisy first-place champion flips at low solver budgets.
+- Updated docs:
+  - `research_logs/003_day_of_fast_patch_guide.md`
+  - `research_logs/009_autosolve_guardrail_calibration.md`
+- Verified via dry-run output that default threshold now reports `0.07`.
