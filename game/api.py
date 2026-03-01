@@ -617,6 +617,7 @@ def advisor_recommend(req: RecommendationReq):
             "strategy_tag": strategy_tag,
             "strategy_reason": strategy_reason,
             "strategy_reason_text": strategy_reason_text,
+            "normalized_round": norm,
             "rule_profile": session.rule_profile.to_dict(),
             "modes": out,
         }
@@ -642,6 +643,7 @@ def advisor_recommend(req: RecommendationReq):
     out["strategy_tag"] = strategy_tag
     out["strategy_reason"] = strategy_reason
     out["strategy_reason_text"] = strategy_reason_text
+    out["normalized_round"] = norm
     out["rule_profile"] = session.rule_profile.to_dict()
     return out
 
@@ -706,6 +708,7 @@ def advisor_llm_hint(req: LlmHintReq):
         "strategy_tag": strategy_tag,
         "strategy_reason": strategy_reason,
         "strategy_reason_text": strategy_reason_text,
+        "normalized_round": norm,
         "rule_profile": session.rule_profile.to_dict(),
         "deterministic": base.to_dict(),
         "llm": llm,

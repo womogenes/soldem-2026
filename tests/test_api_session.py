@@ -1,11 +1,14 @@
 import unittest
 from unittest.mock import patch
 
+from game import api as api_module
 from game.api import (
     Session,
     SessionEventReq,
     SetChampionsReq,
     RecomputeChampionsReq,
+    RecommendationReq,
+    advisor_recommend,
     normalize_round_request,
     resolver_reason_text,
 )
@@ -13,6 +16,73 @@ from game.rules import resolve_profile
 
 
 class ApiSessionTests(unittest.TestCase):
+    def test_advisor_recommend_includes_normalized_round_single_mode(self):
+        api_module.session.apply_profile(
+            "baseline_v1",
+            {"n_players": 6, "start_chips": 200},
+        )
+        api_module.session.reset()
+        try:
+            out = advisor_recommend(
+                RecommendationReq(
+                    phase="bid",
+                    output_mode="metrics",
+                    objective="ev",
+                    seat=99,
+                    seller_idx=99,
+                    round_num=-4,
+                    n_orbits=0,
+                    pot=-3,
+                    stacks=[100, -5, 50],
+                    my_cards=[(14, "spades"), (10, "hearts")],
+                    auction_cards=[(13, "clubs")],
+                )
+            )
+            self.assertIn("normalized_round", out)
+            norm = out["normalized_round"]
+            self.assertEqual(norm["seat"], 5)
+            self.assertEqual(norm["seller_idx"], 5)
+            self.assertEqual(norm["round_num"], 0)
+            self.assertEqual(norm["n_orbits"], 1)
+            self.assertEqual(norm["pot"], 0)
+            self.assertEqual(norm["stacks"], [100, 0, 50, 200, 200, 200])
+            self.assertEqual(out["rule_profile"]["n_players"], 6)
+        finally:
+            api_module.session.apply_profile("baseline_v1", {})
+            api_module.session.reset()
+
+    def test_advisor_recommend_includes_normalized_round_all_mode(self):
+        api_module.session.apply_profile("baseline_v1", {})
+        api_module.session.reset()
+        try:
+            out = advisor_recommend(
+                RecommendationReq(
+                    phase="bid",
+                    output_mode="all",
+                    objective="first_place",
+                    seat=-2,
+                    seller_idx=-3,
+                    round_num=1,
+                    n_orbits=3,
+                    pot=50,
+                    stacks=[10, 20, 30, 40, 50, 999],
+                    my_cards=[(12, "diamonds"), (7, "clubs")],
+                    auction_cards=[(13, "spades")],
+                )
+            )
+            self.assertIn("normalized_round", out)
+            self.assertIn("modes", out)
+            self.assertIn("action_first", out["modes"])
+            self.assertIn("metrics", out["modes"])
+            self.assertIn("top3", out["modes"])
+            norm = out["normalized_round"]
+            self.assertEqual(norm["seat"], 0)
+            self.assertEqual(norm["seller_idx"], -1)
+            self.assertEqual(norm["stacks"], [10, 20, 30, 40, 50])
+        finally:
+            api_module.session.apply_profile("baseline_v1", {})
+            api_module.session.reset()
+
     def test_normalize_round_request_pads_and_clamps_for_six_players(self):
         profile = resolve_profile("baseline_v1", n_players=6, start_chips=200)
         norm = normalize_round_request(

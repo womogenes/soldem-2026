@@ -7,6 +7,7 @@ WITH_TESTS=0
 WITH_WEB=0
 WITH_BEDROCK=0
 WITH_POLICY_SMOKE=0
+WITH_ADVISOR_SMOKE=0
 BEDROCK_REGION="us-east-1"
 
 usage() {
@@ -20,6 +21,7 @@ Options:
   --with-web            Run frontend check
   --with-bedrock        Run Bedrock smoke test
   --with-policy-smoke   Run first-place policy routing smoke check against API
+  --with-advisor-smoke  Run advisor payload-normalization smoke check against API
   --bedrock-region R    Bedrock region (default: us-east-1)
   -h, --help            Show this help
 EOF
@@ -49,6 +51,10 @@ while [[ $# -gt 0 ]]; do
       ;;
     --with-policy-smoke)
       WITH_POLICY_SMOKE=1
+      shift
+      ;;
+    --with-advisor-smoke)
+      WITH_ADVISOR_SMOKE=1
       shift
       ;;
     --bedrock-region)
@@ -103,6 +109,11 @@ fi
 if [[ "$WITH_POLICY_SMOKE" -eq 1 ]]; then
   echo "-- policy smoke"
   uv run python scripts/policy_smoke.py --api "$API_URL"
+fi
+
+if [[ "$WITH_ADVISOR_SMOKE" -eq 1 ]]; then
+  echo "-- advisor smoke"
+  uv run python scripts/advisor_smoke.py --api "$API_URL"
 fi
 
 echo "== preflight complete =="
