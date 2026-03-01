@@ -56,7 +56,7 @@ Local time: 2026-03-01 03:32 PST
 - robustness: `equity_evolved_v1`
 - first-place:
   - sprint-like short-stack (`n_orbits<=2` and `start_chips<=150`) with `winner_takes_all`: `pot_fraction`
-  - high ante pressure winner-takes-all (`n_orbits>=3` and (`ante_amt/start_chips>=0.27` or `ante_amt>=50`)): `pot_fraction`
+  - high ante pressure winner-takes-all (`n_orbits>=3` and (`ante_amt/start_chips>=0.26` or `ante_amt>=50`)): `pot_fraction`
   - otherwise: `equity_evolved_v1`
 
 ## Practical policy for day-of
@@ -66,7 +66,7 @@ Local time: 2026-03-01 03:32 PST
 - first-place:
   - exact baseline: `meta_switch`
   - sprint short-stack (`n_orbits<=2`, low stack) only when `winner_takes_all`: `pot_fraction`
-  - high ante pressure winner-takes-all (`n_orbits>=3` and (`ante/start>=0.27` or `ante>=50`)): `pot_fraction`
+  - high ante pressure winner-takes-all (`n_orbits>=3` and (`ante/start>=0.26` or `ante>=50`)): `pot_fraction`
   - otherwise: `equity_evolved_v1`
 
 2. If quick solver supports a specific variant and time allows manual lock:

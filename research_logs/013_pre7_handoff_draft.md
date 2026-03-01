@@ -10,7 +10,7 @@ Local time: 2026-03-01 04:34 PST
   - exact baseline: `meta_switch`
   - non-baseline variants: `equity_evolved_v1`
   - sprint short-stack (`n_orbits<=2` and `start_chips<=150`) only with `winner_takes_all`: `pot_fraction`
-  - high ante pressure winner-takes-all (`n_orbits>=3` and (`ante/start>=0.27` or `ante>=50`)): `pot_fraction`
+  - high ante pressure winner-takes-all (`n_orbits>=3` and (`ante/start>=0.26` or `ante>=50`)): `pot_fraction`
   - passive high-confidence table read: `pot_fraction`
 
 ## Fast day-of commands
@@ -34,10 +34,10 @@ Local time: 2026-03-01 04:34 PST
 
 - Autosolve default runtime benchmark: about `22.9s`.
 - Autosolve first-place guardrail default: `first_gap=0.07`.
-- Backend tests currently passing: `25/25`.
+- Backend tests currently passing: `26/26`.
 - Frontend check/build passing.
 - Preflight smoke (`API + PocketBase`) passed at `2026-03-01 05:37 PST` with backend tests + web check.
-- Policy smoke (`baseline` / `high-ante` / `below-trigger`) passed at `2026-03-01 05:39 PST`.
+- Policy smoke (`baseline` / `high-ante` / `below-trigger`) passed at `2026-03-01 05:47 PST` after `0.26` threshold update.
 - Bedrock smoke passed at `2026-03-01 05:40 PST` (`us-east-1`).
 
 ## Latest key docs

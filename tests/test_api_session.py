@@ -89,6 +89,19 @@ class ApiSessionTests(unittest.TestCase):
         )
         self.assertEqual(s.resolve_champion("first_place"), "pot_fraction")
 
+    def test_ratio_trigger_prefers_pot_fraction_first_place(self):
+        s = Session()
+        s.apply_profile(
+            "baseline_v1",
+            {
+                "n_orbits": 3,
+                "start_chips": 160,
+                "ante_amt": 42,
+                "pot_distribution_policy": "winner_takes_all",
+            },
+        )
+        self.assertEqual(s.resolve_champion("first_place"), "pot_fraction")
+
     def test_non_sprint_low_ante_wta_uses_evolved_first_place(self):
         s = Session()
         s.apply_profile(

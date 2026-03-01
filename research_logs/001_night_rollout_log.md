@@ -865,3 +865,37 @@ Local time: 2026-03-01 01:25:02 PST
   - API health/session: pass
   - Bedrock model listing smoke: pass (returned model IDs in `us-east-1`).
 - Updated status/handoff docs with Bedrock smoke timestamp.
+
+## 2026-03-01 05:47:02 PST
+
+- Added reusable policy evaluator:
+  - `scripts/evaluate_first_place_policy.py`
+- Produced evaluator artifacts:
+  - `research_logs/experiment_outputs/first_place_policy_eval_post_calibration.json`
+  - `research_logs/experiment_outputs/first_place_policy_eval_post_boundary026.json`
+- Added additional boundary probe around ratio `~0.26`:
+  - `research_logs/experiment_outputs/ante_threshold_boundary_026_3c_2s_10t8g_seed62301.json`
+- Based on boundary results and evaluator scores, refined high-ante trigger from `0.27` to `0.26` (keeping absolute `ante>=50` branch).
+- Updated implementation:
+  - `game/api.py`
+  - `scripts/day_of_autosolve_patch.py`
+  - `tests/test_api_session.py` (added ratio-trigger coverage)
+- Validation:
+  - `uv run -m unittest discover -s tests -v` -> `26/26` passing.
+  - autosolve dry-run prior checks:
+    - `160/42/o3` -> `pot_fraction`
+    - `140/35/o4` -> `equity_evolved_v1`
+- Updated docs:
+  - `research_logs/003_day_of_fast_patch_guide.md`
+  - `research_logs/004_status_snapshot.md`
+  - `research_logs/006_variant_lookup_table.md`
+  - `research_logs/013_pre7_handoff_draft.md`
+  - `research_logs/018_ante_threshold_calibration.md`
+
+## 2026-03-01 05:47:28 PST
+
+- Re-ran policy-smoke preflight after shifting high-ante ratio threshold to `0.26`:
+  - `bash scripts/day_of_preflight.sh --api-url http://127.0.0.1:8014 --with-policy-smoke`
+- Result:
+  - all baseline/high-ante/below-trigger checks passed.
+- Updated status/handoff docs with latest policy-smoke timestamp.

@@ -35,7 +35,7 @@ Primary recommendation for day-of EV stability:
 First-place/correlation-heavy fallback:
 - exact baseline rules: `meta_switch`
 - non-baseline variants: `equity_evolved_v1`
-- high ante pressure winner-takes-all (`n_orbits>=3` and (`ante/start>=0.27` or `ante>=50`)): `pot_fraction`
+- high ante pressure winner-takes-all (`n_orbits>=3` and (`ante/start>=0.26` or `ante>=50`)): `pot_fraction`
 
 High-variance exploit mode (only if table looks soft/passive):
 - `pot_fraction`
@@ -54,7 +54,7 @@ Latest evidence:
   - sprint override should be constrained to `winner_takes_all` (split-pot sprint outliers did not consistently favor `pot_fraction`).
   - high ante pressure winner-takes-all (`140/50`, `n_orbits=4`) repeatedly favored `pot_fraction`.
 - ante-threshold recalibration sweep + probes:
-  - non-sprint winner-takes-all pockets near `0.27` ratio also favored `pot_fraction`.
+  - non-sprint winner-takes-all pockets near `0.26` ratio also favored `pot_fraction`.
   - ratio `0.25` was mixed, but absolute ante pressure (`ante>=50`) still favored `pot_fraction` in confirmations.
   - summary: `research_logs/018_ante_threshold_calibration.md`
 - resolver policy backtest over archived variant artifacts:
@@ -79,7 +79,8 @@ Latest evidence:
 Policy-routing smoke option:
 `bash scripts/day_of_preflight.sh --api-url http://127.0.0.1:8000 --with-policy-smoke`
 Latest preflight pass completed at `2026-03-01 05:37 PST` using API `:8011` + PocketBase `18.204.1.6:8090` with `--with-tests --with-web`.
-Full backend discovery tests currently pass: `25/25`.
+Latest policy-smoke preflight pass completed at `2026-03-01 05:47 PST` using API `:8014` with updated `0.26` threshold logic.
+Full backend discovery tests currently pass: `26/26`.
 Bedrock smoke check passed at `2026-03-01 05:40 PST` in `us-east-1` (`scripts/aws/bedrock_smoke_test.sh` via preflight).
 
 4. Open HUD and use quick controls.

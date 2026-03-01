@@ -82,7 +82,7 @@ def prior_champions(rule_profile: str, overrides: dict) -> dict[str, str]:
         profile.pot_distribution_policy == "winner_takes_all"
         and profile.n_orbits >= 3
         and (
-            (profile.start_chips > 0 and (profile.ante_amt / profile.start_chips) >= 0.27)
+            (profile.start_chips > 0 and (profile.ante_amt / profile.start_chips) >= 0.26)
             or profile.ante_amt >= 50
         )
     )

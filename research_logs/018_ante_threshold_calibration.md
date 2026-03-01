@@ -31,6 +31,24 @@ Recalibrate the first-place high-ante `pot_fraction` trigger with direct sweeps 
   - `160/40/o3`: split (`meta_switch` / `pot_fraction`).
   - `200/50/o4`: `pot_fraction` both seeds.
 
+4. Boundary probe around `~0.26` (`3` cases x `2` seeds)
+- Artifact:
+  - `research_logs/experiment_outputs/ante_threshold_boundary_026_3c_2s_10t8g_seed62301.json`
+- Signal:
+  - `160/42/o3` and `200/52/o4` favored `pot_fraction` in both seeds.
+  - `140/36/o4` was mixed (`pot_fraction` / `meta_switch`).
+
+5. Policy evaluator over accumulated artifact rows
+- Script:
+  - `scripts/evaluate_first_place_policy.py`
+- Artifact:
+  - `research_logs/experiment_outputs/first_place_policy_eval_post_boundary026.json`
+- Signal:
+  - old `0.33` ratio-only rule: `25/65` hits (`0.385`)
+  - `0.27 + ante>=50` rule: `48/65` hits (`0.738`)
+  - `0.26 + ante>=50` rule: `52/65` hits (`0.800`)
+  - best pure fit in this dataset was `0.25` ratio-only, but `0.26 + ante>=50` was chosen as a less aggressive compromise due mixed `~0.25` pockets.
+
 ## Policy update
 
 High-ante-pressure first-place trigger is now:
@@ -38,7 +56,7 @@ High-ante-pressure first-place trigger is now:
 - `winner_takes_all`
 - `n_orbits >= 3`
 - and either:
-  - `ante_amt / start_chips >= 0.27`, or
+  - `ante_amt / start_chips >= 0.26`, or
   - `ante_amt >= 50`
 
 Sprint trigger remains unchanged:
@@ -47,7 +65,7 @@ Sprint trigger remains unchanged:
 
 ## Why this rule
 
-- It captures stable non-sprint winner-takes-all pockets found in the new sweeps (`~0.27+` ratio and absolute ante pressure cases like `200/50`).
+- It captures stable non-sprint winner-takes-all pockets found in new probes near `~0.26` and absolute ante pressure cases like `200/50`.
 - It avoids forcing `pot_fraction` for lower-pressure non-sprint cases like `140/35` where `meta_switch` repeatedly held a small edge.
 
 ## Implementation updates

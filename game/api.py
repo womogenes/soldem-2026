@@ -238,7 +238,7 @@ class Session:
             winner_takes_all
             and self.rule_profile.n_orbits >= 3
             and (
-                (start > 0 and ante_ratio >= 0.27)
+                (start > 0 and ante_ratio >= 0.26)
                 or self.rule_profile.ante_amt >= 50
             )
         )
