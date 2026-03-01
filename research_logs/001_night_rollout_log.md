@@ -631,3 +631,10 @@ Local time: 2026-03-01 01:25:02 PST
 - Added explicit cost-control guidance to `research_logs/004_status_snapshot.md`:
   - list of extra running instance IDs,
   - one command to stop likely idle non-target instances (with verification reminder).
+
+## 2026-03-01 04:46:12 PST
+
+- Re-seeded PocketBase with latest checkpoint commit `8341186`.
+- Result:
+  - `strategies_updated`: 17
+  - champion map remains `equity_evolved_v1` / `meta_switch` / `equity_evolved_v1`.
