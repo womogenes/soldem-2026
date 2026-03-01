@@ -500,3 +500,13 @@ Local time: 2026-03-01 01:25:02 PST
   - no evidence from this pass that longer horizons favor reverting to `conservative_plus`.
 - Added summary:
   - `research_logs/011_horizon_sensitivity.md`
+
+## 2026-03-01 04:21:09 PST
+
+- Re-seeded PocketBase after horizon update checkpoint:
+  - commit: `ce77279`
+  - `strategies_updated`: 17
+  - champion map unchanged:
+    - `ev=equity_evolved_v1`
+    - `first_place=meta_switch`
+    - `robustness=equity_evolved_v1`
