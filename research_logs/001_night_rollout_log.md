@@ -616,3 +616,10 @@ Local time: 2026-03-01 01:25:02 PST
 - Updated runbooks:
   - `research_logs/003_day_of_fast_patch_guide.md`
   - `research_logs/004_status_snapshot.md`
+
+## 2026-03-01 04:44:25 PST
+
+- Updated rolling handoff draft (`research_logs/013_pre7_handoff_draft.md`) to include:
+  - preflight command,
+  - autosolve guardrail default (`first_gap=0.07`),
+  - refreshed run sequence for day-of execution.

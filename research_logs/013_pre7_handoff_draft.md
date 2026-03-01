@@ -14,6 +14,9 @@ Local time: 2026-03-01 04:34 PST
 
 ## Fast day-of commands
 
+0. Optional preflight:
+- `bash scripts/day_of_preflight.sh --api-url http://127.0.0.1:8000 --pb-url http://18.204.1.6:8090`
+
 1. Apply profile quickly:
 - `uv run python scripts/day_of_patch.py --preset baseline`
 
@@ -26,6 +29,7 @@ Local time: 2026-03-01 04:34 PST
 ## Runtime checks
 
 - Autosolve default runtime benchmark: about `22.9s`.
+- Autosolve first-place guardrail default: `first_gap=0.07`.
 - Backend tests currently passing: `19/19`.
 - Frontend check/build passing.
 
