@@ -56,7 +56,7 @@ API side check: `/session/state` now includes `first_place_policy_cues` for scri
 - Dynamic table-read shifts:
   - `passive` with high confidence and first-place objective: may choose `pot_fraction`.
   - sprint rules (`n_orbits<=2` and `start_chips<=150`) with first-place objective choose `pot_fraction` only when pot policy is `winner_takes_all`.
-  - high ante pressure (`ante_amt/start_chips>=0.33`, `n_orbits>=3`, `winner_takes_all`) with first-place objective: choose `pot_fraction`.
+  - high ante pressure (`winner_takes_all`, `n_orbits>=3`, and (`ante_amt/start_chips>=0.27` or `ante_amt>=50`)) with first-place objective: choose `pot_fraction`.
   - all other EV/robustness modes stay on `equity_evolved_v1`.
 
 ## Fast fallback if rules are unknown

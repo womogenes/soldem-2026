@@ -235,10 +235,12 @@ class Session:
         sprint_profile = self.rule_profile.n_orbits <= 2 and start <= 150
         winner_takes_all = self.rule_profile.pot_distribution_policy == "winner_takes_all"
         high_ante_pressure = (
-            start > 0
-            and ante_ratio >= 0.33
+            winner_takes_all
             and self.rule_profile.n_orbits >= 3
-            and winner_takes_all
+            and (
+                (start > 0 and ante_ratio >= 0.27)
+                or self.rule_profile.ante_amt >= 50
+            )
         )
         exact_baseline_profile = self.rule_profile == BASELINE_PROFILE
 

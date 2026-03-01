@@ -79,10 +79,12 @@ def prior_champions(rule_profile: str, overrides: dict) -> dict[str, str]:
     profile = resolve_profile(rule_profile, **overrides)
     sprint_profile = profile.n_orbits <= 2 and profile.start_chips <= 150
     high_ante_pressure = (
-        profile.start_chips > 0
-        and (profile.ante_amt / profile.start_chips) >= 0.33
+        profile.pot_distribution_policy == "winner_takes_all"
         and profile.n_orbits >= 3
-        and profile.pot_distribution_policy == "winner_takes_all"
+        and (
+            (profile.start_chips > 0 and (profile.ante_amt / profile.start_chips) >= 0.27)
+            or profile.ante_amt >= 50
+        )
     )
     exact_baseline = profile == BASELINE_PROFILE
 

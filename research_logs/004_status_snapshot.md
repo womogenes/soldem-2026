@@ -35,7 +35,7 @@ Primary recommendation for day-of EV stability:
 First-place/correlation-heavy fallback:
 - exact baseline rules: `meta_switch`
 - non-baseline variants: `equity_evolved_v1`
-- high ante pressure winner-takes-all (`ante/start>=0.33`, `n_orbits>=3`): `pot_fraction`
+- high ante pressure winner-takes-all (`n_orbits>=3` and (`ante/start>=0.27` or `ante>=50`)): `pot_fraction`
 
 High-variance exploit mode (only if table looks soft/passive):
 - `pot_fraction`
@@ -53,6 +53,10 @@ Latest evidence:
 - random-variant fuzz recheck + seeded confirmations:
   - sprint override should be constrained to `winner_takes_all` (split-pot sprint outliers did not consistently favor `pot_fraction`).
   - high ante pressure winner-takes-all (`140/50`, `n_orbits=4`) repeatedly favored `pot_fraction`.
+- ante-threshold recalibration sweep + probes:
+  - non-sprint winner-takes-all pockets near `0.27` ratio also favored `pot_fraction`.
+  - ratio `0.25` was mixed, but absolute ante pressure (`ante>=50`) still favored `pot_fraction` in confirmations.
+  - summary: `research_logs/018_ante_threshold_calibration.md`
 - resolver policy backtest over archived variant artifacts:
   - old first-place routing match rate: `10/25` (`0.40`)
   - updated routing match rate: `19/25` (`0.76`)
@@ -73,14 +77,13 @@ Latest evidence:
 3. Optional quick preflight.
 `bash scripts/day_of_preflight.sh --api-url http://127.0.0.1:8000 --pb-url http://18.204.1.6:8090`
 Latest smoke pass completed at `2026-03-01 05:16 PST` using API `:8010` + PocketBase `18.204.1.6:8090`.
-Full backend discovery tests currently pass: `23/23`.
+Full backend discovery tests currently pass: `25/25`.
 
 4. Open HUD and use quick controls.
 - Set objective (`ev` recommended by default).
 - Click `Use objective champion`.
 - Enter state and click `Get recommendation`.
 - Optional second opinion: click `Get LLM hint` (Bedrock-backed, deterministic recommendation remains primary).
-- Recommendation and LLM panels now show resolved strategy reason labels (for example `baseline_first_place_meta`, `sprint_profile_first_place`).
 - Recommendation and LLM panels now show resolved strategy reason labels (for example `baseline_first_place_meta_exact`, `sprint_wta_first_place`, `high_ante_pressure_first_place`).
 - HUD now shows a dedicated `First-place routing cues` block in the session panel to make baseline/sprint/high-ante triggers visible without parsing raw JSON.
 - API exports these cues as `first_place_policy_cues` in `/session/state` for deterministic client or script checks.

@@ -76,6 +76,32 @@ class ApiSessionTests(unittest.TestCase):
         )
         self.assertEqual(s.resolve_champion("first_place"), "pot_fraction")
 
+    def test_absolute_ante_trigger_prefers_pot_fraction_first_place(self):
+        s = Session()
+        s.apply_profile(
+            "baseline_v1",
+            {
+                "n_orbits": 4,
+                "start_chips": 200,
+                "ante_amt": 50,
+                "pot_distribution_policy": "winner_takes_all",
+            },
+        )
+        self.assertEqual(s.resolve_champion("first_place"), "pot_fraction")
+
+    def test_non_sprint_low_ante_wta_uses_evolved_first_place(self):
+        s = Session()
+        s.apply_profile(
+            "baseline_v1",
+            {
+                "n_orbits": 4,
+                "start_chips": 140,
+                "ante_amt": 35,
+                "pot_distribution_policy": "winner_takes_all",
+            },
+        )
+        self.assertEqual(s.resolve_champion("first_place"), "equity_evolved_v1")
+
     def test_first_place_policy_cues_export(self):
         s = Session()
         base = s.first_place_policy_cues()
@@ -94,6 +120,19 @@ class ApiSessionTests(unittest.TestCase):
         high = s.first_place_policy_cues()
         self.assertTrue(high["high_ante_pressure"])
         self.assertEqual(high["default_first_place"], "pot_fraction")
+
+        s.apply_profile(
+            "baseline_v1",
+            {
+                "n_orbits": 4,
+                "start_chips": 200,
+                "ante_amt": 50,
+                "pot_distribution_policy": "winner_takes_all",
+            },
+        )
+        high_abs = s.first_place_policy_cues()
+        self.assertTrue(high_abs["high_ante_pressure"])
+        self.assertEqual(high_abs["default_first_place"], "pot_fraction")
 
         s.apply_profile(
             "baseline_v1",

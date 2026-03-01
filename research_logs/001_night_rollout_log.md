@@ -768,3 +768,54 @@ Local time: 2026-03-01 01:25:02 PST
 
 - Updated `research_logs/013_pre7_handoff_draft.md` with a `Latest commit checkpoints` section for fast operator reference.
 - Included recent commits covering resolver logic, autosolve alignment, HUD cue updates, and validation refresh.
+
+## 2026-03-01 05:36:20 PST
+
+- Re-read `research_logs/000_god_prompt.md` and launched ante-threshold calibration to validate/refine high-ante first-place routing.
+- Added sweep runner:
+  - `scripts/ante_threshold_sweep.py`
+  - supports seeded grid runs and case filtering.
+- Broad sweep run:
+  - `uv run python scripts/ante_threshold_sweep.py --n-tables 6 --n-games 8 --seeds 62001,62002 --out research_logs/experiment_outputs/ante_threshold_sweep_19c_2s_6t8g_seed62001.json`
+  - artifact: `research_logs/experiment_outputs/ante_threshold_sweep_19c_2s_6t8g_seed62001.json`
+- Near-threshold probe run (`~0.27-0.29` ratios):
+  - artifact: `research_logs/experiment_outputs/ante_threshold_probe_6c_2s_10t8g_seed62101.json`
+- Focused ratio-0.25 confirmation (higher budget):
+  - artifact: `research_logs/experiment_outputs/ante_ratio_025_confirm_3c_2s_20t10g_seed62251.json`
+- Key findings:
+  - non-sprint winner-takes-all at ratios near `0.27+` repeatedly favored `pot_fraction`.
+  - ratio `0.25` remained mixed by profile.
+  - absolute ante pressure case `200/50/o4` favored `pot_fraction` in higher-budget confirms.
+
+## 2026-03-01 05:36:53 PST
+
+- Updated first-place high-ante trigger in resolver and autosolve priors:
+  - `winner_takes_all`
+  - `n_orbits >= 3`
+  - and (`ante_amt/start_chips >= 0.27` **or** `ante_amt >= 50`)
+- Files updated:
+  - `game/api.py`
+  - `scripts/day_of_autosolve_patch.py`
+  - `tests/test_api_session.py`
+- Added tests:
+  - absolute ante trigger case (`200/50/o4`) -> `pot_fraction`
+  - non-sprint low-ante winner-takes-all (`140/35/o4`) remains non-trigger
+  - cue export coverage for absolute ante trigger.
+- Validation:
+  - `uv run -m unittest discover -s tests -v` -> `25/25` passing.
+  - autosolve dry-run priors checked:
+    - absolute ante case -> `pot_fraction`
+    - ratio-only near-threshold case -> `pot_fraction`
+    - below-trigger case -> `equity_evolved_v1`.
+
+## 2026-03-01 05:37:18 PST
+
+- Added calibration summary doc:
+  - `research_logs/018_ante_threshold_calibration.md`
+- Updated runbooks/handoff docs for new threshold condition:
+  - `research_logs/003_day_of_fast_patch_guide.md`
+  - `research_logs/004_status_snapshot.md`
+  - `research_logs/006_variant_lookup_table.md`
+  - `research_logs/013_pre7_handoff_draft.md`
+  - `research_logs/016_first_place_fuzz_confirmation.md`
+  - `research_logs/017_resolver_policy_backtest.md` (noted as pre-recalibration baseline).

@@ -48,7 +48,8 @@ Validate random-fuzz first-place outliers before changing day-of resolver policy
 - Refine sprint override:
   - use `pot_fraction` only when `n_orbits<=2`, `start_chips<=150`, and pot policy is `winner_takes_all`.
 - Add high-ante-pressure override:
-  - use `pot_fraction` when `ante_amt/start_chips>=0.33`, `n_orbits>=3`, and pot policy is `winner_takes_all`.
+  - initial rule used `ante_amt/start_chips>=0.33`, `n_orbits>=3`, and `winner_takes_all`.
+  - this threshold was recalibrated later; see `research_logs/018_ante_threshold_calibration.md`.
 
 ## Note
 
