@@ -1,6 +1,6 @@
 # Literature review for auctions, human play, and imperfect-information strategy
 
-Local timestamp: 2026-03-01 01:45:00 PST
+Local timestamp: 2026-03-01 03:12:00 PST
 
 ## Scope
 
@@ -35,6 +35,12 @@ This note targets Sold 'Em design decisions: first-price private bidding, repeat
 - Wu et al. (2021), "L2E: Learning to Exploit Your Opponent": meta-learned exploitation can adapt quickly with few interactions. Source: https://arxiv.org/abs/2102.09381
 - Teofilo and Reis (2013), "Identifying Players' Strategies...": clustering player actions into style archetypes can improve predictive play. Source: https://arxiv.org/abs/1301.5943
 
+## Recent additions (2023-2026)
+
+- Jin et al. (2025), "Best of Many Sampled Policies in Learning to Solve Imperfect-Information Games": policy sampling/selection can improve exploitability-quality tradeoffs in large IIGs. Source: https://arxiv.org/abs/2502.11323
+- Sellam et al. (2026), "Algorithmic collusion in dynamic auctions with a random number of players": collusive dynamics can emerge under repeated dynamic auction play, reinforcing explicit anti-correlation safeguards in simulations. Source: https://arxiv.org/abs/2601.03853
+- Wang et al. (2026), "Deep Opponent Modeling in Repeated Incomplete Information Games": improves adaptation to non-stationary opponents using richer history embeddings. Source: https://arxiv.org/abs/2602.12253
+
 ## Implications for Sold 'Em
 
 - Use fair-value anchoring, but avoid purely equilibrium play: empirical overbidding/correlation means exploitative policies can outperform static Nash-like behavior in short horizons.
@@ -45,7 +51,8 @@ This note targets Sold 'Em design decisions: first-price private bidding, repeat
 
 ## How this informed this codebase
 
-- Added and evaluated exploitative yet risk-aware strategy variants (`market_maker`, `conservative_ultra`, `elastic_conservative`, `mc_edge`).
-- Promoted champion defaults to `market_maker` (EV/first place) and `conservative_ultra` (robust fallback).
-- Retained multi-objective tournament evaluation with correlation models to capture non-Nash human dynamics.
+- Added and evaluated exploitative yet risk-aware strategy variants (`market_maker_tight`, `regime_switch_robust`, `regime_switch`, `market_maker_aggr`).
+- Promoted champion defaults to `market_maker_tight` (EV/first place) and `regime_switch_robust` (robust fallback).
+- Ran long multi-seed validation across horizons and correlation regimes to reduce selection noise.
+- Retained multi-objective tournament evaluation with explicit correlation models to capture non-Nash human dynamics.
 - Integrated remote PocketBase tracking to preserve strategy metadata and experiment outputs for iterative bootstrapping.

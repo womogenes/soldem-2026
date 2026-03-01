@@ -1,6 +1,6 @@
 # Strategy file format
 
-Local timestamp: 2026-03-01 01:45:00 PST
+Local timestamp: 2026-03-01 03:10:00 PST
 
 Strategies can be referenced by built-in tag or Python file path.
 
@@ -8,7 +8,11 @@ Strategies can be referenced by built-in tag or Python file path.
 
 Current built-ins include:
 
+- `market_maker_tight`
+- `regime_switch_robust`
 - `market_maker`
+- `regime_switch`
+- `market_maker_aggr`
 - `conservative_ultra`
 - `conservative`
 - `elastic_conservative`
@@ -42,7 +46,7 @@ See `strategies/examples/minimal_strategy.py` for a minimal external strategy.
 
 ```bash
 uv run python scripts/run_match.py \
-  market_maker conservative_ultra conservative elastic_conservative mc_edge \
+  market_maker_tight regime_switch_robust market_maker regime_switch conservative_ultra \
   --n-games 1000 \
   --seed 42 \
   --compact-log research_logs/sim_logs/match_001.jsonl \
@@ -53,10 +57,11 @@ uv run python scripts/run_match.py \
 
 ```bash
 uv run python scripts/run_population.py \
-  market_maker conservative_ultra conservative elastic_conservative conservative_plus mc_edge \
-  pot_fraction seller_profit adaptive_profile random bully delta_value \
-  --n-matches 220 \
+  market_maker_tight regime_switch_robust market_maker regime_switch market_maker_aggr \
+  conservative_ultra conservative elastic_conservative conservative_plus mc_edge \
+  pot_fraction random bully \
+  --n-matches 320 \
   --n-games-per-match 10 \
-  --seed 2026 \
-  --out research_logs/experiment_outputs/candidates_ev_none.json
+  --seed 7001 \
+  --out research_logs/experiment_outputs/rule_profile_validation_long.json
 ```

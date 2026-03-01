@@ -9,6 +9,13 @@ This repository contains a full loop for Sold 'Em strategy research:
 - Svelte HUD for rapid in-game state entry
 - PocketBase integration for strategy/eval tracking
 
+Current high-confidence defaults:
+
+- `ev`: `market_maker_tight`
+- `first_place` (safe default): `market_maker_tight`
+- `robustness`: `regime_switch_robust`
+- Optional high-variance first-place override: `pot_fraction`
+
 ## Quickstart
 
 ### Backend

@@ -19,8 +19,10 @@ class SimRunnerTests(unittest.TestCase):
     def test_new_strategy_tags_registered(self):
         tags = built_in_strategy_factories().keys()
         self.assertIn("market_maker", tags)
+        self.assertIn("market_maker_tight", tags)
         self.assertIn("conservative_ultra", tags)
         self.assertIn("elastic_conservative", tags)
+        self.assertIn("regime_switch_robust", tags)
 
     def test_run_match_with_new_strategies(self):
         out = run_match(

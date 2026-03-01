@@ -28,18 +28,17 @@ def main() -> None:
     out_dir.mkdir(parents=True, exist_ok=True)
 
     strategies = [
+        "market_maker_tight",
+        "regime_switch_robust",
         "market_maker",
+        "regime_switch",
+        "market_maker_aggr",
         "conservative_ultra",
         "conservative",
         "elastic_conservative",
-        "conservative_plus",
-        "mc_edge",
         "pot_fraction",
-        "seller_profit",
-        "adaptive_profile",
         "random",
         "bully",
-        "delta_value",
     ]
 
     rows = []

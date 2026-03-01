@@ -30,72 +30,60 @@ Local timestamp: 2026-03-01 01:45:00 PST
 - Extended tests in `tests/test_sim_runner.py` for new strategy tags and match smoke.
 - Terminated redundant EC2 instance `i-0c4e23958644122b7` to reduce spend.
 
-## 01:46 PST
-- Added  and research_logs/variant_precompute/variant_leaderboards.json for fast day-of operations.
-- Added docs set in : , , , , , .
-- Added minimal external strategy template at .
-- Added and validated web checks: 
-> web@0.0.1 check /home/willi/coding/trading/soldem-2026/v3/web
-> svelte-kit sync && svelte-check --tsconfig ./tsconfig.json
+## 03:15 PST
+- Read `../v2/research_logs/000_god_prompt.md` again and continued iterative strategy search.
+- Added new strategy variants in `strategies/builtin.py`: `market_maker_tight`, `market_maker_aggr`, `regime_switch`, `regime_switch_robust`.
+- Ran medium candidate sweep (`candidate2_*.json`) and selected finalists.
+- Added `scripts/run_long_validation.py` and ran long matrix in parallel by objective:
+  - 3 seeds x 3 horizons x 4 correlation modes x 3 objectives
+  - 450 matches per cell
+  - Outputs: `long_validation_ev.json`, `long_validation_first_place.json`, `long_validation_robustness.json`
+- Long-matrix result:
+  - `market_maker_tight` won all EV cells (`12/12`) and first-place cells (`12/12`).
+  - `regime_switch_robust` won all robustness cells (`12/12`).
+- Added `scripts/run_rule_profile_validation.py` and ran long rule-profile matrix:
+  - 6 profiles x 3 objectives x 3 seeds, 320 matches per seed/cell
+  - Output: `rule_profile_validation_long.json`
+- Rule-profile result: `market_maker_tight` for EV/first-place and `regime_switch_robust` for robustness in all profiles.
+- Updated `game/api.py` profile defaults to the new champion map.
+- Updated docs and handoff files (`docs/day_of_runbook.md`, `docs/day_of_patch_guide.md`, `docs/champion_results.md`, `research_logs/2026-03-01_7am_handoff_summary.md`) with high-confidence recommendations.
+- Extended literature doc with additional 2025-2026 primary sources and updated implications.
 
-Loading svelte-check in workspace: /home/willi/coding/trading/soldem-2026/v3/web
-Getting Svelte diagnostics...
+## 03:25 PST
+- Added `scripts/run_rule_profile_validation.py` and completed 54-run profile matrix at 320 matches per seed/cell.
+- Confirmed champion map is stable across all tested profiles:
+  - `market_maker_tight` for `ev` and `first_place`
+  - `regime_switch_robust` for `robustness`
+- Updated `PROFILE_OBJECTIVE_DEFAULTS` in `game/api.py` to new champion map.
+- Added `research_logs/champion_lookup_from_rule_profile_validation_long.json` and updated fallback docs.
+- Extended `scripts/sync_experiments_to_pocketbase.py` to ingest multi-run files (`long_validation_*`, `rule_profile_validation_long`).
+- Synced new long-run outputs to PocketBase; DB totals now:
+  - strategies: 16
+  - eval_runs: 184
+  - champions: 183
+  - match_results: 2002
 
-svelte-check found 0 errors and 0 warnings and 
-> web@0.0.1 build /home/willi/coding/trading/soldem-2026/v3/web
-> vite build
+## 03:45 PST
+- Ran additional extreme-correlation stress matrix (`correlation_stress_matrix.json`):
+  - objectives `ev,first_place,robustness`
+  - strengths `0.35,0.5,0.7`
+  - modes `respect,herd,kingmaker`
+  - adversarial pair structures
+  - total 81 scenarios
+- Stress winners by EV: `market_maker_tight` 50/81, `regime_switch_robust` 23/81.
+- Fixed objective-selection bug in validation scripts:
+  - `scripts/run_long_validation.py` and `scripts/run_rule_profile_validation.py` now rank by objective-appropriate metric in `summary.top`.
+- Rewrote existing validation summaries to corrected format and regenerated champion lookup artifacts.
+- Added `correlation_stress_summary.json` and updated docs to distinguish safe defaults from high-variance first-place overrides.
 
-vite v7.3.1 building ssr environment for production...
-transforming...
-✓ 206 modules transformed.
-rendering chunks...
-vite v7.3.1 building client environment for production...
-transforming...
-✓ 159 modules transformed.
-rendering chunks...
-computing gzip size...
-.svelte-kit/output/client/_app/version.json                        0.03 kB │ gzip:  0.05 kB
-.svelte-kit/output/client/.vite/manifest.json                      3.69 kB │ gzip:  0.73 kB
-.svelte-kit/output/client/_app/immutable/assets/0.CHSELf_x.css    18.67 kB │ gzip:  4.22 kB
-.svelte-kit/output/client/_app/immutable/entry/start.sQDd6x1c.js   0.08 kB │ gzip:  0.09 kB
-.svelte-kit/output/client/_app/immutable/chunks/CGXeD2LZ.js        0.32 kB │ gzip:  0.25 kB
-.svelte-kit/output/client/_app/immutable/chunks/DaODjvW2.js        0.53 kB │ gzip:  0.33 kB
-.svelte-kit/output/client/_app/immutable/nodes/1.BlNqa8oX.js       0.55 kB │ gzip:  0.35 kB
-.svelte-kit/output/client/_app/immutable/chunks/zqy3SHKI.js        1.49 kB │ gzip:  0.66 kB
-.svelte-kit/output/client/_app/immutable/chunks/BrUjG50s.js        2.07 kB │ gzip:  1.09 kB
-.svelte-kit/output/client/_app/immutable/nodes/0.QqwYmmh9.js       2.83 kB │ gzip:  1.26 kB
-.svelte-kit/output/client/_app/immutable/chunks/CmGNoYqz.js        3.33 kB │ gzip:  1.70 kB
-.svelte-kit/output/client/_app/immutable/chunks/C1rIeRTS.js        5.11 kB │ gzip:  2.31 kB
-.svelte-kit/output/client/_app/immutable/entry/app.COYpmxbn.js     5.69 kB │ gzip:  2.66 kB
-.svelte-kit/output/client/_app/immutable/chunks/JBpPRgiq.js        7.15 kB │ gzip:  3.33 kB
-.svelte-kit/output/client/_app/immutable/chunks/ZTmkiM--.js       23.16 kB │ gzip:  9.12 kB
-.svelte-kit/output/client/_app/immutable/chunks/Yq8DHcT9.js       26.10 kB │ gzip: 10.27 kB
-.svelte-kit/output/client/_app/immutable/nodes/2.vBuMcW0_.js      51.14 kB │ gzip: 17.48 kB
-✓ built in 564ms
-.svelte-kit/output/server/.vite/manifest.json                           3.70 kB
-.svelte-kit/output/server/_app/immutable/assets/_layout.CHSELf_x.css   18.67 kB
-.svelte-kit/output/server/chunks/false.js                               0.05 kB
-.svelte-kit/output/server/internal.js                                   0.35 kB
-.svelte-kit/output/server/chunks/environment.js                         0.62 kB
-.svelte-kit/output/server/chunks/utils.js                               1.15 kB
-.svelte-kit/output/server/entries/fallbacks/error.svelte.js             1.35 kB
-.svelte-kit/output/server/entries/pages/_layout.svelte.js               2.58 kB
-.svelte-kit/output/server/chunks/utils2.js                              3.14 kB
-.svelte-kit/output/server/chunks/internal.js                            3.17 kB
-.svelte-kit/output/server/chunks/exports.js                             7.03 kB
-.svelte-kit/output/server/entries/pages/_page.svelte.js                17.96 kB
-.svelte-kit/output/server/remote-entry.js                              19.01 kB
-.svelte-kit/output/server/chunks/shared.js                             42.65 kB
-.svelte-kit/output/server/chunks/index.js                              48.50 kB
-.svelte-kit/output/server/chunks/root.js                               78.15 kB
-.svelte-kit/output/server/index.js                                    132.87 kB
-✓ built in 1.72s
-
-Run npm run preview to preview your production build locally.
-
-> Using @sveltejs/adapter-auto
-  Could not detect a supported production environment. See https://svelte.dev/docs/kit/adapters to learn how to configure your app to run on the platform of your choosing
-  ✔ done.
-- Performed API E2E smoke check (, , ) with default champion resolving to .
-- Extended tests to cover new strategy tags and new-strategy match smoke in .
-- Terminated redundant EC2 instance  to reduce spend.
+## 03:52 PST
+- Synced `correlation_stress_matrix.json` to PocketBase after extending sync tooling for list-based matrix artifacts.
+- Current PocketBase totals:
+  - strategies: 16
+  - eval_runs: 265
+  - champions: 264
+  - match_results: 2893
+- Confirmed stress-test takeaway remains unchanged for safe play:
+  - EV-safe default: `market_maker_tight`
+  - robustness-safe default: `regime_switch_robust`
+  - optional high-variance first-place override: `pot_fraction`

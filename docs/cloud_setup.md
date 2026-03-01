@@ -1,6 +1,6 @@
 # Cloud setup for PocketBase and workers
 
-Local timestamp: 2026-03-01 01:45:00 PST
+Local timestamp: 2026-03-01 03:10:00 PST
 
 ## Current live PocketBase
 
@@ -26,6 +26,22 @@ uv run python scripts/sync_experiments_to_pocketbase.py \
   --admin-email <ADMIN_EMAIL> \
   --admin-password <ADMIN_PASSWORD> \
   --glob 'research_logs/experiment_outputs/candidates_*.json'
+```
+
+## Sync long validation batches
+
+```bash
+uv run python scripts/sync_experiments_to_pocketbase.py \
+  --base-url http://44.221.42.217:8090 \
+  --admin-email <ADMIN_EMAIL> \
+  --admin-password <ADMIN_PASSWORD> \
+  --glob 'research_logs/experiment_outputs/long_validation_*.json'
+
+uv run python scripts/sync_experiments_to_pocketbase.py \
+  --base-url http://44.221.42.217:8090 \
+  --admin-email <ADMIN_EMAIL> \
+  --admin-password <ADMIN_PASSWORD> \
+  --glob 'research_logs/experiment_outputs/rule_profile_validation_long.json'
 ```
 
 ## Worker heartbeat check

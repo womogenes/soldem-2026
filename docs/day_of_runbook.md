@@ -1,6 +1,6 @@
 # Day-of runbook
 
-Local timestamp: 2026-03-01 01:45:00 PST
+Local timestamp: 2026-03-01 03:10:00 PST
 
 ## Startup
 
@@ -27,9 +27,14 @@ pnpm --dir web dev --host 127.0.0.1 --port 5173
 
 ## Objective defaults
 
-- `ev`: `market_maker`
-- `first_place`: `market_maker`
-- `robustness`: `conservative_ultra`
+- `ev`: `market_maker_tight`
+- `first_place`: `market_maker_tight`
+- `robustness`: `regime_switch_robust`
+
+## Optional high-variance mode
+
+- If you are late in standings and need upside over expectation, set strategy tag manually to `pot_fraction`.
+- Use this sparingly: simulations show higher first-place rate but materially worse expected PnL.
 
 ## Quick checks
 

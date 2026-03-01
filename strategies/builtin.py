@@ -468,6 +468,104 @@ class MonteCarloEdgeStrategy:
         return idx
 
 
+@dataclass
+class RegimeSwitchStrategy:
+    reserve_base: float = 0.12
+    reserve_min: float = 0.08
+    reserve_max: float = 0.19
+    eq_samples: int = 10
+    jitter: float = 0.10
+    tag: str = "regime_switch"
+
+    def on_round_start(self, ctx: StrategyContext) -> None:
+        return None
+
+    def choose_sell_indices(self, ctx: StrategyContext) -> list[int]:
+        # Early offers include two cards, but avoid giving away structurally key cards.
+        count = 2 if ctx.round_num < max(1, ctx.n_orbits - 1) else 1
+        return _least_costly_sales(
+            ctx.my_cards,
+            ctx.ranking_policy,
+            count=count,
+            prefer_high_value=True,
+        )
+
+    def bid_amount(self, ctx: StrategyContext) -> int:
+        my_stack = ctx.stacks[ctx.seat]
+        if my_stack <= 0 or not ctx.auction_cards:
+            return 0
+
+        best_idx, score_delta = _best_delta(
+            ctx.my_cards,
+            ctx.auction_cards,
+            ctx.ranking_policy,
+        )
+        if score_delta <= 0:
+            return 0
+
+        avg_stack = sum(ctx.stacks) / len(ctx.stacks)
+        avg_aggr = _avg_opp_aggression(ctx)
+        stack_ratio = my_stack / max(1.0, avg_stack)
+
+        # Regime selection: chase upside when behind/first-place objective, tighten if table is hot.
+        reserve = self.reserve_base
+        if avg_aggr > 0.44:
+            reserve *= 0.72
+        elif avg_aggr < 0.18:
+            reserve *= 1.16
+
+        if stack_ratio < 0.90:
+            reserve *= 1.12
+        elif stack_ratio > 1.15:
+            reserve *= 0.88
+
+        if ctx.objective == "first_place":
+            reserve *= 1.15
+        elif ctx.objective == "robustness":
+            reserve *= 0.78
+
+        if ctx.round_num >= max(1, ctx.n_orbits - 1):
+            reserve *= 1.12
+
+        if ctx.seller_idx == -1:
+            reserve *= 0.56
+
+        reserve = max(self.reserve_min, min(self.reserve_max, reserve))
+
+        base_seed = _ctx_seed(ctx, extra=313)
+        p0 = _equity_vs_random(
+            ctx.my_cards,
+            policy=ctx.ranking_policy,
+            n_players=len(ctx.stacks),
+            samples=self.eq_samples,
+            seed=base_seed,
+        )
+        p1 = _equity_vs_random(
+            ctx.my_cards + [ctx.auction_cards[best_idx]],
+            policy=ctx.ranking_policy,
+            n_players=len(ctx.stacks),
+            samples=self.eq_samples,
+            seed=base_seed + 29,
+        )
+        delta_p = max(0.0, p1 - p0)
+
+        fair = (delta_p * ctx.pot) + ((score_delta / 12000.0) * ctx.pot * 0.40)
+        cap = ctx.pot * reserve
+
+        # Small deterministic jitter to reduce exploitability from pure determinism.
+        rng = random.Random(base_seed + 101)
+        jitter_mult = 1.0 + rng.uniform(-self.jitter, self.jitter)
+
+        target = min(fair, cap) * jitter_mult
+        if delta_p < 0.012 and score_delta < 900:
+            return 0
+        return max(0, min(my_stack, int(target)))
+
+    def choose_won_card(self, ctx: StrategyContext) -> int:
+        idx, _ = _best_delta(ctx.my_cards, ctx.auction_cards, ctx.ranking_policy)
+        return idx
+
+
 def built_in_strategy_factories() -> dict[str, callable]:
     return {
         "random": lambda: RandomStrategy(),
@@ -493,6 +591,23 @@ def built_in_strategy_factories() -> dict[str, callable]:
         "seller_profit": lambda: SellerProfitStrategy(),
         "adaptive_profile": lambda: AdaptiveProfileStrategy(),
         "market_maker": lambda: MarketMakerStrategy(),
+        "market_maker_tight": lambda: MarketMakerStrategy(
+            reserve_frac=0.095,
+            tag="market_maker_tight",
+        ),
+        "market_maker_aggr": lambda: MarketMakerStrategy(
+            reserve_frac=0.13,
+            tag="market_maker_aggr",
+        ),
+        "regime_switch": lambda: RegimeSwitchStrategy(),
+        "regime_switch_robust": lambda: RegimeSwitchStrategy(
+            reserve_base=0.105,
+            reserve_min=0.07,
+            reserve_max=0.155,
+            eq_samples=12,
+            jitter=0.08,
+            tag="regime_switch_robust",
+        ),
         "mc_edge": lambda: MonteCarloEdgeStrategy(),
     }
 

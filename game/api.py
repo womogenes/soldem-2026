@@ -19,34 +19,34 @@ Objective = Literal["ev", "first_place", "robustness"]
 
 PROFILE_OBJECTIVE_DEFAULTS: dict[str, dict[str, str]] = {
     "baseline_v1": {
-        "ev": "market_maker",
-        "first_place": "market_maker",
-        "robustness": "conservative_ultra",
+        "ev": "market_maker_tight",
+        "first_place": "market_maker_tight",
+        "robustness": "regime_switch_robust",
     },
     "standard_rankings": {
-        "ev": "market_maker",
-        "first_place": "conservative",
-        "robustness": "conservative_ultra",
+        "ev": "market_maker_tight",
+        "first_place": "market_maker_tight",
+        "robustness": "regime_switch_robust",
     },
     "seller_self_bid": {
-        "ev": "market_maker",
-        "first_place": "market_maker",
-        "robustness": "market_maker",
+        "ev": "market_maker_tight",
+        "first_place": "market_maker_tight",
+        "robustness": "regime_switch_robust",
     },
     "top2_split": {
-        "ev": "market_maker",
-        "first_place": "market_maker",
-        "robustness": "market_maker",
+        "ev": "market_maker_tight",
+        "first_place": "market_maker_tight",
+        "robustness": "regime_switch_robust",
     },
     "high_low_split": {
-        "ev": "market_maker",
-        "first_place": "market_maker",
-        "robustness": "market_maker",
+        "ev": "market_maker_tight",
+        "first_place": "market_maker_tight",
+        "robustness": "regime_switch_robust",
     },
     "single_card_sell": {
-        "ev": "market_maker",
-        "first_place": "market_maker",
-        "robustness": "conservative_ultra",
+        "ev": "market_maker_tight",
+        "first_place": "market_maker_tight",
+        "robustness": "regime_switch_robust",
     },
 }
 
