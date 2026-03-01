@@ -1,6 +1,6 @@
 # AWS distributed runbook
 
-Local timestamp: 2026-03-01 03:52:40 PST
+Local timestamp: 2026-03-01 06:25:18 PST
 
 ## Purpose
 
@@ -134,6 +134,31 @@ Note: run `20260301-030400` used an expanded strategy pool and should be treated
       - `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-050721.json`
     - promoted strategy:
       - `seller_extraction:opportunistic_delta=4400,reserve_bid_floor=0.02,sell_count=2`
+- Human-focused high-match distributed run:
+  - `20260301-061228`
+  - 18x `c7i.large`
+  - `n_matches=360`
+  - pool excludes `random` and `pot_fraction`
+  - outputs:
+    - `research_logs/experiment_outputs/distributed_20260301-061228/aggregate_summary.json`
+    - `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-061228.json`
+    - `research_logs/experiment_outputs/upgrade_validation_candidate_20260301-061228.json`
+  - objective winner counts:
+    - `ev`: `seller_extraction:opportunistic_delta=5400,reserve_bid_floor=0.032,sell_count=2`
+    - `first_place`: `bully` (with objective-strength rank/margin favoring `seller_profit`)
+    - `robustness`: `seller_extraction:opportunistic_delta=4400,reserve_bid_floor=0.02,sell_count=2`
+- Merged promotion artifact across latest human-focused runs:
+  - source runs:
+    - `distributed_20260301-053816`
+    - `distributed_20260301-061228`
+  - merged aggregate:
+    - `research_logs/experiment_outputs/distributed_20260301-062400-merged/aggregate_summary.json`
+  - promoted upgrade:
+    - `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-062400-merged.json`
+  - promoted objective split:
+    - `ev`: `5400/0.032/2`
+    - `first_place`: `seller_profit`
+    - `robustness`: `4400/0.02/2`
 
 Loop automation smoke runs:
 
@@ -229,6 +254,11 @@ scripts/aws/continuous_distributed_loop.sh \
 - `research_logs/experiment_outputs/distributed_master_summary_20260301.json`
 - `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-030400.json`
 - `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-033100.json`
+- `research_logs/experiment_outputs/distributed_20260301-061228/aggregate_summary.json`
+- `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-061228.json`
+- `research_logs/experiment_outputs/distributed_20260301-062400-merged/aggregate_summary.json`
+- `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-062400-merged.json`
+- `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-062400-merged.json`
 - `research_logs/experiment_outputs/param_sweep_20260301-024646/aggregate_summary.json`
 - `research_logs/experiment_outputs/param_sweep_20260301-033100/aggregate_summary.json`
 - `research_logs/experiment_outputs/evolution_20260301-025553/aggregate_summary.json`

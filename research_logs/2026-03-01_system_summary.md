@@ -1,6 +1,6 @@
 # Sold 'Em system summary
 
-Local timestamp: 2026-03-01 05:25:18 PST
+Local timestamp: 2026-03-01 06:24:48 PST
 
 ## What is ready now
 
@@ -20,8 +20,8 @@ Local timestamp: 2026-03-01 05:25:18 PST
 ## Best current strategy
 
 - Recommended objective-specific champions:
-- `ev`: `seller_extraction:opportunistic_delta=4400,reserve_bid_floor=0.02,sell_count=2`
-- `first_place`: `seller_extraction:opportunistic_delta=4400,reserve_bid_floor=0.02,sell_count=2`
+- `ev`: `seller_extraction:opportunistic_delta=5400,reserve_bid_floor=0.032,sell_count=2`
+- `first_place`: `seller_profit`
 - `robustness`: `seller_extraction:opportunistic_delta=4400,reserve_bid_floor=0.02,sell_count=2`
 - Evidence path:
 - Legacy high-confidence distributed runs favored `reserve_bid_floor=0.086`:
@@ -56,6 +56,23 @@ Local timestamp: 2026-03-01 05:25:18 PST
     - `first_place`: `+0.0586`
     - `robustness`: `+15.671`
   - promotion artifact: `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-050721.json`
+- Additional late-cycle EC2 confirmations:
+  - high-match distributed run `20260301-053008` (20-strategy pool): EV winner remained `4400/0.02/2`.
+  - high-match distributed run `20260301-053816` (human-like pool): first-place winner counts favored `seller_profit`, robustness winner counts favored `4500/0.02/2`.
+  - targeted param sweep `20260301-054824` (champion fixed to `4400/0.02/2`):
+    - best challenger `4500/0.02/2` mean delta `+1.072` overall
+    - `ev` mean delta vs champion is slightly negative (`-0.234`)
+  - larger human-focused distributed run `20260301-061228` (`n_matches=360`, 18x workers):
+    - `ev` winner count favored `5400/0.032/2`
+    - first-place winner count favored `bully`, but objective-strength rank/margin favored `seller_profit`
+    - robustness winner count favored `4400/0.02/2` with near-tie vs `4500/0.02/2`
+  - merged promotion across the two latest human-focused runs (`053816` + `061228`, 432 scenarios):
+    - `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-062400-merged.json`
+    - objective split: `ev=5400/0.032/2`, `first_place=seller_profit`, `robustness=4400/0.02/2`
+- Added day-of helper script:
+  - `scripts/day_of/apply_rule_variation.py` for sub-2-minute profile apply + recompute + state verification.
+- Improved distributed summarizer signal:
+  - `scripts/aws/summarize_distributed_champions.py` now emits `objective_strength` with rank and margin champions.
 
 ## Key artifacts
 
@@ -83,6 +100,10 @@ Local timestamp: 2026-03-01 05:25:18 PST
 - `research_logs/experiment_outputs/distributed_20260301-030400/aggregate_summary.json`
 - `research_logs/experiment_outputs/distributed_20260301-031824/aggregate_summary.json`
 - `research_logs/experiment_outputs/distributed_20260301-045734/aggregate_summary.json`
+- `research_logs/experiment_outputs/distributed_20260301-053008/aggregate_summary.json`
+- `research_logs/experiment_outputs/distributed_20260301-053816/aggregate_summary.json`
+- `research_logs/experiment_outputs/distributed_20260301-061228/aggregate_summary.json`
+- `research_logs/experiment_outputs/distributed_20260301-062400-merged/aggregate_summary.json`
 - `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-015615.json`
 - `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-020134.json`
 - `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-021037.json`
@@ -92,16 +113,23 @@ Local timestamp: 2026-03-01 05:25:18 PST
 - `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-030400.json`
 - `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-031824.json`
 - `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-045734.json`
+- `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-053008.json`
+- `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-053816.json`
+- `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-061228.json`
+- `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-062400-merged.json`
 - `research_logs/experiment_outputs/distributed_master_summary_20260301.json`
 - `research_logs/experiment_outputs/param_sweep_20260301-024646/aggregate_summary.json`
 - `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-030400.json`
 - `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-033100.json`
 - `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-050721.json`
+- `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-060740.json`
+- `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-062400-merged.json`
 - `research_logs/experiment_outputs/evolution_20260301-025553/aggregate_summary.json`
 - `research_logs/experiment_outputs/evolution_20260301-025732/aggregate_summary.json`
 - `research_logs/experiment_outputs/evolution_20260301-044713/aggregate_summary.json`
 - `research_logs/experiment_outputs/param_sweep_20260301-033100/aggregate_summary.json`
 - `research_logs/experiment_outputs/param_sweep_20260301-050721/aggregate_summary.json`
+- `research_logs/experiment_outputs/param_sweep_20260301-054824/aggregate_summary.json`
 - `research_logs/experiment_outputs/horizon10_confirmation_20260301-033100.json`
 - `research_logs/experiment_outputs/horizon10_confirmation_20260301-050721.json`
 

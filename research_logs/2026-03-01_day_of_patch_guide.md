@@ -1,6 +1,6 @@
 # Day-of rapid patch guide for rule variations
 
-Local timestamp: 2026-03-01 01:40:32 PST
+Local timestamp: 2026-03-01 06:25:42 PST
 
 ## Goal
 
@@ -43,6 +43,17 @@ curl -sS -X POST http://127.0.0.1:8000/rules/apply_profile \
   }'
 ```
 
+Single-command helper (applies profile, recomputes, prints session state):
+
+```bash
+uv run python scripts/day_of/apply_rule_variation.py \
+  --profile-name baseline_v1 \
+  --overrides-json '{"n_orbits": 4, "seller_can_bid_own_card": true}' \
+  --n-matches 35 \
+  --n-games-per-match 8 \
+  --seed 20260301
+```
+
 ### Step 2: recompute champions quickly (45-90s)
 
 Command:
@@ -63,16 +74,17 @@ If latency budget is tighter, use:
 Command:
 
 ```bash
-curl -sS http://127.0.0.1:8000/session/state | jq '.rule_profile,.champions'
+curl -sS http://127.0.0.1:8000/session/state | python -m json.tool
 ```
 
 ## Precomputed fallback mapping
 
 Current objective-specific fallback set:
 
-- `ev`: `seller_extraction:opportunistic_delta=3300,reserve_bid_floor=0.029,sell_count=2`
-- `first_place`: `seller_extraction:opportunistic_delta=3300,reserve_bid_floor=0.029,sell_count=2`
-- `robustness`: `seller_extraction:opportunistic_delta=3300,reserve_bid_floor=0.029,sell_count=2`
+- `ev`: `seller_extraction:opportunistic_delta=4400,reserve_bid_floor=0.02,sell_count=2`
+- `ev`: `seller_extraction:opportunistic_delta=5400,reserve_bid_floor=0.032,sell_count=2`
+- `first_place`: `seller_profit`
+- `robustness`: `seller_extraction:opportunistic_delta=4400,reserve_bid_floor=0.02,sell_count=2`
 
 If recompute fails on day-of, load latest artifact champion map:
 
@@ -93,6 +105,9 @@ Higher-confidence distributed fallback maps are also available:
 - `research_logs/experiment_outputs/distributed_master_summary_20260301.json`
 - `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-030400.json`
 - `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-033100.json`
+- `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-050721.json`
+- `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-060740.json`
+- `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-062400-merged.json`
 - `research_logs/experiment_outputs/horizon10_confirmation_20260301-033100.json` (10-game extraction)
 
 ## Patch templates for unknown new rule types

@@ -1,0 +1,36 @@
+{
+  "run_id": "20260301-060740",
+  "source": "multi_run_blend",
+  "n_scenarios": 324,
+  "objective_champions": {
+    "ev": {
+      "champion_tag": "seller_extraction:opportunistic_delta=4400,reserve_bid_floor=0.02,sell_count=2",
+      "evidence": "param_sweep_20260301-054824 direct-vs-champion mean delta baseline"
+    },
+    "first_place": {
+      "champion_tag": "seller_profit",
+      "evidence": "distributed_20260301-053816 human-pool first_place winner counts"
+    },
+    "robustness": {
+      "champion_tag": "seller_extraction:opportunistic_delta=4500,reserve_bid_floor=0.02,sell_count=2",
+      "evidence": "param_sweep_20260301-054824 robustness delta and distributed_20260301-053816 objective votes"
+    }
+  },
+  "recommended_session_champions": {
+    "ev": "seller_extraction:opportunistic_delta=4400,reserve_bid_floor=0.02,sell_count=2",
+    "first_place": "seller_profit",
+    "robustness": "seller_extraction:opportunistic_delta=4500,reserve_bid_floor=0.02,sell_count=2"
+  },
+  "winner_counts": {
+    "seller_extraction:opportunistic_delta=4400,reserve_bid_floor=0.02,sell_count=2": 1,
+    "seller_profit": 1,
+    "seller_extraction:opportunistic_delta=4500,reserve_bid_floor=0.02,sell_count=2": 1
+  },
+  "notes": "Objective split recommendation built from the latest high-match distributed and param-sweep confirmations.",
+  "evidence_artifacts": {
+    "distributed_confirm_full": "research_logs/experiment_outputs/distributed_20260301-053008/aggregate_summary.json",
+    "distributed_confirm_human": "research_logs/experiment_outputs/distributed_20260301-053816/aggregate_summary.json",
+    "param_sweep_vs_4400": "research_logs/experiment_outputs/param_sweep_20260301-054824/aggregate_summary.json",
+    "prior_horizon10_promotion": "research_logs/experiment_outputs/horizon10_confirmation_20260301-050721.json"
+  }
+}

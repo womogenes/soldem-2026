@@ -1,6 +1,6 @@
 # Human playbook for Sold 'Em
 
-Local timestamp: 2026-03-01 05:24:10 PST
+Local timestamp: 2026-03-01 06:24:10 PST
 
 ## Core principle
 
@@ -14,8 +14,8 @@ In this rule set, overpaying in first-price auctions is the biggest leak. The cu
 
 Current objective-specific champion set:
 
-- `ev`: `seller_extraction:opportunistic_delta=4400,reserve_bid_floor=0.02,sell_count=2`
-- `first_place`: `seller_extraction:opportunistic_delta=4400,reserve_bid_floor=0.02,sell_count=2`
+- `ev`: `seller_extraction:opportunistic_delta=5400,reserve_bid_floor=0.032,sell_count=2`
+- `first_place`: `seller_profit`
 - `robustness`: `seller_extraction:opportunistic_delta=4400,reserve_bid_floor=0.02,sell_count=2`
 
 Recent EC2 confirmation path:
@@ -35,6 +35,24 @@ Recent EC2 confirmation path:
 - Promotion artifacts:
 - `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-050721.json`
 - `research_logs/experiment_outputs/horizon10_confirmation_20260301-050721.json`
+- Additional high-match validation runs:
+- `distributed_20260301-053008` (20-strategy pool): `ev` still favors `4400/0.02/2`.
+- `distributed_20260301-053816` (human-like pool, no random/pot_fraction):
+- `first_place` winner by count: `seller_profit`
+- `robustness` winner by count: `4500/0.02/2`
+- Param sweep `20260301-054824` with champion fixed to `4400/0.02/2`:
+- best challenger `4500/0.02/2` has overall mean delta `+1.07`,
+- but `ev` mean delta is slightly negative (`-0.234`) vs `4400/0.02/2`.
+- Additional high-match human pool run `20260301-061228` (`n_matches=360`, 18 workers):
+- `ev` winner by count: `5400/0.032/2`
+- `first_place` winner by count: `bully`, but rank/margin strength favors `seller_profit`
+- `robustness` winner by count: `4400/0.02/2` (near tie vs `4500/0.02/2`)
+- Merged promotion across the two latest human-like runs (total 432 scenarios):
+- `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-062400-merged.json`
+- objective split from merged evidence:
+- `ev`: `5400/0.032/2`
+- `first_place`: `seller_profit`
+- `robustness`: `4400/0.02/2`
 
 ## Turn-by-turn guidance
 

@@ -4,6 +4,7 @@ from __future__ import annotations
 import argparse
 import json
 from collections import Counter, defaultdict
+from statistics import mean
 from pathlib import Path
 
 OBJECTIVES = ("ev", "first_place", "robustness")
@@ -76,9 +77,119 @@ def build_upgrade_validation(summary: dict) -> dict:
         "n_scenarios": n_scenarios,
         "winner_counts": dict(winner_counts),
         "objective_champions": objective_champions,
+        "objective_strength": build_objective_strength(rows),
         "recommended_session_champions": recommended,
         "notes": "Auto-generated from distributed aggregate summary.",
     }
+
+
+def _safe_float(value: object) -> float | None:
+    if isinstance(value, (int, float)):
+        return float(value)
+    return None
+
+
+def build_objective_strength(rows: list[dict]) -> dict:
+    # Adds signal beyond winner-count voting:
+    # - mean rank points across all scenarios (1.0 top rank, 0.0 bottom rank)
+    # - normalized winner margin to runner-up when tag wins
+    per_obj_rank_points: dict[str, dict[str, list[float]]] = defaultdict(
+        lambda: defaultdict(list)
+    )
+    per_obj_win_margins: dict[str, dict[str, list[float]]] = defaultdict(
+        lambda: defaultdict(list)
+    )
+
+    for row in rows:
+        objective = row.get("objective")
+        if objective not in OBJECTIVES:
+            continue
+        metric_key = row.get("metric_key")
+        if not isinstance(metric_key, str) or not metric_key:
+            continue
+        leaderboard = row.get("leaderboard")
+        if not isinstance(leaderboard, list):
+            continue
+
+        scored: list[tuple[str, float]] = []
+        for entry in leaderboard:
+            if not isinstance(entry, dict):
+                continue
+            tag = entry.get("tag")
+            if not isinstance(tag, str) or not tag:
+                continue
+            score = _safe_float(entry.get(metric_key))
+            if score is None:
+                continue
+            scored.append((tag, score))
+
+        if len(scored) < 2:
+            continue
+        scored.sort(key=lambda it: it[1], reverse=True)
+
+        n = len(scored)
+        best_score = scored[0][1]
+        second_score = scored[1][1]
+        denom = max(1.0, abs(best_score), abs(second_score))
+
+        for rank, (tag, _score) in enumerate(scored):
+            rank_points = float((n - rank - 1) / (n - 1))
+            per_obj_rank_points[objective][tag].append(rank_points)
+
+        winner_tag = scored[0][0]
+        margin = float((best_score - second_score) / denom)
+        per_obj_win_margins[objective][winner_tag].append(margin)
+
+    out: dict[str, dict] = {}
+    for objective in OBJECTIVES:
+        rank_map = per_obj_rank_points.get(objective, {})
+        margin_map = per_obj_win_margins.get(objective, {})
+
+        rank_mean = {
+            tag: mean(vals)
+            for tag, vals in rank_map.items()
+            if vals
+        }
+        margin_mean = {
+            tag: mean(vals)
+            for tag, vals in margin_map.items()
+            if vals
+        }
+
+        rank_sorted = sorted(
+            rank_mean.items(),
+            key=lambda kv: (kv[1], kv[0]),
+            reverse=True,
+        )
+        margin_sorted = sorted(
+            margin_mean.items(),
+            key=lambda kv: (kv[1], kv[0]),
+            reverse=True,
+        )
+
+        out[objective] = {
+            "rank_champion_tag": rank_sorted[0][0] if rank_sorted else "",
+            "rank_champion_score": rank_sorted[0][1] if rank_sorted else 0.0,
+            "margin_champion_tag": margin_sorted[0][0] if margin_sorted else "",
+            "margin_champion_score": margin_sorted[0][1] if margin_sorted else 0.0,
+            "top_rank_mean": [
+                {
+                    "tag": tag,
+                    "mean_rank_points": score,
+                    "n_scenarios": len(rank_map.get(tag, [])),
+                }
+                for tag, score in rank_sorted[:5]
+            ],
+            "top_margin_mean": [
+                {
+                    "tag": tag,
+                    "mean_win_margin_norm": score,
+                    "n_wins": len(margin_map.get(tag, [])),
+                }
+                for tag, score in margin_sorted[:5]
+            ],
+        }
+    return out
 
 
 def main() -> None:

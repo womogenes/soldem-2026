@@ -4,6 +4,7 @@ from __future__ import annotations
 import argparse
 import json
 from collections import defaultdict
+import math
 from pathlib import Path
 import subprocess
 import sys
@@ -80,12 +81,17 @@ def aggregate(payloads: list[dict]) -> dict:
 def sync_pocketbase(summary: dict, base_url: str, token: str, run_id: str) -> None:
     client = PocketBaseClient(base_url, admin_token=token)
     for idx, row in enumerate(summary["candidate_summary"], start=1):
+        score = row.get("mean_delta_vs_champion")
+        if not isinstance(score, (int, float)) or not math.isfinite(float(score)):
+            continue
+        if abs(float(score)) < 1e-12:
+            continue
         client.create(
             "champions",
             {
                 "objective": f"param_sweep_{run_id}",
                 "strategy_tag": row["candidate"],
-                "score": float(row["mean_delta_vs_champion"]),
+                "score": float(score),
                 "metadata_json": {
                     "rank": idx,
                     "wins": row["wins"],

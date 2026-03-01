@@ -436,3 +436,45 @@ Local timezone: PST (America/Los_Angeles)
   - `DISCOVERY_STRATEGY_SPECS` expanded with new top challengers (`4400/0.02/2`, `4500/0.02/2`, `2600/0.023/2`).
   - `scripts/aws/launch_distributed_experiments.sh` default pool updated to include new promoted strategy and strongest challengers.
 - Terminated all worker instances for `20260301-050721` and verified no active `soldem-dist|soldem-evolution|soldem-param-sweep` EC2 workers remain.
+
+## 2026-03-01 06:26:08 PST
+
+- Built and uploaded fresh artifact for final morning validation:
+  - `s3://soldem-2026-539881456097-1772358537/artifacts/soldem_v5_6456979_20260301-061214.tar.gz`.
+- Launched human-focused distributed run `20260301-061228`:
+  - 18x `c7i.large`
+  - `n_matches=360`
+  - strategy pool file:
+    - `research_logs/experiment_inputs/distributed_confirm_pool_humanplus_20260301-0614.txt`
+  - worker map:
+    - `research_logs/aws_worker_map_20260301-061228.jsonl`
+- Collected outputs and generated artifacts:
+  - `research_logs/experiment_outputs/distributed_20260301-061228/aggregate_summary.json`
+  - `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-061228.json`
+  - `research_logs/experiment_outputs/upgrade_validation_candidate_20260301-061228.json`
+- Added stronger distributed objective analytics:
+  - `scripts/aws/summarize_distributed_champions.py` now emits `objective_strength` with:
+    - mean rank-points champions,
+    - normalized win-margin champions.
+- Created merged human-run aggregate and promoted combined artifact:
+  - merged source runs:
+    - `distributed_20260301-053816`
+    - `distributed_20260301-061228`
+  - merged aggregate:
+    - `research_logs/experiment_outputs/distributed_20260301-062400-merged/aggregate_summary.json`
+  - promoted summary:
+    - `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-062400-merged.json`
+  - promoted objective split:
+    - `ev`: `seller_extraction:opportunistic_delta=5400,reserve_bid_floor=0.032,sell_count=2`
+    - `first_place`: `seller_profit`
+    - `robustness`: `seller_extraction:opportunistic_delta=4400,reserve_bid_floor=0.02,sell_count=2`
+- Added day-of fast patch helper script:
+  - `scripts/day_of/apply_rule_variation.py`
+  - applies profile overrides, optionally recomputes champions, and prints session state in one command.
+- Updated docs to current promoted state:
+  - `research_logs/2026-03-01_human_playbook.md`
+  - `research_logs/2026-03-01_quick_reference_card.md`
+  - `research_logs/2026-03-01_system_summary.md`
+  - `research_logs/2026-03-01_aws_distributed_runbook.md`
+  - `research_logs/2026-03-01_day_of_patch_guide.md`
+- Terminated all worker instances from run `20260301-061228` after collection.
