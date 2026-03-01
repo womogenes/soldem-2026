@@ -35,7 +35,7 @@ Local time: 2026-03-01 04:34 PST
 - Autosolve first-place guardrail default: `first_gap=0.07`.
 - Backend tests currently passing: `25/25`.
 - Frontend check/build passing.
-- Preflight smoke (`API + PocketBase`) passed at `2026-03-01 05:16 PST`.
+- Preflight smoke (`API + PocketBase`) passed at `2026-03-01 05:37 PST` with backend tests + web check.
 
 ## Latest key docs
 
@@ -57,3 +57,4 @@ Local time: 2026-03-01 04:34 PST
 - `62f2fff`: HUD first-place routing cues UI.
 - `d382fcd`: preflight + full-suite validation log refresh.
 - `9ebf784`: backend-exported first-place policy cues wired into HUD.
+- `da6c86a`: ante-threshold calibration and updated high-ante trigger.

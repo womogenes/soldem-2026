@@ -819,3 +819,17 @@ Local time: 2026-03-01 01:25:02 PST
   - `research_logs/013_pre7_handoff_draft.md`
   - `research_logs/016_first_place_fuzz_confirmation.md`
   - `research_logs/017_resolver_policy_backtest.md` (noted as pre-recalibration baseline).
+
+## 2026-03-01 05:37:53 PST
+
+- Ran full preflight with integrated checks against temporary local API + live PocketBase:
+  - API: `127.0.0.1:8011`
+  - PB: `18.204.1.6:8090`
+  - command:
+    - `bash scripts/day_of_preflight.sh --api-url http://127.0.0.1:8011 --pb-url http://18.204.1.6:8090 --with-tests --with-web`
+- Result:
+  - API health/session: pass
+  - PocketBase health: pass
+  - backend tests: `25/25` pass
+  - web check: `0` errors, `0` warnings
+- Updated status/handoff docs with this latest validation timestamp.
