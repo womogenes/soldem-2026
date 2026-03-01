@@ -7,6 +7,7 @@
 	type Phase = 'sell' | 'bid' | 'choose' | 'showdown';
 	type Objective = 'ev' | 'first_place' | 'robustness';
 	type OutputMode = 'action_first' | 'top3' | 'metrics' | 'all';
+	type PresetKey = 'balanced_default' | 'correlated_table' | 'risk_on_soft_table' | 'house_control';
 
 	const API = 'http://127.0.0.1:8000';
 
@@ -14,6 +15,7 @@
 	let objective: Objective = 'ev';
 	let outputMode: OutputMode = 'all';
 	let strategyTag = '';
+	let presetKey: PresetKey = 'balanced_default';
 	let seat = 0;
 	let sellerIdx = -1;
 	let pot = 200;
@@ -49,10 +51,6 @@
 		return cards;
 	}
 
-	function cardLabel(card: Card) {
-		return `${card[0]}${card[1]}`;
-	}
-
 	function modeEntries(modes: Record<string, any> | undefined): [string, any][] {
 		return Object.entries(modes ?? {});
 	}
@@ -60,7 +58,19 @@
 	async function loadSession() {
 		const res = await fetch(`${API}/session/state`);
 		sessionState = await res.json();
-		if (!strategyTag) strategyTag = sessionState?.champions?.ev ?? '';
+		if (!strategyTag) {
+			strategyTag = sessionState?.strategy_presets?.balanced_default ?? sessionState?.champions?.ev ?? '';
+		}
+	}
+
+	function applyPreset() {
+		const next = sessionState?.strategy_presets?.[presetKey];
+		if (next) strategyTag = next;
+	}
+
+	function applyObjectiveChampion() {
+		const next = sessionState?.resolved_champions?.[objective] ?? sessionState?.champions?.[objective];
+		if (next) strategyTag = next;
 	}
 
 	async function recommend() {
@@ -196,6 +206,18 @@
 						<input class="mt-1 h-9 w-full border bg-background px-2" placeholder="adaptive_profile" bind:value={strategyTag} />
 					</label>
 				</div>
+				<div class="mt-2 grid gap-2 sm:grid-cols-[1fr_auto_auto]">
+					<label class="text-sm">Quick preset
+						<select class="mt-1 h-9 w-full border bg-background px-2" bind:value={presetKey}>
+							<option value="balanced_default">balanced_default</option>
+							<option value="correlated_table">correlated_table</option>
+							<option value="risk_on_soft_table">risk_on_soft_table</option>
+							<option value="house_control">house_control</option>
+						</select>
+					</label>
+					<Button class="mt-6 rounded-none" variant="outline" onclick={applyPreset}>Use preset</Button>
+					<Button class="mt-6 rounded-none" variant="outline" onclick={applyObjectiveChampion}>Use objective champion</Button>
+				</div>
 
 				<div class="mt-3 grid gap-2 sm:grid-cols-3">
 					<div class="text-sm">
@@ -307,6 +329,8 @@
 				{#if sessionState}
 					<div class="text-xs">Rule profile: {sessionState.rule_profile?.name}</div>
 					<div class="mt-2 text-xs">Champions: {JSON.stringify(sessionState.champions)}</div>
+					<div class="mt-2 text-xs">Resolved champions: {JSON.stringify(sessionState.resolved_champions)}</div>
+					<div class="mt-2 text-xs">Strategy presets: {JSON.stringify(sessionState.strategy_presets)}</div>
 					<div class="mt-2 text-xs">Composite presets: {JSON.stringify(sessionState.composite_profiles)}</div>
 					<div class="mt-2 max-h-60 overflow-y-auto text-xs">
 						{#each Object.entries(sessionState.player_profiles ?? {}) as [seatId, profile]}

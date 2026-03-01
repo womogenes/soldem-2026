@@ -62,11 +62,17 @@ class Session:
         self.events: list[dict[str, Any]] = []
         self.player_profiles = {i: PlayerProfile(seat=i) for i in range(5)}
         self.champions = {
-            "ev": "adaptive_profile",
-            "first_place": "bully",
-            "robustness": "conservative",
+            "ev": "conservative_plus",
+            "first_place": "equity_sniper_ultra",
+            "robustness": "conservative_plus",
         }
         self.last_leaderboards: dict[str, list[dict[str, Any]]] = {}
+        self.strategy_presets = {
+            "balanced_default": "conservative_plus",
+            "correlated_table": "equity_sniper_ultra",
+            "risk_on_soft_table": "pot_fraction",
+            "house_control": "house_hammer",
+        }
 
     def reset(self):
         self.events = []
@@ -98,6 +104,12 @@ class Session:
         return {
             "rule_profile": self.rule_profile.to_dict(),
             "champions": self.champions,
+            "resolved_champions": {
+                "ev": self.resolve_champion("ev"),
+                "first_place": self.resolve_champion("first_place"),
+                "robustness": self.resolve_champion("robustness"),
+            },
+            "strategy_presets": self.strategy_presets,
             "events_count": len(self.events),
             "recent_events": self.events[-20:],
             "player_profiles": {
@@ -110,6 +122,23 @@ class Session:
             },
             "composite_profiles": composite_profiles(),
         }
+
+    def resolve_champion(self, objective: str) -> str:
+        # Fast day-of adjustment for known profile deltas from offline simulations.
+        if self.rule_profile.pot_distribution_policy == "high_low_split":
+            return "conservative_plus"
+        if self.rule_profile.seller_can_bid_own_card:
+            return "conservative_plus"
+        if objective == "first_place":
+            # More upside while still resilient under correlation-heavy dynamics.
+            return "equity_sniper_ultra"
+        if (
+            self.rule_profile.pot_distribution_policy == "top2_split"
+            or self.rule_profile.hand_ranking_policy == "standard_plus_five_kind"
+            or not self.rule_profile.allow_multi_card_sell
+        ):
+            return "equity_sniper_ultra"
+        return "conservative_plus"
 
     def recompute_champions(self, req: RecomputeChampionsReq) -> dict[str, Any]:
         strategy_tags = list(built_in_strategy_factories().keys())
@@ -185,6 +214,12 @@ def rules_apply_profile(req: ApplyProfileReq):
 def strategies_champions():
     return {
         "champions": session.champions,
+        "resolved_champions": {
+            "ev": session.resolve_champion("ev"),
+            "first_place": session.resolve_champion("first_place"),
+            "robustness": session.resolve_champion("robustness"),
+        },
+        "strategy_presets": session.strategy_presets,
         "composite_profiles": composite_profiles(),
         "leaderboards": session.last_leaderboards,
     }
@@ -198,7 +233,7 @@ def strategies_recompute(req: RecomputeChampionsReq):
 @app.post("/advisor/recommend")
 def advisor_recommend(req: RecommendationReq):
     ranking_policy = req.ranking_policy or session.rule_profile.hand_ranking_policy
-    strategy_tag = req.strategy_tag or session.champions.get(req.objective, "adaptive_profile")
+    strategy_tag = req.strategy_tag or session.resolve_champion(req.objective)
 
     if req.output_mode == "all":
         out = {}
