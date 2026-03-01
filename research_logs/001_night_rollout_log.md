@@ -736,3 +736,17 @@ Local time: 2026-03-01 01:25:02 PST
 - Updated docs:
   - `research_logs/003_day_of_fast_patch_guide.md`
   - `research_logs/004_status_snapshot.md`
+
+## 2026-03-01 05:16:10 PST
+
+- Ran end-to-end preflight smoke against local API + live PocketBase target:
+  - started temporary local API on `127.0.0.1:8010`
+  - command: `bash scripts/day_of_preflight.sh --api-url http://127.0.0.1:8010 --pb-url http://18.204.1.6:8090`
+- Result: health/session checks passed for API and PocketBase.
+
+## 2026-03-01 05:19:34 PST
+
+- Ran full backend test discovery after resolver/autosolve/HUD updates:
+  - command: `uv run -m unittest discover -s tests -v`
+  - result: `22/22` passing.
+- Updated handoff/status docs to reflect current test count.

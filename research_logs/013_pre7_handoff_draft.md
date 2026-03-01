@@ -33,8 +33,9 @@ Local time: 2026-03-01 04:34 PST
 
 - Autosolve default runtime benchmark: about `22.9s`.
 - Autosolve first-place guardrail default: `first_gap=0.07`.
-- Backend tests currently passing: `19/19`.
+- Backend tests currently passing: `22/22`.
 - Frontend check/build passing.
+- Preflight smoke (`API + PocketBase`) passed at `2026-03-01 05:16 PST`.
 
 ## Latest key docs
 

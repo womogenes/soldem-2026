@@ -72,6 +72,8 @@ Latest evidence:
 
 3. Optional quick preflight.
 `bash scripts/day_of_preflight.sh --api-url http://127.0.0.1:8000 --pb-url http://18.204.1.6:8090`
+Latest smoke pass completed at `2026-03-01 05:16 PST` using API `:8010` + PocketBase `18.204.1.6:8090`.
+Full backend discovery tests currently pass: `22/22`.
 
 4. Open HUD and use quick controls.
 - Set objective (`ev` recommended by default).
