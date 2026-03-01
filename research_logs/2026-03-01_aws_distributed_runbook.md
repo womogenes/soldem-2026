@@ -10,6 +10,7 @@ Run large experiment grids in parallel on EC2, collect outputs from S3, and sync
 
 - Launcher: `scripts/aws/launch_distributed_experiments.sh`
 - Collector: `scripts/aws/collect_distributed_results.py`
+- Continuous loop orchestrator: `scripts/aws/continuous_distributed_loop.sh`
 - PocketBase schema bootstrap: `scripts/pocketbase/apply_collections.py`
 - PocketBase artifact sync: `scripts/pocketbase/sync_discovery.py`
 
@@ -98,6 +99,22 @@ uv run python scripts/aws/collect_distributed_results.py \
 
 ```bash
 aws ec2 terminate-instances --instance-ids <ids...> --region us-east-1
+```
+
+## Continuous overnight mode
+
+Use when you want repeated improvement cycles until a deadline:
+
+```bash
+scripts/aws/continuous_distributed_loop.sh \
+  --bucket <bucket> \
+  --artifact-key artifacts/soldem.tar.gz \
+  --cycles 6 \
+  --count 12 \
+  --n-matches 180 \
+  --sync-pocketbase-url http://<pb-host>:8090 \
+  --sync-pocketbase-email <admin-email> \
+  --sync-pocketbase-password <admin-password>
 ```
 
 ## Result artifacts

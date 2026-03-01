@@ -173,3 +173,15 @@ Local timezone: PST (America/Los_Angeles)
   - total scenarios across runs `20260301-015615`, `20260301-020134`, `20260301-021037`: 648
   - champion win count for `seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.086,sell_count=2`: 571
 - Terminated all worker instances from run `20260301-021037` after collection.
+
+## 2026-03-01 02:23:00 PST
+
+- Added continuous orchestration script for repeated EC2 cycles:
+  - `scripts/aws/continuous_distributed_loop.sh`
+- Purpose:
+  - launch distributed run
+  - wait for S3 shard completion
+  - collect aggregate summary
+  - optional PocketBase sync
+  - terminate workers
+  - repeat for N cycles or until epoch deadline.
