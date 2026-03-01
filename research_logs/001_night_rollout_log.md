@@ -342,3 +342,13 @@ Local time: 2026-03-01 01:25:02 PST
 - Verified parser outputs:
   - baseline: `ev=equity_evolved_v1`, `first_place=meta_switch`, `robustness=equity_evolved_v1`
   - seller-self-bid: all three objectives `equity_evolved_v1`.
+
+## 2026-03-01 03:47:49 PST
+
+- Applied updated seeding logic to PocketBase (`http://18.204.1.6:8090`) with commit `d88b85d`.
+- Result:
+  - `strategies_updated`: 17
+  - champion records now set to:
+    - `ev=equity_evolved_v1`
+    - `first_place=meta_switch`
+    - `robustness=equity_evolved_v1`
