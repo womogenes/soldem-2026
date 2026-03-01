@@ -36,9 +36,7 @@ Local time: 2026-03-01 04:34 PST
 - Autosolve first-place guardrail default: `first_gap=0.07`.
 - Backend tests currently passing: `26/26`.
 - Frontend check/build passing.
-- Preflight smoke (`API + PocketBase`) passed at `2026-03-01 05:37 PST` with backend tests + web check.
-- Policy smoke (`baseline` / `high-ante` / `below-trigger`) passed at `2026-03-01 05:47 PST` after `0.26` threshold update.
-- Bedrock smoke passed at `2026-03-01 05:40 PST` (`us-east-1`).
+- Integrated preflight (`tests + web + policy smoke + bedrock + PB health`) passed at `2026-03-01 05:52 PST`.
 
 ## Latest key docs
 

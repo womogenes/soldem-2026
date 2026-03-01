@@ -78,10 +78,10 @@ Latest evidence:
 `bash scripts/day_of_preflight.sh --api-url http://127.0.0.1:8000 --pb-url http://18.204.1.6:8090`
 Policy-routing smoke option:
 `bash scripts/day_of_preflight.sh --api-url http://127.0.0.1:8000 --with-policy-smoke`
-Latest preflight pass completed at `2026-03-01 05:37 PST` using API `:8011` + PocketBase `18.204.1.6:8090` with `--with-tests --with-web`.
-Latest policy-smoke preflight pass completed at `2026-03-01 05:47 PST` using API `:8014` with updated `0.26` threshold logic.
+Latest integrated preflight pass completed at `2026-03-01 05:52 PST` using API `:8015` + PocketBase `18.204.1.6:8090` with:
+`--with-tests --with-web --with-policy-smoke --with-bedrock --bedrock-region us-east-1`.
 Full backend discovery tests currently pass: `26/26`.
-Bedrock smoke check passed at `2026-03-01 05:40 PST` in `us-east-1` (`scripts/aws/bedrock_smoke_test.sh` via preflight).
+Bedrock smoke check is included in the integrated preflight above.
 
 4. Open HUD and use quick controls.
 - Set objective (`ev` recommended by default).

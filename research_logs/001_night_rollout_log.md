@@ -936,3 +936,15 @@ Local time: 2026-03-01 01:25:02 PST
 
 - Refreshed pre-7 handoff commit checkpoints with latest operator-facing commits:
   - `e73ee05`, `5be08c0`.
+
+## 2026-03-01 05:52:54 PST
+
+- Ran integrated full-stack preflight successfully:
+  - `bash scripts/day_of_preflight.sh --api-url http://127.0.0.1:8015 --pb-url http://18.204.1.6:8090 --with-tests --with-web --with-policy-smoke --with-bedrock --bedrock-region us-east-1`
+- Result:
+  - API/PocketBase health pass
+  - backend tests `26/26` pass
+  - web check pass
+  - Bedrock smoke pass
+  - policy smoke pass
+- Updated status/handoff docs to mark this integrated pass as latest readiness check.
