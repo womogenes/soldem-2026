@@ -42,6 +42,9 @@ Latest evidence:
   - first-place winner: `equity_evolved_v1` in 4/6, `meta_switch` in 2/6
 - baseline first-place tie-break (`n_tables=150`): `meta_switch` edge over `equity_evolved_v1`.
 - seller-self-bid first-place tie-break (`n_tables=150`): `equity_evolved_v1` edge over `meta_switch`.
+- weird-variant stress runs (`n_tables=40`) show:
+  - EV and robustness: `equity_evolved_v1` in 5/5 tested mixed overrides.
+  - first-place: `pot_fraction` only in sprint profiles (`n_orbits=2`, low starting stacks).
 
 ## How to run now
 

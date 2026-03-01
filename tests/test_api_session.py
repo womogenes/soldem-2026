@@ -42,6 +42,14 @@ class ApiSessionTests(unittest.TestCase):
         self.assertEqual(read["mode"], "aggressive")
         self.assertEqual(s.resolve_champion("ev"), "equity_evolved_v1")
 
+    def test_sprint_profile_first_place_prefers_pot_fraction(self):
+        s = Session()
+        s.apply_profile(
+            "baseline_v1",
+            {"n_orbits": 2, "start_chips": 140, "ante_amt": 30},
+        )
+        self.assertEqual(s.resolve_champion("first_place"), "pot_fraction")
+
     def test_correlated_pair_bias_switches_ev_to_evolved(self):
         s = Session()
         events = [

@@ -228,8 +228,13 @@ class Session:
         # Day-of adjustment from offline short-horizon simulation sweeps.
         table_read = self.infer_table_read()
         mode = table_read.get("mode", "balanced")
+        sprint_profile = (
+            self.rule_profile.n_orbits <= 2 and self.rule_profile.start_chips <= 150
+        )
         if objective == "first_place":
             if mode == "passive" and table_read.get("confidence", 0.0) >= 0.7:
+                return "pot_fraction"
+            if sprint_profile:
                 return "pot_fraction"
             if self.rule_profile.name == "baseline_v1":
                 return "meta_switch"

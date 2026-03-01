@@ -50,6 +50,7 @@ Expected fields: `resolved_champions.ev`, `resolved_champions.first_place`, `res
   - other built-in variants: `equity_evolved_v1`.
 - Dynamic table-read shifts:
   - `passive` with high confidence and first-place objective: may choose `pot_fraction`.
+  - sprint rules (`n_orbits<=2` and `start_chips<=150`) with first-place objective: choose `pot_fraction`.
   - all other EV/robustness modes stay on `equity_evolved_v1`.
 
 ## Fast fallback if rules are unknown

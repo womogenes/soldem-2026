@@ -51,6 +51,13 @@ Local time: 2026-03-01 03:32 PST
 - first-place: `equity_evolved_v1`
 - robustness: `equity_evolved_v1`
 
+7. weird mixed overrides (stress sample)
+- EV: `equity_evolved_v1`
+- robustness: `equity_evolved_v1`
+- first-place:
+  - sprint-like short-stack (`n_orbits<=2` and `start_chips<=150`): `pot_fraction`
+  - otherwise: `equity_evolved_v1`
+
 ## Practical policy for day-of
 
 1. Safe default when uncertain:

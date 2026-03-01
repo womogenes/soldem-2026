@@ -352,3 +352,25 @@ Local time: 2026-03-01 01:25:02 PST
     - `ev=equity_evolved_v1`
     - `first_place=meta_switch`
     - `robustness=equity_evolved_v1`
+
+## 2026-03-01 03:59:35 PST
+
+- Ran additional weird-variant stress simulations (all at `n_tables=40`, `n_games=10`):
+  - `night_weird_shortstack_mix_40t_seed51001.json`
+  - `night_weird_deepstack_mix_40t_seed51002.json`
+  - `night_weird_selfbid_top2_40t_seed51003.json`
+  - `night_weird_std_highlow_single_40t_seed51004.json`
+  - `night_weird_short_selfbid_40t_seed51005.json`
+- Aggregate from this stress sample:
+  - EV winners: `equity_evolved_v1` in 5/5
+  - robustness winners: `equity_evolved_v1` in 5/5
+  - first-place winners: `equity_evolved_v1` in 3/5, `pot_fraction` in 2/5
+- Pattern detected:
+  - `pot_fraction` first-place wins only under sprint-like short-stack profiles (`n_orbits<=2`, low stacks).
+- Updated API resolver policy:
+  - first-place objective now auto-selects `pot_fraction` when rule profile is sprint (`n_orbits<=2` and `start_chips<=150`).
+  - first-place passive/high-confidence table-read fallback to `pot_fraction` remains.
+- Added regression test:
+  - `test_sprint_profile_first_place_prefers_pot_fraction` in `tests/test_api_session.py`.
+- Added dedicated summary:
+  - `research_logs/008_weird_variant_stress.md`.
