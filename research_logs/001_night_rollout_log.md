@@ -903,3 +903,10 @@ Local time: 2026-03-01 01:25:02 PST
 ## 2026-03-01 05:48:23 PST
 
 - Updated `research_logs/013_pre7_handoff_draft.md` commit checkpoint list with latest calibration commit `d0a6bb9`.
+
+## 2026-03-01 05:49:10 PST
+
+- Updated `research_logs/005_human_training_drills.md` to match current day-of policy:
+  - EV default now `equity_evolved_v1` (removed stale `conservative_plus` default).
+  - added explicit first-place trigger ladder (baseline meta, high-ante WTA, sprint WTA, passive high-confidence).
+  - added checks for `First-place routing cues` and `resolved_champion_reasons` during rehearsal.
