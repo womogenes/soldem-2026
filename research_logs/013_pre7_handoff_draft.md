@@ -56,6 +56,7 @@ Local time: 2026-03-01 06:34 PST
 - `research_logs/018_ante_threshold_calibration.md`
 - `research_logs/019_pre7_final_checklist.md`
 - `research_logs/020_wta_banding_rollout.md`
+- `research_logs/021_pre7_summary.md`
 
 ## Latest commit checkpoints
 

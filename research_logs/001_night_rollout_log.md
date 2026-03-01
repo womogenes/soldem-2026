@@ -1055,3 +1055,9 @@ Local time: 2026-03-01 01:25:02 PST
   - backend tests: `32/32` pass
   - web check: pass
   - policy smoke: pass (baseline, WTA pot-pressure, WTA high-stack relief, 6-player branch).
+
+## 2026-03-01 06:43:59 PST
+
+- Added final pre-7 summary handoff doc:
+  - `research_logs/021_pre7_summary.md`
+- Doc includes current strategy policy, exact start commands, preflight/patch workflow, and latest commit checkpoints.
