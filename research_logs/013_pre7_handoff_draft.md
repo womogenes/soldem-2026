@@ -51,6 +51,7 @@ Local time: 2026-03-01 04:34 PST
 - `research_logs/016_first_place_fuzz_confirmation.md`
 - `research_logs/017_resolver_policy_backtest.md`
 - `research_logs/018_ante_threshold_calibration.md`
+- `research_logs/019_pre7_final_checklist.md`
 
 ## Latest commit checkpoints
 

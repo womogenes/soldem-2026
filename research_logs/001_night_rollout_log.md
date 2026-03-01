@@ -915,3 +915,10 @@ Local time: 2026-03-01 01:25:02 PST
 
 - Refreshed pre-7 handoff commit checkpoint list with latest commits:
   - `1a62ea5`, `7052415`, `4aa0808`.
+
+## 2026-03-01 05:50:43 PST
+
+- Added final countdown runbook:
+  - `research_logs/019_pre7_final_checklist.md`
+- Covers fixed T-20/T-15/T-10/T-5 flow, priority preflight commands, fast rule patch steps, and in-game execution constraints.
+- Linked checklist in `research_logs/013_pre7_handoff_draft.md` under latest key docs.
