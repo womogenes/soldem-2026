@@ -329,3 +329,16 @@ Local time: 2026-03-01 01:25:02 PST
 - In both checks, `equity_evolved_v1` beat `conservative_plus` on EV and first-place, with better or comparable p10 tails.
 - Conclusion:
   - keep `conservative_plus` as optional manual fallback only, not automatic default.
+
+## 2026-03-01 03:47:05 PST
+
+- Fixed stale champion seeding logic in `scripts/seed_pocketbase.py`.
+- Previous issue:
+  - script force-overrode champions to `first_place=equity_evolved_v1` and `robustness=conservative_plus`, ignoring latest experiments.
+- New behavior:
+  - reads latest profile-specific quick-variant artifacts (`night_qvhs_*`) for champion winners.
+  - uses larger-sample first-place tie-break artifacts (`*_first_place_150t_*`) when available.
+  - falls back to legacy `hero_suite` aggregation only if profile-specific artifacts are missing.
+- Verified parser outputs:
+  - baseline: `ev=equity_evolved_v1`, `first_place=meta_switch`, `robustness=equity_evolved_v1`
+  - seller-self-bid: all three objectives `equity_evolved_v1`.

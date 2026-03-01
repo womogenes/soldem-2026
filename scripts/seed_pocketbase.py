@@ -58,23 +58,55 @@ def family_for(tag: str) -> str:
     return "baseline"
 
 
-def parse_hero_suite(root: Path) -> tuple[dict[str, str], dict[str, float]]:
-    files = sorted(root.glob("*.json"))
-    if not files:
-        return (
-            {
-                "ev": "conservative_plus",
-                "first_place": "equity_evolved_v1",
-                "robustness": "conservative_plus",
-            },
-            {
-                "ev": 0.0,
-                "first_place": 0.0,
-                "robustness": 0.0,
-            },
-        )
+def parse_champions(root: Path, rule_profile: str) -> tuple[dict[str, str], dict[str, float], str]:
+    exp_root = root / "research_logs" / "experiment_outputs"
+    default = {
+        "ev": "equity_evolved_v1",
+        "first_place": "meta_switch" if rule_profile == "baseline_v1" else "equity_evolved_v1",
+        "robustness": "equity_evolved_v1",
+    }
+    scores = {"ev": 0.0, "first_place": 0.0, "robustness": 0.0}
 
-    # Aggregate by objective on mean_pnl and first_place_rate.
+    variant_files = sorted(exp_root.glob(f"night_qvhs_{rule_profile}_50t_seed*.json"))
+    if variant_files:
+        latest = variant_files[-1]
+        data = json.loads(latest.read_text(encoding="utf-8"))
+        champs = dict(default)
+        winners = data.get("objective_winners", {})
+        for objective in ["ev", "first_place", "robustness"]:
+            rec = winners.get(objective, {})
+            winner = str(rec.get("winner", "")).strip()
+            if winner:
+                champs[objective] = winner
+            ranking = rec.get("ranking") or []
+            if ranking:
+                scores[objective] = float(ranking[0].get("mean_metric_value", 0.0))
+
+        # Prefer larger-sample first-place tie-break if present.
+        tie_break = sorted(
+            exp_root.glob(f"night_qvhs_{rule_profile}_first_place_150t_seed*.json")
+        )
+        if tie_break:
+            tie_data = json.loads(tie_break[-1].read_text(encoding="utf-8"))
+            rec = (
+                tie_data.get("objective_winners", {})
+                .get("first_place", {})
+            )
+            winner = str(rec.get("winner", "")).strip()
+            if winner:
+                champs["first_place"] = winner
+            ranking = rec.get("ranking") or []
+            if ranking:
+                scores["first_place"] = float(ranking[0].get("mean_metric_value", 0.0))
+            return champs, scores, str(tie_break[-1])
+        return champs, scores, str(latest)
+
+    # Fallback: aggregate legacy hero suite if profile-specific quick-variant files are absent.
+    hero_suite = exp_root / "hero_suite"
+    files = sorted(hero_suite.glob("*.json"))
+    if not files:
+        return default, scores, "defaults"
+
     per_objective: dict[str, dict[str, list[float]]] = {}
     for fp in files:
         data = json.loads(fp.read_text(encoding="utf-8"))
@@ -85,24 +117,15 @@ def parse_hero_suite(root: Path) -> tuple[dict[str, str], dict[str, float]]:
             stats = obj_bucket.setdefault(hero, [])
             stats.append(float(row.get("mean_pnl", 0.0)))
 
-    champs: dict[str, str] = {}
-    scores: dict[str, float] = {}
+    champs = dict(default)
     for objective in ["ev", "first_place", "robustness"]:
         bucket = per_objective.get(objective, {})
         if not bucket:
-            champs[objective] = "conservative_plus"
-            scores[objective] = 0.0
             continue
         best_tag = max(bucket, key=lambda tag: sum(bucket[tag]) / len(bucket[tag]))
-        best_score = sum(bucket[best_tag]) / len(bucket[best_tag])
         champs[objective] = best_tag
-        scores[objective] = best_score
-
-    # Robustness objective is estimated from lower-tail behavior in research logs;
-    # keep conservative_plus unless a materially stronger option appears.
-    champs["robustness"] = "conservative_plus"
-    champs["first_place"] = "equity_evolved_v1"
-    return champs, scores
+        scores[objective] = sum(bucket[best_tag]) / len(bucket[best_tag])
+    return champs, scores, str(hero_suite)
 
 
 def main() -> None:
@@ -147,8 +170,7 @@ def main() -> None:
             client.update("strategies", rid, payload)
             updated_count += 1
 
-    hero_suite = ROOT / "research_logs" / "experiment_outputs" / "hero_suite"
-    champs, champ_scores = parse_hero_suite(hero_suite)
+    champs, champ_scores, champ_source = parse_champions(ROOT, args.rule_profile)
     existing_champs = read_all(client, "champions")
     champ_by_objective: dict[str, str] = {}
     for row in existing_champs:
@@ -167,7 +189,7 @@ def main() -> None:
             "strategy_tag": tag,
             "score": score,
             "metadata_json": {
-                "source": str(hero_suite),
+                "source": champ_source,
                 "seeded_ts": int(time.time()),
                 "rule_profile": args.rule_profile,
             },
