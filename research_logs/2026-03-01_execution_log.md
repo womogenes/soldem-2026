@@ -294,3 +294,53 @@ Local timezone: PST (America/Los_Angeles)
   - `ev` and `first_place` -> `seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.06,sell_count=2`
   - `robustness` -> `seller_extraction:opportunistic_delta=3600,reserve_bid_floor=0.06,sell_count=2`.
 - Terminated EC2 run `20260301-030400` instances after collection.
+
+## 2026-03-01 03:51:28 PST
+
+- Added custom strategy-pool support to distributed launcher:
+  - `scripts/aws/launch_distributed_experiments.sh` now accepts `--strategies-file`.
+- Created expanded distributed pool file:
+  - `research_logs/experiment_inputs/distributed_upgrade_pool_20260301.txt`.
+- Launched expanded distributed validation run:
+  - run id: `20260301-031824`
+  - 12x `c7i.large`
+  - `n_matches=240`
+  - mapping file: `research_logs/aws_worker_map_20260301-031824.jsonl`
+  - collected artifact: `research_logs/experiment_outputs/distributed_20260301-031824/aggregate_summary.json`
+  - key winner counts:
+    - `seller_extraction:opportunistic_delta=3300,reserve_bid_floor=0.029,sell_count=2`: 90
+    - `seller_extraction:opportunistic_delta=5400,reserve_bid_floor=0.032,sell_count=2`: 43
+- Generated profile-level winner map for `20260301-031824`:
+  - `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-031824.json`.
+- Created targeted confirmation candidate set:
+  - `research_logs/experiment_inputs/param_sweep_specs_targeted_20260301.txt`.
+- Launched targeted EC2 param-sweep confirmation run:
+  - run id: `20260301-033100`
+  - 11x `c7i.large`
+  - `n_matches=180`
+  - champion fixed: `seller_extraction:opportunistic_delta=3300,reserve_bid_floor=0.029,sell_count=2`
+  - mapping file: `research_logs/aws_param_sweep_worker_map_20260301-033100.jsonl`
+  - collected artifact: `research_logs/experiment_outputs/param_sweep_20260301-033100/aggregate_summary.json`
+  - result: no challenger achieved positive mean delta vs champion;
+    best challenger `5400/0.032/2` at mean delta `-1.475`.
+- Emitted updated session champion recommendation artifact:
+  - `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-033100.json`.
+- Session auto-load now resolves this latest artifact and recommends:
+  - `ev`, `first_place`, `robustness` => `seller_extraction:opportunistic_delta=3300,reserve_bid_floor=0.029,sell_count=2`.
+- Terminated all EC2 worker instances for runs `20260301-031824` and `20260301-033100` after collection.
+
+## 2026-03-01 03:55:25 PST
+
+- Provisioned new key-accessible PocketBase EC2 node via AWS CLI:
+  - instance id: `i-0854d429f873e6c52`
+  - URL: `http://3.236.115.133:8090`
+  - script: `scripts/aws/provision_pocketbase_ec2.sh`.
+- Bootstrapped superuser and schema on new node:
+  - superuser created (local ops account)
+  - applied collections with `scripts/pocketbase/apply_collections.py`.
+- Synced latest artifacts into new PocketBase database:
+  - `scripts/pocketbase/sync_discovery.py` (strategies/champions/eval runs)
+  - `scripts/aws/collect_distributed_results.py` for run `20260301-031824` with DB sync
+  - `scripts/aws/collect_param_sweep_results.py` for run `20260301-033100` with DB sync.
+- Verified DB records:
+  - `champions` records include objectives `distributed_20260301-031824` and `param_sweep_20260301-033100`.

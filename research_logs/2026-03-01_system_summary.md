@@ -1,11 +1,11 @@
 # Sold 'Em system summary
 
-Local timestamp: 2026-03-01 03:06:58 PST
+Local timestamp: 2026-03-01 03:51:12 PST
 
 ## What is ready now
 
 - Verified rules/engine alignment and recomputed full hand rarity counts for the 50-card deck.
-- Implemented parameterized strategy loading with spec strings (for example `seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.06,sell_count=2`).
+- Implemented parameterized strategy loading with spec strings (for example `seller_extraction:opportunistic_delta=3300,reserve_bid_floor=0.029,sell_count=2`).
 - Added advanced strategy family:
 - `prob_value`
 - `risk_sniper`
@@ -13,15 +13,16 @@ Local timestamp: 2026-03-01 03:06:58 PST
 - Ran evolutionary search and broad validation (objective, horizon, correlation, rule-profile variants).
 - Integrated winning strategy as default champion in API/HUD flow.
 - Added PocketBase sync tooling and improved AWS worker launch script for remote batch jobs.
+- Provisioned and synced active PocketBase node for this rollout at `http://3.236.115.133:8090`.
 - Added day-of rapid rule-variation patch runbook.
 - Backend and web UI both pass smoke checks/build checks.
 
 ## Best current strategy
 
 - Recommended objective-specific champions:
-- `ev`: `seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.06,sell_count=2`
-- `first_place`: `seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.06,sell_count=2`
-- `robustness`: `seller_extraction:opportunistic_delta=3600,reserve_bid_floor=0.06,sell_count=2`
+- `ev`: `seller_extraction:opportunistic_delta=3300,reserve_bid_floor=0.029,sell_count=2`
+- `first_place`: `seller_extraction:opportunistic_delta=3300,reserve_bid_floor=0.029,sell_count=2`
+- `robustness`: `seller_extraction:opportunistic_delta=3300,reserve_bid_floor=0.029,sell_count=2`
 - Evidence path:
 - Legacy high-confidence distributed runs favored `reserve_bid_floor=0.086`:
   - 777 / 864 scenario wins across runs `20260301-015615`, `20260301-020134`, `20260301-021037`, `20260301-023132`.
@@ -36,6 +37,13 @@ Local timestamp: 2026-03-01 03:06:58 PST
     - `ev`: tie between 4000/3600 variants (34 each), session default set to 4000 variant
     - `first_place`: 4000 variant
     - `robustness`: 3600 variant
+- Expanded-pool distributed EC2 run (`20260301-031824`, 216 scenarios, `n_matches=240`, 26 strategies) surfaced stronger candidates:
+  - `seller_extraction:opportunistic_delta=3300,reserve_bid_floor=0.029,sell_count=2`: 90 scenario wins
+  - `seller_extraction:opportunistic_delta=5400,reserve_bid_floor=0.032,sell_count=2`: 43 scenario wins
+- Targeted EC2 param sweep confirmation (`20260301-033100`, champion fixed to 3300/0.029/2, 11 challengers):
+  - no challenger achieved positive mean delta vs champion
+  - best challenger `5400/0.032/2` still at mean delta `-1.475` (46 wins, 62 losses)
+  - recommendation upgraded to `3300/0.029/2` for all objectives.
 
 ## Key artifacts
 
@@ -61,6 +69,7 @@ Local timestamp: 2026-03-01 03:06:58 PST
 - `research_logs/experiment_outputs/distributed_20260301-022349/aggregate_summary.json`
 - `research_logs/experiment_outputs/distributed_20260301-022736/aggregate_summary.json`
 - `research_logs/experiment_outputs/distributed_20260301-030400/aggregate_summary.json`
+- `research_logs/experiment_outputs/distributed_20260301-031824/aggregate_summary.json`
 - `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-015615.json`
 - `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-020134.json`
 - `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-021037.json`
@@ -68,11 +77,14 @@ Local timestamp: 2026-03-01 03:06:58 PST
 - `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-022349.json`
 - `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-022736.json`
 - `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-030400.json`
+- `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-031824.json`
 - `research_logs/experiment_outputs/distributed_master_summary_20260301.json`
 - `research_logs/experiment_outputs/param_sweep_20260301-024646/aggregate_summary.json`
 - `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-030400.json`
+- `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-033100.json`
 - `research_logs/experiment_outputs/evolution_20260301-025553/aggregate_summary.json`
 - `research_logs/experiment_outputs/evolution_20260301-025732/aggregate_summary.json`
+- `research_logs/experiment_outputs/param_sweep_20260301-033100/aggregate_summary.json`
 
 ## Run instructions
 

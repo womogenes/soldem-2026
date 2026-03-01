@@ -23,6 +23,7 @@ OUT_PREFIX="distributed_runs"
 N_MATCHES=35
 SEED_BASE=20260301
 NAME_PREFIX="soldem-dist-worker"
+STRATEGIES_FILE=""
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -39,6 +40,7 @@ while [[ $# -gt 0 ]]; do
     --n-matches) N_MATCHES="$2"; shift 2;;
     --seed-base) SEED_BASE="$2"; shift 2;;
     --name-prefix) NAME_PREFIX="$2"; shift 2;;
+    --strategies-file) STRATEGIES_FILE="$2"; shift 2;;
     *) echo "Unknown arg: $1"; exit 1;;
   esac
 done
@@ -47,6 +49,48 @@ if [[ -z "$BUCKET" || -z "$ARTIFACT_KEY" ]]; then
   echo "Missing required args: --bucket and --artifact-key"
   exit 1
 fi
+
+DEFAULT_STRATEGIES_JSON='[
+  "random",
+  "pot_fraction",
+  "delta_value",
+  "conservative",
+  "bully",
+  "seller_profit",
+  "adaptive_profile",
+  "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.06,sell_count=2",
+  "seller_extraction:opportunistic_delta=3600,reserve_bid_floor=0.06,sell_count=2",
+  "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.086,sell_count=2",
+  "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.106,sell_count=2",
+  "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.099,sell_count=1",
+  "risk_sniper:bid_scale=0.769,late_round_bonus=0.311,sell_count=2,stack_cap_fraction=0.258,trigger_delta=1600"
+]'
+
+if [[ -n "$STRATEGIES_FILE" ]]; then
+  if [[ ! -f "$STRATEGIES_FILE" ]]; then
+    echo "Strategies file not found: $STRATEGIES_FILE"
+    exit 1
+  fi
+  STRATEGIES_JSON=$(python3 - <<'PY' "$STRATEGIES_FILE"
+import json
+from pathlib import Path
+import sys
+
+path = Path(sys.argv[1])
+rows = []
+for line in path.read_text(encoding="utf-8").splitlines():
+    s = line.strip()
+    if not s or s.startswith("#"):
+        continue
+    rows.append(s)
+print(json.dumps(rows))
+PY
+)
+else
+  STRATEGIES_JSON="$DEFAULT_STRATEGIES_JSON"
+fi
+
+STRATEGIES_B64=$(printf '%s' "$STRATEGIES_JSON" | base64 | tr -d '\n')
 
 if [[ -z "$SUBNET_ID" ]]; then
   SUBNET_ID=$(aws ec2 describe-subnets \
@@ -95,6 +139,7 @@ aws s3 cp "s3://$BUCKET/$ARTIFACT_KEY" code.tar.gz
 tar -xzf code.tar.gz
 uv sync
 uv run python - <<'PY'
+import base64
 import json
 from sim import CorrelationModel, run_population_tournament
 
@@ -103,21 +148,7 @@ worker_count = $COUNT
 n_matches = $N_MATCHES
 seed_base = $SEED_BASE
 
-strategies = [
-    "random",
-    "pot_fraction",
-    "delta_value",
-    "conservative",
-    "bully",
-    "seller_profit",
-    "adaptive_profile",
-    "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.06,sell_count=2",
-    "seller_extraction:opportunistic_delta=3600,reserve_bid_floor=0.06,sell_count=2",
-    "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.086,sell_count=2",
-    "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.106,sell_count=2",
-    "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.099,sell_count=1",
-    "risk_sniper:bid_scale=0.769,late_round_bonus=0.311,sell_count=2,stack_cap_fraction=0.258,trigger_delta=1600",
-]
+strategies = json.loads(base64.b64decode("$STRATEGIES_B64").decode("utf-8"))
 
 profiles = [
     "baseline_v1",

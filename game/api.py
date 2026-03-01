@@ -65,6 +65,9 @@ class LoadChampionsReq(BaseModel):
 
 
 DISCOVERY_STRATEGY_SPECS = list(built_in_strategy_factories().keys()) + [
+    "seller_extraction:opportunistic_delta=3300,reserve_bid_floor=0.029,sell_count=2",
+    "seller_extraction:opportunistic_delta=5400,reserve_bid_floor=0.032,sell_count=2",
+    "seller_extraction:opportunistic_delta=4200,reserve_bid_floor=0.054,sell_count=2",
     "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.06,sell_count=2",
     "seller_extraction:opportunistic_delta=3600,reserve_bid_floor=0.06,sell_count=2",
     "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.086,sell_count=2",
@@ -79,9 +82,7 @@ class Session:
         self.rule_profile: RuleProfile = resolve_profile("baseline_v1")
         self.events: list[dict[str, Any]] = []
         self.player_profiles = {i: PlayerProfile(seat=i) for i in range(5)}
-        default_champion = (
-            "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.086,sell_count=2"
-        )
+        default_champion = "seller_extraction:opportunistic_delta=3300,reserve_bid_floor=0.029,sell_count=2"
         self.champions = {
             "ev": default_champion,
             "first_place": default_champion,
@@ -280,7 +281,7 @@ def advisor_recommend(req: RecommendationReq):
     ranking_policy = req.ranking_policy or session.rule_profile.hand_ranking_policy
     strategy_tag = req.strategy_tag or session.champions.get(
         req.objective,
-        "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.086,sell_count=2",
+        "seller_extraction:opportunistic_delta=3300,reserve_bid_floor=0.029,sell_count=2",
     )
 
     if req.output_mode == "all":

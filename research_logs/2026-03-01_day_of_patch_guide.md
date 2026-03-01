@@ -70,9 +70,9 @@ curl -sS http://127.0.0.1:8000/session/state | jq '.rule_profile,.champions'
 
 Current objective-specific fallback set:
 
-- `ev`: `seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.06,sell_count=2`
-- `first_place`: `seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.06,sell_count=2`
-- `robustness`: `seller_extraction:opportunistic_delta=3600,reserve_bid_floor=0.06,sell_count=2`
+- `ev`: `seller_extraction:opportunistic_delta=3300,reserve_bid_floor=0.029,sell_count=2`
+- `first_place`: `seller_extraction:opportunistic_delta=3300,reserve_bid_floor=0.029,sell_count=2`
+- `robustness`: `seller_extraction:opportunistic_delta=3300,reserve_bid_floor=0.029,sell_count=2`
 
 If recompute fails on day-of, load latest artifact champion map:
 
@@ -89,8 +89,10 @@ Higher-confidence distributed fallback maps are also available:
 - `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-021037.json`
 - `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-023132.json`
 - `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-030400.json`
+- `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-031824.json`
 - `research_logs/experiment_outputs/distributed_master_summary_20260301.json`
 - `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-030400.json`
+- `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-033100.json`
 
 ## Patch templates for unknown new rule types
 

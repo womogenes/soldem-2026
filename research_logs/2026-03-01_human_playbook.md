@@ -14,15 +14,16 @@ In this rule set, overpaying in first-price auctions is the biggest leak. The cu
 
 Current objective-specific champion set:
 
-- `ev`: `seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.06,sell_count=2`
-- `first_place`: `seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.06,sell_count=2`
-- `robustness`: `seller_extraction:opportunistic_delta=3600,reserve_bid_floor=0.06,sell_count=2`
+- `ev`: `seller_extraction:opportunistic_delta=3300,reserve_bid_floor=0.029,sell_count=2`
+- `first_place`: `seller_extraction:opportunistic_delta=3300,reserve_bid_floor=0.029,sell_count=2`
+- `robustness`: `seller_extraction:opportunistic_delta=3300,reserve_bid_floor=0.029,sell_count=2`
 
 Recent EC2 confirmation path:
 
 - Old champion (`reserve_bid_floor=0.086`) won 777/864 scenarios in earlier distributed runs.
 - Param sweep run `20260301-024646` found `reserve_bid_floor=0.06` variants with strong positive delta over old champion.
 - Validation run `20260301-030400` with expanded pool gave 210/216 wins to the two `reserve_bid_floor=0.06` variants.
+- Expanded-pool run `20260301-031824` and targeted confirmation sweep `20260301-033100` upgraded final recommendation to `3300/0.029/2`.
 
 ## Turn-by-turn guidance
 

@@ -1,6 +1,6 @@
 # AWS distributed runbook
 
-Local timestamp: 2026-03-01 02:08:17 PST
+Local timestamp: 2026-03-01 03:52:40 PST
 
 ## Purpose
 
@@ -26,8 +26,9 @@ Run large experiment grids in parallel on EC2, collect outputs from S3, and sync
   - `soldem-dist-worker-role`
 - IAM instance profile:
   - `soldem-dist-worker-profile`
-- Fresh PocketBase instance:
-  - `http://3.238.237.186:8090`
+- PocketBase instances:
+  - earlier node: `http://3.238.237.186:8090`
+  - active synced node (key-accessible): `http://3.236.115.133:8090`
 
 ## Distributed runs completed
 
@@ -71,6 +72,17 @@ Run large experiment grids in parallel on EC2, collect outputs from S3, and sync
     - `seller_extraction:opportunistic_delta=3600,reserve_bid_floor=0.06,sell_count=2`: 105
     - `seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.086,sell_count=2`: 4
     - `seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.099,sell_count=1`: 2
+- Run `20260301-031824` (larger expanded pool including evolution-discovered candidates)
+  - 12x `c7i.large`
+  - scenarios: 216
+  - `n_matches=240` per scenario shard configuration
+  - winner counts:
+    - `seller_extraction:opportunistic_delta=3300,reserve_bid_floor=0.029,sell_count=2`: 90
+    - `seller_extraction:opportunistic_delta=5400,reserve_bid_floor=0.032,sell_count=2`: 43
+    - `pot_fraction`: 15
+    - `bully`: 15
+    - `seller_profit`: 7
+    - `adaptive_profile`: 6
 
 Combined distributed total across four high-confidence runs:
 
@@ -86,6 +98,14 @@ Note: run `20260301-030400` used an expanded strategy pool and should be treated
   - strongest candidate vs old champion:
     - `seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.06,sell_count=2`
     - mean delta `+19.424` over 108 scenarios.
+- Targeted param sweep run `20260301-033100`:
+  - outputs: `research_logs/experiment_outputs/param_sweep_20260301-033100/aggregate_summary.json`
+  - champion fixed to:
+    - `seller_extraction:opportunistic_delta=3300,reserve_bid_floor=0.029,sell_count=2`
+  - challenger result:
+    - best challenger `seller_extraction:opportunistic_delta=5400,reserve_bid_floor=0.032,sell_count=2`
+    - mean delta vs champion `-1.475` (46 wins, 62 losses)
+  - conclusion: retain `3300/0.029/2` as session champion.
 - Evolution runs:
   - `20260301-025553`:
     - outputs: `research_logs/experiment_outputs/evolution_20260301-025553/aggregate_summary.json`
@@ -169,8 +189,11 @@ scripts/aws/continuous_distributed_loop.sh \
 - `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-021037.json`
 - `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-023132.json`
 - `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-030400.json`
+- `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-031824.json`
 - `research_logs/experiment_outputs/distributed_master_summary_20260301.json`
 - `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-030400.json`
+- `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-033100.json`
 - `research_logs/experiment_outputs/param_sweep_20260301-024646/aggregate_summary.json`
+- `research_logs/experiment_outputs/param_sweep_20260301-033100/aggregate_summary.json`
 - `research_logs/experiment_outputs/evolution_20260301-025553/aggregate_summary.json`
 - `research_logs/experiment_outputs/evolution_20260301-025732/aggregate_summary.json`
