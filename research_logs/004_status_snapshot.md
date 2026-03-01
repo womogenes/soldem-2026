@@ -38,6 +38,16 @@ Observed horizon tendencies from `iter2_small` matrix:
 - 10-game windows: `equity_sniper_ultra` leads most often.
 - 20-game windows: `conservative_plus` regains edge.
 
+Observed field-type tendencies from `hero_suite_v2`:
+- mixed pool: `equity_sniper_ultra` 6/9 scenario wins.
+- shark pool: `equity_sniper_ultra` 9/9 scenario wins.
+- chaos pool: `conservative_plus` 9/9 scenario wins.
+- practical takeaway: when table looks disciplined/tight, prefer sniper mode; when table is erratic, stay conservative.
+
+Adaptive strategy experiment:
+- `meta_switch` was tested but did not beat fixed champions on EV robustness.
+- keep it as optional high-variance fallback only.
+
 ## How to run now
 
 1. Start backend API.
@@ -50,6 +60,11 @@ Observed horizon tendencies from `iter2_small` matrix:
 - Set objective (`ev` recommended by default).
 - Click `Use objective champion`.
 - Enter state and click `Get recommendation`.
+- As events accumulate, use `Use auto table read preset` to apply mode-aware switching.
+- Auto table-read mode map:
+  - `competitive` or `correlated_pair`: prefer sniper (`equity_sniper_ultra`).
+  - `aggressive` / chaotic: prefer conservative (`conservative_plus`).
+  - `passive` + first-place objective: may move to `pot_fraction`.
 
 ## Day-of fast patch
 

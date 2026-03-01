@@ -170,16 +170,21 @@ def main() -> None:
         "research_logs/experiment_outputs/iter2_small/matrix_results.json",
         "research_logs/experiment_outputs/final_focus_h10.json",
     ]
+    existing_eval = read_all(client, "eval_runs")
+    existing_status = {row.get("status") for row in existing_eval}
     for idx, path in enumerate(eval_sources, start=1):
         p = ROOT / path
         if not p.exists():
+            continue
+        status = f"complete:{path}"
+        if status in existing_status:
             continue
         payload = {
             "rules_profile": args.rule_profile,
             "objective": "ev",
             "horizon": 10,
             "seed": idx,
-            "status": f"complete:{path}",
+            "status": status,
         }
         client.create("eval_runs", payload)
 

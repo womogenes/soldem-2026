@@ -381,6 +381,62 @@ class ConservativePlusStrategy:
         return idx
 
 
+@dataclass
+class MetaSwitchStrategy:
+    tag: str = "meta_switch"
+
+    def __post_init__(self):
+        self._conservative = ConservativePlusStrategy()
+        self._sniper = EquityAwareStrategy(
+            bid_multiplier=0.75,
+            delta_scale=6800.0,
+            min_delta=820,
+            max_stack_frac=0.19,
+            max_pot_frac=0.14,
+            preserve_weight=1.25,
+            sell_count_early=1,
+            sell_count_late=1,
+            tag="equity_sniper_ultra",
+        )
+        self._risk_on = PotFractionStrategy(0.25)
+
+    def on_round_start(self, ctx: StrategyContext) -> None:
+        return None
+
+    def _delegate(self, ctx: StrategyContext):
+        opp_aggr = [
+            p.aggression
+            for seat, p in ctx.player_profiles.items()
+            if seat != ctx.seat and p.bid_count > 0
+        ]
+        n = len(opp_aggr)
+        avg_aggr = (sum(opp_aggr) / n) if n else 0.0
+
+        if ctx.objective == "robustness":
+            return self._conservative
+
+        if n >= 2 and avg_aggr > 0.32:
+            return self._conservative
+        if n >= 2 and 0.16 <= avg_aggr <= 0.30:
+            return self._sniper
+
+        if ctx.objective == "first_place":
+            if n >= 2 and avg_aggr <= 0.14:
+                return self._risk_on
+            return self._sniper
+
+        return self._conservative
+
+    def choose_sell_indices(self, ctx: StrategyContext) -> list[int]:
+        return self._delegate(ctx).choose_sell_indices(ctx)
+
+    def bid_amount(self, ctx: StrategyContext) -> int:
+        return self._delegate(ctx).bid_amount(ctx)
+
+    def choose_won_card(self, ctx: StrategyContext) -> int:
+        return self._delegate(ctx).choose_won_card(ctx)
+
+
 def built_in_strategy_factories() -> dict[str, callable]:
     return {
         "random": lambda: RandomStrategy(),
@@ -458,6 +514,7 @@ def built_in_strategy_factories() -> dict[str, callable]:
             sell_count_late=1,
             tag="equity_flex",
         ),
+        "meta_switch": lambda: MetaSwitchStrategy(),
     }
 
 

@@ -32,6 +32,7 @@
 	let sessionState: any = null;
 	let eventType: 'bid' | 'auction_result' | 'showdown' | 'note' = 'bid';
 	let eventSeat = 0;
+	let eventSeller = 0;
 	let eventAmount = 0;
 	let eventWinner = 0;
 	let eventNote = '';
@@ -73,6 +74,13 @@
 		if (next) strategyTag = next;
 	}
 
+	function applyAutoPreset() {
+		const key = sessionState?.recommended_preset;
+		if (!key) return;
+		const next = sessionState?.strategy_presets?.[key];
+		if (next) strategyTag = next;
+	}
+
 	async function recommend() {
 		loading = true;
 		status = '';
@@ -110,6 +118,7 @@
 		const payload: any = {
 			event_type: eventType,
 			seat: eventSeat,
+			seller_idx: eventSeller,
 			amount: eventAmount,
 			winner_idx: eventWinner,
 			note: eventNote || null
@@ -206,7 +215,7 @@
 						<input class="mt-1 h-9 w-full border bg-background px-2" placeholder="adaptive_profile" bind:value={strategyTag} />
 					</label>
 				</div>
-				<div class="mt-2 grid gap-2 sm:grid-cols-[1fr_auto_auto]">
+					<div class="mt-2 grid gap-2 sm:grid-cols-[1fr_auto_auto]">
 					<label class="text-sm">Quick preset
 						<select class="mt-1 h-9 w-full border bg-background px-2" bind:value={presetKey}>
 							<option value="balanced_default">balanced_default</option>
@@ -215,9 +224,12 @@
 							<option value="house_control">house_control</option>
 						</select>
 					</label>
-					<Button class="mt-6 rounded-none" variant="outline" onclick={applyPreset}>Use preset</Button>
-					<Button class="mt-6 rounded-none" variant="outline" onclick={applyObjectiveChampion}>Use objective champion</Button>
-				</div>
+						<Button class="mt-6 rounded-none" variant="outline" onclick={applyPreset}>Use preset</Button>
+						<Button class="mt-6 rounded-none" variant="outline" onclick={applyObjectiveChampion}>Use objective champion</Button>
+					</div>
+					<div class="mt-2">
+						<Button class="rounded-none" variant="outline" onclick={applyAutoPreset}>Use auto table read preset</Button>
+					</div>
 
 				<div class="mt-3 grid gap-2 sm:grid-cols-3">
 					<div class="text-sm">
@@ -289,9 +301,9 @@
 		</section>
 
 		<aside class="space-y-4">
-			<div class="rounded-none border bg-card p-3">
-				<div class="mb-2 text-sm font-medium">Session tracking</div>
-				<div class="grid gap-2 sm:grid-cols-2">
+				<div class="rounded-none border bg-card p-3">
+					<div class="mb-2 text-sm font-medium">Session tracking</div>
+					<div class="grid gap-2 sm:grid-cols-2">
 					<label class="text-sm">Event
 						<select class="mt-1 h-9 w-full border bg-background px-2" bind:value={eventType}>
 							<option value="bid">bid</option>
@@ -300,12 +312,15 @@
 							<option value="note">note</option>
 						</select>
 					</label>
-					<label class="text-sm">Seat
-						<input class="mt-1 h-9 w-full border bg-background px-2" type="number" min="0" max="4" bind:value={eventSeat} />
-					</label>
-					<label class="text-sm">Amount
-						<input class="mt-1 h-9 w-full border bg-background px-2" type="number" bind:value={eventAmount} />
-					</label>
+						<label class="text-sm">Seat
+							<input class="mt-1 h-9 w-full border bg-background px-2" type="number" min="0" max="4" bind:value={eventSeat} />
+						</label>
+						<label class="text-sm">Seller
+							<input class="mt-1 h-9 w-full border bg-background px-2" type="number" min="-1" max="4" bind:value={eventSeller} />
+						</label>
+						<label class="text-sm">Amount
+							<input class="mt-1 h-9 w-full border bg-background px-2" type="number" bind:value={eventAmount} />
+						</label>
 					<label class="text-sm">Winner
 						<input class="mt-1 h-9 w-full border bg-background px-2" type="number" min="0" max="4" bind:value={eventWinner} />
 					</label>
@@ -330,6 +345,8 @@
 					<div class="text-xs">Rule profile: {sessionState.rule_profile?.name}</div>
 					<div class="mt-2 text-xs">Champions: {JSON.stringify(sessionState.champions)}</div>
 					<div class="mt-2 text-xs">Resolved champions: {JSON.stringify(sessionState.resolved_champions)}</div>
+					<div class="mt-2 text-xs">Table read: {JSON.stringify(sessionState.table_read)}</div>
+					<div class="mt-2 text-xs">Recommended preset: {sessionState.recommended_preset}</div>
 					<div class="mt-2 text-xs">Strategy presets: {JSON.stringify(sessionState.strategy_presets)}</div>
 					<div class="mt-2 text-xs">Composite presets: {JSON.stringify(sessionState.composite_profiles)}</div>
 					<div class="mt-2 max-h-60 overflow-y-auto text-xs">

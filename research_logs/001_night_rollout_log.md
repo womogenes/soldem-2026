@@ -132,3 +132,55 @@ Local time: 2026-03-01 01:25:02 PST
   - 200 calls in 0.8548s total
   - average 4.274 ms per call
 - This is comfortably within the 10-second day-of turn budget, leaving room for UI interaction and manual data entry.
+
+## 2026-03-01 02:16:18 PST
+
+- Re-read `research_logs/000_god_prompt.md` to align continuation scope.
+- Added dynamic table-read inference and strategy adaptation in API:
+  - infers modes: `balanced`, `aggressive`, `passive`, `correlated_pair`, `competitive`
+  - computes confidence and summary metrics from in-session events
+  - outputs `table_read` and `recommended_preset` in session state
+  - uses mode-aware champion resolution (objective + profile + observed table behavior)
+- Updated HUD:
+  - event logging now includes `seller_idx`
+  - displays `table_read` and `recommended_preset`
+  - added `Use auto table read preset` action
+- Added tests for dynamic behavior in `tests/test_api_session.py`.
+- Launched and completed extended hero benchmark suite v2 (`27` scenarios):
+  - artifacts: `research_logs/experiment_outputs/hero_suite_v2/*.json`
+  - pool-level winners:
+    - mixed pool: `equity_sniper_ultra` 6/9, `conservative_plus` 3/9
+    - shark pool: `equity_sniper_ultra` 9/9
+    - chaos pool: `conservative_plus` 9/9
+  - aggregate means across all v2 scenarios:
+    - `conservative_plus`: EV 92.76, first 0.403, p10 -1.11
+    - `equity_sniper_ultra`: EV 89.61, first 0.389, p10 -13.11
+- Interpretation:
+  - retain `conservative_plus` as robust default under chaotic/erratic fields
+  - switch to `equity_sniper_ultra` when table reads as competitive/tight or correlated
+
+## 2026-03-01 02:23:48 PST
+
+- Added simulation-native adaptive strategy `meta_switch` in `strategies/builtin.py` for controlled switching between conservative/sniper/risk-on delegates.
+- Ran dedicated meta benchmark suite (`18` scenarios):
+  - artifacts: `research_logs/experiment_outputs/meta_suite/*.json`
+  - overall winner frequency: `conservative_plus` 10, `equity_sniper_ultra` 8, `meta_switch` 0
+  - aggregate means:
+    - `conservative_plus`: EV 92.44, first 0.392, p10 +1.22
+    - `equity_sniper_ultra`: EV 92.10, first 0.396, p10 -12.11
+    - `meta_switch`: EV 82.36, first 0.455, p10 -54.89
+- Decision:
+  - keep `meta_switch` as experimental high-variance fallback only (not default champion).
+  - maintain current primary pair (`conservative_plus`, `equity_sniper_ultra`) for day-of play.
+- Improved PocketBase seeding idempotency:
+  - `scripts/seed_pocketbase.py` now avoids duplicate `eval_runs` by status.
+
+## 2026-03-01 02:24:54 PST
+
+- Added human execution drill guide:
+  - `research_logs/005_human_training_drills.md`
+- Focus areas:
+  - sub-10-second decision workflow,
+  - objective-switch discipline,
+  - table-read adaptation rehearsal,
+  - anti-tilt guardrails.

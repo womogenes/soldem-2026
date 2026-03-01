@@ -21,6 +21,7 @@ Patch rule variations and keep advisor strategy alignment in under 2 minutes.
 Expected fields: `resolved_champions.ev`, `resolved_champions.first_place`, `resolved_champions.robustness`.
 
 5. Refresh HUD and use `Use objective champion` button.
+6. After logging a few auctions/bids, use `Use auto table read preset` to adapt to observed table style.
 
 ## Preset map
 
@@ -38,6 +39,10 @@ Expected fields: `resolved_champions.ev`, `resolved_champions.first_place`, `res
 
 - Default EV and robustness: `conservative_plus`.
 - First-place mode: `equity_sniper_ultra`.
+- Dynamic table-read shifts:
+  - `competitive` / `correlated_pair`: lean `equity_sniper_ultra`.
+  - `aggressive` / `chaotic`: lean `conservative_plus`.
+  - `passive` with high confidence and first-place objective: may choose `pot_fraction`.
 - Automatic shifts:
   - `high_low_split` or seller self-bidding environments bias to `conservative_plus`.
   - `top2_split`, standard ranking policy, or single-card selling bias to `equity_sniper_ultra`.

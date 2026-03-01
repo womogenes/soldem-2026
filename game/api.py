@@ -101,6 +101,7 @@ class Session:
             profile.aggression += ((event.amount / 200.0) - profile.aggression) / profile.bid_count
 
     def state(self) -> dict[str, Any]:
+        table_read = self.infer_table_read()
         return {
             "rule_profile": self.rule_profile.to_dict(),
             "champions": self.champions,
@@ -109,6 +110,8 @@ class Session:
                 "first_place": self.resolve_champion("first_place"),
                 "robustness": self.resolve_champion("robustness"),
             },
+            "table_read": table_read,
+            "recommended_preset": self.recommend_preset(table_read),
             "strategy_presets": self.strategy_presets,
             "events_count": len(self.events),
             "recent_events": self.events[-20:],
@@ -123,15 +126,105 @@ class Session:
             "composite_profiles": composite_profiles(),
         }
 
+    def infer_table_read(self) -> dict[str, Any]:
+        bid_events = [e for e in self.events if e.get("event_type") == "bid"]
+        auction_events = [e for e in self.events if e.get("event_type") == "auction_result"]
+
+        bid_amounts = [int(e.get("amount") or 0) for e in bid_events]
+        n_bids = len(bid_amounts)
+        zero_bid_frac = (sum(1 for x in bid_amounts if x <= 0) / n_bids) if n_bids else 0.0
+        avg_bid = (sum(bid_amounts) / n_bids) if n_bids else 0.0
+
+        aggr_values = [p.aggression for p in self.player_profiles.values() if p.bid_count > 0]
+        avg_aggr = (sum(aggr_values) / len(aggr_values)) if aggr_values else 0.0
+
+        pair_counts: dict[tuple[int, int], int] = {}
+        seller_totals: dict[int, int] = {}
+        for e in auction_events:
+            seller = e.get("seller_idx")
+            winner = e.get("winner_idx")
+            if seller is None or winner is None:
+                continue
+            seller = int(seller)
+            winner = int(winner)
+            if seller < 0 or winner < 0 or seller == winner:
+                continue
+            pair_counts[(seller, winner)] = pair_counts.get((seller, winner), 0) + 1
+            seller_totals[seller] = seller_totals.get(seller, 0) + 1
+
+        pair_bias = 0.0
+        dominant_pair: tuple[int, int] | None = None
+        for i in range(self.rule_profile.n_players):
+            for j in range(i + 1, self.rule_profile.n_players):
+                mutual = pair_counts.get((i, j), 0) + pair_counts.get((j, i), 0)
+                total = seller_totals.get(i, 0) + seller_totals.get(j, 0)
+                if total <= 0:
+                    continue
+                share = mutual / total
+                if share > pair_bias:
+                    pair_bias = share
+                    dominant_pair = (i, j)
+
+        mode = "balanced"
+        confidence = 0.3
+        if len(auction_events) >= 6 and pair_bias >= 0.42:
+            mode = "correlated_pair"
+            confidence = 0.8
+        elif n_bids >= 10 and avg_aggr >= 0.32:
+            mode = "aggressive"
+            confidence = 0.7
+        elif n_bids >= 10 and avg_aggr <= 0.14 and zero_bid_frac >= 0.33:
+            mode = "passive"
+            confidence = 0.7
+        elif n_bids >= 10 and 0.16 <= avg_aggr <= 0.30 and zero_bid_frac <= 0.25:
+            mode = "competitive"
+            confidence = 0.65
+        elif n_bids >= 8:
+            confidence = 0.55
+
+        return {
+            "mode": mode,
+            "confidence": confidence,
+            "n_bids": n_bids,
+            "avg_bid": avg_bid,
+            "avg_aggression": avg_aggr,
+            "zero_bid_fraction": zero_bid_frac,
+            "n_auction_results": len(auction_events),
+            "pair_bias": pair_bias,
+            "dominant_pair": dominant_pair,
+        }
+
+    def recommend_preset(self, table_read: dict[str, Any] | None = None) -> str:
+        read = table_read or self.infer_table_read()
+        mode = read.get("mode", "balanced")
+        if mode == "correlated_pair":
+            return "correlated_table"
+        if mode == "passive":
+            return "risk_on_soft_table"
+        if mode == "competitive":
+            return "correlated_table"
+        return "balanced_default"
+
     def resolve_champion(self, objective: str) -> str:
         # Fast day-of adjustment for known profile deltas from offline simulations.
+        table_read = self.infer_table_read()
+        mode = table_read.get("mode", "balanced")
+
         if self.rule_profile.pot_distribution_policy == "high_low_split":
             return "conservative_plus"
         if self.rule_profile.seller_can_bid_own_card:
             return "conservative_plus"
         if objective == "first_place":
+            if mode == "passive" and table_read.get("confidence", 0.0) >= 0.7:
+                return "pot_fraction"
             # More upside while still resilient under correlation-heavy dynamics.
             return "equity_sniper_ultra"
+        if mode == "competitive" and table_read.get("confidence", 0.0) >= 0.6:
+            return "equity_sniper_ultra"
+        if mode == "correlated_pair":
+            return "equity_sniper_ultra"
+        if mode == "aggressive":
+            return "conservative_plus"
         if (
             self.rule_profile.pot_distribution_policy == "top2_split"
             or self.rule_profile.hand_ranking_policy == "standard_plus_five_kind"
