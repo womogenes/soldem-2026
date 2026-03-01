@@ -93,3 +93,63 @@ Local timezone: PST (America/Los_Angeles)
   - human playbook
   - strategy format doc
   - precomputed variation mapping artifact.
+
+## 2026-03-01 01:57:37 PST
+
+- AWS/EC2 distributed experimentation pipeline work:
+  - Created S3 bucket for run artifacts/results: `soldem-2026-539881456097-1772358537`.
+  - Uploaded code artifact tarball from commit `e5f3ced`:
+    - `s3://soldem-2026-539881456097-1772358537/artifacts/soldem_v5_e5f3ced.tar.gz`
+  - Added scripts:
+    - `scripts/aws/launch_distributed_experiments.sh`
+    - `scripts/aws/collect_distributed_results.py`
+- Created and configured IAM resources for workers:
+  - role: `soldem-dist-worker-role`
+  - instance profile: `soldem-dist-worker-profile`
+  - inline S3 policy scoped to bucket above.
+- Launched and debugged EC2 worker fleets:
+  - Initial run `20260301-015114` failed due unsupported `aws s3 presign --http-method PUT`.
+  - Second run `20260301-015448` failed due `curl` package conflict and system-python execution.
+  - Patched launcher:
+    - switched to instance-profile S3 upload
+    - removed `curl` install conflict
+    - switched worker execution to `uv run python`.
+  - Relaunched corrected run:
+    - run id: `20260301-015615`
+    - 8x `c7i.large`
+    - mapping file: `research_logs/aws_worker_map_20260301-015615.jsonl`
+- Provisioned fresh PocketBase EC2 node:
+  - instance id: `i-0a229522e15035179`
+  - URL: `http://3.238.237.186:8090`
+  - created superuser via SSH CLI bootstrap (`pocketbase superuser upsert`).
+- Added PocketBase collection bootstrap script:
+  - `scripts/pocketbase/apply_collections.py`
+  - applied schema successfully to fresh node (`strategies`, `eval_runs`, `match_results`, `champions`, `workers`).
+
+## 2026-03-01 02:08:17 PST
+
+- Completed corrected distributed run `20260301-015615`:
+  - 8x `c7i.large`, 216 scenarios, all shards uploaded.
+  - Aggregate winner counts:
+    - `seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.086,sell_count=2`: 160
+    - `seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.099,sell_count=1`: 44
+    - `seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.106,sell_count=2`: 11
+    - `conservative`: 1
+- Completed larger distributed run `20260301-020134`:
+  - 12x `c7i.large`, `n_matches=120`, 216 scenarios, all shards uploaded.
+  - Aggregate winner counts:
+    - `seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.086,sell_count=2`: 199
+    - `seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.099,sell_count=1`: 11
+    - `seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.106,sell_count=2`: 6
+- Collected and stored distributed artifacts:
+  - `research_logs/experiment_outputs/distributed_20260301-015615/aggregate_summary.json`
+  - `research_logs/experiment_outputs/distributed_20260301-020134/aggregate_summary.json`
+  - `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-015615.json`
+  - `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-020134.json`
+- Synced distributed winner summaries into PocketBase `champions` collection (`objective=distributed_<run_id>`).
+- Synced discovery artifacts to PocketBase after patching:
+  - `sim/pocketbase_client.py` (richer HTTP error details)
+  - `scripts/pocketbase/sync_discovery.py` (non-zero seed for `eval_runs` records).
+- Terminated all distributed worker instances after result collection to control spend.
+- Added AWS operational doc:
+  - `research_logs/2026-03-01_aws_distributed_runbook.md`.

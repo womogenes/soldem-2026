@@ -97,12 +97,12 @@ def write_eval_run_records(
 ) -> list[dict]:
     rows = json.loads(matrix_path.read_text(encoding="utf-8"))
     out = []
-    for row in rows:
+    for idx, row in enumerate(rows, start=1):
         payload = {
             "rules_profile": row["profile"],
             "objective": row["objective"],
             "horizon": 10,
-            "seed": 0,
+            "seed": idx,
             "status": "completed",
         }
         out.append(client.create("eval_runs", payload))

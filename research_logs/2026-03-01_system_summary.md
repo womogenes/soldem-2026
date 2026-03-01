@@ -25,6 +25,9 @@ Local timestamp: 2026-03-01 01:45:55 PST
 - horizons: `5`, `10`, `20`
 - correlations: `none`, `respect`, `herd`, `kingmaker`
 - rule profiles: `baseline_v1`, `standard_rankings`, `seller_self_bid`, `top2_split`, `high_low_split`, `single_card_sell`
+- Additional EC2 distributed confirmation:
+- run `20260301-015615` (216 scenarios): champion won 160
+- run `20260301-020134` (216 scenarios, `n_matches=120`): champion won 199
 
 ## Key artifacts
 
@@ -32,6 +35,7 @@ Local timestamp: 2026-03-01 01:45:55 PST
 - Literature review: `research_logs/2026-03-01_literature_review.md`
 - Day-of patch guide: `research_logs/2026-03-01_day_of_patch_guide.md`
 - Human playbook: `research_logs/2026-03-01_human_playbook.md`
+- AWS distributed runbook: `research_logs/2026-03-01_aws_distributed_runbook.md`
 - Strategy format: `strategies/strategy_format.md`
 - Baseline tournament output: `research_logs/experiment_outputs/baseline_population_seed42.json`
 - Evolution outputs:
@@ -42,6 +46,10 @@ Local timestamp: 2026-03-01 01:45:55 PST
 - `research_logs/experiment_outputs/rule_profile_validation.json`
 - `research_logs/experiment_outputs/large_validation_baseline_respect.json`
 - `research_logs/experiment_outputs/precomputed_variation_champions.json`
+- `research_logs/experiment_outputs/distributed_20260301-015615/aggregate_summary.json`
+- `research_logs/experiment_outputs/distributed_20260301-020134/aggregate_summary.json`
+- `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-015615.json`
+- `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-020134.json`
 
 ## Run instructions
 

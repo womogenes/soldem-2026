@@ -16,6 +16,10 @@ Current champion is strong in all three objective settings:
 
 - `seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.086,sell_count=2`
 
+Distributed EC2 confirmation:
+
+- In a 216-scenario run with `n_matches=120`, this strategy won 199 scenarios.
+
 ## Turn-by-turn guidance
 
 ### When selling
