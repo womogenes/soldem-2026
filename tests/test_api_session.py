@@ -41,14 +41,14 @@ class ApiSessionTests(unittest.TestCase):
             )
         read = s.infer_table_read()
         self.assertEqual(read["mode"], "correlated_pair")
-        self.assertEqual(s.resolve_champion("ev"), "equity_sniper_ultra")
+        self.assertEqual(s.resolve_champion("ev"), "equity_evolved_v1")
 
     def test_rule_profile_override_still_takes_precedence(self):
         s = Session()
         s.apply_profile("high_low_split", {})
-        self.assertEqual(s.resolve_champion("ev"), "conservative_plus")
+        self.assertEqual(s.resolve_champion("ev"), "equity_evolved_v1")
 
-    def test_competitive_mode_switches_ev_to_sniper(self):
+    def test_competitive_mode_switches_ev_to_evolved(self):
         s = Session()
         # Moderate, consistent bidding with few zero-bids.
         bids = [38, 42, 35, 41, 36, 39, 44, 33, 40, 37, 34, 43]
@@ -62,7 +62,7 @@ class ApiSessionTests(unittest.TestCase):
             )
         read = s.infer_table_read()
         self.assertEqual(read["mode"], "competitive")
-        self.assertEqual(s.resolve_champion("ev"), "equity_sniper_ultra")
+        self.assertEqual(s.resolve_champion("ev"), "equity_evolved_v1")
 
     def test_manual_champion_override(self):
         s = Session()

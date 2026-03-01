@@ -223,3 +223,32 @@ Local time: 2026-03-01 01:25:02 PST
   - status: `alive`
   - role: `sim`
 - Verified record is queryable in `workers` collection.
+
+## 2026-03-01 03:06:00 PST
+
+- Added evolutionary random-search script over `EquityAwareStrategy` parameter family:
+  - `scripts/evolve_equity_family.py`
+- Conducted search and candidate validation:
+  - search outputs: `research_logs/experiment_outputs/evolve_equity_results_v2.json`
+  - strongest candidate identified: `equity_auto_023`.
+- Cross-validation runs:
+  - head-to-head suite: `research_logs/experiment_outputs/evolve_head2head/*.json`
+  - broader candidate suite: `research_logs/experiment_outputs/evolve_candidate_suite/*.json`
+- Aggregate signal:
+  - `equity_auto_023` beats current champions in most mixed/shark scenarios and remains positive-tail in chaos.
+  - overall means from evolved candidate suite:
+    - `equity_auto_023`: EV 99.44, first 0.458, p10 +11.67
+    - `conservative_plus`: EV 90.21, first 0.393, p10 -4.89
+    - `equity_sniper_ultra`: EV 90.19, first 0.420, p10 -8.00
+- Promoted evolved candidate into built-ins as `equity_evolved_v1`.
+- Updated runtime policy:
+  - `first_place` champion default now `equity_evolved_v1`
+  - competitive/correlated and variant-biased modes now route to `equity_evolved_v1`
+  - aggressive/chaotic mode still routes to `conservative_plus`
+- Added manual champion lock support and visibility:
+  - API endpoint `POST /strategies/set_champions`
+  - `day_of_patch.py` flags: `--set-ev`, `--set-first-place`, `--set-robustness`, `--keep-dynamic`
+  - HUD displays `dynamic_resolution_enabled`
+- Revalidated after promotion:
+  - backend tests: 12/12 pass
+  - frontend check/build: pass

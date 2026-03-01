@@ -70,16 +70,17 @@ class Session:
         self.player_profiles = {i: PlayerProfile(seat=i) for i in range(5)}
         self.champions = {
             "ev": "conservative_plus",
-            "first_place": "equity_sniper_ultra",
+            "first_place": "equity_evolved_v1",
             "robustness": "conservative_plus",
         }
         self.dynamic_resolution_enabled = True
         self.last_leaderboards: dict[str, list[dict[str, Any]]] = {}
         self.strategy_presets = {
             "balanced_default": "conservative_plus",
-            "correlated_table": "equity_sniper_ultra",
+            "correlated_table": "equity_evolved_v1",
             "risk_on_soft_table": "pot_fraction",
             "house_control": "house_hammer",
+            "evolved_attack": "equity_evolved_v1",
         }
 
     def reset(self):
@@ -221,28 +222,23 @@ class Session:
         # Fast day-of adjustment for known profile deltas from offline simulations.
         table_read = self.infer_table_read()
         mode = table_read.get("mode", "balanced")
+        profile_bias_evolved = (
+            self.rule_profile.pot_distribution_policy in {"high_low_split", "top2_split"}
+            or self.rule_profile.seller_can_bid_own_card
+            or self.rule_profile.hand_ranking_policy == "standard_plus_five_kind"
+            or not self.rule_profile.allow_multi_card_sell
+        )
 
-        if self.rule_profile.pot_distribution_policy == "high_low_split":
-            return "conservative_plus"
-        if self.rule_profile.seller_can_bid_own_card:
+        if mode == "aggressive":
             return "conservative_plus"
         if objective == "first_place":
             if mode == "passive" and table_read.get("confidence", 0.0) >= 0.7:
                 return "pot_fraction"
-            # More upside while still resilient under correlation-heavy dynamics.
-            return "equity_sniper_ultra"
-        if mode == "competitive" and table_read.get("confidence", 0.0) >= 0.6:
-            return "equity_sniper_ultra"
-        if mode == "correlated_pair":
-            return "equity_sniper_ultra"
-        if mode == "aggressive":
-            return "conservative_plus"
-        if (
-            self.rule_profile.pot_distribution_policy == "top2_split"
-            or self.rule_profile.hand_ranking_policy == "standard_plus_five_kind"
-            or not self.rule_profile.allow_multi_card_sell
-        ):
-            return "equity_sniper_ultra"
+            return "equity_evolved_v1"
+        if mode in {"competitive", "correlated_pair"}:
+            return "equity_evolved_v1"
+        if profile_bias_evolved:
+            return "equity_evolved_v1"
         return "conservative_plus"
 
     def recompute_champions(self, req: RecomputeChampionsReq) -> dict[str, Any]:

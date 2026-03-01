@@ -19,7 +19,7 @@ Convert simulation findings into repeatable human decisions under the 10-second 
 
 3. Keep this fallback ladder ready:
 - default: `conservative_plus`
-- competitive/tight or correlated read: `equity_sniper_ultra`
+- competitive/tight or correlated read: `equity_evolved_v1`
 - catch-up variance only: `pot_fraction` with `first_place` objective
 
 ## Drill block A: fast data entry discipline (10 minutes)

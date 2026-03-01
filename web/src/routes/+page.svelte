@@ -7,7 +7,12 @@
 	type Phase = 'sell' | 'bid' | 'choose' | 'showdown';
 	type Objective = 'ev' | 'first_place' | 'robustness';
 	type OutputMode = 'action_first' | 'top3' | 'metrics' | 'all';
-	type PresetKey = 'balanced_default' | 'correlated_table' | 'risk_on_soft_table' | 'house_control';
+	type PresetKey =
+		| 'balanced_default'
+		| 'correlated_table'
+		| 'risk_on_soft_table'
+		| 'house_control'
+		| 'evolved_attack';
 
 	const API = 'http://127.0.0.1:8000';
 
@@ -222,6 +227,7 @@
 							<option value="correlated_table">correlated_table</option>
 							<option value="risk_on_soft_table">risk_on_soft_table</option>
 							<option value="house_control">house_control</option>
+							<option value="evolved_attack">evolved_attack</option>
 						</select>
 					</label>
 						<Button class="mt-6 rounded-none" variant="outline" onclick={applyPreset}>Use preset</Button>

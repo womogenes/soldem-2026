@@ -11,6 +11,7 @@ This workstream follows `research_logs/000_god_prompt.md` as the controlling spe
 1. Strategy search and rollout framework with compact JSONL/matrix logging.
 2. Expanded strategy pool with new contenders:
 - `conservative_plus`
+- `equity_evolved_v1`
 - `equity_sniper_ultra`
 - `equity_sniper_plus`
 - `equity_flex`
@@ -28,14 +29,14 @@ Primary recommendation for day-of EV stability:
 - `conservative_plus`
 
 First-place/correlation-heavy fallback:
-- `equity_sniper_ultra`
+- `equity_evolved_v1`
 
 High-variance exploit mode (only if table looks soft/passive):
 - `pot_fraction`
 
 Observed horizon tendencies from `iter2_small` matrix:
 - 5-game windows: `conservative_plus` slightly favored.
-- 10-game windows: `equity_sniper_ultra` leads most often.
+- 10-game windows: evolved/sniper family leads most often.
 - 20-game windows: `conservative_plus` regains edge.
 
 Observed field-type tendencies from `hero_suite_v2`:
@@ -62,7 +63,7 @@ Adaptive strategy experiment:
 - Enter state and click `Get recommendation`.
 - As events accumulate, use `Use auto table read preset` to apply mode-aware switching.
 - Auto table-read mode map:
-  - `competitive` or `correlated_pair`: prefer sniper (`equity_sniper_ultra`).
+  - `competitive` or `correlated_pair`: prefer evolved attack (`equity_evolved_v1`).
   - `aggressive` / chaotic: prefer conservative (`conservative_plus`).
   - `passive` + first-place objective: may move to `pot_fraction`.
 
@@ -75,7 +76,7 @@ For custom host-announced changes:
 `uv run python scripts/day_of_patch.py --preset baseline --overrides-json '{"n_orbits":4,"ante_amt":30}'`
 
 For manual champion locks:
-`uv run python scripts/day_of_patch.py --preset baseline --set-ev conservative_plus --set-first-place equity_sniper_ultra --set-robustness conservative_plus`
+`uv run python scripts/day_of_patch.py --preset baseline --set-ev conservative_plus --set-first-place equity_evolved_v1 --set-robustness conservative_plus`
 
 For quick empirical champion probe under a new variant:
 `uv run python scripts/quick_variant_hero_solver.py --rule-profile baseline_v1 --rule-overrides-json '{"n_orbits":4}' --n-tables 12 --n-games 8 --out research_logs/experiment_outputs/live_variant_probe.json`
@@ -96,7 +97,7 @@ Provisioning and sync commands:
 - `uv run python scripts/seed_pocketbase.py ...`
 
 Current seeded collections:
-- `strategies`: 15
+- `strategies`: 17
 - `champions`: 3
 - `eval_runs`: 4
 

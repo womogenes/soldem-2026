@@ -64,7 +64,7 @@ def parse_hero_suite(root: Path) -> tuple[dict[str, str], dict[str, float]]:
         return (
             {
                 "ev": "conservative_plus",
-                "first_place": "equity_sniper_ultra",
+                "first_place": "equity_evolved_v1",
                 "robustness": "conservative_plus",
             },
             {
@@ -101,7 +101,7 @@ def parse_hero_suite(root: Path) -> tuple[dict[str, str], dict[str, float]]:
     # Robustness objective is estimated from lower-tail behavior in research logs;
     # keep conservative_plus unless a materially stronger option appears.
     champs["robustness"] = "conservative_plus"
-    champs["first_place"] = "equity_sniper_ultra"
+    champs["first_place"] = "equity_evolved_v1"
     return champs, scores
 
 
