@@ -42,6 +42,18 @@ Run large experiment grids in parallel on EC2, collect outputs from S3, and sync
     - `seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.086,sell_count=2`: 199
     - `seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.099,sell_count=1`: 11
     - `seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.106,sell_count=2`: 6
+- Run `20260301-021037`
+  - 12x `c7i.large`
+  - scenarios: 216
+  - `n_matches=250` per scenario shard configuration
+  - winner counts:
+    - `seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.086,sell_count=2`: 212
+    - `seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.099,sell_count=1`: 4
+
+Combined distributed total across three runs:
+
+- scenarios: 648
+- champion wins: 571 (`seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.086,sell_count=2`)
 
 ## Standard run flow
 
@@ -94,3 +106,5 @@ aws ec2 terminate-instances --instance-ids <ids...> --region us-east-1
 - `research_logs/experiment_outputs/distributed_20260301-020134/aggregate_summary.json`
 - `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-015615.json`
 - `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-020134.json`
+- `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-021037.json`
+- `research_logs/experiment_outputs/distributed_master_summary_20260301.json`

@@ -28,6 +28,8 @@ Local timestamp: 2026-03-01 01:45:55 PST
 - Additional EC2 distributed confirmation:
 - run `20260301-015615` (216 scenarios): champion won 160
 - run `20260301-020134` (216 scenarios, `n_matches=120`): champion won 199
+- run `20260301-021037` (216 scenarios, `n_matches=250`): champion won 212
+- combined distributed total: champion won 571 / 648 scenarios
 
 ## Key artifacts
 
@@ -50,6 +52,8 @@ Local timestamp: 2026-03-01 01:45:55 PST
 - `research_logs/experiment_outputs/distributed_20260301-020134/aggregate_summary.json`
 - `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-015615.json`
 - `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-020134.json`
+- `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-021037.json`
+- `research_logs/experiment_outputs/distributed_master_summary_20260301.json`
 
 ## Run instructions
 

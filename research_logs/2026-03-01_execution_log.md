@@ -153,3 +153,23 @@ Local timezone: PST (America/Los_Angeles)
 - Terminated all distributed worker instances after result collection to control spend.
 - Added AWS operational doc:
   - `research_logs/2026-03-01_aws_distributed_runbook.md`.
+
+## 2026-03-01 02:21:11 PST
+
+- Ran third high-volume distributed EC2 batch:
+  - run id: `20260301-021037`
+  - 12x `c7i.large`
+  - `n_matches=250`
+  - scenarios: 216
+  - winner counts:
+    - `seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.086,sell_count=2`: 212
+    - `seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.099,sell_count=1`: 4
+- Collected and stored:
+  - `research_logs/experiment_outputs/distributed_20260301-021037/aggregate_summary.json`
+  - `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-021037.json`
+  - `research_logs/experiment_outputs/distributed_master_summary_20260301.json`
+- Synced distributed run `20260301-021037` champion summary to PocketBase.
+- Combined distributed confidence summary:
+  - total scenarios across runs `20260301-015615`, `20260301-020134`, `20260301-021037`: 648
+  - champion win count for `seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.086,sell_count=2`: 571
+- Terminated all worker instances from run `20260301-021037` after collection.
