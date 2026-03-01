@@ -1,0 +1,56 @@
+[
+  {
+    "name": "strategies",
+    "type": "base",
+    "schema": [
+      {"name": "tag", "type": "text", "required": true},
+      {"name": "family", "type": "text", "required": false},
+      {"name": "params_json", "type": "json", "required": false},
+      {"name": "commit", "type": "text", "required": false},
+      {"name": "weaknesses", "type": "json", "required": false}
+    ]
+  },
+  {
+    "name": "eval_runs",
+    "type": "base",
+    "schema": [
+      {"name": "rules_profile", "type": "text", "required": true},
+      {"name": "objective", "type": "text", "required": true},
+      {"name": "horizon", "type": "number", "required": true},
+      {"name": "seed", "type": "number", "required": true},
+      {"name": "status", "type": "text", "required": true}
+    ]
+  },
+  {
+    "name": "match_results",
+    "type": "base",
+    "schema": [
+      {"name": "run_id", "type": "text", "required": true},
+      {"name": "seat_tags", "type": "json", "required": true},
+      {"name": "pnl", "type": "json", "required": true},
+      {"name": "rank", "type": "json", "required": true},
+      {"name": "artifact_path", "type": "text", "required": false}
+    ]
+  },
+  {
+    "name": "champions",
+    "type": "base",
+    "schema": [
+      {"name": "objective", "type": "text", "required": true},
+      {"name": "strategy_tag", "type": "text", "required": true},
+      {"name": "score", "type": "number", "required": true},
+      {"name": "metadata_json", "type": "json", "required": false}
+    ]
+  },
+  {
+    "name": "workers",
+    "type": "base",
+    "schema": [
+      {"name": "worker_id", "type": "text", "required": true},
+      {"name": "host", "type": "text", "required": true},
+      {"name": "role", "type": "text", "required": true},
+      {"name": "heartbeat_ts", "type": "number", "required": true},
+      {"name": "status", "type": "text", "required": true}
+    ]
+  }
+]

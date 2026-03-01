@@ -1,154 +1,150 @@
-from typing import Literal
-import random
+from __future__ import annotations
+
+import time
+from typing import Any, Literal
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
-from game.engine_base import Game, N_PLAYERS
+from game.advisor import recommend_action
+from game.rules import RuleProfile, resolve_profile
+from sim.metrics import composite_profiles
+from sim.runner import run_population_tournament
+from strategies import PlayerProfile, built_in_strategy_factories
 
-Phase = Literal["idle", "sell", "bid", "choose", "showdown"]
-
-
-class SellReq(BaseModel):
-    indices: list[int]
-
-
-class BidReq(BaseModel):
-    amount: int
+Phase = Literal["sell", "bid", "choose", "showdown"]
+OutputMode = Literal["action_first", "top3", "metrics", "all"]
+Objective = Literal["ev", "first_place", "robustness"]
 
 
-class ChooseReq(BaseModel):
-    index: int
+class RecommendationReq(BaseModel):
+    seat: int = 0
+    phase: Phase = "bid"
+    seller_idx: int = -1
+    round_num: int = 0
+    n_orbits: int = 3
+    pot: int = 0
+    stacks: list[int] = Field(default_factory=lambda: [160, 160, 160, 160, 160])
+    my_cards: list[tuple[int, str]] = Field(default_factory=list)
+    auction_cards: list[tuple[int, str]] = Field(default_factory=list)
+    known_cards: list[tuple[int, str]] = Field(default_factory=list)
+    objective: Objective = "ev"
+    output_mode: OutputMode = "action_first"
+    strategy_tag: str | None = None
+    ranking_policy: str | None = None
+
+
+class SessionEventReq(BaseModel):
+    event_type: Literal["bid", "auction_result", "showdown", "note"]
+    seat: int | None = None
+    seller_idx: int | None = None
+    amount: int | None = None
+    winner_idx: int | None = None
+    note: str | None = None
+    ts: float | None = None
+
+
+class ApplyProfileReq(BaseModel):
+    profile_name: str = "baseline_v1"
+    overrides: dict[str, Any] = Field(default_factory=dict)
+
+
+class RecomputeChampionsReq(BaseModel):
+    n_matches: int = 90
+    n_games_per_match: int = 10
+    seed: int = 0
 
 
 class Session:
     def __init__(self):
-        self.match_pnl = [0] * N_PLAYERS
-        self.round_winner = -1
-        self.phase: Phase = "idle"
-        self.action = "Start new game"
-        self.log: list[str] = []
-        self.game = Game(ante_amt=40, n_orbits=3)
+        self.rule_profile: RuleProfile = resolve_profile("baseline_v1")
+        self.events: list[dict[str, Any]] = []
+        self.player_profiles = {i: PlayerProfile(seat=i) for i in range(5)}
+        self.champions = {
+            "ev": "adaptive_profile",
+            "first_place": "bully",
+            "robustness": "conservative",
+        }
+        self.last_leaderboards: dict[str, list[dict[str, Any]]] = {}
 
-    def _bot_sell_cards(self, cards):
-        return [cards[random.randint(0, len(cards) - 1)]]
+    def reset(self):
+        self.events = []
+        self.player_profiles = {i: PlayerProfile(seat=i) for i in range(5)}
 
-    def _bot_bid(self, idx: int) -> int:
-        max_bid = min(self.game.player_stacks[idx], max(0, self.game.pot // 4))
-        return random.randint(0, max_bid)
+    def apply_profile(self, profile_name: str, overrides: dict[str, Any]):
+        self.rule_profile = resolve_profile(profile_name, **overrides)
 
-    def _state(self):
+    def record_event(self, event: SessionEventReq):
+        ts = event.ts if event.ts is not None else time.time()
+        row = {
+            "event_type": event.event_type,
+            "seat": event.seat,
+            "seller_idx": event.seller_idx,
+            "amount": event.amount,
+            "winner_idx": event.winner_idx,
+            "note": event.note,
+            "ts": ts,
+        }
+        self.events.append(row)
+
+        if event.event_type == "bid" and event.seat is not None and event.amount is not None:
+            profile = self.player_profiles[event.seat]
+            profile.bid_count += 1
+            profile.avg_bid += (event.amount - profile.avg_bid) / profile.bid_count
+            profile.aggression += ((event.amount / 200.0) - profile.aggression) / profile.bid_count
+
+    def state(self) -> dict[str, Any]:
         return {
-            "phase": self.phase,
-            "action": self.action,
-            "round_winner": self.round_winner,
-            "match_pnl": self.match_pnl,
-            "log": self.log,
-            "pot": self.game.pot,
-            "round_num": self.game.round_num,
-            "n_orbits": self.game.n_orbits,
-            "seller_idx": self.game.seller_idx,
-            "player_cards": self.game.player_cards,
-            "player_stacks": self.game.player_stacks,
-            "auc_cards": self.game.auc_cards,
+            "rule_profile": self.rule_profile.to_dict(),
+            "champions": self.champions,
+            "events_count": len(self.events),
+            "recent_events": self.events[-20:],
+            "player_profiles": {
+                i: {
+                    "avg_bid": p.avg_bid,
+                    "bid_count": p.bid_count,
+                    "aggression": p.aggression,
+                }
+                for i, p in self.player_profiles.items()
+            },
+            "composite_profiles": composite_profiles(),
         }
 
-    def new_game(self):
-        self.match_pnl = [0] * N_PLAYERS
-        self.log = []
-        return self.reset_game()
+    def recompute_champions(self, req: RecomputeChampionsReq) -> dict[str, Any]:
+        strategy_tags = list(built_in_strategy_factories().keys())
+        leaderboards: dict[str, list[dict[str, Any]]] = {}
 
-    def reset_game(self):
-        self.game = Game(ante_amt=40, n_orbits=3)
-        self.game.reset()
-        self.log = []
-        self.round_winner = -1
-        self.phase = "bid"
-        self.action = "Bid for house card"
-        self.log.append(f"House auctions {self._card_text(self.game.auc_cards[0])}")
-        return self._state()
+        objective_to_key = {
+            "ev": "expected_pnl",
+            "first_place": "first_place_rate",
+            "robustness": "robustness",
+        }
 
-    def _card_text(self, card):
-        suit = {
-            "C": "clubs",
-            "D": "diamonds",
-            "H": "hearts",
-            "S": "spades",
-            "X": "citadel",
-        }[card[1]]
-        return f"{card[0]} of {suit}"
+        for objective in ["ev", "first_place", "robustness"]:
+            out = run_population_tournament(
+                strategy_tags,
+                n_matches=req.n_matches,
+                n_games_per_match=req.n_games_per_match,
+                rule_profile=self.rule_profile.name,
+                seed=req.seed + (101 * len(leaderboards)),
+                objective=objective,
+            )
+            board = out["leaderboard"]
+            key = objective_to_key[objective]
+            best = max(board, key=lambda row: row[key])
+            self.champions[objective] = best["tag"]
+            leaderboards[objective] = board
 
-    def _seller_text(self):
-        if self.game.seller_idx == -1:
-            return "House"
-        return f"Player {self.game.seller_idx}"
-
-    def _finish_auction(self, chosen):
-        winner = self.game.last_winner_idx
-        self.log.append(
-            f"Player {winner} wins {self._card_text(chosen)} from {self._seller_text()}"
-        )
-        out = self.game.win_card(chosen)
-        if out["game_over"]:
-            self.round_winner = out["winner_idx"]
-            self.game.player_stacks[self.round_winner] += self.game.pot
-            self.game.pot = 0
-            for i in range(N_PLAYERS):
-                self.match_pnl[i] += self.game.player_stacks[i] - self.game.start_chips
-            self.log.append(f"Showdown winner: Player {self.round_winner}")
-            self.phase = "showdown"
-            self.action = "Round over"
-            return self._state()
-
-        if self.game.seller_idx == 0:
-            self.game.auc_cards = []
-            self.phase = "sell"
-            self.action = "Choose cards to sell"
-            return self._state()
-
-        self.game.auc_cards = self._bot_sell_cards(self.game.player_cards[self.game.seller_idx])
-        self.log.append(
-            f"Player {self.game.seller_idx} auctions {self._card_text(self.game.auc_cards[0])}"
-        )
-        self.phase = "bid"
-        self.action = f"Bid for P{self.game.seller_idx} card"
-        return self._state()
-
-    def sell(self, indices: list[int]):
-        picks = indices if indices else [0]
-        self.game.auc_cards = [self.game.player_cards[0][i] for i in picks]
-        for card in self.game.auc_cards:
-            self.log.append(f"Player 0 auctions {self._card_text(card)}")
-        self.phase = "bid"
-        self.action = "Bid for your auction"
-        return self._state()
-
-    def bid(self, amount: int):
-        self.game.player_bids = [None] * N_PLAYERS
-        for i in range(N_PLAYERS):
-            if i == self.game.seller_idx:
-                continue
-            if i == 0:
-                self.game.player_bid(0, amount)
-            else:
-                self.game.player_bid(i, self._bot_bid(i))
-        res = self.game.close_bids()
-        self.log.append(
-            f"Bid winner: Player {res['winner']} for {res['bid_price']}"
-        )
-        if res["winner"] == 0:
-            self.phase = "choose"
-            self.action = "Choose won card"
-            return self._state()
-        return self._finish_auction(self.game.auc_cards[0])
-
-    def choose(self, index: int):
-        return self._finish_auction(self.game.auc_cards[index])
+        self.last_leaderboards = leaderboards
+        return {
+            "champions": self.champions,
+            "leaderboards": leaderboards,
+        }
 
 
 session = Session()
-app = FastAPI()
+app = FastAPI(title="Sold 'Em advisor API")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -157,31 +153,97 @@ app.add_middleware(
 )
 
 
-@app.get("/state")
-def state():
-    return session._state()
+@app.get("/health")
+def health():
+    return {"ok": True}
 
 
-@app.post("/new_game")
-def new_game():
-    return session.new_game()
+@app.get("/session/state")
+def session_state():
+    return session.state()
 
 
-@app.post("/reset_game")
-def reset_game():
-    return session.reset_game()
+@app.post("/session/reset")
+def session_reset():
+    session.reset()
+    return session.state()
 
 
-@app.post("/sell")
-def sell(req: SellReq):
-    return session.sell(req.indices)
+@app.post("/session/event")
+def session_event(req: SessionEventReq):
+    session.record_event(req)
+    return {"ok": True, "events_count": len(session.events)}
 
 
-@app.post("/bid")
-def bid(req: BidReq):
-    return session.bid(req.amount)
+@app.post("/rules/apply_profile")
+def rules_apply_profile(req: ApplyProfileReq):
+    session.apply_profile(req.profile_name, req.overrides)
+    return {"ok": True, "rule_profile": session.rule_profile.to_dict()}
 
 
-@app.post("/choose")
-def choose(req: ChooseReq):
-    return session.choose(req.index)
+@app.get("/strategies/champions")
+def strategies_champions():
+    return {
+        "champions": session.champions,
+        "composite_profiles": composite_profiles(),
+        "leaderboards": session.last_leaderboards,
+    }
+
+
+@app.post("/strategies/recompute_champions")
+def strategies_recompute(req: RecomputeChampionsReq):
+    return session.recompute_champions(req)
+
+
+@app.post("/advisor/recommend")
+def advisor_recommend(req: RecommendationReq):
+    ranking_policy = req.ranking_policy or session.rule_profile.hand_ranking_policy
+    strategy_tag = req.strategy_tag or session.champions.get(req.objective, "adaptive_profile")
+
+    if req.output_mode == "all":
+        out = {}
+        for mode in ["action_first", "top3", "metrics"]:
+            rec = recommend_action(
+                phase=req.phase,
+                strategy_tag=strategy_tag,
+                seat=req.seat,
+                seller_idx=req.seller_idx,
+                pot=req.pot,
+                stacks=req.stacks,
+                my_cards=req.my_cards,
+                auction_cards=req.auction_cards,
+                round_num=req.round_num,
+                n_orbits=req.n_orbits,
+                ranking_policy=ranking_policy,
+                objective=req.objective,
+                output_mode=mode,
+                player_profiles=session.player_profiles,
+                known_cards=req.known_cards,
+            )
+            out[mode] = rec.to_dict()
+        return {
+            "strategy_tag": strategy_tag,
+            "rule_profile": session.rule_profile.to_dict(),
+            "modes": out,
+        }
+
+    rec = recommend_action(
+        phase=req.phase,
+        strategy_tag=strategy_tag,
+        seat=req.seat,
+        seller_idx=req.seller_idx,
+        pot=req.pot,
+        stacks=req.stacks,
+        my_cards=req.my_cards,
+        auction_cards=req.auction_cards,
+        round_num=req.round_num,
+        n_orbits=req.n_orbits,
+        ranking_policy=ranking_policy,
+        objective=req.objective,
+        output_mode=req.output_mode,
+        player_profiles=session.player_profiles,
+        known_cards=req.known_cards,
+    )
+    out = rec.to_dict()
+    out["rule_profile"] = session.rule_profile.to_dict()
+    return out

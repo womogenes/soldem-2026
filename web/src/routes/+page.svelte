@@ -1,255 +1,329 @@
 <script lang="ts">
 	import { Button } from '$lib/components/ui/button';
-	import {
-		Club,
-		Diamond,
-		Heart,
-		Hexagon,
-		LoaderCircle,
-		Plus,
-		Spade,
-		X
-	} from '@lucide/svelte';
-	import { onMount, tick } from 'svelte';
+	import { onMount } from 'svelte';
 
 	type Suit = 'C' | 'D' | 'H' | 'S' | 'X';
 	type Card = [number, Suit];
-	type Phase = 'idle' | 'sell' | 'bid' | 'choose' | 'showdown';
-
-	type State = {
-		phase: Phase;
-		action: string;
-		round_winner: number;
-		match_pnl: number[];
-		log: string[];
-		pot: number;
-		round_num: number;
-		n_orbits: number;
-		seller_idx: number;
-		player_cards: Card[][];
-		player_stacks: number[];
-		auc_cards: Card[];
-	};
+	type Phase = 'sell' | 'bid' | 'choose' | 'showdown';
+	type Objective = 'ev' | 'first_place' | 'robustness';
+	type OutputMode = 'action_first' | 'top3' | 'metrics' | 'all';
 
 	const API = 'http://127.0.0.1:8000';
-	let state: State = {
-		phase: 'idle',
-		action: 'Start new game',
-		round_winner: -1,
-		match_pnl: [0, 0, 0, 0, 0],
-		log: [],
-		pot: 0,
-		round_num: 0,
-		n_orbits: 3,
-		seller_idx: -1,
-		player_cards: [[], [], [], [], []],
-		player_stacks: [0, 0, 0, 0, 0],
-		auc_cards: []
-	};
-	let playerBidInput = '0';
-	let selectedSellIdx: number[] = [];
-	let choosingIdx: number | null = null;
-	let bidPending = false;
-	let logEl: HTMLDivElement | null = null;
 
-	function suitOf(card: Card): Suit {
-		return card[1];
+	let phase: Phase = 'bid';
+	let objective: Objective = 'ev';
+	let outputMode: OutputMode = 'all';
+	let strategyTag = '';
+	let seat = 0;
+	let sellerIdx = -1;
+	let pot = 200;
+	let roundNum = 0;
+	let nOrbits = 3;
+	let stacks: number[] = [160, 160, 160, 160, 160];
+	let myCardsText = '7H 8H 9H 4C 4D';
+	let auctionCardsText = '10H';
+	let knownCardsText = '';
+	let status = '';
+	let loading = false;
+	let championsLoading = false;
+	let recommendation: any = null;
+	let sessionState: any = null;
+	let eventType: 'bid' | 'auction_result' | 'showdown' | 'note' = 'bid';
+	let eventSeat = 0;
+	let eventAmount = 0;
+	let eventWinner = 0;
+	let eventNote = '';
+
+	function parseCards(input: string): Card[] {
+		const toks = input
+			.toUpperCase()
+			.split(/\s+/)
+			.map((v) => v.trim())
+			.filter(Boolean);
+		const cards: Card[] = [];
+		for (const t of toks) {
+			const m = t.match(/^(10|[1-9])([CDHSX])$/);
+			if (!m) continue;
+			cards.push([Number(m[1]), m[2] as Suit]);
+		}
+		return cards;
 	}
 
-	function labelForSeller() {
-		return state.seller_idx === -1 ? 'house' : `P${state.seller_idx}`;
+	function cardLabel(card: Card) {
+		return `${card[0]}${card[1]}`;
 	}
 
-	async function loadState() {
-		const next = await (await fetch(`${API}/state`)).json();
-		await applyState(next);
+	function modeEntries(modes: Record<string, any> | undefined): [string, any][] {
+		return Object.entries(modes ?? {});
 	}
 
-	async function startNewGame() {
-		const next = await (await fetch(`${API}/new_game`, { method: 'POST' })).json();
-		await applyState(next);
-		selectedSellIdx = [];
-		playerBidInput = '0';
+	async function loadSession() {
+		const res = await fetch(`${API}/session/state`);
+		sessionState = await res.json();
+		if (!strategyTag) strategyTag = sessionState?.champions?.ev ?? '';
 	}
 
-	async function resetGame() {
-		const next = await (await fetch(`${API}/reset_game`, { method: 'POST' })).json();
-		await applyState(next);
-		selectedSellIdx = [];
-		playerBidInput = '0';
-	}
-
-	async function submitSell() {
-		const next = await (
-			await fetch(`${API}/sell`, {
+	async function recommend() {
+		loading = true;
+		status = '';
+		try {
+			const payload = {
+				seat,
+				phase,
+				seller_idx: sellerIdx,
+				round_num: roundNum,
+				n_orbits: nOrbits,
+				pot,
+				stacks,
+				my_cards: parseCards(myCardsText),
+				auction_cards: parseCards(auctionCardsText),
+				known_cards: parseCards(knownCardsText),
+				objective,
+				output_mode: outputMode,
+				strategy_tag: strategyTag || null
+			};
+			const res = await fetch(`${API}/advisor/recommend`, {
 				method: 'POST',
 				headers: { 'content-type': 'application/json' },
-				body: JSON.stringify({ indices: selectedSellIdx })
-			})
-		).json();
-		await applyState(next);
-		selectedSellIdx = [];
-	}
-
-	async function submitBid() {
-		bidPending = true;
-		await new Promise((resolve) => setTimeout(resolve, 500));
-		const next = await (
-			await fetch(`${API}/bid`, {
-				method: 'POST',
-				headers: { 'content-type': 'application/json' },
-				body: JSON.stringify({ amount: Number(playerBidInput) || 0 })
-			})
-		).json();
-		await applyState(next);
-		bidPending = false;
-	}
-
-	async function chooseWonCard(index: number) {
-		choosingIdx = index;
-		const next = await (
-			await fetch(`${API}/choose`, {
-				method: 'POST',
-				headers: { 'content-type': 'application/json' },
-				body: JSON.stringify({ index })
-			})
-		).json();
-		await applyState(next);
-		choosingIdx = null;
-	}
-
-	async function applyState(next: State) {
-		const prevLen = state.log.length;
-		state = next;
-		if (state.log.length !== prevLen) {
-			await tick();
-			if (logEl) logEl.scrollTop = 0;
+				body: JSON.stringify(payload)
+			});
+			recommendation = await res.json();
+			status = 'Recommendation updated';
+		} catch (err) {
+			status = `Request failed: ${String(err)}`;
+		} finally {
+			loading = false;
 		}
 	}
 
-	function toggleSellIdx(i: number) {
-		if (selectedSellIdx.includes(i)) {
-			selectedSellIdx = selectedSellIdx.filter((x) => x !== i);
-		} else {
-			selectedSellIdx = [...selectedSellIdx, i];
+	async function sendEvent() {
+		const payload: any = {
+			event_type: eventType,
+			seat: eventSeat,
+			amount: eventAmount,
+			winner_idx: eventWinner,
+			note: eventNote || null
+		};
+		await fetch(`${API}/session/event`, {
+			method: 'POST',
+			headers: { 'content-type': 'application/json' },
+			body: JSON.stringify(payload)
+		});
+		eventNote = '';
+		await loadSession();
+		status = 'Event logged';
+	}
+
+	async function recomputeChampions() {
+		championsLoading = true;
+		status = '';
+		try {
+			await fetch(`${API}/strategies/recompute_champions`, {
+				method: 'POST',
+				headers: { 'content-type': 'application/json' },
+				body: JSON.stringify({ n_matches: 60, n_games_per_match: 10, seed: Date.now() % 100000 })
+			});
+			await loadSession();
+			status = 'Champions recomputed';
+		} catch (err) {
+			status = `Champion run failed: ${String(err)}`;
+		} finally {
+			championsLoading = false;
 		}
 	}
 
-	onMount(loadState);
+	function setStack(i: number, value: string) {
+		const n = Number(value);
+		stacks[i] = Number.isFinite(n) ? Math.max(0, n) : 0;
+		stacks = [...stacks];
+	}
+
+	onMount(loadSession);
 </script>
 
-<main class="mx-auto flex w-full max-w-2xl flex-col gap-4 p-4">
-	<div class="flex flex-wrap items-center gap-2">
-		<Button class="rounded-none" onclick={startNewGame}>Start new game</Button>
-		<Button class="rounded-none" variant="outline" onclick={resetGame}>Reset game</Button>
-	</div>
+<main class="mx-auto flex min-h-screen w-full max-w-6xl flex-col gap-4 p-4">
+	<header class="rounded-none border bg-[linear-gradient(130deg,#f8f4e8,#fff,#e7f3ff)] p-4">
+		<h1 class="text-xl font-semibold tracking-tight">Sold 'Em live HUD advisor</h1>
+		<p class="mt-1 text-sm text-muted-foreground">
+			Fast state entry, objective-aware recommendations, and profile tracking under a 10-second turn budget.
+		</p>
+	</header>
 
-	<div class="grid gap-3 md:grid-cols-[minmax(0,1fr)_12rem]">
-		<section class="space-y-3">
+	<div class="grid gap-4 lg:grid-cols-[1.2fr_1fr]">
+		<section class="space-y-4">
 			<div class="rounded-none border bg-card p-3">
-				<div class="text-sm">Pot ${state.pot} · R{state.round_num + 1}/{state.n_orbits}</div>
-			</div>
+				<div class="mb-2 text-sm font-medium">Round state input</div>
+				<div class="grid gap-2 sm:grid-cols-3">
+					<label class="text-sm">Phase
+						<select class="mt-1 h-9 w-full border bg-background px-2" bind:value={phase}>
+							<option value="sell">sell</option>
+							<option value="bid">bid</option>
+							<option value="choose">choose</option>
+							<option value="showdown">showdown</option>
+						</select>
+					</label>
+					<label class="text-sm">Objective
+						<select class="mt-1 h-9 w-full border bg-background px-2" bind:value={objective}>
+							<option value="ev">ev</option>
+							<option value="first_place">first_place</option>
+							<option value="robustness">robustness</option>
+						</select>
+					</label>
+					<label class="text-sm">Output mode
+						<select class="mt-1 h-9 w-full border bg-background px-2" bind:value={outputMode}>
+							<option value="action_first">action_first</option>
+							<option value="top3">top3</option>
+							<option value="metrics">metrics</option>
+							<option value="all">all</option>
+						</select>
+					</label>
+					<label class="text-sm">Your seat
+						<input class="mt-1 h-9 w-full border bg-background px-2" type="number" min="0" max="4" bind:value={seat} />
+					</label>
+					<label class="text-sm">Seller seat
+						<input class="mt-1 h-9 w-full border bg-background px-2" type="number" min="-1" max="4" bind:value={sellerIdx} />
+					</label>
+					<label class="text-sm">Pot
+						<input class="mt-1 h-9 w-full border bg-background px-2" type="number" min="0" bind:value={pot} />
+					</label>
+					<label class="text-sm">Round num
+						<input class="mt-1 h-9 w-full border bg-background px-2" type="number" min="0" bind:value={roundNum} />
+					</label>
+					<label class="text-sm">Orbits
+						<input class="mt-1 h-9 w-full border bg-background px-2" type="number" min="1" bind:value={nOrbits} />
+					</label>
+					<label class="text-sm">Strategy tag (optional)
+						<input class="mt-1 h-9 w-full border bg-background px-2" placeholder="adaptive_profile" bind:value={strategyTag} />
+					</label>
+				</div>
 
-			<div class="grid grid-cols-5 gap-2">
-				{#each state.player_stacks as stack, i}
-					<div
-						class={`rounded-none border bg-card p-2 text-sm transition-colors ${
-							i === state.seller_idx ? 'border-blue-500' : ''
-						}`}
-					>
-						P{i} ${stack}
-						{#if i === state.round_winner}*{/if}
+				<div class="mt-3 grid gap-2 sm:grid-cols-3">
+					<div class="text-sm">
+						<div>My cards</div>
+						<input class="mt-1 h-9 w-full border bg-background px-2" bind:value={myCardsText} />
 					</div>
-				{/each}
-			</div>
+					<div class="text-sm">
+						<div>Auction cards</div>
+						<input class="mt-1 h-9 w-full border bg-background px-2" bind:value={auctionCardsText} />
+					</div>
+					<div class="text-sm">
+						<div>Known cards</div>
+						<input class="mt-1 h-9 w-full border bg-background px-2" bind:value={knownCardsText} />
+					</div>
+				</div>
 
-			<div class="rounded-none border bg-card p-3">
-				<div class="mb-2 text-sm">Auction · {labelForSeller()}</div>
-				<div class="flex flex-wrap gap-2">
-					{#each state.auc_cards as card, i}
-						<button
-							class={`flex animate-in items-center gap-1 rounded-none border px-2 py-1 text-sm transition-colors duration-200 fade-in ${
-								state.phase === 'choose'
-									? 'cursor-pointer border-blue-500 hover:border-blue-500'
-									: ''
-							} ${choosingIdx === i ? 'border-blue-500' : ''}`}
-							onclick={() => state.phase === 'choose' && chooseWonCard(i)}
-						>
-							{card[0]}
-							{#if suitOf(card) === 'C'}<Club class="size-4" />{/if}
-							{#if suitOf(card) === 'D'}<Diamond class="size-4 text-red-600" />{/if}
-							{#if suitOf(card) === 'H'}<Heart class="size-4 text-red-600" />{/if}
-							{#if suitOf(card) === 'S'}<Spade class="size-4" />{/if}
-							{#if suitOf(card) === 'X'}<Hexagon class="size-4 text-blue-600" />{/if}
-						</button>
-					{/each}
+				<div class="mt-3">
+					<div class="mb-1 text-sm">Stacks (P0-P4)</div>
+					<div class="grid grid-cols-5 gap-2">
+						{#each stacks as stack, i}
+							<input
+								class="h-9 w-full border bg-background px-2 text-sm"
+								type="number"
+								value={stack}
+								oninput={(e) => setStack(i, (e.target as HTMLInputElement).value)}
+							/>
+						{/each}
+					</div>
+				</div>
+
+				<div class="mt-3 flex flex-wrap gap-2">
+					<Button class="rounded-none" onclick={recommend} disabled={loading}>
+						{loading ? 'Thinking...' : 'Get recommendation'}
+					</Button>
+					<Button class="rounded-none" variant="outline" onclick={loadSession}>Refresh session</Button>
+					<Button class="rounded-none" variant="outline" onclick={recomputeChampions} disabled={championsLoading}>
+						{championsLoading ? 'Running...' : 'Recompute champions'}
+					</Button>
 				</div>
 			</div>
 
 			<div class="rounded-none border bg-card p-3">
-				<div class="mb-2 text-sm">You · {state.action}</div>
-				<div class="mb-3 flex flex-wrap gap-2">
-					{#each state.player_cards[0] ?? [] as card, i}
-						<button
-							class={`flex items-center gap-1 rounded-none border px-2 py-1 text-sm transition-colors ${
-								selectedSellIdx.includes(i) ? 'border-blue-500' : ''
-							} ${state.phase === 'sell' ? 'cursor-pointer' : ''}`}
-							onclick={() => state.phase === 'sell' && toggleSellIdx(i)}
-							aria-pressed={selectedSellIdx.includes(i)}
-						>
-							{#if state.phase === 'sell'}
-								{#if selectedSellIdx.includes(i)}
-									<X class="size-3" />
-								{:else}
-									<Plus class="size-3" />
-								{/if}
-							{/if}
-							{card[0]}
-							{#if suitOf(card) === 'C'}<Club class="size-4" />{/if}
-							{#if suitOf(card) === 'D'}<Diamond class="size-4 text-red-600" />{/if}
-							{#if suitOf(card) === 'H'}<Heart class="size-4 text-red-600" />{/if}
-							{#if suitOf(card) === 'S'}<Spade class="size-4" />{/if}
-							{#if suitOf(card) === 'X'}<Hexagon class="size-4 text-blue-600" />{/if}
-						</button>
-					{/each}
-				</div>
-
-				{#if state.phase === 'sell'}
-					<Button class="rounded-none" onclick={submitSell}>Sell selected</Button>
-				{:else if state.phase === 'bid'}
-					<div class="flex flex-wrap items-center gap-2">
-						<input
-							class="h-9 w-24 rounded-none border bg-background px-2 text-sm"
-							type="number"
-							min="0"
-							max={state.seller_idx === 0 ? 0 : (state.player_stacks[0] ?? 0)}
-							disabled={state.seller_idx === 0 || bidPending}
-							bind:value={playerBidInput}
-						/>
-						<Button class="rounded-none" onclick={submitBid} disabled={bidPending}>
-							{#if bidPending}
-								<LoaderCircle class="size-4 animate-spin" />
-								Bid
-							{:else}
-								Bid
-							{/if}
-						</Button>
-					</div>
-				{:else if state.phase === 'showdown'}
-					<div class="text-sm">Winner P{state.round_winner} · Match PnL {state.match_pnl[0]}</div>
+				<div class="mb-2 text-sm font-medium">Advisor output</div>
+				{#if recommendation}
+					{#if recommendation.modes}
+						<div class="grid gap-2 md:grid-cols-3">
+							{#each modeEntries(recommendation.modes) as [mode, rec]}
+								<div class="border p-2 text-sm">
+									<div class="font-medium">{mode}</div>
+									<div class="mt-1">Primary: {JSON.stringify(rec.primary_action)}</div>
+									<div class="mt-1 text-xs text-muted-foreground">{rec.rationale}</div>
+								</div>
+							{/each}
+						</div>
+					{:else}
+						<div class="text-sm">Primary: {JSON.stringify(recommendation.primary_action)}</div>
+						<div class="mt-2 text-sm">Top actions:</div>
+						<div class="mt-1 flex flex-wrap gap-2">
+							{#each recommendation.top_actions ?? [] as a}
+								<div class="border px-2 py-1 text-xs">{JSON.stringify(a)}</div>
+							{/each}
+						</div>
+						<div class="mt-2 text-xs text-muted-foreground">{recommendation.rationale}</div>
+					{/if}
+				{:else}
+					<div class="text-sm text-muted-foreground">No recommendation yet.</div>
 				{/if}
 			</div>
 		</section>
 
-		<aside class="w-96 rounded-none border bg-card p-3">
-			<div class="mb-2 text-sm">Log</div>
-			<div bind:this={logEl} class="flex max-h-[24rem] flex-col gap-1 overflow-y-auto text-sm">
-				{#each [...state.log].reverse() as entry}
-					<div class="animate-in rounded-none p-1 duration-700 fade-in slide-in-from-top-1">
-						{entry}
+		<aside class="space-y-4">
+			<div class="rounded-none border bg-card p-3">
+				<div class="mb-2 text-sm font-medium">Session tracking</div>
+				<div class="grid gap-2 sm:grid-cols-2">
+					<label class="text-sm">Event
+						<select class="mt-1 h-9 w-full border bg-background px-2" bind:value={eventType}>
+							<option value="bid">bid</option>
+							<option value="auction_result">auction_result</option>
+							<option value="showdown">showdown</option>
+							<option value="note">note</option>
+						</select>
+					</label>
+					<label class="text-sm">Seat
+						<input class="mt-1 h-9 w-full border bg-background px-2" type="number" min="0" max="4" bind:value={eventSeat} />
+					</label>
+					<label class="text-sm">Amount
+						<input class="mt-1 h-9 w-full border bg-background px-2" type="number" bind:value={eventAmount} />
+					</label>
+					<label class="text-sm">Winner
+						<input class="mt-1 h-9 w-full border bg-background px-2" type="number" min="0" max="4" bind:value={eventWinner} />
+					</label>
+				</div>
+				<label class="mt-2 block text-sm">Note
+					<input class="mt-1 h-9 w-full border bg-background px-2" bind:value={eventNote} />
+				</label>
+				<div class="mt-3 flex gap-2">
+					<Button class="rounded-none" onclick={sendEvent}>Log event</Button>
+					<Button class="rounded-none" variant="outline" onclick={() => fetch(`${API}/session/reset`, { method: 'POST' }).then(loadSession)}>
+						Reset session
+					</Button>
+				</div>
+				{#if status}
+					<div class="mt-2 text-xs text-muted-foreground">{status}</div>
+				{/if}
+			</div>
+
+			<div class="rounded-none border bg-card p-3">
+				<div class="mb-2 text-sm font-medium">Champions and profiles</div>
+				{#if sessionState}
+					<div class="text-xs">Rule profile: {sessionState.rule_profile?.name}</div>
+					<div class="mt-2 text-xs">Champions: {JSON.stringify(sessionState.champions)}</div>
+					<div class="mt-2 text-xs">Composite presets: {JSON.stringify(sessionState.composite_profiles)}</div>
+					<div class="mt-2 max-h-60 overflow-y-auto text-xs">
+						{#each Object.entries(sessionState.player_profiles ?? {}) as [seatId, profile]}
+							<div class="border-b py-1">P{seatId}: {JSON.stringify(profile)}</div>
+						{/each}
 					</div>
-				{/each}
+				{:else}
+					<div class="text-sm text-muted-foreground">Loading...</div>
+				{/if}
 			</div>
 		</aside>
 	</div>
+
+	<footer class="rounded-none border p-3 text-xs text-muted-foreground">
+		Card format: `value+suit`, for example `10X 7H 4D`. Suits are `C D H S X`.
+		{#if recommendation && recommendation.primary_action?.amount !== undefined}
+			Last suggested bid: {recommendation.primary_action.amount}
+		{/if}
+	</footer>
 </main>
