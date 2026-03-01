@@ -343,6 +343,7 @@
 				<div class="mb-2 text-sm font-medium">Champions and profiles</div>
 				{#if sessionState}
 					<div class="text-xs">Rule profile: {sessionState.rule_profile?.name}</div>
+					<div class="mt-2 text-xs">Dynamic resolution: {String(sessionState.dynamic_resolution_enabled)}</div>
 					<div class="mt-2 text-xs">Champions: {JSON.stringify(sessionState.champions)}</div>
 					<div class="mt-2 text-xs">Resolved champions: {JSON.stringify(sessionState.resolved_champions)}</div>
 					<div class="mt-2 text-xs">Table read: {JSON.stringify(sessionState.table_read)}</div>

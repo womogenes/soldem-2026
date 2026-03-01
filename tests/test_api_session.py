@@ -1,6 +1,6 @@
 import unittest
 
-from game.api import Session, SessionEventReq
+from game.api import Session, SessionEventReq, SetChampionsReq
 
 
 class ApiSessionTests(unittest.TestCase):
@@ -63,6 +63,21 @@ class ApiSessionTests(unittest.TestCase):
         read = s.infer_table_read()
         self.assertEqual(read["mode"], "competitive")
         self.assertEqual(s.resolve_champion("ev"), "equity_sniper_ultra")
+
+    def test_manual_champion_override(self):
+        s = Session()
+        out = s.set_champions(
+            SetChampionsReq(
+                ev="equity_sniper_ultra",
+                first_place="meta_switch",
+                robustness="conservative_plus",
+                lock_manual=True,
+            )
+        )
+        self.assertEqual(out["champions"]["ev"], "equity_sniper_ultra")
+        self.assertEqual(out["champions"]["first_place"], "meta_switch")
+        self.assertFalse(out["dynamic_resolution_enabled"])
+        self.assertEqual(out["resolved_champions"]["first_place"], "meta_switch")
 
 
 if __name__ == "__main__":

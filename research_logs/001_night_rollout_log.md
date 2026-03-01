@@ -184,3 +184,33 @@ Local time: 2026-03-01 01:25:02 PST
   - objective-switch discipline,
   - table-read adaptation rehearsal,
   - anti-tilt guardrails.
+
+## 2026-03-01 02:47:05 PST
+
+- Added rule-override support in simulation runner (`sim/runner.py`) so experiments can benchmark arbitrary announced variants without adding static profiles first.
+- Added new day-of solver scripts:
+  - `scripts/quick_variant_solver.py` (population-style, corrected objective metric mapping)
+  - `scripts/quick_variant_hero_solver.py` (hero-vs-mixed-pool methodology)
+- Ran `quick_variant_suite_v2` and `quick_variant_hero_suite_v3` artifacts to build profile-conditioned strategy lookup references.
+- Added expanded `meta_switch` evaluation (`meta_suite_v2`) including mixed/shark/chaos pools and robustness objective.
+- Key takeaway from newest aggregate (`meta_suite_v2`):
+  - `conservative_plus` remains strongest robust EV baseline (best mean EV and best p10 tail among tested finalists).
+  - `equity_sniper_ultra` remains strongest competitive/correlation upside option.
+  - `meta_switch` improves first-place pressure in some setups but underperforms baseline EV robustness; keep as optional mode only.
+- Added API endpoint `POST /strategies/set_champions` and manual lock mode:
+  - supports explicit champion overrides.
+  - `dynamic_resolution_enabled=false` locks manual champion map.
+- Updated patch workflow script `scripts/day_of_patch.py`:
+  - supports `--set-ev`, `--set-first-place`, `--set-robustness`.
+  - supports `--keep-dynamic` to avoid locking when desired.
+- UI now displays `dynamic_resolution_enabled` to avoid ambiguity during live operation.
+- Revalidated end-to-end:
+  - backend tests: 12/12 pass
+  - frontend check/build: pass
+
+## 2026-03-01 02:48:20 PST
+
+- Produced variant lookup artifact:
+  - `research_logs/006_variant_lookup_table.md`
+- This lookup is generated from hero-vs-mixed-pool solver outputs in `quick_variant_hero_suite_v3` and is intended for rapid manual champion locking via `scripts/day_of_patch.py`.
+- Added explicit caution that `pot_fraction` can win short-stack first-place races but remains high downside risk in broader fields.

@@ -17,11 +17,18 @@ Patch rule variations and keep advisor strategy alignment in under 2 minutes.
 3. If the host announces custom values, add explicit overrides.
 `uv run python scripts/day_of_patch.py --preset baseline --overrides-json '{"n_orbits":4,"ante_amt":30}'`
 
-4. Confirm resolved champions from output.
+4. Optional: lock manual champions in same command.
+`uv run python scripts/day_of_patch.py --preset top2_split --set-ev equity_sniper_ultra --set-first-place meta_switch --set-robustness conservative_plus`
+This sets API `dynamic_resolution_enabled=false` so manual champions stay fixed.
+
+5. Optional: keep dynamic resolver active while updating champion defaults.
+`uv run python scripts/day_of_patch.py --preset baseline --set-ev conservative_plus --keep-dynamic`
+
+6. Confirm resolved champions from output.
 Expected fields: `resolved_champions.ev`, `resolved_champions.first_place`, `resolved_champions.robustness`.
 
-5. Refresh HUD and use `Use objective champion` button.
-6. After logging a few auctions/bids, use `Use auto table read preset` to adapt to observed table style.
+7. Refresh HUD and use `Use objective champion` button.
+8. After logging a few auctions/bids, use `Use auto table read preset` to adapt to observed table style.
 
 ## Preset map
 
@@ -53,6 +60,16 @@ Expected fields: `resolved_champions.ev`, `resolved_champions.first_place`, `res
 2. Enter exact overrides from host announcement.
 3. Keep objective on `ev` for first two games to calibrate table behavior.
 4. Move to `first_place` only if table is clearly passive or you need catch-up variance.
+
+## Optional quick solver during warmup
+
+If there is enough time for a small empirical pass (typically a few minutes), run:
+
+`uv run python scripts/quick_variant_hero_solver.py --rule-profile baseline_v1 --rule-overrides-json '{"n_orbits":4}' --n-tables 12 --n-games 8 --out research_logs/experiment_outputs/live_variant_probe.json`
+
+Then set manual champions from `objective_winners` if you want to lock them:
+
+`uv run python scripts/day_of_patch.py --preset baseline --overrides-json '{"n_orbits":4}' --set-ev <tag> --set-first-place <tag> --set-robustness <tag>`
 
 ## Weird-variation checklist
 

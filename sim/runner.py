@@ -6,6 +6,7 @@ from collections import defaultdict
 from dataclasses import dataclass
 from pathlib import Path
 from statistics import mean
+from typing import Any
 
 from game.engine_base import Game
 from game.rules import resolve_profile
@@ -20,6 +21,7 @@ class MatchConfig:
     n_games: int = 10
     seed: int = 0
     rule_profile: str = "baseline_v1"
+    rule_overrides: dict[str, Any] | None = None
     objective: str = "ev"
 
 
@@ -34,7 +36,7 @@ class MatchRunner:
             getattr(strategy, "tag", spec)
             for strategy, spec in zip(self.strategies, self.strategy_specs)
         ]
-        self.profile = resolve_profile(config.rule_profile)
+        self.profile = resolve_profile(config.rule_profile, **(config.rule_overrides or {}))
         self.rng = random.Random(config.seed)
 
     def _ctx(
@@ -176,6 +178,7 @@ def run_match(
     n_games: int = 10,
     seed: int = 0,
     rule_profile: str = "baseline_v1",
+    rule_overrides: dict[str, Any] | None = None,
     objective: str = "ev",
     correlation: CorrelationModel | None = None,
     compact_log_path: str | None = None,
@@ -184,6 +187,7 @@ def run_match(
         n_games=n_games,
         seed=seed,
         rule_profile=rule_profile,
+        rule_overrides=rule_overrides,
         objective=objective,
     )
     runner = MatchRunner(strategy_tags, config)
@@ -195,6 +199,7 @@ def run_population_tournament(
     n_matches: int = 100,
     n_games_per_match: int = 10,
     rule_profile: str = "baseline_v1",
+    rule_overrides: dict[str, Any] | None = None,
     seed: int = 0,
     objective: str = "ev",
     correlation: CorrelationModel | None = None,
@@ -210,6 +215,7 @@ def run_population_tournament(
             n_games=n_games_per_match,
             seed=rng.randint(0, 2**31 - 1),
             rule_profile=rule_profile,
+            rule_overrides=rule_overrides,
             objective=objective,
             correlation=correlation,
         )
@@ -247,6 +253,7 @@ def run_population_tournament(
         "n_matches": n_matches,
         "n_games_per_match": n_games_per_match,
         "rule_profile": rule_profile,
+        "rule_overrides": rule_overrides or {},
         "objective": objective,
         "leaderboard": leaderboard,
     }

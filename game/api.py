@@ -56,6 +56,13 @@ class RecomputeChampionsReq(BaseModel):
     seed: int = 0
 
 
+class SetChampionsReq(BaseModel):
+    ev: str | None = None
+    first_place: str | None = None
+    robustness: str | None = None
+    lock_manual: bool = True
+
+
 class Session:
     def __init__(self):
         self.rule_profile: RuleProfile = resolve_profile("baseline_v1")
@@ -66,6 +73,7 @@ class Session:
             "first_place": "equity_sniper_ultra",
             "robustness": "conservative_plus",
         }
+        self.dynamic_resolution_enabled = True
         self.last_leaderboards: dict[str, list[dict[str, Any]]] = {}
         self.strategy_presets = {
             "balanced_default": "conservative_plus",
@@ -105,6 +113,7 @@ class Session:
         return {
             "rule_profile": self.rule_profile.to_dict(),
             "champions": self.champions,
+            "dynamic_resolution_enabled": self.dynamic_resolution_enabled,
             "resolved_champions": {
                 "ev": self.resolve_champion("ev"),
                 "first_place": self.resolve_champion("first_place"),
@@ -206,6 +215,9 @@ class Session:
         return "balanced_default"
 
     def resolve_champion(self, objective: str) -> str:
+        if not self.dynamic_resolution_enabled:
+            return self.champions.get(objective, "conservative_plus")
+
         # Fast day-of adjustment for known profile deltas from offline simulations.
         table_read = self.infer_table_read()
         mode = table_read.get("mode", "balanced")
@@ -262,6 +274,25 @@ class Session:
         return {
             "champions": self.champions,
             "leaderboards": leaderboards,
+        }
+
+    def set_champions(self, req: SetChampionsReq) -> dict[str, Any]:
+        if req.ev:
+            self.champions["ev"] = req.ev
+        if req.first_place:
+            self.champions["first_place"] = req.first_place
+        if req.robustness:
+            self.champions["robustness"] = req.robustness
+        if req.lock_manual:
+            self.dynamic_resolution_enabled = False
+        return {
+            "champions": self.champions,
+            "dynamic_resolution_enabled": self.dynamic_resolution_enabled,
+            "resolved_champions": {
+                "ev": self.resolve_champion("ev"),
+                "first_place": self.resolve_champion("first_place"),
+                "robustness": self.resolve_champion("robustness"),
+            },
         }
 
 
@@ -321,6 +352,11 @@ def strategies_champions():
 @app.post("/strategies/recompute_champions")
 def strategies_recompute(req: RecomputeChampionsReq):
     return session.recompute_champions(req)
+
+
+@app.post("/strategies/set_champions")
+def strategies_set_champions(req: SetChampionsReq):
+    return session.set_champions(req)
 
 
 @app.post("/advisor/recommend")

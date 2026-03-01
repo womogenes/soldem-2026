@@ -74,6 +74,15 @@ Use one command to apply profile variants:
 For custom host-announced changes:
 `uv run python scripts/day_of_patch.py --preset baseline --overrides-json '{"n_orbits":4,"ante_amt":30}'`
 
+For manual champion locks:
+`uv run python scripts/day_of_patch.py --preset baseline --set-ev conservative_plus --set-first-place equity_sniper_ultra --set-robustness conservative_plus`
+
+For quick empirical champion probe under a new variant:
+`uv run python scripts/quick_variant_hero_solver.py --rule-profile baseline_v1 --rule-overrides-json '{"n_orbits":4}' --n-tables 12 --n-games 8 --out research_logs/experiment_outputs/live_variant_probe.json`
+
+Current lookup reference:
+- `research_logs/006_variant_lookup_table.md`
+
 See `research_logs/003_day_of_fast_patch_guide.md` for full decision flow.
 
 ## PocketBase status

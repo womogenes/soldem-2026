@@ -59,6 +59,10 @@ def main() -> None:
         default="{}",
         help="Additional JSON overrides merged on top of preset",
     )
+    ap.add_argument("--set-ev", default="")
+    ap.add_argument("--set-first-place", default="")
+    ap.add_argument("--set-robustness", default="")
+    ap.add_argument("--keep-dynamic", action="store_true")
     args = ap.parse_args()
 
     preset = PRESETS[args.preset]
@@ -69,6 +73,15 @@ def main() -> None:
     }
 
     apply_out = post_json(f"{args.api}/rules/apply_profile", payload)
+    set_out = None
+    if args.set_ev or args.set_first_place or args.set_robustness:
+        set_payload = {
+            "ev": args.set_ev or None,
+            "first_place": args.set_first_place or None,
+            "robustness": args.set_robustness or None,
+            "lock_manual": (not args.keep_dynamic),
+        }
+        set_out = post_json(f"{args.api}/strategies/set_champions", set_payload)
     state = get_json(f"{args.api}/session/state")
     champs = state.get("resolved_champions", {})
 
@@ -76,6 +89,7 @@ def main() -> None:
         json.dumps(
             {
                 "applied": apply_out,
+                "set_champions": set_out,
                 "resolved_champions": champs,
                 "rule_profile": state.get("rule_profile", {}),
             },
