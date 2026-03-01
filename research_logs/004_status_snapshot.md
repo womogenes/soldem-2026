@@ -53,6 +53,10 @@ Latest evidence:
 - random-variant fuzz recheck + seeded confirmations:
   - sprint override should be constrained to `winner_takes_all` (split-pot sprint outliers did not consistently favor `pot_fraction`).
   - high ante pressure winner-takes-all (`140/50`, `n_orbits=4`) repeatedly favored `pot_fraction`.
+- resolver policy backtest over archived variant artifacts:
+  - old first-place routing match rate: `10/25` (`0.40`)
+  - updated routing match rate: `19/25` (`0.76`)
+  - summary: `research_logs/017_resolver_policy_backtest.md`
 - horizon sensitivity check (`5/10/20` games, none+respect correlation):
   - EV winner remained `equity_evolved_v1` in all tested horizons and regimes.
 - first-place horizon check (`5/10/20`, respect 0.35 with multi-seed):

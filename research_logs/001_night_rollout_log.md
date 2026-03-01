@@ -707,3 +707,16 @@ Local time: 2026-03-01 01:25:02 PST
   - sprint split-pot prior -> `equity_evolved_v1`
 - Validation:
   - `uv run python -m unittest tests.test_api_session tests.test_llm_advisor` -> `15/15` passing.
+
+## 2026-03-01 05:14:38 PST
+
+- Ran offline policy backtest comparing old vs updated first-place resolver logic on archived variant artifacts.
+- Sample criteria:
+  - experiment outputs with first-place winner present and strategy set containing `equity_evolved_v1`, `meta_switch`, `pot_fraction`.
+  - sample size: `25` artifacts.
+- Results:
+  - old routing match rate: `10/25` (`0.40`)
+  - updated routing match rate: `19/25` (`0.76`)
+  - no observed regressions in this sample.
+- Added summary doc:
+  - `research_logs/017_resolver_policy_backtest.md`
