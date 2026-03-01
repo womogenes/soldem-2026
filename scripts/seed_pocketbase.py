@@ -120,9 +120,8 @@ def main() -> None:
     existing_strategies = {r.get("tag"): r for r in read_all(client, "strategies")}
     tags = sorted(built_in_strategy_factories().keys())
     new_count = 0
+    updated_count = 0
     for tag in tags:
-        if tag in existing_strategies:
-            continue
         payload = {
             "tag": tag,
             "family": family_for(tag),
@@ -130,8 +129,23 @@ def main() -> None:
             "commit": args.commit,
             "weaknesses": [],
         }
-        client.create("strategies", payload)
-        new_count += 1
+        existing = existing_strategies.get(tag)
+        if not existing:
+            client.create("strategies", payload)
+            new_count += 1
+            continue
+
+        rid = existing.get("id")
+        if not rid:
+            continue
+        needs_update = (
+            existing.get("family") != payload["family"]
+            or existing.get("commit") != payload["commit"]
+            or existing.get("params_json") != payload["params_json"]
+        )
+        if needs_update:
+            client.update("strategies", rid, payload)
+            updated_count += 1
 
     hero_suite = ROOT / "research_logs" / "experiment_outputs" / "hero_suite"
     champs, champ_scores = parse_hero_suite(hero_suite)
@@ -194,6 +208,7 @@ def main() -> None:
                 "ok": True,
                 "base_url": args.base_url,
                 "strategies_seeded": new_count,
+                "strategies_updated": updated_count,
                 "champions": champs,
             },
             indent=2,

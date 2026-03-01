@@ -252,3 +252,11 @@ Local time: 2026-03-01 01:25:02 PST
 - Revalidated after promotion:
   - backend tests: 12/12 pass
   - frontend check/build: pass
+
+## 2026-03-01 03:07:51 PST
+
+- Improved `scripts/seed_pocketbase.py` to update existing strategy records (family/commit/params), not just create missing ones.
+- Synced PocketBase after evolved-strategy promotion:
+  - strategies_seeded: 0
+  - strategies_updated: 17
+  - champions: `ev=conservative_plus`, `first_place=equity_evolved_v1`, `robustness=conservative_plus`
