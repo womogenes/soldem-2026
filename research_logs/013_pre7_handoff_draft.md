@@ -77,3 +77,4 @@ Local time: 2026-03-01 06:34 PST
 - `dd0a087`: integrated full-stack preflight marked as latest readiness check.
 - `38e0060`: quick solver and sim runner now support non-5-player variants.
 - `99dc4db`: policy smoke expanded with ratio and non-5-player branch checks.
+- `747aa79`: winner-takes-all first-place banding update with rollout matrix + hero confirmations.
