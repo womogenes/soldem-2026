@@ -87,10 +87,10 @@ Latest evidence:
 `bash scripts/day_of_preflight.sh --api-url http://127.0.0.1:8000 --pb-url http://18.204.1.6:8090`
 Policy-routing smoke option:
 `bash scripts/day_of_preflight.sh --api-url http://127.0.0.1:8000 --with-policy-smoke`
-Latest integrated preflight (`tests + web + policy smoke`) completed at `2026-03-01 06:51 PST` using API `:8021`.
-Latest full-stack preflight including PocketBase + Bedrock completed at `2026-03-01 06:51 PST` using API `:8021`.
-Latest policy-smoke pass completed at `2026-03-01 06:51 PST` using API `:8021` with expanded WTA branch checks.
-Full backend discovery tests currently pass: `32/32`.
+Latest integrated preflight (`tests + web + policy smoke`) completed at `2026-03-01 06:56 PST` using API `:8023`.
+Latest full-stack preflight including PocketBase + Bedrock completed at `2026-03-01 06:56 PST` using API `:8023`.
+Latest policy-smoke pass completed at `2026-03-01 06:56 PST` using API `:8023` with expanded WTA branch checks.
+Full backend discovery tests currently pass: `34/34`.
 Bedrock smoke check is included in the full-stack preflight above.
 
 4. Open HUD and use quick controls.
@@ -102,6 +102,7 @@ Bedrock smoke check is included in the full-stack preflight above.
 - HUD now renders plain-English descriptions for strategy reason codes in recommendation and LLM hint panels.
 - HUD now shows a dedicated `First-place routing cues` block in the session panel to make baseline/sprint/WTA-band triggers visible without parsing raw JSON.
 - API exports these cues as `first_place_policy_cues` in `/session/state` for deterministic client or script checks.
+- HUD input and backend session profile tracking are both `n_players`-aware for non-5-player variant handling.
 - As events accumulate, use `Use auto table read preset` to apply mode-aware switching.
 - Auto table-read mode map:
   - EV/robustness: keep `equity_evolved_v1`.

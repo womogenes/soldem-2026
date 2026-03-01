@@ -303,6 +303,45 @@ class ApiSessionTests(unittest.TestCase):
             "Exact baseline rules: first-place default is meta_switch.",
         )
 
+    def test_profile_resize_to_six_players_updates_profiles_and_state(self):
+        s = Session()
+        s.apply_profile("baseline_v1", {"n_players": 6})
+        self.assertEqual(len(s.player_profiles), 6)
+
+        s.record_event(
+            SessionEventReq(
+                event_type="bid",
+                seat=5,
+                amount=40,
+            )
+        )
+        self.assertEqual(s.player_profiles[5].bid_count, 1)
+
+        state = s.state()
+        self.assertEqual(state["rule_profile"]["n_players"], 6)
+        self.assertEqual(len(state["player_profiles"]), 6)
+        self.assertIn(5, state["player_profiles"])
+
+    def test_infer_table_read_ignores_out_of_range_auction_events(self):
+        s = Session()
+        s.apply_profile("baseline_v1", {"n_players": 6})
+        s.record_event(
+            SessionEventReq(
+                event_type="auction_result",
+                seller_idx=9,
+                winner_idx=1,
+            )
+        )
+        s.record_event(
+            SessionEventReq(
+                event_type="auction_result",
+                seller_idx=2,
+                winner_idx=3,
+            )
+        )
+        read = s.infer_table_read()
+        self.assertEqual(read["n_auction_results"], 1)
+
 
 if __name__ == "__main__":
     unittest.main()

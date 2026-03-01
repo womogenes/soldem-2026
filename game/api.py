@@ -111,7 +111,8 @@ class Session:
     def __init__(self):
         self.rule_profile: RuleProfile = resolve_profile("baseline_v1")
         self.events: list[dict[str, Any]] = []
-        self.player_profiles = {i: PlayerProfile(seat=i) for i in range(5)}
+        self.player_profiles: dict[int, PlayerProfile] = {}
+        self._sync_player_profiles(reset=True)
         self.champions = {
             "ev": "equity_evolved_v1",
             "first_place": "meta_switch",
@@ -127,12 +128,27 @@ class Session:
             "evolved_attack": "equity_evolved_v1",
         }
 
+    def _sync_player_profiles(self, *, reset: bool = False) -> None:
+        n_players = max(2, int(self.rule_profile.n_players))
+        if reset:
+            self.player_profiles = {i: PlayerProfile(seat=i) for i in range(n_players)}
+            return
+
+        next_profiles: dict[int, PlayerProfile] = {}
+        for i in range(n_players):
+            prev = self.player_profiles.get(i)
+            next_profiles[i] = prev if prev is not None else PlayerProfile(seat=i)
+        self.player_profiles = next_profiles
+
     def reset(self):
         self.events = []
-        self.player_profiles = {i: PlayerProfile(seat=i) for i in range(5)}
+        self._sync_player_profiles(reset=True)
 
     def apply_profile(self, profile_name: str, overrides: dict[str, Any]):
+        prev_n = max(2, int(self.rule_profile.n_players))
         self.rule_profile = resolve_profile(profile_name, **overrides)
+        next_n = max(2, int(self.rule_profile.n_players))
+        self._sync_player_profiles(reset=(prev_n != next_n))
 
     def record_event(self, event: SessionEventReq):
         ts = event.ts if event.ts is not None else time.time()
@@ -148,14 +164,21 @@ class Session:
         self.events.append(row)
 
         if event.event_type == "bid" and event.seat is not None and event.amount is not None:
-            profile = self.player_profiles[event.seat]
+            seat = int(event.seat)
+            if seat < 0 or seat >= int(self.rule_profile.n_players):
+                return
+            if seat not in self.player_profiles:
+                self.player_profiles[seat] = PlayerProfile(seat=seat)
+            profile = self.player_profiles[seat]
             profile.bid_count += 1
             profile.avg_bid += (event.amount - profile.avg_bid) / profile.bid_count
-            profile.aggression += ((event.amount / 200.0) - profile.aggression) / profile.bid_count
+            stack_ref = max(1, int(self.rule_profile.start_chips))
+            profile.aggression += ((event.amount / stack_ref) - profile.aggression) / profile.bid_count
 
     def state(self) -> dict[str, Any]:
         table_read = self.infer_table_read()
         first_place_cues = self.first_place_policy_cues()
+        n_players = max(2, int(self.rule_profile.n_players))
         resolved: dict[str, str] = {}
         reasons: dict[str, str] = {}
         reason_texts: dict[str, str] = {}
@@ -167,6 +190,16 @@ class Session:
             resolved[objective] = tag
             reasons[objective] = reason
             reason_texts[objective] = resolver_reason_text(reason)
+        player_profiles_out: dict[int, dict[str, float | int]] = {}
+        for i in range(n_players):
+            p = self.player_profiles.get(i)
+            if p is None:
+                p = PlayerProfile(seat=i)
+            player_profiles_out[i] = {
+                "avg_bid": p.avg_bid,
+                "bid_count": p.bid_count,
+                "aggression": p.aggression,
+            }
         return {
             "rule_profile": self.rule_profile.to_dict(),
             "champions": self.champions,
@@ -181,14 +214,7 @@ class Session:
             "strategy_presets": self.strategy_presets,
             "events_count": len(self.events),
             "recent_events": self.events[-20:],
-            "player_profiles": {
-                i: {
-                    "avg_bid": p.avg_bid,
-                    "bid_count": p.bid_count,
-                    "aggression": p.aggression,
-                }
-                for i, p in self.player_profiles.items()
-            },
+            "player_profiles": player_profiles_out,
             "composite_profiles": composite_profiles(),
         }
 
@@ -206,6 +232,8 @@ class Session:
 
         pair_counts: dict[tuple[int, int], int] = {}
         seller_totals: dict[int, int] = {}
+        valid_auction_events = 0
+        n_players = max(2, int(self.rule_profile.n_players))
         for e in auction_events:
             seller = e.get("seller_idx")
             winner = e.get("winner_idx")
@@ -213,15 +241,22 @@ class Session:
                 continue
             seller = int(seller)
             winner = int(winner)
-            if seller < 0 or winner < 0 or seller == winner:
+            if (
+                seller < 0
+                or winner < 0
+                or seller >= n_players
+                or winner >= n_players
+                or seller == winner
+            ):
                 continue
+            valid_auction_events += 1
             pair_counts[(seller, winner)] = pair_counts.get((seller, winner), 0) + 1
             seller_totals[seller] = seller_totals.get(seller, 0) + 1
 
         pair_bias = 0.0
         dominant_pair: tuple[int, int] | None = None
-        for i in range(self.rule_profile.n_players):
-            for j in range(i + 1, self.rule_profile.n_players):
+        for i in range(n_players):
+            for j in range(i + 1, n_players):
                 mutual = pair_counts.get((i, j), 0) + pair_counts.get((j, i), 0)
                 total = seller_totals.get(i, 0) + seller_totals.get(j, 0)
                 if total <= 0:
@@ -233,7 +268,7 @@ class Session:
 
         mode = "balanced"
         confidence = 0.3
-        if len(auction_events) >= 6 and pair_bias >= 0.42:
+        if valid_auction_events >= 6 and pair_bias >= 0.42:
             mode = "correlated_pair"
             confidence = 0.8
         elif n_bids >= 10 and avg_aggr >= 0.32:
@@ -255,7 +290,7 @@ class Session:
             "avg_bid": avg_bid,
             "avg_aggression": avg_aggr,
             "zero_bid_fraction": zero_bid_frac,
-            "n_auction_results": len(auction_events),
+            "n_auction_results": valid_auction_events,
             "pair_bias": pair_bias,
             "dominant_pair": dominant_pair,
         }

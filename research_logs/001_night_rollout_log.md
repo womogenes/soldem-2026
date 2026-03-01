@@ -1124,3 +1124,30 @@ Local time: 2026-03-01 01:25:02 PST
 
 - Final doc sync pass before 7:00 am PT:
   - refreshed summary/handoff commit trails to include latest readiness commit `0054dc7`.
+
+## 2026-03-01 06:56:09 PST
+
+- Fixed backend `Session` player-profile sizing to follow active `rule_profile.n_players` instead of fixed 5-seat assumptions:
+  - `Session.__init__`, `reset`, and `apply_profile` now sync profile map to current player count.
+  - `record_event` now ignores out-of-range seats and safely handles dynamic seat creation.
+  - `infer_table_read` now ignores out-of-range auction events and reports valid auction-result count.
+  - `state` now exports profile rows for all seats in active profile.
+- Added regression coverage in `tests/test_api_session.py`:
+  - profile resize to 6-player table updates session/profile state.
+  - out-of-range auction events are ignored in table-read counts.
+- Expanded policy smoke (`scripts/policy_smoke.py`) with correlated-pair defensive branch check:
+  - validates `table_read.mode=correlated_pair` high confidence path routes first-place to `equity_evolved_v1` with reason `correlated_pair_defensive_first_place`.
+- Validation:
+  - backend tests: `34/34` pass
+  - `policy_smoke.py` pass with new correlated-pair check.
+
+## 2026-03-01 06:56:51 PST
+
+- Final full-stack preflight after backend n-player profile-sync patch and correlated-pair policy-smoke expansion:
+  - command: `bash scripts/day_of_preflight.sh --api-url http://127.0.0.1:8023 --pb-url http://18.204.1.6:8090 --with-tests --with-web --with-policy-smoke --with-bedrock --bedrock-region us-east-1`
+  - result: pass
+  - API/PocketBase health: pass
+  - backend tests: `34/34` pass
+  - web check: pass
+  - Bedrock smoke: pass
+  - policy smoke: pass, including correlated-pair defensive branch.

@@ -19,6 +19,7 @@ Policy smoke now validates:
 - WTA pot-pressure branch (`140/35/o4`)
 - WTA high-stack relief branch (`200/35/o4`)
 - non-5-player WTA branch (`n_players=6`, `200/40/o3`)
+- correlated-pair defensive branch (`correlated_pair` high-confidence -> `equity_evolved_v1`)
 
 1. Start API if not running.
 `uv run uvicorn game.api:app --host 0.0.0.0 --port 8000`
