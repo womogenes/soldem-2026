@@ -168,3 +168,30 @@ Local timestamp: 2026-03-01 01:45:00 PST
   - `research_logs/champion_lookup_from_finalists_long_tournament_win_raw.json`
   - `research_logs/champion_lookup_from_finalists_long_tournament_win_safe.json`
 - Updated champion docs/handoff to include tournament objective evidence and retained safe default map (`market_maker_v2` for `ev`, `first_place`, and `tournament_win`; `regime_switch_v2` for `robustness`).
+
+## 06:52 PST
+- Re-read `../v2/research_logs/000_god_prompt.md` again before final pre-7am push.
+- Started extended tournament-win experiments for horizon/profile sensitivity and parameter search, then reprioritized to ensure completed outputs before 7am.
+- Canceled slower background runs and shifted compute to fast-long tournament matrices.
+
+## 07:00 PST
+- Completed fast-long tournament horizon/correlation matrix:
+  - `research_logs/experiment_outputs/tournament_win_horizon_fastlong.json`
+  - setup: horizons `5,10,20`; correlation `none,respect,herd,kingmaker`; seeds `13011,13022`; `140` matches per seed/cell.
+  - winners: `market_maker_v2` in `9/12` cells, `market_maker_tight` in `3/12` cells.
+  - by-horizon mean tournament-win-rate:
+    - `h=5`: `market_maker_v2 0.320` vs `market_maker_tight 0.305`
+    - `h=10`: `market_maker_v2 0.378` vs `market_maker_tight 0.341`
+    - `h=20`: `market_maker_v2 0.379` vs `market_maker_tight 0.362`
+- Completed tournament-win rule-profile fast-long matrix:
+  - `research_logs/experiment_outputs/rule_profile_tournament_win_fastlong.json`
+  - setup: 6 profiles x 2 seeds, `160` matches per seed/cell.
+  - fast-long winners: `market_maker_v2` for 4 profiles, `market_maker_tight` for `standard_rankings` and `top2_split`.
+- Completed higher-confidence tie-break run on those two profiles:
+  - `research_logs/experiment_outputs/rule_profile_tournament_win_tiebreak.json`
+  - setup: profiles `standard_rankings,top2_split`; seeds `15001..15004`; `300` matches per seed/cell.
+  - tie-break winners: `market_maker_v2` on both profiles.
+- Generated tournament profile lookup artifacts from tie-break output:
+  - `research_logs/champion_lookup_from_rule_profile_tournament_win_tiebreak_raw.json`
+  - `research_logs/champion_lookup_from_rule_profile_tournament_win_tiebreak_safe.json`
+- Updated handoff/champion docs with 7am-cutoff tournament-horizon + profile tie-break evidence.

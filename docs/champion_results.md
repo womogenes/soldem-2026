@@ -1,6 +1,6 @@
 # Champion results summary
 
-Local timestamp: 2026-03-01 06:44:00 PST
+Local timestamp: 2026-03-01 07:00:00 PST
 
 ## Final validation outcome
 
@@ -67,6 +67,54 @@ Result:
 Direct EV disambiguation artifact:
 
 - `research_logs/experiment_outputs/mmv2_vs_tight_h2h.json`
+
+## Tournament-win horizon sensitivity
+
+From:
+
+- `research_logs/experiment_outputs/tournament_win_horizon_fastlong.json`
+
+Setup:
+
+- objective: `tournament_win`
+- horizons: `5,10,20`
+- correlation modes: `none,respect,herd,kingmaker`
+- seeds: `13011,13022`
+- matches: `140` per seed/cell
+
+Results:
+
+- Overall winners by cell (`12` total):
+- `market_maker_v2`: `9/12`
+- `market_maker_tight`: `3/12`
+- Average tournament-win-rate by horizon:
+- `h=5`: `market_maker_v2` `0.320`, `market_maker_tight` `0.305`
+- `h=10`: `market_maker_v2` `0.378`, `market_maker_tight` `0.341`
+- `h=20`: `market_maker_v2` `0.379`, `market_maker_tight` `0.362`
+
+Interpretation:
+
+- `market_maker_v2` remains best across short/medium/long match horizons in this matrix, but `market_maker_tight` stays a credible secondary pick.
+
+## Tournament-win rule-profile check
+
+From:
+
+- `research_logs/experiment_outputs/rule_profile_tournament_win_fastlong.json`
+- `research_logs/experiment_outputs/rule_profile_tournament_win_tiebreak.json`
+
+Setup:
+
+- fast-long pass: 6 profiles x 2 seeds x 160 matches per seed/cell
+- tie-break pass (profiles where fast-long favored tight): `standard_rankings,top2_split`
+- tie-break seeds: `15001,15002,15003,15004`
+- tie-break matches: `300` per seed/cell
+
+Results:
+
+- Fast-long suggested `market_maker_tight` on `standard_rankings` and `top2_split`.
+- Tie-break flipped both back to `market_maker_v2`.
+- Final tournament-win profile recommendation remains `market_maker_v2` for all built-in profiles.
 
 ## Rule-profile validation
 

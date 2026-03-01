@@ -1,6 +1,6 @@
 # 7am handoff summary
 
-Local timestamp: 2026-03-01 06:44:00 PST
+Local timestamp: 2026-03-01 07:00:00 PST
 
 ## Final champion policy
 
@@ -29,6 +29,8 @@ In the finalist long runs (`finalists_long_*.json`):
 - `rs_v2` (now `regime_switch_v2`) won robustness in all cells (`12/12`).
 - `pot_fraction` won first-place-rate cells but with large negative EV.
 - Tournament-win fast and long matrices selected `market_maker_v2` in all correlation cells (`4/4` in each run).
+- Tournament-win horizon matrix (`5,10,20`) selected `market_maker_v2` in `9/12` cells (remaining `3/12` were `market_maker_tight`).
+- Tournament-win profile fast pass briefly favored `market_maker_tight` for `standard_rankings` and `top2_split`, but higher-confidence tie-break runs flipped both back to `market_maker_v2`.
 
 ## Key artifacts
 
@@ -38,6 +40,9 @@ In the finalist long runs (`finalists_long_*.json`):
   - `research_logs/experiment_outputs/finalists_long_robustness.json`
   - `research_logs/experiment_outputs/finalists_tournament_win_fast.json`
   - `research_logs/experiment_outputs/finalists_long_tournament_win.json`
+  - `research_logs/experiment_outputs/tournament_win_horizon_fastlong.json`
+  - `research_logs/experiment_outputs/rule_profile_tournament_win_fastlong.json`
+  - `research_logs/experiment_outputs/rule_profile_tournament_win_tiebreak.json`
 - Rule-profile validation:
   - `research_logs/experiment_outputs/rule_profile_validation_long.json`
 - Direct EV tie-break:
