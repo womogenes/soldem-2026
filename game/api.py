@@ -17,6 +17,39 @@ Phase = Literal["sell", "bid", "choose", "showdown"]
 OutputMode = Literal["action_first", "top3", "metrics", "all"]
 Objective = Literal["ev", "first_place", "robustness"]
 
+PROFILE_OBJECTIVE_DEFAULTS: dict[str, dict[str, str]] = {
+    "baseline_v1": {
+        "ev": "market_maker",
+        "first_place": "market_maker",
+        "robustness": "conservative_ultra",
+    },
+    "standard_rankings": {
+        "ev": "market_maker",
+        "first_place": "conservative",
+        "robustness": "conservative_ultra",
+    },
+    "seller_self_bid": {
+        "ev": "market_maker",
+        "first_place": "market_maker",
+        "robustness": "market_maker",
+    },
+    "top2_split": {
+        "ev": "market_maker",
+        "first_place": "market_maker",
+        "robustness": "market_maker",
+    },
+    "high_low_split": {
+        "ev": "market_maker",
+        "first_place": "market_maker",
+        "robustness": "market_maker",
+    },
+    "single_card_sell": {
+        "ev": "market_maker",
+        "first_place": "market_maker",
+        "robustness": "conservative_ultra",
+    },
+}
+
 
 class RecommendationReq(BaseModel):
     seat: int = 0
@@ -61,11 +94,12 @@ class Session:
         self.rule_profile: RuleProfile = resolve_profile("baseline_v1")
         self.events: list[dict[str, Any]] = []
         self.player_profiles = {i: PlayerProfile(seat=i) for i in range(5)}
-        self.champions = {
-            "ev": "adaptive_profile",
-            "first_place": "bully",
-            "robustness": "conservative",
-        }
+        self.champions = dict(
+            PROFILE_OBJECTIVE_DEFAULTS.get(
+                self.rule_profile.name,
+                PROFILE_OBJECTIVE_DEFAULTS["baseline_v1"],
+            )
+        )
         self.last_leaderboards: dict[str, list[dict[str, Any]]] = {}
 
     def reset(self):
@@ -74,6 +108,9 @@ class Session:
 
     def apply_profile(self, profile_name: str, overrides: dict[str, Any]):
         self.rule_profile = resolve_profile(profile_name, **overrides)
+        defaults = PROFILE_OBJECTIVE_DEFAULTS.get(self.rule_profile.name)
+        if defaults:
+            self.champions = dict(defaults)
 
     def record_event(self, event: SessionEventReq):
         ts = event.ts if event.ts is not None else time.time()
@@ -109,6 +146,7 @@ class Session:
                 for i, p in self.player_profiles.items()
             },
             "composite_profiles": composite_profiles(),
+            "profile_objective_defaults": PROFILE_OBJECTIVE_DEFAULTS,
         }
 
     def recompute_champions(self, req: RecomputeChampionsReq) -> dict[str, Any]:

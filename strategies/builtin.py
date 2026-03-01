@@ -2,9 +2,12 @@ from __future__ import annotations
 
 import random
 from dataclasses import dataclass
+from itertools import product
 
 from game.utils import classify_hand
 from strategies.base import Card, StrategyContext
+
+BASE_DECK = list(product(range(1, 11), "CDHSX"))
 
 
 def _hand_score(cards: list[Card], policy: str) -> int:
@@ -31,6 +34,88 @@ def _best_delta(my_cards: list[Card], auction_cards: list[Card], policy: str) ->
 def _weakest_indices(cards: list[Card], count: int = 1) -> list[int]:
     ranked = sorted(enumerate(cards), key=lambda kv: (kv[1][0], kv[1][1]))
     return [idx for idx, _ in ranked[:count]]
+
+
+def _hold_loss(cards: list[Card], idx: int, policy: str) -> int:
+    if idx < 0 or idx >= len(cards):
+        return 0
+    if len(cards) <= 1:
+        return 0
+    before = _hand_score(cards, policy)
+    after_cards = [c for i, c in enumerate(cards) if i != idx]
+    after = _hand_score(after_cards, policy)
+    return max(0, before - after)
+
+
+def _least_costly_sales(
+    cards: list[Card],
+    policy: str,
+    count: int = 1,
+    prefer_high_value: bool = False,
+) -> list[int]:
+    rows = []
+    for idx, card in enumerate(cards):
+        loss = _hold_loss(cards, idx, policy)
+        value = card[0]
+        tie_value = -value if prefer_high_value else value
+        rows.append((loss, tie_value, card[1], idx))
+    rows.sort()
+    return [idx for *_rest, idx in rows[: max(1, min(count, len(cards)))]]
+
+
+def _avg_opp_aggression(ctx: StrategyContext) -> float:
+    total = 0.0
+    n = 0
+    for seat, profile in ctx.player_profiles.items():
+        if seat == ctx.seat:
+            continue
+        total += profile.aggression
+        n += 1
+    return (total / n) if n else 0.0
+
+
+def _ctx_seed(ctx: StrategyContext, extra: int = 0) -> int:
+    sig = 0
+    for v, s in sorted(ctx.my_cards + ctx.auction_cards):
+        sig = (sig * 1315423911 + (v * 31) + ord(s)) & 0xFFFFFFFF
+    return (
+        (ctx.seat + 1) * 1000003
+        + (ctx.round_num + 1) * 9176
+        + (ctx.pot + 1) * 131
+        + sig
+        + extra
+    ) & 0xFFFFFFFF
+
+
+def _equity_vs_random(
+    my_cards: list[Card],
+    policy: str,
+    n_players: int,
+    samples: int,
+    seed: int,
+) -> float:
+    if samples <= 0:
+        return 0.0
+    rng = random.Random(seed)
+    deck = [c for c in BASE_DECK if c not in my_cards]
+    if len(deck) < (n_players - 1) * 5:
+        return 0.0
+
+    my_key = classify_hand(my_cards, policy=policy)
+    wins = 0.0
+    need = (n_players - 1) * 5
+    for _ in range(samples):
+        draw = rng.sample(deck, need)
+        opp_keys = [
+            classify_hand(draw[(i * 5) : ((i + 1) * 5)], policy=policy)
+            for i in range(n_players - 1)
+        ]
+        all_keys = [my_key, *opp_keys]
+        best = max(all_keys)
+        if my_key == best:
+            ties = sum(1 for key in all_keys if key == best)
+            wins += 1.0 / ties
+    return wins / samples
 
 
 @dataclass
@@ -215,15 +300,200 @@ class AdaptiveProfileStrategy:
         return idx
 
 
+@dataclass
+class ElasticConservativeStrategy:
+    max_pot_frac: float = 0.14
+    delta_scale: float = 9000.0
+    sell_count_early: int = 2
+    house_discount: float = 0.55
+    tag: str = "elastic_conservative"
+
+    def on_round_start(self, ctx: StrategyContext) -> None:
+        return None
+
+    def choose_sell_indices(self, ctx: StrategyContext) -> list[int]:
+        count = self.sell_count_early if ctx.round_num < max(1, ctx.n_orbits - 1) else 1
+        return _least_costly_sales(
+            ctx.my_cards,
+            ctx.ranking_policy,
+            count=count,
+            prefer_high_value=True,
+        )
+
+    def bid_amount(self, ctx: StrategyContext) -> int:
+        my_stack = ctx.stacks[ctx.seat]
+        if my_stack <= 0:
+            return 0
+
+        _, delta = _best_delta(ctx.my_cards, ctx.auction_cards, ctx.ranking_policy)
+        if delta <= 0:
+            return 0
+
+        fair = (delta / self.delta_scale) * ctx.pot
+        cap_frac = self.max_pot_frac
+
+        avg_aggr = _avg_opp_aggression(ctx)
+        if avg_aggr > 0.40:
+            cap_frac *= 0.82
+        elif avg_aggr < 0.18:
+            cap_frac *= 1.08
+
+        if ctx.objective == "first_place":
+            cap_frac *= 1.10
+        elif ctx.objective == "robustness":
+            cap_frac *= 0.86
+
+        if ctx.seller_idx == -1:
+            cap_frac *= self.house_discount
+
+        if ctx.round_num >= max(1, ctx.n_orbits - 1):
+            cap_frac *= 1.18
+
+        target = min(ctx.pot * cap_frac, fair)
+        return max(0, min(my_stack, int(target)))
+
+    def choose_won_card(self, ctx: StrategyContext) -> int:
+        idx, _ = _best_delta(ctx.my_cards, ctx.auction_cards, ctx.ranking_policy)
+        return idx
+
+
+@dataclass
+class MarketMakerStrategy:
+    reserve_frac: float = 0.11
+    tag: str = "market_maker"
+
+    def on_round_start(self, ctx: StrategyContext) -> None:
+        return None
+
+    def choose_sell_indices(self, ctx: StrategyContext) -> list[int]:
+        count = 2 if ctx.round_num < max(1, ctx.n_orbits - 1) else 1
+        return _least_costly_sales(
+            ctx.my_cards,
+            ctx.ranking_policy,
+            count=count,
+            prefer_high_value=True,
+        )
+
+    def bid_amount(self, ctx: StrategyContext) -> int:
+        my_stack = ctx.stacks[ctx.seat]
+        if my_stack <= 0:
+            return 0
+        _, delta = _best_delta(ctx.my_cards, ctx.auction_cards, ctx.ranking_policy)
+        if delta <= 0:
+            return 0
+
+        avg_aggr = _avg_opp_aggression(ctx)
+        pressure = max(0.7, min(1.25, 1.0 - (avg_aggr - 0.2)))
+        fair = (delta / 12000.0) * ctx.pot
+        cap = ctx.pot * self.reserve_frac * pressure
+        if ctx.seller_idx == -1:
+            cap *= 0.55
+        target = min(cap, fair)
+        return max(0, min(my_stack, int(target)))
+
+    def choose_won_card(self, ctx: StrategyContext) -> int:
+        idx, _ = _best_delta(ctx.my_cards, ctx.auction_cards, ctx.ranking_policy)
+        return idx
+
+
+@dataclass
+class MonteCarloEdgeStrategy:
+    mc_samples: int = 18
+    max_pot_frac: float = 0.22
+    tag: str = "mc_edge"
+
+    def on_round_start(self, ctx: StrategyContext) -> None:
+        return None
+
+    def choose_sell_indices(self, ctx: StrategyContext) -> list[int]:
+        count = 2 if ctx.round_num < max(1, ctx.n_orbits - 1) else 1
+        return _least_costly_sales(ctx.my_cards, ctx.ranking_policy, count=count)
+
+    def bid_amount(self, ctx: StrategyContext) -> int:
+        my_stack = ctx.stacks[ctx.seat]
+        if my_stack <= 0 or not ctx.auction_cards:
+            return 0
+
+        best_idx, score_delta = _best_delta(
+            ctx.my_cards,
+            ctx.auction_cards,
+            ctx.ranking_policy,
+        )
+        if score_delta <= 0:
+            return 0
+
+        base_seed = _ctx_seed(ctx, extra=17)
+        n_players = len(ctx.stacks)
+        p_base = _equity_vs_random(
+            ctx.my_cards,
+            policy=ctx.ranking_policy,
+            n_players=n_players,
+            samples=self.mc_samples,
+            seed=base_seed,
+        )
+        with_card = ctx.my_cards + [ctx.auction_cards[best_idx]]
+        p_with = _equity_vs_random(
+            with_card,
+            policy=ctx.ranking_policy,
+            n_players=n_players,
+            samples=self.mc_samples,
+            seed=base_seed + 91,
+        )
+        delta_p = max(0.0, p_with - p_base)
+
+        fair = (delta_p * ctx.pot) + ((score_delta / 12000.0) * ctx.pot * 0.35)
+        if fair <= 0:
+            return 0
+
+        cap_frac = self.max_pot_frac
+        if ctx.objective == "first_place":
+            cap_frac *= 1.15
+        elif ctx.objective == "robustness":
+            cap_frac *= 0.82
+        if ctx.seller_idx == -1:
+            cap_frac *= 0.60
+
+        avg_aggr = _avg_opp_aggression(ctx)
+        if avg_aggr > 0.45:
+            cap_frac *= 0.82
+
+        if delta_p < 0.015 and score_delta < 1100:
+            return 0
+
+        target = min(ctx.pot * cap_frac, fair)
+        return max(0, min(my_stack, int(target)))
+
+    def choose_won_card(self, ctx: StrategyContext) -> int:
+        idx, _ = _best_delta(ctx.my_cards, ctx.auction_cards, ctx.ranking_policy)
+        return idx
+
+
 def built_in_strategy_factories() -> dict[str, callable]:
     return {
         "random": lambda: RandomStrategy(),
         "pot_fraction": lambda: PotFractionStrategy(0.25),
         "delta_value": lambda: DeltaValueStrategy(multiplier=1.0),
         "conservative": lambda: ConservativeStrategy(),
+        "conservative_plus": lambda: ElasticConservativeStrategy(
+            max_pot_frac=0.16,
+            delta_scale=8200.0,
+            sell_count_early=2,
+            house_discount=0.58,
+            tag="conservative_plus",
+        ),
+        "conservative_ultra": lambda: ElasticConservativeStrategy(
+            max_pot_frac=0.12,
+            delta_scale=9800.0,
+            sell_count_early=2,
+            house_discount=0.50,
+            tag="conservative_ultra",
+        ),
+        "elastic_conservative": lambda: ElasticConservativeStrategy(),
         "bully": lambda: BullyStrategy(),
         "seller_profit": lambda: SellerProfitStrategy(),
         "adaptive_profile": lambda: AdaptiveProfileStrategy(),
+        "market_maker": lambda: MarketMakerStrategy(),
+        "mc_edge": lambda: MonteCarloEdgeStrategy(),
     }
 
 

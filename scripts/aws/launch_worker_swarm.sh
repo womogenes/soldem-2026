@@ -13,6 +13,7 @@ KEY_NAME=""
 REPO_URL=""
 BRANCH="main"
 POCKETBASE_URL=""
+POCKETBASE_ADMIN_TOKEN=""
 WORKER_ROLE="sim"
 
 while [[ $# -gt 0 ]]; do
@@ -25,13 +26,14 @@ while [[ $# -gt 0 ]]; do
     --repo) REPO_URL="$2"; shift 2;;
     --branch) BRANCH="$2"; shift 2;;
     --pocketbase-url) POCKETBASE_URL="$2"; shift 2;;
+    --admin-token) POCKETBASE_ADMIN_TOKEN="$2"; shift 2;;
     --worker-role) WORKER_ROLE="$2"; shift 2;;
     *) echo "Unknown arg: $1"; exit 1;;
   esac
 done
 
-if [[ -z "$KEY_NAME" || -z "$REPO_URL" || -z "$POCKETBASE_URL" ]]; then
-  echo "Missing required args. Need --key-name --repo --pocketbase-url"
+if [[ -z "$KEY_NAME" || -z "$REPO_URL" || -z "$POCKETBASE_URL" || -z "$POCKETBASE_ADMIN_TOKEN" ]]; then
+  echo "Missing required args. Need --key-name --repo --pocketbase-url --admin-token"
   exit 1
 fi
 
@@ -56,7 +58,7 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 source /root/.local/bin/env
 git clone --branch "$BRANCH" "$REPO_URL" soldem
 cd soldem
-python3 scripts/worker_heartbeat.py --base-url "$POCKETBASE_URL" --worker-id "$WORKER_ID" --role "$WORKER_ROLE" --status "booted" || true
+python3 scripts/worker_heartbeat.py --base-url "$POCKETBASE_URL" --admin-token "$POCKETBASE_ADMIN_TOKEN" --worker-id "$WORKER_ID" --role "$WORKER_ROLE" --status "booted" || true
 EOF
 
   INSTANCE_ID=$(aws ec2 run-instances \
