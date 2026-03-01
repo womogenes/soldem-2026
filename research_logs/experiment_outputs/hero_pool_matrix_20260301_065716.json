@@ -1,0 +1,2190 @@
+{
+  "created_at": "2026-03-01T06:57:16.402794",
+  "config": {
+    "n_matches": 500,
+    "replicates": 4,
+    "seed": 16500,
+    "workers": 16,
+    "rule_profile": "standard_rankings",
+    "out_dir": "research_logs/experiment_outputs",
+    "objectives": [
+      "first_place"
+    ],
+    "horizons": [
+      10
+    ],
+    "corr_modes": [
+      "none",
+      "respect",
+      "herd",
+      "kingmaker"
+    ],
+    "candidates": [
+      "conservative",
+      "meta_switch_soft",
+      "level_k",
+      "level_k_l3",
+      "meta_switch"
+    ],
+    "pool": [
+      "conservative:2.0",
+      "adaptive_profile:1.7",
+      "level_k:1.6",
+      "level_k_l3:1.3",
+      "meta_switch_soft:1.2",
+      "bully:1.0",
+      "pot_fraction:0.9",
+      "seller_profit:0.8",
+      "quantal_response:0.7",
+      "random:0.3"
+    ]
+  },
+  "pool": [
+    [
+      "conservative",
+      2.0
+    ],
+    [
+      "adaptive_profile",
+      1.7
+    ],
+    [
+      "level_k",
+      1.6
+    ],
+    [
+      "level_k_l3",
+      1.3
+    ],
+    [
+      "meta_switch_soft",
+      1.2
+    ],
+    [
+      "bully",
+      1.0
+    ],
+    [
+      "pot_fraction",
+      0.9
+    ],
+    [
+      "seller_profit",
+      0.8
+    ],
+    [
+      "quantal_response",
+      0.7
+    ],
+    [
+      "random",
+      0.3
+    ]
+  ],
+  "winner_counts": {
+    "conservative": 4
+  },
+  "winner_lcb_counts": {
+    "conservative": 4
+  },
+  "scenario_summaries": [
+    {
+      "rule_profile": "standard_rankings",
+      "objective": "first_place",
+      "horizon": 10,
+      "corr_mode": "herd",
+      "metric_key": "first_place_rate",
+      "winner": "conservative",
+      "winner_spec": "conservative",
+      "winner_mean": 0.33315,
+      "winner_ci95_low": 0.32833626434045243,
+      "winner_ci95_high": 0.33796373565954757,
+      "winner_lcb": "conservative",
+      "winner_lcb_spec": "conservative",
+      "winner_lcb_value": 0.32833626434045243,
+      "runner_up": "meta_switch_soft",
+      "margin": 0.058199999999999974,
+      "top3": [
+        {
+          "hero_spec": "conservative",
+          "hero_tag": "conservative",
+          "mean_metric": 0.33315,
+          "std_metric": 0.004911975162803661,
+          "sem_metric": 0.0024559875814018305,
+          "ci95_low": 0.32833626434045243,
+          "ci95_high": 0.33796373565954757,
+          "n": 4
+        },
+        {
+          "hero_spec": "meta_switch_soft",
+          "hero_tag": "meta_switch_soft",
+          "mean_metric": 0.27495,
+          "std_metric": 0.011098986440211558,
+          "sem_metric": 0.005549493220105779,
+          "ci95_low": 0.2640729932885927,
+          "ci95_high": 0.28582700671140737,
+          "n": 4
+        },
+        {
+          "hero_spec": "level_k",
+          "hero_tag": "level_k",
+          "mean_metric": 0.24765,
+          "std_metric": 0.018694049855502156,
+          "sem_metric": 0.009347024927751078,
+          "ci95_low": 0.2293298311416079,
+          "ci95_high": 0.26597016885839214,
+          "n": 4
+        }
+      ]
+    },
+    {
+      "rule_profile": "standard_rankings",
+      "objective": "first_place",
+      "horizon": 10,
+      "corr_mode": "kingmaker",
+      "metric_key": "first_place_rate",
+      "winner": "conservative",
+      "winner_spec": "conservative",
+      "winner_mean": 0.3024,
+      "winner_ci95_low": 0.2927371801217243,
+      "winner_ci95_high": 0.3120628198782757,
+      "winner_lcb": "conservative",
+      "winner_lcb_spec": "conservative",
+      "winner_lcb_value": 0.2927371801217243,
+      "runner_up": "meta_switch_soft",
+      "margin": 0.023050000000000015,
+      "top3": [
+        {
+          "hero_spec": "conservative",
+          "hero_tag": "conservative",
+          "mean_metric": 0.3024,
+          "std_metric": 0.009860020283954796,
+          "sem_metric": 0.004930010141977398,
+          "ci95_low": 0.2927371801217243,
+          "ci95_high": 0.3120628198782757,
+          "n": 4
+        },
+        {
+          "hero_spec": "meta_switch_soft",
+          "hero_tag": "meta_switch_soft",
+          "mean_metric": 0.27935,
+          "std_metric": 0.005433921236087248,
+          "sem_metric": 0.002716960618043624,
+          "ci95_low": 0.2740247571886345,
+          "ci95_high": 0.28467524281136547,
+          "n": 4
+        },
+        {
+          "hero_spec": "level_k_l3",
+          "hero_tag": "level_k_l3",
+          "mean_metric": 0.2753,
+          "std_metric": 0.01649878783426224,
+          "sem_metric": 0.00824939391713112,
+          "ci95_low": 0.259131187922423,
+          "ci95_high": 0.29146881207757697,
+          "n": 4
+        }
+      ]
+    },
+    {
+      "rule_profile": "standard_rankings",
+      "objective": "first_place",
+      "horizon": 10,
+      "corr_mode": "none",
+      "metric_key": "first_place_rate",
+      "winner": "conservative",
+      "winner_spec": "conservative",
+      "winner_mean": 0.3401,
+      "winner_ci95_low": 0.32039712498136375,
+      "winner_ci95_high": 0.3598028750186363,
+      "winner_lcb": "conservative",
+      "winner_lcb_spec": "conservative",
+      "winner_lcb_value": 0.32039712498136375,
+      "runner_up": "meta_switch_soft",
+      "margin": 0.03875000000000001,
+      "top3": [
+        {
+          "hero_spec": "conservative",
+          "hero_tag": "conservative",
+          "mean_metric": 0.3401,
+          "std_metric": 0.02010497450881249,
+          "sem_metric": 0.010052487254406245,
+          "ci95_low": 0.32039712498136375,
+          "ci95_high": 0.3598028750186363,
+          "n": 4
+        },
+        {
+          "hero_spec": "meta_switch_soft",
+          "hero_tag": "meta_switch_soft",
+          "mean_metric": 0.30135,
+          "std_metric": 0.008680293773830457,
+          "sem_metric": 0.004340146886915228,
+          "ci95_low": 0.29284331210164616,
+          "ci95_high": 0.30985668789835386,
+          "n": 4
+        },
+        {
+          "hero_spec": "level_k_l3",
+          "hero_tag": "level_k_l3",
+          "mean_metric": 0.2988,
+          "std_metric": 0.015443445211480503,
+          "sem_metric": 0.007721722605740252,
+          "ci95_low": 0.2836654236927491,
+          "ci95_high": 0.3139345763072509,
+          "n": 4
+        }
+      ]
+    },
+    {
+      "rule_profile": "standard_rankings",
+      "objective": "first_place",
+      "horizon": 10,
+      "corr_mode": "respect",
+      "metric_key": "first_place_rate",
+      "winner": "conservative",
+      "winner_spec": "conservative",
+      "winner_mean": 0.32839999999999997,
+      "winner_ci95_low": 0.32159199706228025,
+      "winner_ci95_high": 0.3352080029377197,
+      "winner_lcb": "conservative",
+      "winner_lcb_spec": "conservative",
+      "winner_lcb_value": 0.32159199706228025,
+      "runner_up": "meta_switch_soft",
+      "margin": 0.046499999999999986,
+      "top3": [
+        {
+          "hero_spec": "conservative",
+          "hero_tag": "conservative",
+          "mean_metric": 0.32839999999999997,
+          "std_metric": 0.006946941773183361,
+          "sem_metric": 0.0034734708865916805,
+          "ci95_low": 0.32159199706228025,
+          "ci95_high": 0.3352080029377197,
+          "n": 4
+        },
+        {
+          "hero_spec": "meta_switch_soft",
+          "hero_tag": "meta_switch_soft",
+          "mean_metric": 0.2819,
+          "std_metric": 0.0027147743920996436,
+          "sem_metric": 0.0013573871960498218,
+          "ci95_low": 0.27923952109574235,
+          "ci95_high": 0.2845604789042576,
+          "n": 4
+        },
+        {
+          "hero_spec": "level_k",
+          "hero_tag": "level_k",
+          "mean_metric": 0.27805,
+          "std_metric": 0.023938410557094225,
+          "sem_metric": 0.011969205278547113,
+          "ci95_low": 0.2545903576540477,
+          "ci95_high": 0.30150964234595234,
+          "n": 4
+        }
+      ]
+    }
+  ],
+  "rows": [
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "none",
+        "corr_strength": 0.0,
+        "pairs": [],
+        "replicate": 1,
+        "seed": 16502,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "conservative",
+      "hero_tag": "conservative",
+      "expected_pnl": 82.8044,
+      "first_place_rate": 0.3302,
+      "robustness": 5.862400000000008,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "none",
+        "corr_strength": 0.0,
+        "pairs": [],
+        "replicate": 3,
+        "seed": 16504,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "conservative",
+      "hero_tag": "conservative",
+      "expected_pnl": 93.4172,
+      "first_place_rate": 0.3572,
+      "robustness": 16.993199999999987,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "none",
+        "corr_strength": 0.0,
+        "pairs": [],
+        "replicate": 2,
+        "seed": 16503,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "level_k",
+      "hero_tag": "level_k",
+      "expected_pnl": 65.5116,
+      "first_place_rate": 0.2846,
+      "robustness": -15.4084,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "none",
+        "corr_strength": 0.0,
+        "pairs": [],
+        "replicate": 2,
+        "seed": 16503,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "conservative",
+      "hero_tag": "conservative",
+      "expected_pnl": 76.952,
+      "first_place_rate": 0.312,
+      "robustness": -9.144999999999996,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "none",
+        "corr_strength": 0.0,
+        "pairs": [],
+        "replicate": 0,
+        "seed": 16501,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "conservative",
+      "hero_tag": "conservative",
+      "expected_pnl": 94.529,
+      "first_place_rate": 0.361,
+      "robustness": 17.902,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "none",
+        "corr_strength": 0.0,
+        "pairs": [],
+        "replicate": 2,
+        "seed": 16503,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "level_k_l3",
+      "hero_tag": "level_k_l3",
+      "expected_pnl": 74.6248,
+      "first_place_rate": 0.309,
+      "robustness": -0.18320000000001357,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "none",
+        "corr_strength": 0.0,
+        "pairs": [],
+        "replicate": 0,
+        "seed": 16501,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "level_k",
+      "hero_tag": "level_k",
+      "expected_pnl": 70.6022,
+      "first_place_rate": 0.2778,
+      "robustness": -7.745800000000003,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "none",
+        "corr_strength": 0.0,
+        "pairs": [],
+        "replicate": 1,
+        "seed": 16502,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "level_k_l3",
+      "hero_tag": "level_k_l3",
+      "expected_pnl": 75.0306,
+      "first_place_rate": 0.2932,
+      "robustness": 1.5926000000000045,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "none",
+        "corr_strength": 0.0,
+        "pairs": [],
+        "replicate": 1,
+        "seed": 16502,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "level_k",
+      "hero_tag": "level_k",
+      "expected_pnl": 70.749,
+      "first_place_rate": 0.2668,
+      "robustness": -1.9770000000000039,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "none",
+        "corr_strength": 0.0,
+        "pairs": [],
+        "replicate": 0,
+        "seed": 16501,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "level_k_l3",
+      "hero_tag": "level_k_l3",
+      "expected_pnl": 76.3564,
+      "first_place_rate": 0.3166,
+      "robustness": -0.41960000000000264,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "none",
+        "corr_strength": 0.0,
+        "pairs": [],
+        "replicate": 2,
+        "seed": 16503,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "meta_switch_soft",
+      "hero_tag": "meta_switch_soft",
+      "expected_pnl": 71.6846,
+      "first_place_rate": 0.3106,
+      "robustness": -26.258399999999995,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "none",
+        "corr_strength": 0.0,
+        "pairs": [],
+        "replicate": 0,
+        "seed": 16501,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "meta_switch_soft",
+      "hero_tag": "meta_switch_soft",
+      "expected_pnl": 70.1054,
+      "first_place_rate": 0.2948,
+      "robustness": -31.88159999999999,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "none",
+        "corr_strength": 0.0,
+        "pairs": [],
+        "replicate": 1,
+        "seed": 16502,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "meta_switch_soft",
+      "hero_tag": "meta_switch_soft",
+      "expected_pnl": 63.3696,
+      "first_place_rate": 0.2908,
+      "robustness": -34.6984,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "none",
+        "corr_strength": 0.0,
+        "pairs": [],
+        "replicate": 1,
+        "seed": 16502,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "meta_switch",
+      "hero_tag": "meta_switch",
+      "expected_pnl": 59.2264,
+      "first_place_rate": 0.2968,
+      "robustness": -52.7706,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "none",
+        "corr_strength": 0.0,
+        "pairs": [],
+        "replicate": 2,
+        "seed": 16503,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "meta_switch",
+      "hero_tag": "meta_switch",
+      "expected_pnl": 50.5394,
+      "first_place_rate": 0.253,
+      "robustness": -65.5946,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "none",
+        "corr_strength": 0.0,
+        "pairs": [],
+        "replicate": 0,
+        "seed": 16501,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "meta_switch",
+      "hero_tag": "meta_switch",
+      "expected_pnl": 56.9932,
+      "first_place_rate": 0.2934,
+      "robustness": -64.0868,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "none",
+        "corr_strength": 0.0,
+        "pairs": [],
+        "replicate": 3,
+        "seed": 16504,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "level_k",
+      "hero_tag": "level_k",
+      "expected_pnl": 70.0524,
+      "first_place_rate": 0.2786,
+      "robustness": -11.334599999999995,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "none",
+        "corr_strength": 0.0,
+        "pairs": [],
+        "replicate": 3,
+        "seed": 16504,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "meta_switch_soft",
+      "hero_tag": "meta_switch_soft",
+      "expected_pnl": 76.4414,
+      "first_place_rate": 0.3092,
+      "robustness": -19.50659999999999,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "respect",
+        "corr_strength": 0.35,
+        "pairs": [
+          [
+            1,
+            2
+          ]
+        ],
+        "replicate": 0,
+        "seed": 16505,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "conservative",
+      "hero_tag": "conservative",
+      "expected_pnl": 79.6512,
+      "first_place_rate": 0.3242,
+      "robustness": -3.196799999999996,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "respect",
+        "corr_strength": 0.35,
+        "pairs": [
+          [
+            1,
+            2
+          ]
+        ],
+        "replicate": 1,
+        "seed": 16506,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "conservative",
+      "hero_tag": "conservative",
+      "expected_pnl": 77.9086,
+      "first_place_rate": 0.3238,
+      "robustness": -3.790399999999991,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "none",
+        "corr_strength": 0.0,
+        "pairs": [],
+        "replicate": 3,
+        "seed": 16504,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "level_k_l3",
+      "hero_tag": "level_k_l3",
+      "expected_pnl": 70.656,
+      "first_place_rate": 0.2764,
+      "robustness": -4.994,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "respect",
+        "corr_strength": 0.35,
+        "pairs": [
+          [
+            1,
+            2
+          ]
+        ],
+        "replicate": 0,
+        "seed": 16505,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "level_k",
+      "hero_tag": "level_k",
+      "expected_pnl": 63.3974,
+      "first_place_rate": 0.2588,
+      "robustness": -13.130600000000008,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "respect",
+        "corr_strength": 0.35,
+        "pairs": [
+          [
+            1,
+            2
+          ]
+        ],
+        "replicate": 1,
+        "seed": 16506,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "level_k",
+      "hero_tag": "level_k",
+      "expected_pnl": 64.8076,
+      "first_place_rate": 0.2592,
+      "robustness": -16.0634,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "respect",
+        "corr_strength": 0.35,
+        "pairs": [
+          [
+            1,
+            2
+          ]
+        ],
+        "replicate": 1,
+        "seed": 16506,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "level_k_l3",
+      "hero_tag": "level_k_l3",
+      "expected_pnl": 58.1388,
+      "first_place_rate": 0.2664,
+      "robustness": -25.628199999999993,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "respect",
+        "corr_strength": 0.35,
+        "pairs": [
+          [
+            1,
+            2
+          ]
+        ],
+        "replicate": 1,
+        "seed": 16506,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "meta_switch_soft",
+      "hero_tag": "meta_switch_soft",
+      "expected_pnl": 54.5268,
+      "first_place_rate": 0.2802,
+      "robustness": -60.71619999999999,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "respect",
+        "corr_strength": 0.35,
+        "pairs": [
+          [
+            1,
+            2
+          ]
+        ],
+        "replicate": 0,
+        "seed": 16505,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "level_k_l3",
+      "hero_tag": "level_k_l3",
+      "expected_pnl": 64.9962,
+      "first_place_rate": 0.2812,
+      "robustness": -17.775800000000004,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "respect",
+        "corr_strength": 0.35,
+        "pairs": [
+          [
+            1,
+            2
+          ]
+        ],
+        "replicate": 0,
+        "seed": 16505,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "meta_switch_soft",
+      "hero_tag": "meta_switch_soft",
+      "expected_pnl": 60.5284,
+      "first_place_rate": 0.2864,
+      "robustness": -44.1976,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "none",
+        "corr_strength": 0.0,
+        "pairs": [],
+        "replicate": 3,
+        "seed": 16504,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "meta_switch",
+      "hero_tag": "meta_switch",
+      "expected_pnl": 57.6664,
+      "first_place_rate": 0.2652,
+      "robustness": -55.90659999999999,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "respect",
+        "corr_strength": 0.35,
+        "pairs": [
+          [
+            1,
+            2
+          ]
+        ],
+        "replicate": 2,
+        "seed": 16507,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "conservative",
+      "hero_tag": "conservative",
+      "expected_pnl": 86.5982,
+      "first_place_rate": 0.3404,
+      "robustness": 10.20620000000001,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "respect",
+        "corr_strength": 0.35,
+        "pairs": [
+          [
+            1,
+            2
+          ]
+        ],
+        "replicate": 0,
+        "seed": 16505,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "meta_switch",
+      "hero_tag": "meta_switch",
+      "expected_pnl": 52.2134,
+      "first_place_rate": 0.2768,
+      "robustness": -70.51759999999999,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "respect",
+        "corr_strength": 0.35,
+        "pairs": [
+          [
+            1,
+            2
+          ]
+        ],
+        "replicate": 1,
+        "seed": 16506,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "meta_switch",
+      "hero_tag": "meta_switch",
+      "expected_pnl": 57.815,
+      "first_place_rate": 0.274,
+      "robustness": -42.67100000000001,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "respect",
+        "corr_strength": 0.35,
+        "pairs": [
+          [
+            1,
+            2
+          ]
+        ],
+        "replicate": 2,
+        "seed": 16507,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "meta_switch_soft",
+      "hero_tag": "meta_switch_soft",
+      "expected_pnl": 59.2336,
+      "first_place_rate": 0.2816,
+      "robustness": -46.0584,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "respect",
+        "corr_strength": 0.35,
+        "pairs": [
+          [
+            1,
+            2
+          ]
+        ],
+        "replicate": 2,
+        "seed": 16507,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "level_k",
+      "hero_tag": "level_k",
+      "expected_pnl": 77.695,
+      "first_place_rate": 0.3176,
+      "robustness": 8.47699999999999,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "respect",
+        "corr_strength": 0.35,
+        "pairs": [
+          [
+            1,
+            2
+          ]
+        ],
+        "replicate": 2,
+        "seed": 16507,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "level_k_l3",
+      "hero_tag": "level_k_l3",
+      "expected_pnl": 62.3654,
+      "first_place_rate": 0.257,
+      "robustness": -19.840600000000002,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "respect",
+        "corr_strength": 0.35,
+        "pairs": [
+          [
+            1,
+            2
+          ]
+        ],
+        "replicate": 3,
+        "seed": 16508,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "conservative",
+      "hero_tag": "conservative",
+      "expected_pnl": 78.4614,
+      "first_place_rate": 0.3252,
+      "robustness": -14.2016,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "respect",
+        "corr_strength": 0.35,
+        "pairs": [
+          [
+            1,
+            2
+          ]
+        ],
+        "replicate": 3,
+        "seed": 16508,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "level_k",
+      "hero_tag": "level_k",
+      "expected_pnl": 69.3998,
+      "first_place_rate": 0.2766,
+      "robustness": -2.3212000000000046,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "respect",
+        "corr_strength": 0.35,
+        "pairs": [
+          [
+            1,
+            2
+          ]
+        ],
+        "replicate": 3,
+        "seed": 16508,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "meta_switch_soft",
+      "hero_tag": "meta_switch_soft",
+      "expected_pnl": 61.1592,
+      "first_place_rate": 0.2794,
+      "robustness": -47.0458,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "herd",
+        "corr_strength": 0.3,
+        "pairs": [
+          [
+            3,
+            4
+          ]
+        ],
+        "replicate": 0,
+        "seed": 16509,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "conservative",
+      "hero_tag": "conservative",
+      "expected_pnl": 81.052,
+      "first_place_rate": 0.3396,
+      "robustness": 6.838000000000008,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "respect",
+        "corr_strength": 0.35,
+        "pairs": [
+          [
+            1,
+            2
+          ]
+        ],
+        "replicate": 3,
+        "seed": 16508,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "level_k_l3",
+      "hero_tag": "level_k_l3",
+      "expected_pnl": 64.4866,
+      "first_place_rate": 0.2628,
+      "robustness": -17.30340000000001,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "herd",
+        "corr_strength": 0.3,
+        "pairs": [
+          [
+            3,
+            4
+          ]
+        ],
+        "replicate": 0,
+        "seed": 16509,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "level_k",
+      "hero_tag": "level_k",
+      "expected_pnl": 57.5392,
+      "first_place_rate": 0.239,
+      "robustness": -9.620799999999996,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "herd",
+        "corr_strength": 0.3,
+        "pairs": [
+          [
+            3,
+            4
+          ]
+        ],
+        "replicate": 1,
+        "seed": 16510,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "conservative",
+      "hero_tag": "conservative",
+      "expected_pnl": 74.3252,
+      "first_place_rate": 0.3304,
+      "robustness": 0.12319999999999709,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "respect",
+        "corr_strength": 0.35,
+        "pairs": [
+          [
+            1,
+            2
+          ]
+        ],
+        "replicate": 2,
+        "seed": 16507,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "meta_switch",
+      "hero_tag": "meta_switch",
+      "expected_pnl": 50.027,
+      "first_place_rate": 0.2496,
+      "robustness": -71.858,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "herd",
+        "corr_strength": 0.3,
+        "pairs": [
+          [
+            3,
+            4
+          ]
+        ],
+        "replicate": 0,
+        "seed": 16509,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "level_k_l3",
+      "hero_tag": "level_k_l3",
+      "expected_pnl": 58.4488,
+      "first_place_rate": 0.2456,
+      "robustness": -11.364200000000004,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "respect",
+        "corr_strength": 0.35,
+        "pairs": [
+          [
+            1,
+            2
+          ]
+        ],
+        "replicate": 3,
+        "seed": 16508,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "meta_switch",
+      "hero_tag": "meta_switch",
+      "expected_pnl": 62.9258,
+      "first_place_rate": 0.2962,
+      "robustness": -47.490199999999994,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "herd",
+        "corr_strength": 0.3,
+        "pairs": [
+          [
+            3,
+            4
+          ]
+        ],
+        "replicate": 0,
+        "seed": 16509,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "meta_switch_soft",
+      "hero_tag": "meta_switch_soft",
+      "expected_pnl": 55.0344,
+      "first_place_rate": 0.2748,
+      "robustness": -41.2036,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "herd",
+        "corr_strength": 0.3,
+        "pairs": [
+          [
+            3,
+            4
+          ]
+        ],
+        "replicate": 1,
+        "seed": 16510,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "meta_switch_soft",
+      "hero_tag": "meta_switch_soft",
+      "expected_pnl": 63.6938,
+      "first_place_rate": 0.277,
+      "robustness": -18.727200000000003,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "herd",
+        "corr_strength": 0.3,
+        "pairs": [
+          [
+            3,
+            4
+          ]
+        ],
+        "replicate": 1,
+        "seed": 16510,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "level_k",
+      "hero_tag": "level_k",
+      "expected_pnl": 59.9768,
+      "first_place_rate": 0.2586,
+      "robustness": -6.469200000000001,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "herd",
+        "corr_strength": 0.3,
+        "pairs": [
+          [
+            3,
+            4
+          ]
+        ],
+        "replicate": 0,
+        "seed": 16509,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "meta_switch",
+      "hero_tag": "meta_switch",
+      "expected_pnl": 43.7042,
+      "first_place_rate": 0.2186,
+      "robustness": -53.023799999999994,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "herd",
+        "corr_strength": 0.3,
+        "pairs": [
+          [
+            3,
+            4
+          ]
+        ],
+        "replicate": 1,
+        "seed": 16510,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "level_k_l3",
+      "hero_tag": "level_k_l3",
+      "expected_pnl": 52.048,
+      "first_place_rate": 0.2234,
+      "robustness": -17.756,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "herd",
+        "corr_strength": 0.3,
+        "pairs": [
+          [
+            3,
+            4
+          ]
+        ],
+        "replicate": 2,
+        "seed": 16511,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "conservative",
+      "hero_tag": "conservative",
+      "expected_pnl": 76.0586,
+      "first_place_rate": 0.3268,
+      "robustness": 1.8536000000000001,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "herd",
+        "corr_strength": 0.3,
+        "pairs": [
+          [
+            3,
+            4
+          ]
+        ],
+        "replicate": 2,
+        "seed": 16511,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "level_k",
+      "hero_tag": "level_k",
+      "expected_pnl": 59.941,
+      "first_place_rate": 0.271,
+      "robustness": -4.625,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "herd",
+        "corr_strength": 0.3,
+        "pairs": [
+          [
+            3,
+            4
+          ]
+        ],
+        "replicate": 2,
+        "seed": 16511,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "meta_switch_soft",
+      "hero_tag": "meta_switch_soft",
+      "expected_pnl": 63.5944,
+      "first_place_rate": 0.2896,
+      "robustness": -31.6706,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "herd",
+        "corr_strength": 0.3,
+        "pairs": [
+          [
+            3,
+            4
+          ]
+        ],
+        "replicate": 1,
+        "seed": 16510,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "meta_switch",
+      "hero_tag": "meta_switch",
+      "expected_pnl": 44.2586,
+      "first_place_rate": 0.2446,
+      "robustness": -60.7034,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "herd",
+        "corr_strength": 0.3,
+        "pairs": [
+          [
+            3,
+            4
+          ]
+        ],
+        "replicate": 3,
+        "seed": 16512,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "conservative",
+      "hero_tag": "conservative",
+      "expected_pnl": 84.0186,
+      "first_place_rate": 0.3358,
+      "robustness": 14.36160000000001,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "herd",
+        "corr_strength": 0.3,
+        "pairs": [
+          [
+            3,
+            4
+          ]
+        ],
+        "replicate": 2,
+        "seed": 16511,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "level_k_l3",
+      "hero_tag": "level_k_l3",
+      "expected_pnl": 48.1438,
+      "first_place_rate": 0.219,
+      "robustness": -27.9572,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "herd",
+        "corr_strength": 0.3,
+        "pairs": [
+          [
+            3,
+            4
+          ]
+        ],
+        "replicate": 3,
+        "seed": 16512,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "level_k_l3",
+      "hero_tag": "level_k_l3",
+      "expected_pnl": 53.7702,
+      "first_place_rate": 0.2496,
+      "robustness": -22.915800000000004,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "kingmaker",
+        "corr_strength": 0.35,
+        "pairs": [
+          [
+            0,
+            1
+          ],
+          [
+            2,
+            3
+          ]
+        ],
+        "replicate": 0,
+        "seed": 16513,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "conservative",
+      "hero_tag": "conservative",
+      "expected_pnl": 77.3346,
+      "first_place_rate": 0.3176,
+      "robustness": 1.45859999999999,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "herd",
+        "corr_strength": 0.3,
+        "pairs": [
+          [
+            3,
+            4
+          ]
+        ],
+        "replicate": 3,
+        "seed": 16512,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "level_k",
+      "hero_tag": "level_k",
+      "expected_pnl": 51.1256,
+      "first_place_rate": 0.222,
+      "robustness": -22.80740000000001,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "herd",
+        "corr_strength": 0.3,
+        "pairs": [
+          [
+            3,
+            4
+          ]
+        ],
+        "replicate": 3,
+        "seed": 16512,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "meta_switch_soft",
+      "hero_tag": "meta_switch_soft",
+      "expected_pnl": 56.747,
+      "first_place_rate": 0.2584,
+      "robustness": -30.742000000000004,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "herd",
+        "corr_strength": 0.3,
+        "pairs": [
+          [
+            3,
+            4
+          ]
+        ],
+        "replicate": 2,
+        "seed": 16511,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "meta_switch",
+      "hero_tag": "meta_switch",
+      "expected_pnl": 41.3994,
+      "first_place_rate": 0.214,
+      "robustness": -61.950599999999994,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "kingmaker",
+        "corr_strength": 0.35,
+        "pairs": [
+          [
+            0,
+            1
+          ],
+          [
+            2,
+            3
+          ]
+        ],
+        "replicate": 0,
+        "seed": 16513,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "meta_switch_soft",
+      "hero_tag": "meta_switch_soft",
+      "expected_pnl": 57.892,
+      "first_place_rate": 0.2818,
+      "robustness": -33.51499999999999,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "herd",
+        "corr_strength": 0.3,
+        "pairs": [
+          [
+            3,
+            4
+          ]
+        ],
+        "replicate": 3,
+        "seed": 16512,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "meta_switch",
+      "hero_tag": "meta_switch",
+      "expected_pnl": 44.8436,
+      "first_place_rate": 0.2354,
+      "robustness": -55.2374,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "kingmaker",
+        "corr_strength": 0.35,
+        "pairs": [
+          [
+            0,
+            1
+          ],
+          [
+            2,
+            3
+          ]
+        ],
+        "replicate": 0,
+        "seed": 16513,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "level_k",
+      "hero_tag": "level_k",
+      "expected_pnl": 61.694,
+      "first_place_rate": 0.2692,
+      "robustness": -13.453999999999994,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "kingmaker",
+        "corr_strength": 0.35,
+        "pairs": [
+          [
+            0,
+            1
+          ],
+          [
+            2,
+            3
+          ]
+        ],
+        "replicate": 0,
+        "seed": 16513,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "level_k_l3",
+      "hero_tag": "level_k_l3",
+      "expected_pnl": 68.6582,
+      "first_place_rate": 0.299,
+      "robustness": -6.2668000000000035,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "kingmaker",
+        "corr_strength": 0.35,
+        "pairs": [
+          [
+            0,
+            1
+          ],
+          [
+            2,
+            3
+          ]
+        ],
+        "replicate": 1,
+        "seed": 16514,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "conservative",
+      "hero_tag": "conservative",
+      "expected_pnl": 72.7634,
+      "first_place_rate": 0.3046,
+      "robustness": -2.363599999999991,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "kingmaker",
+        "corr_strength": 0.35,
+        "pairs": [
+          [
+            0,
+            1
+          ],
+          [
+            2,
+            3
+          ]
+        ],
+        "replicate": 1,
+        "seed": 16514,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "level_k",
+      "hero_tag": "level_k",
+      "expected_pnl": 62.4054,
+      "first_place_rate": 0.2574,
+      "robustness": -7.107600000000005,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "kingmaker",
+        "corr_strength": 0.35,
+        "pairs": [
+          [
+            0,
+            1
+          ],
+          [
+            2,
+            3
+          ]
+        ],
+        "replicate": 0,
+        "seed": 16513,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "meta_switch",
+      "hero_tag": "meta_switch",
+      "expected_pnl": 43.7948,
+      "first_place_rate": 0.258,
+      "robustness": -76.4462,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "kingmaker",
+        "corr_strength": 0.35,
+        "pairs": [
+          [
+            0,
+            1
+          ],
+          [
+            2,
+            3
+          ]
+        ],
+        "replicate": 1,
+        "seed": 16514,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "level_k_l3",
+      "hero_tag": "level_k_l3",
+      "expected_pnl": 61.1332,
+      "first_place_rate": 0.2738,
+      "robustness": -13.387799999999999,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "kingmaker",
+        "corr_strength": 0.35,
+        "pairs": [
+          [
+            0,
+            1
+          ],
+          [
+            2,
+            3
+          ]
+        ],
+        "replicate": 1,
+        "seed": 16514,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "meta_switch_soft",
+      "hero_tag": "meta_switch_soft",
+      "expected_pnl": 54.3738,
+      "first_place_rate": 0.277,
+      "robustness": -46.179199999999994,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "kingmaker",
+        "corr_strength": 0.35,
+        "pairs": [
+          [
+            0,
+            1
+          ],
+          [
+            2,
+            3
+          ]
+        ],
+        "replicate": 2,
+        "seed": 16515,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "conservative",
+      "hero_tag": "conservative",
+      "expected_pnl": 69.198,
+      "first_place_rate": 0.2928,
+      "robustness": -11.732000000000014,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "kingmaker",
+        "corr_strength": 0.35,
+        "pairs": [
+          [
+            0,
+            1
+          ],
+          [
+            2,
+            3
+          ]
+        ],
+        "replicate": 2,
+        "seed": 16515,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "level_k",
+      "hero_tag": "level_k",
+      "expected_pnl": 64.0012,
+      "first_place_rate": 0.2746,
+      "robustness": -12.874800000000008,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "kingmaker",
+        "corr_strength": 0.35,
+        "pairs": [
+          [
+            0,
+            1
+          ],
+          [
+            2,
+            3
+          ]
+        ],
+        "replicate": 2,
+        "seed": 16515,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "meta_switch_soft",
+      "hero_tag": "meta_switch_soft",
+      "expected_pnl": 60.036,
+      "first_place_rate": 0.2866,
+      "robustness": -44.70399999999999,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "kingmaker",
+        "corr_strength": 0.35,
+        "pairs": [
+          [
+            0,
+            1
+          ],
+          [
+            2,
+            3
+          ]
+        ],
+        "replicate": 3,
+        "seed": 16516,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "conservative",
+      "hero_tag": "conservative",
+      "expected_pnl": 72.1484,
+      "first_place_rate": 0.2946,
+      "robustness": -9.314599999999999,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "kingmaker",
+        "corr_strength": 0.35,
+        "pairs": [
+          [
+            0,
+            1
+          ],
+          [
+            2,
+            3
+          ]
+        ],
+        "replicate": 2,
+        "seed": 16515,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "level_k_l3",
+      "hero_tag": "level_k_l3",
+      "expected_pnl": 56.7782,
+      "first_place_rate": 0.2524,
+      "robustness": -23.1858,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "kingmaker",
+        "corr_strength": 0.35,
+        "pairs": [
+          [
+            0,
+            1
+          ],
+          [
+            2,
+            3
+          ]
+        ],
+        "replicate": 3,
+        "seed": 16516,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "level_k",
+      "hero_tag": "level_k",
+      "expected_pnl": 69.8076,
+      "first_place_rate": 0.285,
+      "robustness": -2.808400000000006,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "kingmaker",
+        "corr_strength": 0.35,
+        "pairs": [
+          [
+            0,
+            1
+          ],
+          [
+            2,
+            3
+          ]
+        ],
+        "replicate": 1,
+        "seed": 16514,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "meta_switch",
+      "hero_tag": "meta_switch",
+      "expected_pnl": 53.2048,
+      "first_place_rate": 0.2688,
+      "robustness": -48.861200000000004,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "kingmaker",
+        "corr_strength": 0.35,
+        "pairs": [
+          [
+            0,
+            1
+          ],
+          [
+            2,
+            3
+          ]
+        ],
+        "replicate": 3,
+        "seed": 16516,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "meta_switch_soft",
+      "hero_tag": "meta_switch_soft",
+      "expected_pnl": 58.3682,
+      "first_place_rate": 0.272,
+      "robustness": -46.787800000000004,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "kingmaker",
+        "corr_strength": 0.35,
+        "pairs": [
+          [
+            0,
+            1
+          ],
+          [
+            2,
+            3
+          ]
+        ],
+        "replicate": 3,
+        "seed": 16516,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "level_k_l3",
+      "hero_tag": "level_k_l3",
+      "expected_pnl": 64.4216,
+      "first_place_rate": 0.276,
+      "robustness": -6.940399999999997,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "kingmaker",
+        "corr_strength": 0.35,
+        "pairs": [
+          [
+            0,
+            1
+          ],
+          [
+            2,
+            3
+          ]
+        ],
+        "replicate": 2,
+        "seed": 16515,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "meta_switch",
+      "hero_tag": "meta_switch",
+      "expected_pnl": 51.0136,
+      "first_place_rate": 0.2584,
+      "robustness": -58.2924,
+      "samples": 5000
+    },
+    {
+      "scenario": {
+        "objective": "first_place",
+        "horizon": 10,
+        "corr_mode": "kingmaker",
+        "corr_strength": 0.35,
+        "pairs": [
+          [
+            0,
+            1
+          ],
+          [
+            2,
+            3
+          ]
+        ],
+        "replicate": 3,
+        "seed": 16516,
+        "n_matches": 500,
+        "rule_profile": "standard_rankings"
+      },
+      "hero_spec": "meta_switch",
+      "hero_tag": "meta_switch",
+      "expected_pnl": 44.4704,
+      "first_place_rate": 0.2476,
+      "robustness": -73.8216,
+      "samples": 5000
+    }
+  ]
+}

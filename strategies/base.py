@@ -12,6 +12,10 @@ class PlayerProfile:
     avg_bid: float = 0.0
     bid_count: int = 0
     aggression: float = 0.0
+    win_count: int = 0
+    avg_win_bid: float = 0.0
+    sell_count: int = 0
+    avg_sell_price: float = 0.0
 
 
 @dataclass
@@ -27,6 +31,8 @@ class StrategyContext:
     ranking_policy: str
     objective: str = "ev"
     player_profiles: dict[int, PlayerProfile] = field(default_factory=dict)
+    match_game_index: int = 0
+    match_n_games: int = 1
 
 
 class Strategy(Protocol):

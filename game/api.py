@@ -1,13 +1,17 @@
 from __future__ import annotations
 
+import json
+import os
 import time
 from typing import Any, Literal
+from pathlib import Path
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
 from game.advisor import recommend_action
+from game.correlation import infer_correlation_mode
 from game.rules import RuleProfile, resolve_profile
 from sim.metrics import composite_profiles
 from sim.runner import run_population_tournament
@@ -33,6 +37,9 @@ class RecommendationReq(BaseModel):
     output_mode: OutputMode = "action_first"
     strategy_tag: str | None = None
     ranking_policy: str | None = None
+    policy_condition_key: str | None = None
+    match_horizon: int = 10
+    auto_policy_condition: bool = True
 
 
 class SessionEventReq(BaseModel):
@@ -56,6 +63,10 @@ class RecomputeChampionsReq(BaseModel):
     seed: int = 0
 
 
+class LoadPolicyReq(BaseModel):
+    path: str
+
+
 class Session:
     def __init__(self):
         self.rule_profile: RuleProfile = resolve_profile("baseline_v1")
@@ -66,7 +77,9 @@ class Session:
             "first_place": "bully",
             "robustness": "conservative",
         }
+        self.policy_map: dict[str, Any] = {}
         self.last_leaderboards: dict[str, list[dict[str, Any]]] = {}
+        self._auto_load_policy()
 
     def reset(self):
         self.events = []
@@ -95,6 +108,7 @@ class Session:
             profile.aggression += ((event.amount / 200.0) - profile.aggression) / profile.bid_count
 
     def state(self) -> dict[str, Any]:
+        corr = infer_correlation_mode(self.events, n_players=self.rule_profile.n_players)
         return {
             "rule_profile": self.rule_profile.to_dict(),
             "champions": self.champions,
@@ -105,10 +119,16 @@ class Session:
                     "avg_bid": p.avg_bid,
                     "bid_count": p.bid_count,
                     "aggression": p.aggression,
+                    "win_count": p.win_count,
+                    "avg_win_bid": p.avg_win_bid,
+                    "sell_count": p.sell_count,
+                    "avg_sell_price": p.avg_sell_price,
                 }
                 for i, p in self.player_profiles.items()
             },
             "composite_profiles": composite_profiles(),
+            "policy_map": self.policy_map,
+            "correlation_inference": corr,
         }
 
     def recompute_champions(self, req: RecomputeChampionsReq) -> dict[str, Any]:
@@ -141,6 +161,46 @@ class Session:
             "champions": self.champions,
             "leaderboards": leaderboards,
         }
+
+    def set_policy_map(self, policy: dict[str, Any]) -> None:
+        self.policy_map = policy
+        default = policy.get("default", {})
+        for objective in ["ev", "first_place", "robustness"]:
+            if objective in default:
+                self.champions[objective] = default[objective]
+
+    def _auto_load_policy(self) -> None:
+        env_path = os.environ.get("SOLDEM_POLICY_PATH")
+        candidates = [p for p in [env_path] if p]
+        candidates.extend(
+            [
+                "research_logs/experiment_outputs/dayof_policy_hybrid_v11_lcb.json",
+                "research_logs/experiment_outputs/dayof_policy_hybrid_v10_lcb.json",
+                "research_logs/experiment_outputs/dayof_policy_hybrid_v9_lcb.json",
+                "research_logs/experiment_outputs/dayof_policy_hybrid_v8_lcb.json",
+                "research_logs/experiment_outputs/dayof_policy_global_v7_lcb.json",
+                "research_logs/experiment_outputs/dayof_policy_global_v6_lcb.json",
+                "research_logs/experiment_outputs/dayof_policy_global_v5_lcb.json",
+                "research_logs/experiment_outputs/dayof_policy_combined_baseline_v4_lcb.json",
+                "research_logs/experiment_outputs/dayof_policy_combined_baseline_v4_mean.json",
+                "research_logs/experiment_outputs/dayof_policy_combined_baseline_v3_lcb.json",
+                "research_logs/experiment_outputs/dayof_policy_combined_baseline_v3_mean.json",
+                "research_logs/experiment_outputs/dayof_policy_combined_baseline_v2_lcb.json",
+                "research_logs/experiment_outputs/dayof_policy_combined_baseline_v2_mean.json",
+                "research_logs/experiment_outputs/dayof_policy_combined_baseline_v1.json",
+                "research_logs/experiment_outputs/dayof_policy_evolved_h10.json",
+            ]
+        )
+        for raw in candidates:
+            p = Path(raw)
+            if not p.exists():
+                continue
+            try:
+                payload = json.loads(p.read_text(encoding="utf-8"))
+            except Exception:
+                continue
+            self.set_policy_map(payload)
+            break
 
 
 session = Session()
@@ -187,6 +247,7 @@ def strategies_champions():
         "champions": session.champions,
         "composite_profiles": composite_profiles(),
         "leaderboards": session.last_leaderboards,
+        "policy_map": session.policy_map,
     }
 
 
@@ -195,10 +256,35 @@ def strategies_recompute(req: RecomputeChampionsReq):
     return session.recompute_champions(req)
 
 
+@app.post("/strategies/load_policy")
+def strategies_load_policy(req: LoadPolicyReq):
+    with open(req.path, "r", encoding="utf-8") as f:
+        policy = json.load(f)
+    session.set_policy_map(policy)
+    return {
+        "ok": True,
+        "champions": session.champions,
+        "policy_map_keys": list(policy.keys()),
+    }
+
+
 @app.post("/advisor/recommend")
 def advisor_recommend(req: RecommendationReq):
     ranking_policy = req.ranking_policy or session.rule_profile.hand_ranking_policy
-    strategy_tag = req.strategy_tag or session.champions.get(req.objective, "adaptive_profile")
+    strategy_tag = req.strategy_tag
+    inferred_corr = infer_correlation_mode(session.events, n_players=session.rule_profile.n_players)
+    selected_condition_key = req.policy_condition_key
+    if not strategy_tag and not selected_condition_key and req.auto_policy_condition:
+        selected_condition_key = (
+            f"{session.rule_profile.name}|{req.objective}|h{req.match_horizon}|{inferred_corr['mode']}"
+        )
+
+    if not strategy_tag and selected_condition_key:
+        cond = session.policy_map.get("by_condition", {}).get(selected_condition_key)
+        if cond:
+            strategy_tag = cond.get("winner_spec") or cond.get("winner")
+    if not strategy_tag:
+        strategy_tag = session.champions.get(req.objective, "adaptive_profile")
 
     if req.output_mode == "all":
         out = {}
@@ -224,6 +310,8 @@ def advisor_recommend(req: RecommendationReq):
         return {
             "strategy_tag": strategy_tag,
             "rule_profile": session.rule_profile.to_dict(),
+            "selected_condition_key": selected_condition_key,
+            "inferred_correlation": inferred_corr,
             "modes": out,
         }
 
@@ -246,4 +334,6 @@ def advisor_recommend(req: RecommendationReq):
     )
     out = rec.to_dict()
     out["rule_profile"] = session.rule_profile.to_dict()
+    out["selected_condition_key"] = selected_condition_key
+    out["inferred_correlation"] = inferred_corr
     return out

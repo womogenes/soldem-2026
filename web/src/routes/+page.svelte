@@ -14,6 +14,9 @@
 	let objective: Objective = 'ev';
 	let outputMode: OutputMode = 'all';
 	let strategyTag = '';
+	let policyConditionKey = '';
+	let matchHorizon = 10;
+	let autoPolicyCondition = true;
 	let seat = 0;
 	let sellerIdx = -1;
 	let pot = 200;
@@ -80,7 +83,10 @@
 				known_cards: parseCards(knownCardsText),
 				objective,
 				output_mode: outputMode,
-				strategy_tag: strategyTag || null
+				strategy_tag: strategyTag || null,
+				policy_condition_key: policyConditionKey || null,
+				match_horizon: matchHorizon,
+				auto_policy_condition: autoPolicyCondition
 			};
 			const res = await fetch(`${API}/advisor/recommend`, {
 				method: 'POST',
@@ -195,6 +201,16 @@
 					<label class="text-sm">Strategy tag (optional)
 						<input class="mt-1 h-9 w-full border bg-background px-2" placeholder="adaptive_profile" bind:value={strategyTag} />
 					</label>
+					<label class="text-sm">Policy condition key (optional)
+						<input class="mt-1 h-9 w-full border bg-background px-2" placeholder="baseline_v1|ev|h10|none" bind:value={policyConditionKey} />
+					</label>
+					<label class="text-sm">Match horizon
+						<input class="mt-1 h-9 w-full border bg-background px-2" type="number" min="1" bind:value={matchHorizon} />
+					</label>
+					<label class="mt-7 flex items-center gap-2 text-sm">
+						<input type="checkbox" bind:checked={autoPolicyCondition} />
+						Auto policy condition
+					</label>
 				</div>
 
 				<div class="mt-3 grid gap-2 sm:grid-cols-3">
@@ -259,6 +275,17 @@
 							{/each}
 						</div>
 						<div class="mt-2 text-xs text-muted-foreground">{recommendation.rationale}</div>
+					{/if}
+					{#if recommendation.selected_condition_key}
+						<div class="mt-2 text-xs text-muted-foreground">
+							Condition key: {recommendation.selected_condition_key}
+						</div>
+					{/if}
+					{#if recommendation.inferred_correlation}
+						<div class="mt-1 text-xs text-muted-foreground">
+							Inferred correlation: {recommendation.inferred_correlation.mode} (strength
+							{recommendation.inferred_correlation.strength?.toFixed?.(2) ?? recommendation.inferred_correlation.strength})
+						</div>
 					{/if}
 				{:else}
 					<div class="text-sm text-muted-foreground">No recommendation yet.</div>

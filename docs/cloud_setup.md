@@ -29,6 +29,17 @@ scripts/aws/launch_worker_swarm.sh \
 scripts/aws/bedrock_smoke_test.sh us-east-1
 ```
 
+## Push experiment outputs into PocketBase
+
+```bash
+python scripts/push_results_to_pocketbase.py \
+  research_logs/experiment_outputs/long_parallel_matrix_20260301_012847.json \
+  --base-url http://<public-ip>:8090 \
+  --admin-token <admin-token> \
+  --rule-profile baseline_v1 \
+  --objective ev
+```
+
 ## Cost controls
 
 - Use small `COUNT` and short experiment windows first.

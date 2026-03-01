@@ -1,0 +1,93 @@
+created_at_pst: "2026-03-01 01:29:00"
+source_of_truth:
+  - research/research_backed_strategy_playbook.md
+  - research/literature_auction_imperfect_info.md
+
+hypotheses:
+  - id: H_CH_01
+    family: cognitive_hierarchy
+    sources:
+      - https://econpapers.repec.org/RePEc:ecm:emetrp:v:75:y:2007:i:6:p:1721-1770
+      - https://academic.oup.com/qje/article-abstract/119/3/861/1938841
+    implemented_tags:
+      - level_k
+      - level_k_l1
+      - level_k_l3
+    expectation: beats static heuristics in mixed human tables
+    current_status: partially_supported
+    notes: level_k variants are strongest research-derived challengers but still below conservative baseline
+
+  - id: H_QRE_01
+    family: quantal_response
+    sources:
+      - https://www.sciencedirect.com/science/article/pii/S0899825685800272
+    implemented_tags:
+      - quantal_response
+      - quantal_cold
+      - quantal_hot
+    expectation: improves robustness to noisy human bidding
+    current_status: not_supported_yet
+    notes: underperforming with current temperature calibration
+
+  - id: H_EWA_01
+    family: learning_dynamics
+    sources:
+      - https://authors.library.caltech.edu/records/4fh4n-4c340
+      - https://econpapers.repec.org/RePEc:aea:aecrev:v:88:y:1998:i:4:p:848-81
+    implemented_tags:
+      - ewa_attraction
+      - ewa_slow
+      - ewa_fast
+    expectation: adaptive repeated-play learning improves over static policy
+    current_status: not_supported_yet
+    notes: attraction updates need richer feedback (real table logs) for calibration
+
+  - id: H_SAFE_01
+    family: safe_exploitation
+    sources:
+      - https://papers.nips.cc/paper/6671-safe-and-nested-subgame-solving-for-imperfect-information-games
+    implemented_tags:
+      - safe_exploit
+      - safe_exploit_robust
+      - safe_exploit_aggro
+    expectation: safer downside while retaining exploitation upside
+    current_status: partially_supported
+    notes: robust variant improved tail behavior vs aggro variant but both remain below baseline
+
+  - id: H_BASE_01
+    family: robust_baseline
+    sources:
+      - https://pubmed.ncbi.nlm.nih.gov/31296650/
+      - https://pubmed.ncbi.nlm.nih.gov/28254783/
+    implemented_tags:
+      - conservative
+    expectation: stable strong policy across scenarios
+    current_status: strongly_supported
+    notes: dominant champion in current matrix and variant sweep
+
+  - id: H_RECIP_01
+    family: reciprocity_auction
+    sources:
+      - https://arxiv.org/abs/2508.18512
+    implemented_tags:
+      - reciprocity_probe
+    expectation: repeated seller-bidder dynamics create exploitable reciprocal patterns
+    current_status: not_supported_yet
+    notes: underperformed in long baseline high-sample run (`long_parallel_matrix_20260301_013735`)
+
+  - id: H_WCURSE_01
+    family: winners_curse_mitigation
+    sources:
+      - https://econpapers.repec.org/RePEc:aea:aecrev:v:76:y:1986:i:5:p:894-920
+    implemented_tags:
+      - winners_curse_aware
+    expectation: stronger shading improves robustness in high-uncertainty/high-aggression auctions
+    current_status: not_supported_yet
+    notes: underperformed in long baseline high-sample run (`long_parallel_matrix_20260301_013735`)
+
+prioritized_next_experiments:
+  - calibrate_qre_temperature_from_real_bid_logs
+  - add_outcome_feedback_to_ewa_updates
+  - evaluate_conservative_plus_level_k_policy_switcher
+  - evaluate_reciprocity_probe_and_winners_curse_aware_in_long_matrix
+  - test_challengers_on_day_of_rule_variants

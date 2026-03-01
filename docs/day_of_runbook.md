@@ -23,6 +23,19 @@ curl -s -X POST http://127.0.0.1:8000/strategies/recompute_champions \
   -d '{"n_matches":60,"n_games_per_match":10,"seed":42}'
 ```
 
+5. Optional: load a precomputed day-of policy table:
+```bash
+curl -s -X POST http://127.0.0.1:8000/strategies/load_policy \
+  -H 'content-type: application/json' \
+  -d '{"path":"research_logs/experiment_outputs/dayof_policy_hybrid_v11_lcb.json"}'
+```
+
+6. Optional: force policy path on backend startup:
+```bash
+SOLDEM_POLICY_PATH=research_logs/experiment_outputs/dayof_policy_hybrid_v11_lcb.json \
+  uv run uvicorn game.api:app --host 127.0.0.1 --port 8000
+```
+
 ## Live operation loop
 
 1. Enter current phase and state in HUD.
@@ -46,6 +59,17 @@ curl -s -X POST http://127.0.0.1:8000/strategies/recompute_champions \
   - `top3`
   - `metrics`
   - `all`
+- If using condition-based policy maps, set `policy_condition_key` in HUD (format: `rule_profile|objective|h<horizon>|corr_mode`).
+- Keep `match_horizon` aligned with expected number of games in the current match (`3`, `7`, `10`, `20`, `30` supported in `hybrid_v11` condition keys).
+
+## Correlation contingency override
+
+If the table appears strongly correlated (reciprocity/kingmaking patterns), temporarily force one of these strategy specs in HUD `strategy_tag`:
+
+- `level_k|level=3|l0_fraction=0.258|tag=levelk_42207`
+- `level_k|level=2|l0_fraction=0.309|tag=levelk_207605`
+
+Then revert to policy defaults if behavior normalizes.
 
 ## Fast troubleshooting
 

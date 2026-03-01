@@ -1,0 +1,587 @@
+{
+  "matrix_json": "research_logs/experiment_outputs/long_parallel_matrix_20260301_024017.json",
+  "winner_counts": {
+    "pot_fraction": 4,
+    "levelk_base": 2,
+    "meta_switch_soft": 2,
+    "levelk_42207": 2,
+    "level_k_l3": 1,
+    "level_k": 1
+  },
+  "winner_lcb_counts": {
+    "levelk_base": 3,
+    "pot_fraction": 3,
+    "level_k_l3": 1,
+    "conservative": 1,
+    "meta_switch_soft": 1,
+    "level_k": 1,
+    "levelk_207605": 1,
+    "levelk_42207": 1
+  },
+  "scenario_summaries": [
+    {
+      "rule_profile": "baseline_v1",
+      "objective": "ev",
+      "horizon": 10,
+      "corr_mode": "herd",
+      "metric_key": "expected_pnl",
+      "winner": "pot_fraction",
+      "winner_mean": 102.87971137521222,
+      "winner_std": 17.14926983773364,
+      "winner_sem": 9.901135557221048,
+      "winner_ci95_low": 83.47348568305897,
+      "winner_ci95_high": 122.28593706736548,
+      "winner_lcb": "level_k_l3",
+      "winner_lcb_value": 87.84580887681271,
+      "runner_up": "levelk_207605",
+      "margin": 3.505637301138151,
+      "winner_vs_runner_pairwise_conf": 0.6666666666666666,
+      "top3": [
+        {
+          "tag": "pot_fraction",
+          "mean_metric": 102.87971137521222,
+          "std_metric": 17.14926983773364,
+          "sem_metric": 9.901135557221048,
+          "ci95_low": 83.47348568305897,
+          "ci95_high": 122.28593706736548,
+          "n": 3
+        },
+        {
+          "tag": "levelk_207605",
+          "mean_metric": 99.37407407407407,
+          "std_metric": 16.605481105450817,
+          "sem_metric": 9.587178986255275,
+          "ci95_low": 80.58320326101374,
+          "ci95_high": 118.16494488713441,
+          "n": 3
+        },
+        {
+          "tag": "meta_switch_soft",
+          "mean_metric": 95.73322440087146,
+          "std_metric": 19.47818641064892,
+          "sem_metric": 11.245736167513865,
+          "ci95_low": 73.69158151254429,
+          "ci95_high": 117.77486728919864,
+          "n": 3
+        }
+      ]
+    },
+    {
+      "rule_profile": "baseline_v1",
+      "objective": "ev",
+      "horizon": 10,
+      "corr_mode": "kingmaker",
+      "metric_key": "expected_pnl",
+      "winner": "levelk_base",
+      "winner_mean": 116.64677394636016,
+      "winner_std": 7.802793632903498,
+      "winner_sem": 4.504945004387933,
+      "winner_ci95_low": 107.8170817377598,
+      "winner_ci95_high": 125.4764661549605,
+      "winner_lcb": "levelk_base",
+      "winner_lcb_value": 107.8170817377598,
+      "runner_up": "meta_switch",
+      "margin": 12.046117131910236,
+      "winner_vs_runner_pairwise_conf": 0.3333333333333333,
+      "top3": [
+        {
+          "tag": "levelk_base",
+          "mean_metric": 116.64677394636016,
+          "std_metric": 7.802793632903498,
+          "sem_metric": 4.504945004387933,
+          "ci95_low": 107.8170817377598,
+          "ci95_high": 125.4764661549605,
+          "n": 3
+        },
+        {
+          "tag": "meta_switch",
+          "mean_metric": 104.60065681444992,
+          "std_metric": 24.29988046062561,
+          "sem_metric": 14.029542525217924,
+          "ci95_low": 77.10275346502279,
+          "ci95_high": 132.09856016387704,
+          "n": 3
+        },
+        {
+          "tag": "level_k_l3",
+          "mean_metric": 90.9753936423054,
+          "std_metric": 6.385764444066321,
+          "sem_metric": 3.6868228207632314,
+          "ci95_low": 83.74922091360948,
+          "ci95_high": 98.20156637100133,
+          "n": 3
+        }
+      ]
+    },
+    {
+      "rule_profile": "baseline_v1",
+      "objective": "ev",
+      "horizon": 10,
+      "corr_mode": "none",
+      "metric_key": "expected_pnl",
+      "winner": "level_k_l3",
+      "winner_mean": 133.50488409641332,
+      "winner_std": 23.75814787877293,
+      "winner_sem": 13.716773073256489,
+      "winner_ci95_low": 106.6200088728306,
+      "winner_ci95_high": 160.38975931999605,
+      "winner_lcb": "conservative",
+      "winner_lcb_value": 108.08313019966812,
+      "runner_up": "conservative",
+      "margin": 14.28059143505169,
+      "winner_vs_runner_pairwise_conf": 0.6666666666666666,
+      "top3": [
+        {
+          "tag": "level_k_l3",
+          "mean_metric": 133.50488409641332,
+          "std_metric": 23.75814787877293,
+          "sem_metric": 13.716773073256489,
+          "ci95_low": 106.6200088728306,
+          "ci95_high": 160.38975931999605,
+          "n": 3
+        },
+        {
+          "tag": "conservative",
+          "mean_metric": 119.22429266136163,
+          "std_metric": 9.845438489302191,
+          "sem_metric": 5.684266562088523,
+          "ci95_low": 108.08313019966812,
+          "ci95_high": 130.36545512305514,
+          "n": 3
+        },
+        {
+          "tag": "meta_switch_soft",
+          "mean_metric": 111.520277370479,
+          "std_metric": 22.293881076168102,
+          "sem_metric": 12.871378240607157,
+          "ci95_low": 86.29237601888897,
+          "ci95_high": 136.748178722069,
+          "n": 3
+        }
+      ]
+    },
+    {
+      "rule_profile": "baseline_v1",
+      "objective": "ev",
+      "horizon": 10,
+      "corr_mode": "respect",
+      "metric_key": "expected_pnl",
+      "winner": "meta_switch_soft",
+      "winner_mean": 105.14333621933622,
+      "winner_std": 31.706782301055092,
+      "winner_sem": 18.30591929665102,
+      "winner_ci95_low": 69.26373439790022,
+      "winner_ci95_high": 141.0229380407722,
+      "winner_lcb": "levelk_base",
+      "winner_lcb_value": 99.3889955449101,
+      "runner_up": "levelk_base",
+      "margin": 0.038288600288595376,
+      "winner_vs_runner_pairwise_conf": 0.6666666666666666,
+      "top3": [
+        {
+          "tag": "meta_switch_soft",
+          "mean_metric": 105.14333621933622,
+          "std_metric": 31.706782301055092,
+          "sem_metric": 18.30591929665102,
+          "ci95_low": 69.26373439790022,
+          "ci95_high": 141.0229380407722,
+          "n": 3
+        },
+        {
+          "tag": "levelk_base",
+          "mean_metric": 105.10504761904762,
+          "std_metric": 5.051271740365128,
+          "sem_metric": 2.9163530990497564,
+          "ci95_low": 99.3889955449101,
+          "ci95_high": 110.82109969318515,
+          "n": 3
+        },
+        {
+          "tag": "conservative",
+          "mean_metric": 104.14642735042735,
+          "std_metric": 24.8083852288778,
+          "sem_metric": 14.323127890052534,
+          "ci95_low": 76.07309668592438,
+          "ci95_high": 132.2197580149303,
+          "n": 3
+        }
+      ]
+    },
+    {
+      "rule_profile": "baseline_v1",
+      "objective": "first_place",
+      "horizon": 10,
+      "corr_mode": "herd",
+      "metric_key": "first_place_rate",
+      "winner": "meta_switch_soft",
+      "winner_mean": 0.3949832775919732,
+      "winner_std": 0.038940117845019336,
+      "winner_sem": 0.022482087520097664,
+      "winner_ci95_low": 0.3509183860525818,
+      "winner_ci95_high": 0.43904816913136463,
+      "winner_lcb": "meta_switch_soft",
+      "winner_lcb_value": 0.3509183860525818,
+      "runner_up": "pot_fraction",
+      "margin": 0.004705499814195435,
+      "winner_vs_runner_pairwise_conf": 0.6666666666666666,
+      "top3": [
+        {
+          "tag": "meta_switch_soft",
+          "mean_metric": 0.3949832775919732,
+          "std_metric": 0.038940117845019336,
+          "sem_metric": 0.022482087520097664,
+          "ci95_low": 0.3509183860525818,
+          "ci95_high": 0.43904816913136463,
+          "n": 3
+        },
+        {
+          "tag": "pot_fraction",
+          "mean_metric": 0.3902777777777778,
+          "std_metric": 0.06908238953025495,
+          "sem_metric": 0.03988473619155528,
+          "ci95_low": 0.3121036948423294,
+          "ci95_high": 0.46845186071322614,
+          "n": 3
+        },
+        {
+          "tag": "conservative",
+          "mean_metric": 0.3521557071960298,
+          "std_metric": 0.05953786475639924,
+          "sem_metric": 0.034374202244082636,
+          "ci95_low": 0.28478227079762786,
+          "ci95_high": 0.4195291435944317,
+          "n": 3
+        }
+      ]
+    },
+    {
+      "rule_profile": "baseline_v1",
+      "objective": "first_place",
+      "horizon": 10,
+      "corr_mode": "kingmaker",
+      "metric_key": "first_place_rate",
+      "winner": "pot_fraction",
+      "winner_mean": 0.3095072463768116,
+      "winner_std": 0.033603292464284555,
+      "winner_sem": 0.01940086994991241,
+      "winner_ci95_low": 0.27148154127498325,
+      "winner_ci95_high": 0.34753295147863994,
+      "winner_lcb": "pot_fraction",
+      "winner_lcb_value": 0.27148154127498325,
+      "runner_up": "meta_switch_soft",
+      "margin": 0.0005427341864929769,
+      "winner_vs_runner_pairwise_conf": 0.3333333333333333,
+      "top3": [
+        {
+          "tag": "pot_fraction",
+          "mean_metric": 0.3095072463768116,
+          "std_metric": 0.033603292464284555,
+          "sem_metric": 0.01940086994991241,
+          "ci95_low": 0.27148154127498325,
+          "ci95_high": 0.34753295147863994,
+          "n": 3
+        },
+        {
+          "tag": "meta_switch_soft",
+          "mean_metric": 0.3089645121903186,
+          "std_metric": 0.08171732072745873,
+          "sem_metric": 0.047179517119453285,
+          "ci95_low": 0.2164926586361902,
+          "ci95_high": 0.4014363657444471,
+          "n": 3
+        },
+        {
+          "tag": "conservative",
+          "mean_metric": 0.276969696969697,
+          "std_metric": 0.026403661710050864,
+          "sem_metric": 0.015244161195889682,
+          "ci95_low": 0.2470911410257532,
+          "ci95_high": 0.30684825291364076,
+          "n": 3
+        }
+      ]
+    },
+    {
+      "rule_profile": "baseline_v1",
+      "objective": "first_place",
+      "horizon": 10,
+      "corr_mode": "none",
+      "metric_key": "first_place_rate",
+      "winner": "pot_fraction",
+      "winner_mean": 0.3994920634920635,
+      "winner_std": 0.03327626255735221,
+      "winner_sem": 0.01921205914511196,
+      "winner_ci95_low": 0.36183642756764406,
+      "winner_ci95_high": 0.43714769941648296,
+      "winner_lcb": "pot_fraction",
+      "winner_lcb_value": 0.36183642756764406,
+      "runner_up": "meta_switch_soft",
+      "margin": 0.030530075187969963,
+      "winner_vs_runner_pairwise_conf": 1.0,
+      "top3": [
+        {
+          "tag": "pot_fraction",
+          "mean_metric": 0.3994920634920635,
+          "std_metric": 0.03327626255735221,
+          "sem_metric": 0.01921205914511196,
+          "ci95_low": 0.36183642756764406,
+          "ci95_high": 0.43714769941648296,
+          "n": 3
+        },
+        {
+          "tag": "meta_switch_soft",
+          "mean_metric": 0.36896198830409355,
+          "std_metric": 0.03691055207783177,
+          "sem_metric": 0.021310317178073874,
+          "ci95_low": 0.3271937666350688,
+          "ci95_high": 0.4107302099731183,
+          "n": 3
+        },
+        {
+          "tag": "levelk_42207",
+          "mean_metric": 0.35773809523809524,
+          "std_metric": 0.01638797606897168,
+          "sem_metric": 0.009461602394893945,
+          "ci95_low": 0.3391933545441031,
+          "ci95_high": 0.3762828359320874,
+          "n": 3
+        }
+      ]
+    },
+    {
+      "rule_profile": "baseline_v1",
+      "objective": "first_place",
+      "horizon": 10,
+      "corr_mode": "respect",
+      "metric_key": "first_place_rate",
+      "winner": "pot_fraction",
+      "winner_mean": 0.3823412698412698,
+      "winner_std": 0.060328554744090365,
+      "winner_sem": 0.03483070732132165,
+      "winner_ci95_low": 0.3140730834914794,
+      "winner_ci95_high": 0.45060945619106024,
+      "winner_lcb": "pot_fraction",
+      "winner_lcb_value": 0.3140730834914794,
+      "runner_up": "meta_switch_soft",
+      "margin": 0.033287513890962184,
+      "winner_vs_runner_pairwise_conf": 0.6666666666666666,
+      "top3": [
+        {
+          "tag": "pot_fraction",
+          "mean_metric": 0.3823412698412698,
+          "std_metric": 0.060328554744090365,
+          "sem_metric": 0.03483070732132165,
+          "ci95_low": 0.3140730834914794,
+          "ci95_high": 0.45060945619106024,
+          "n": 3
+        },
+        {
+          "tag": "meta_switch_soft",
+          "mean_metric": 0.34905375595030763,
+          "std_metric": 0.11464786838634346,
+          "sem_metric": 0.06619197767487218,
+          "ci95_low": 0.21931747970755816,
+          "ci95_high": 0.4787900321930571,
+          "n": 3
+        },
+        {
+          "tag": "levelk_926417",
+          "mean_metric": 0.30558608058608056,
+          "std_metric": 0.034478721249518514,
+          "sem_metric": 0.019906298994723584,
+          "ci95_low": 0.26656973455642236,
+          "ci95_high": 0.34460242661573876,
+          "n": 3
+        }
+      ]
+    },
+    {
+      "rule_profile": "baseline_v1",
+      "objective": "robustness",
+      "horizon": 10,
+      "corr_mode": "herd",
+      "metric_key": "robustness",
+      "winner": "levelk_base",
+      "winner_mean": 57.508363581367206,
+      "winner_std": 17.237478885091914,
+      "winner_sem": 9.952063074458307,
+      "winner_ci95_low": 38.00231995542892,
+      "winner_ci95_high": 77.01440720730548,
+      "winner_lcb": "levelk_base",
+      "winner_lcb_value": 38.00231995542892,
+      "runner_up": "level_k_l3",
+      "margin": 8.848204851208472,
+      "winner_vs_runner_pairwise_conf": 1.0,
+      "top3": [
+        {
+          "tag": "levelk_base",
+          "mean_metric": 57.508363581367206,
+          "std_metric": 17.237478885091914,
+          "sem_metric": 9.952063074458307,
+          "ci95_low": 38.00231995542892,
+          "ci95_high": 77.01440720730548,
+          "n": 3
+        },
+        {
+          "tag": "level_k_l3",
+          "mean_metric": 48.660158730158734,
+          "std_metric": 20.87985282559828,
+          "sem_metric": 12.054988649498936,
+          "ci95_low": 25.03238097714082,
+          "ci95_high": 72.28793648317665,
+          "n": 3
+        },
+        {
+          "tag": "levelk_926417",
+          "mean_metric": 23.612608695652174,
+          "std_metric": 26.944417342548462,
+          "sem_metric": 15.556366605877976,
+          "ci95_low": -6.87786985186866,
+          "ci95_high": 54.10308724317301,
+          "n": 3
+        }
+      ]
+    },
+    {
+      "rule_profile": "baseline_v1",
+      "objective": "robustness",
+      "horizon": 10,
+      "corr_mode": "kingmaker",
+      "metric_key": "robustness",
+      "winner": "level_k",
+      "winner_mean": 28.20227652464495,
+      "winner_std": 11.60198278386827,
+      "winner_sem": 6.698407883399749,
+      "winner_ci95_low": 15.073397073181443,
+      "winner_ci95_high": 41.33115597610846,
+      "winner_lcb": "level_k",
+      "winner_lcb_value": 15.073397073181443,
+      "runner_up": "levelk_base",
+      "margin": 6.321439583808015,
+      "winner_vs_runner_pairwise_conf": 0.3333333333333333,
+      "top3": [
+        {
+          "tag": "level_k",
+          "mean_metric": 28.20227652464495,
+          "std_metric": 11.60198278386827,
+          "sem_metric": 6.698407883399749,
+          "ci95_low": 15.073397073181443,
+          "ci95_high": 41.33115597610846,
+          "n": 3
+        },
+        {
+          "tag": "levelk_base",
+          "mean_metric": 21.880836940836936,
+          "std_metric": 29.485645686422405,
+          "sem_metric": 17.023545474285903,
+          "ci95_low": -11.485312188763437,
+          "ci95_high": 55.24698607043731,
+          "n": 3
+        },
+        {
+          "tag": "levelk_42207",
+          "mean_metric": 11.716025278249385,
+          "std_metric": 5.229813333139707,
+          "sem_metric": 3.019434135699704,
+          "ci95_low": 5.7979343722779655,
+          "ci95_high": 17.634116184220805,
+          "n": 3
+        }
+      ]
+    },
+    {
+      "rule_profile": "baseline_v1",
+      "objective": "robustness",
+      "horizon": 10,
+      "corr_mode": "none",
+      "metric_key": "robustness",
+      "winner": "levelk_42207",
+      "winner_mean": 48.97561728395062,
+      "winner_std": 18.65853757465012,
+      "winner_sem": 10.772511691408994,
+      "winner_ci95_low": 27.861494368788993,
+      "winner_ci95_high": 70.08974019911224,
+      "winner_lcb": "levelk_207605",
+      "winner_lcb_value": 29.480033466379254,
+      "runner_up": "meta_switch_soft",
+      "margin": 2.1459845679012375,
+      "winner_vs_runner_pairwise_conf": 0.6666666666666666,
+      "top3": [
+        {
+          "tag": "levelk_42207",
+          "mean_metric": 48.97561728395062,
+          "std_metric": 18.65853757465012,
+          "sem_metric": 10.772511691408994,
+          "ci95_low": 27.861494368788993,
+          "ci95_high": 70.08974019911224,
+          "n": 3
+        },
+        {
+          "tag": "meta_switch_soft",
+          "mean_metric": 46.82963271604938,
+          "std_metric": 84.52982077728645,
+          "sem_metric": 48.80331478031715,
+          "ci95_low": -48.82486425337223,
+          "ci95_high": 142.484129685471,
+          "n": 3
+        },
+        {
+          "tag": "meta_switch",
+          "mean_metric": 40.90226318484383,
+          "std_metric": 50.55268610778273,
+          "sem_metric": 29.18660693258702,
+          "ci95_low": -16.303486403026724,
+          "ci95_high": 98.10801277271439,
+          "n": 3
+        }
+      ]
+    },
+    {
+      "rule_profile": "baseline_v1",
+      "objective": "robustness",
+      "horizon": 10,
+      "corr_mode": "respect",
+      "metric_key": "robustness",
+      "winner": "levelk_42207",
+      "winner_mean": 28.785262345679012,
+      "winner_std": 19.951474948153244,
+      "winner_sem": 11.51898943204635,
+      "winner_ci95_low": 6.208043058868167,
+      "winner_ci95_high": 51.36248163248986,
+      "winner_lcb": "levelk_42207",
+      "winner_lcb_value": 6.208043058868167,
+      "runner_up": "level_k_l3",
+      "margin": 3.214353254769918,
+      "winner_vs_runner_pairwise_conf": 0.6666666666666666,
+      "top3": [
+        {
+          "tag": "levelk_42207",
+          "mean_metric": 28.785262345679012,
+          "std_metric": 19.951474948153244,
+          "sem_metric": 11.51898943204635,
+          "ci95_low": 6.208043058868167,
+          "ci95_high": 51.36248163248986,
+          "n": 3
+        },
+        {
+          "tag": "level_k_l3",
+          "mean_metric": 25.570909090909094,
+          "std_metric": 20.626313625418007,
+          "sem_metric": 11.908607724024733,
+          "ci95_low": 2.2300379518206164,
+          "ci95_high": 48.911780229997575,
+          "n": 3
+        },
+        {
+          "tag": "levelk_926417",
+          "mean_metric": 14.395086580086579,
+          "std_metric": 44.299320016351224,
+          "sem_metric": 25.576224336357757,
+          "ci95_low": -35.73431311917463,
+          "ci95_high": 64.52448627934778,
+          "n": 3
+        }
+      ]
+    }
+  ]
+}

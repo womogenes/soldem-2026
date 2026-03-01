@@ -1,0 +1,838 @@
+{
+  "scenarios": [
+    {
+      "scenario": "ev_h10_none",
+      "leaderboard": [
+        {
+          "tag": "conservative",
+          "samples": 190,
+          "expected_pnl": 207.7842105263158,
+          "first_place_rate": 0.6105263157894737,
+          "robustness": 207.7842105263158,
+          "composites": {
+            "balanced_50_30_20": 163.76473684210526,
+            "upside_60_30_10": 163.76473684210526,
+            "robust_40_20_40": 178.43789473684214
+          }
+        },
+        {
+          "tag": "pot_fraction",
+          "samples": 290,
+          "expected_pnl": 206.02758620689656,
+          "first_place_rate": 0.5586206896551724,
+          "robustness": 100.71724137931035,
+          "composites": {
+            "balanced_50_30_20": 139.9158620689655,
+            "upside_60_30_10": 150.44689655172414,
+            "robust_40_20_40": 133.87034482758622
+          }
+        },
+        {
+          "tag": "level_k_l3",
+          "samples": 280,
+          "expected_pnl": 165.91071428571428,
+          "first_place_rate": 0.3678571428571429,
+          "robustness": 159.78571428571428,
+          "composites": {
+            "balanced_50_30_20": 125.94821428571429,
+            "upside_60_30_10": 126.56071428571428,
+            "robust_40_20_40": 137.6357142857143
+          }
+        },
+        {
+          "tag": "level_k",
+          "samples": 270,
+          "expected_pnl": 164.6925925925926,
+          "first_place_rate": 0.44814814814814813,
+          "robustness": 164.6925925925926,
+          "composites": {
+            "balanced_50_30_20": 128.72925925925927,
+            "upside_60_30_10": 128.72925925925927,
+            "robust_40_20_40": 140.71703703703704
+          }
+        },
+        {
+          "tag": "seller_profit",
+          "samples": 250,
+          "expected_pnl": 83.072,
+          "first_place_rate": 0.28,
+          "robustness": -99.62799999999999,
+          "composites": {
+            "balanced_50_30_20": 30.0104,
+            "upside_60_30_10": 48.2804,
+            "robust_40_20_40": -1.0223999999999975
+          }
+        },
+        {
+          "tag": "safe_exploit_robust",
+          "samples": 200,
+          "expected_pnl": 33.595,
+          "first_place_rate": 0.2,
+          "robustness": -104.58000000000001,
+          "composites": {
+            "balanced_50_30_20": 1.8814999999999955,
+            "upside_60_30_10": 15.698999999999998,
+            "robust_40_20_40": -24.394000000000005
+          }
+        },
+        {
+          "tag": "random",
+          "samples": 280,
+          "expected_pnl": 8.914285714285715,
+          "first_place_rate": 0.175,
+          "robustness": -169.49642857142857,
+          "composites": {
+            "balanced_50_30_20": -24.192142857142862,
+            "upside_60_30_10": -6.35107142857143,
+            "robust_40_20_40": -60.73285714285715
+          }
+        },
+        {
+          "tag": "adaptive_profile",
+          "samples": 250,
+          "expected_pnl": -18.832,
+          "first_place_rate": 0.168,
+          "robustness": -218.832,
+          "composites": {
+            "balanced_50_30_20": -48.1424,
+            "upside_60_30_10": -28.142400000000002,
+            "robust_40_20_40": -91.7056
+          }
+        },
+        {
+          "tag": "ewa_attraction",
+          "samples": 270,
+          "expected_pnl": -20.303703703703704,
+          "first_place_rate": 0.16296296296296298,
+          "robustness": -220.30370370370372,
+          "composites": {
+            "balanced_50_30_20": -49.323703703703714,
+            "upside_60_30_10": -29.323703703703707,
+            "robust_40_20_40": -92.98370370370372
+          }
+        },
+        {
+          "tag": "safe_exploit_aggro",
+          "samples": 260,
+          "expected_pnl": -25.696153846153845,
+          "first_place_rate": 0.14615384615384616,
+          "robustness": -214.00384615384615,
+          "composites": {
+            "balanced_50_30_20": -51.26423076923077,
+            "upside_60_30_10": -32.433461538461536,
+            "robust_40_20_40": -92.95692307692309
+          }
+        },
+        {
+          "tag": "safe_exploit",
+          "samples": 260,
+          "expected_pnl": -40.33076923076923,
+          "first_place_rate": 0.10384615384615385,
+          "robustness": -214.5230769230769,
+          "composites": {
+            "balanced_50_30_20": -59.95461538461538,
+            "upside_60_30_10": -42.535384615384615,
+            "robust_40_20_40": -99.86461538461538
+          }
+        },
+        {
+          "tag": "ewa_fast",
+          "samples": 230,
+          "expected_pnl": -44.165217391304346,
+          "first_place_rate": 0.09565217391304348,
+          "robustness": -244.16521739130434,
+          "composites": {
+            "balanced_50_30_20": -68.04608695652173,
+            "upside_60_30_10": -48.046086956521734,
+            "robust_40_20_40": -113.4191304347826
+          }
+        },
+        {
+          "tag": "bully",
+          "samples": 290,
+          "expected_pnl": -47.148275862068964,
+          "first_place_rate": 0.1206896551724138,
+          "robustness": -247.14827586206897,
+          "composites": {
+            "balanced_50_30_20": -69.38310344827586,
+            "upside_60_30_10": -49.38310344827586,
+            "robust_40_20_40": -115.3048275862069
+          }
+        },
+        {
+          "tag": "quantal_response",
+          "samples": 260,
+          "expected_pnl": -65.61538461538461,
+          "first_place_rate": 0.12307692307692308,
+          "robustness": -265.61538461538464,
+          "composites": {
+            "balanced_50_30_20": -82.23846153846154,
+            "upside_60_30_10": -62.238461538461536,
+            "robust_40_20_40": -130.03076923076924
+          }
+        },
+        {
+          "tag": "quantal_hot",
+          "samples": 330,
+          "expected_pnl": -71.13333333333334,
+          "first_place_rate": 0.12121212121212122,
+          "robustness": -271.1333333333333,
+          "composites": {
+            "balanced_50_30_20": -86.1569696969697,
+            "upside_60_30_10": -66.1569696969697,
+            "robust_40_20_40": -134.48242424242426
+          }
+        },
+        {
+          "tag": "ewa_slow",
+          "samples": 250,
+          "expected_pnl": -76.36,
+          "first_place_rate": 0.104,
+          "robustness": -276.36,
+          "composites": {
+            "balanced_50_30_20": -90.33200000000001,
+            "upside_60_30_10": -70.332,
+            "robust_40_20_40": -139.008
+          }
+        },
+        {
+          "tag": "quantal_cold",
+          "samples": 210,
+          "expected_pnl": -90.86190476190477,
+          "first_place_rate": 0.08571428571428572,
+          "robustness": -290.8619047619048,
+          "composites": {
+            "balanced_50_30_20": -101.03190476190477,
+            "upside_60_30_10": -81.03190476190477,
+            "robust_40_20_40": -150.97523809523813
+          }
+        },
+        {
+          "tag": "level_k_l1",
+          "samples": 300,
+          "expected_pnl": -132.82,
+          "first_place_rate": 0.02666666666666667,
+          "robustness": -332.82,
+          "composites": {
+            "balanced_50_30_20": -132.174,
+            "upside_60_30_10": -112.174,
+            "robust_40_20_40": -185.72266666666667
+          }
+        },
+        {
+          "tag": "delta_value",
+          "samples": 330,
+          "expected_pnl": -152.70606060606062,
+          "first_place_rate": 0.021212121212121213,
+          "robustness": -352.70606060606065,
+          "composites": {
+            "balanced_50_30_20": -146.25787878787878,
+            "upside_60_30_10": -126.25787878787878,
+            "robust_40_20_40": -201.74060606060607
+          }
+        }
+      ]
+    },
+    {
+      "scenario": "ev_h10_respect",
+      "leaderboard": [
+        {
+          "tag": "conservative",
+          "samples": 260,
+          "expected_pnl": 173.58076923076922,
+          "first_place_rate": 0.47692307692307695,
+          "robustness": 173.58076923076922,
+          "composites": {
+            "balanced_50_30_20": 135.81423076923076,
+            "upside_60_30_10": 135.81423076923076,
+            "robust_40_20_40": 148.40307692307692
+          }
+        },
+        {
+          "tag": "level_k",
+          "samples": 260,
+          "expected_pnl": 149.47307692307692,
+          "first_place_rate": 0.36538461538461536,
+          "robustness": 149.47307692307692,
+          "composites": {
+            "balanced_50_30_20": 115.59269230769229,
+            "upside_60_30_10": 115.5926923076923,
+            "robust_40_20_40": 126.88615384615385
+          }
+        },
+        {
+          "tag": "pot_fraction",
+          "samples": 240,
+          "expected_pnl": 131.25416666666666,
+          "first_place_rate": 0.43333333333333335,
+          "robustness": 7.191666666666663,
+          "composites": {
+            "balanced_50_30_20": 80.06541666666666,
+            "upside_60_30_10": 92.47166666666666,
+            "robust_40_20_40": 64.045
+          }
+        },
+        {
+          "tag": "level_k_l3",
+          "samples": 240,
+          "expected_pnl": 124.075,
+          "first_place_rate": 0.31666666666666665,
+          "robustness": 90.2625,
+          "composites": {
+            "balanced_50_30_20": 89.59,
+            "upside_60_30_10": 92.97125,
+            "robust_40_20_40": 92.06833333333334
+          }
+        },
+        {
+          "tag": "seller_profit",
+          "samples": 200,
+          "expected_pnl": 106.33,
+          "first_place_rate": 0.37,
+          "robustness": -55.92,
+          "composites": {
+            "balanced_50_30_20": 53.081,
+            "upside_60_30_10": 69.306,
+            "robust_40_20_40": 27.564
+          }
+        },
+        {
+          "tag": "adaptive_profile",
+          "samples": 320,
+          "expected_pnl": 22.16875,
+          "first_place_rate": 0.240625,
+          "robustness": -177.83125,
+          "composites": {
+            "balanced_50_30_20": -17.263125000000002,
+            "upside_60_30_10": 2.7368749999999977,
+            "robust_40_20_40": -57.45250000000001
+          }
+        },
+        {
+          "tag": "safe_exploit_robust",
+          "samples": 320,
+          "expected_pnl": 11.125,
+          "first_place_rate": 0.159375,
+          "robustness": -140.84375,
+          "composites": {
+            "balanced_50_30_20": -17.825000000000003,
+            "upside_60_30_10": -2.6281250000000025,
+            "robust_40_20_40": -48.7
+          }
+        },
+        {
+          "tag": "bully",
+          "samples": 290,
+          "expected_pnl": -4.162068965517242,
+          "first_place_rate": 0.16551724137931034,
+          "robustness": -202.74827586206897,
+          "composites": {
+            "balanced_50_30_20": -37.6651724137931,
+            "upside_60_30_10": -17.806551724137933,
+            "robust_40_20_40": -79.45379310344828
+          }
+        },
+        {
+          "tag": "random",
+          "samples": 340,
+          "expected_pnl": -6.3617647058823525,
+          "first_place_rate": 0.18235294117647058,
+          "robustness": -192.67058823529413,
+          "composites": {
+            "balanced_50_30_20": -36.24441176470589,
+            "upside_60_30_10": -17.61352941176471,
+            "robust_40_20_40": -75.96588235294118
+          }
+        },
+        {
+          "tag": "safe_exploit_aggro",
+          "samples": 270,
+          "expected_pnl": -11.459259259259259,
+          "first_place_rate": 0.1962962962962963,
+          "robustness": -194.58888888888887,
+          "composites": {
+            "balanced_50_30_20": -38.75851851851852,
+            "upside_60_30_10": -20.445555555555558,
+            "robust_40_20_40": -78.49333333333334
+          }
+        },
+        {
+          "tag": "safe_exploit",
+          "samples": 280,
+          "expected_pnl": -20.04642857142857,
+          "first_place_rate": 0.17142857142857143,
+          "robustness": -196.11785714285716,
+          "composites": {
+            "balanced_50_30_20": -44.103928571428575,
+            "upside_60_30_10": -26.496785714285714,
+            "robust_40_20_40": -83.03714285714287
+          }
+        },
+        {
+          "tag": "ewa_slow",
+          "samples": 230,
+          "expected_pnl": -40.93043478260869,
+          "first_place_rate": 0.1608695652173913,
+          "robustness": -240.9304347826087,
+          "composites": {
+            "balanced_50_30_20": -63.82521739130435,
+            "upside_60_30_10": -43.82521739130435,
+            "robust_40_20_40": -109.52695652173914
+          }
+        },
+        {
+          "tag": "quantal_response",
+          "samples": 220,
+          "expected_pnl": -50.54545454545455,
+          "first_place_rate": 0.1590909090909091,
+          "robustness": -250.54545454545456,
+          "composites": {
+            "balanced_50_30_20": -70.60909090909092,
+            "upside_60_30_10": -50.60909090909091,
+            "robust_40_20_40": -117.25454545454546
+          }
+        },
+        {
+          "tag": "ewa_attraction",
+          "samples": 290,
+          "expected_pnl": -69.64827586206897,
+          "first_place_rate": 0.10689655172413794,
+          "robustness": -269.648275862069,
+          "composites": {
+            "balanced_50_30_20": -85.54689655172415,
+            "upside_60_30_10": -65.54689655172415,
+            "robust_40_20_40": -133.58068965517245
+          }
+        },
+        {
+          "tag": "ewa_fast",
+          "samples": 250,
+          "expected_pnl": -80.66,
+          "first_place_rate": 0.112,
+          "robustness": -280.65999999999997,
+          "composites": {
+            "balanced_50_30_20": -93.102,
+            "upside_60_30_10": -73.10199999999999,
+            "robust_40_20_40": -142.288
+          }
+        },
+        {
+          "tag": "quantal_hot",
+          "samples": 280,
+          "expected_pnl": -87.175,
+          "first_place_rate": 0.08928571428571429,
+          "robustness": -287.175,
+          "composites": {
+            "balanced_50_30_20": -98.34392857142856,
+            "upside_60_30_10": -78.34392857142856,
+            "robust_40_20_40": -147.95428571428573
+          }
+        },
+        {
+          "tag": "level_k_l1",
+          "samples": 230,
+          "expected_pnl": -98.58260869565217,
+          "first_place_rate": 0.05652173913043478,
+          "robustness": -298.5826086956522,
+          "composites": {
+            "balanced_50_30_20": -107.31217391304348,
+            "upside_60_30_10": -87.31217391304347,
+            "robust_40_20_40": -157.73565217391305
+          }
+        },
+        {
+          "tag": "quantal_cold",
+          "samples": 240,
+          "expected_pnl": -105.39166666666667,
+          "first_place_rate": 0.04583333333333333,
+          "robustness": -305.39166666666665,
+          "composites": {
+            "balanced_50_30_20": -112.39916666666667,
+            "upside_60_30_10": -92.39916666666667,
+            "robust_40_20_40": -163.39666666666668
+          }
+        },
+        {
+          "tag": "delta_value",
+          "samples": 240,
+          "expected_pnl": -132.675,
+          "first_place_rate": 0.03333333333333333,
+          "robustness": -332.675,
+          "composites": {
+            "balanced_50_30_20": -131.8725,
+            "upside_60_30_10": -111.8725,
+            "robust_40_20_40": -185.47333333333336
+          }
+        }
+      ]
+    },
+    {
+      "scenario": "robust_h20_herd",
+      "leaderboard": [
+        {
+          "tag": "conservative",
+          "samples": 480,
+          "expected_pnl": 183.80208333333334,
+          "first_place_rate": 0.5520833333333334,
+          "robustness": 183.80208333333334,
+          "composites": {
+            "balanced_50_30_20": 145.22395833333334,
+            "upside_60_30_10": 145.22395833333334,
+            "robust_40_20_40": 158.08333333333337
+          }
+        },
+        {
+          "tag": "level_k",
+          "samples": 520,
+          "expected_pnl": 154.3403846153846,
+          "first_place_rate": 0.40576923076923077,
+          "robustness": 154.3403846153846,
+          "composites": {
+            "balanced_50_30_20": 120.21134615384615,
+            "upside_60_30_10": 120.21134615384615,
+            "robust_40_20_40": 131.58769230769232
+          }
+        },
+        {
+          "tag": "level_k_l3",
+          "samples": 480,
+          "expected_pnl": 132.21666666666667,
+          "first_place_rate": 0.32916666666666666,
+          "robustness": 132.21666666666667,
+          "composites": {
+            "balanced_50_30_20": 102.42666666666668,
+            "upside_60_30_10": 102.42666666666666,
+            "robust_40_20_40": 112.35666666666668
+          }
+        },
+        {
+          "tag": "pot_fraction",
+          "samples": 620,
+          "expected_pnl": 127.66129032258064,
+          "first_place_rate": 0.41935483870967744,
+          "robustness": 6.258064516129025,
+          "composites": {
+            "balanced_50_30_20": 77.66290322580645,
+            "upside_60_30_10": 89.80322580645161,
+            "robust_40_20_40": 61.95483870967742
+          }
+        },
+        {
+          "tag": "safe_exploit_aggro",
+          "samples": 400,
+          "expected_pnl": 77.72,
+          "first_place_rate": 0.27,
+          "robustness": -21.930000000000007,
+          "composites": {
+            "balanced_50_30_20": 42.574,
+            "upside_60_30_10": 52.539,
+            "robust_40_20_40": 27.715999999999994
+          }
+        },
+        {
+          "tag": "safe_exploit",
+          "samples": 560,
+          "expected_pnl": 59.03392857142857,
+          "first_place_rate": 0.22142857142857142,
+          "robustness": -45.38571428571429,
+          "composites": {
+            "balanced_50_30_20": 27.082678571428566,
+            "upside_60_30_10": 37.52464285714285,
+            "robust_40_20_40": 9.88785714285714
+          }
+        },
+        {
+          "tag": "seller_profit",
+          "samples": 460,
+          "expected_pnl": 54.1,
+          "first_place_rate": 0.26521739130434785,
+          "robustness": -131.34565217391304,
+          "composites": {
+            "balanced_50_30_20": 8.737391304347824,
+            "upside_60_30_10": 27.281956521739133,
+            "robust_40_20_40": -25.593913043478263
+          }
+        },
+        {
+          "tag": "safe_exploit_robust",
+          "samples": 520,
+          "expected_pnl": 24.182692307692307,
+          "first_place_rate": 0.16538461538461538,
+          "robustness": -95.33653846153847,
+          "composites": {
+            "balanced_50_30_20": -2.01442307692308,
+            "upside_60_30_10": 9.937499999999996,
+            "robust_40_20_40": -25.153846153846153
+          }
+        },
+        {
+          "tag": "random",
+          "samples": 600,
+          "expected_pnl": 5.721666666666667,
+          "first_place_rate": 0.215,
+          "robustness": -177.845,
+          "composites": {
+            "balanced_50_30_20": -26.258166666666668,
+            "upside_60_30_10": -7.901500000000002,
+            "robust_40_20_40": -64.54933333333334
+          }
+        },
+        {
+          "tag": "adaptive_profile",
+          "samples": 580,
+          "expected_pnl": -21.944827586206898,
+          "first_place_rate": 0.15689655172413794,
+          "robustness": -221.54827586206898,
+          "composites": {
+            "balanced_50_30_20": -50.57517241379311,
+            "upside_60_30_10": -30.6148275862069,
+            "robust_40_20_40": -94.2593103448276
+          }
+        },
+        {
+          "tag": "ewa_fast",
+          "samples": 460,
+          "expected_pnl": -40.23913043478261,
+          "first_place_rate": 0.12608695652173912,
+          "robustness": -240.16304347826087,
+          "composites": {
+            "balanced_50_30_20": -64.36956521739131,
+            "upside_60_30_10": -44.37717391304348,
+            "robust_40_20_40": -109.63913043478261
+          }
+        },
+        {
+          "tag": "bully",
+          "samples": 580,
+          "expected_pnl": -44.61206896551724,
+          "first_place_rate": 0.12413793103448276,
+          "robustness": -244.27586206896552,
+          "composites": {
+            "balanced_50_30_20": -67.43706896551724,
+            "upside_60_30_10": -47.47068965517241,
+            "robust_40_20_40": -113.07241379310345
+          }
+        },
+        {
+          "tag": "ewa_slow",
+          "samples": 680,
+          "expected_pnl": -61.13235294117647,
+          "first_place_rate": 0.1323529411764706,
+          "robustness": -261.06617647058823,
+          "composites": {
+            "balanced_50_30_20": -78.80882352941177,
+            "upside_60_30_10": -58.81544117647059,
+            "robust_40_20_40": -126.23235294117649
+          }
+        },
+        {
+          "tag": "ewa_attraction",
+          "samples": 500,
+          "expected_pnl": -66.844,
+          "first_place_rate": 0.102,
+          "robustness": -266.844,
+          "composites": {
+            "balanced_50_30_20": -83.7308,
+            "upside_60_30_10": -63.73079999999999,
+            "robust_40_20_40": -131.4352
+          }
+        },
+        {
+          "tag": "quantal_hot",
+          "samples": 560,
+          "expected_pnl": -91.13571428571429,
+          "first_place_rate": 0.10892857142857143,
+          "robustness": -291.1357142857143,
+          "composites": {
+            "balanced_50_30_20": -100.52714285714286,
+            "upside_60_30_10": -80.52714285714286,
+            "robust_40_20_40": -150.73000000000002
+          }
+        },
+        {
+          "tag": "quantal_cold",
+          "samples": 520,
+          "expected_pnl": -94.38076923076923,
+          "first_place_rate": 0.1,
+          "robustness": -294.3423076923077,
+          "composites": {
+            "balanced_50_30_20": -103.05884615384616,
+            "upside_60_30_10": -83.06269230769232,
+            "robust_40_20_40": -153.4892307692308
+          }
+        },
+        {
+          "tag": "quantal_response",
+          "samples": 440,
+          "expected_pnl": -103.55227272727272,
+          "first_place_rate": 0.06363636363636363,
+          "robustness": -303.55227272727274,
+          "composites": {
+            "balanced_50_30_20": -110.57750000000001,
+            "upside_60_30_10": -90.5775,
+            "robust_40_20_40": -161.56909090909093
+          }
+        },
+        {
+          "tag": "level_k_l1",
+          "samples": 560,
+          "expected_pnl": -131.54464285714286,
+          "first_place_rate": 0.04107142857142857,
+          "robustness": -331.5446428571429,
+          "composites": {
+            "balanced_50_30_20": -130.84910714285715,
+            "upside_60_30_10": -110.84910714285715,
+            "robust_40_20_40": -184.41428571428574
+          }
+        },
+        {
+          "tag": "delta_value",
+          "samples": 480,
+          "expected_pnl": -134.77083333333334,
+          "first_place_rate": 0.022916666666666665,
+          "robustness": -334.77083333333337,
+          "composites": {
+            "balanced_50_30_20": -133.65208333333334,
+            "upside_60_30_10": -113.65208333333334,
+            "robust_40_20_40": -187.35833333333335
+          }
+        }
+      ]
+    }
+  ],
+  "aggregate": [
+    {
+      "tag": "conservative",
+      "avg_expected_pnl": 188.38902103013947,
+      "avg_first_place_rate": 0.5465109086819614,
+      "avg_robustness": 188.38902103013947,
+      "n_scenarios": 3
+    },
+    {
+      "tag": "level_k",
+      "avg_expected_pnl": 156.16868471035139,
+      "avg_first_place_rate": 0.4064339981006648,
+      "avg_robustness": 156.16868471035139,
+      "n_scenarios": 3
+    },
+    {
+      "tag": "pot_fraction",
+      "avg_expected_pnl": 154.98101439871462,
+      "avg_first_place_rate": 0.47043628723272773,
+      "avg_robustness": 38.05565752070201,
+      "n_scenarios": 3
+    },
+    {
+      "tag": "level_k_l3",
+      "avg_expected_pnl": 140.734126984127,
+      "avg_first_place_rate": 0.33789682539682536,
+      "avg_robustness": 127.42162698412699,
+      "n_scenarios": 3
+    },
+    {
+      "tag": "seller_profit",
+      "avg_expected_pnl": 81.16733333333333,
+      "avg_first_place_rate": 0.305072463768116,
+      "avg_robustness": -95.63121739130435,
+      "n_scenarios": 3
+    },
+    {
+      "tag": "safe_exploit_robust",
+      "avg_expected_pnl": 22.9675641025641,
+      "avg_first_place_rate": 0.17491987179487178,
+      "avg_robustness": -113.58676282051283,
+      "n_scenarios": 3
+    },
+    {
+      "tag": "safe_exploit_aggro",
+      "avg_expected_pnl": 13.521528964862298,
+      "avg_first_place_rate": 0.20415004748338084,
+      "avg_robustness": -143.50757834757835,
+      "n_scenarios": 3
+    },
+    {
+      "tag": "random",
+      "avg_expected_pnl": 2.758062558356676,
+      "avg_first_place_rate": 0.19078431372549018,
+      "avg_robustness": -180.0040056022409,
+      "n_scenarios": 3
+    },
+    {
+      "tag": "safe_exploit",
+      "avg_expected_pnl": -0.4477564102564102,
+      "avg_first_place_rate": 0.16556776556776556,
+      "avg_robustness": -152.0088827838828,
+      "n_scenarios": 3
+    },
+    {
+      "tag": "adaptive_profile",
+      "avg_expected_pnl": -6.202692528735633,
+      "avg_first_place_rate": 0.188507183908046,
+      "avg_robustness": -206.07050862068968,
+      "n_scenarios": 3
+    },
+    {
+      "tag": "bully",
+      "avg_expected_pnl": -31.97413793103448,
+      "avg_first_place_rate": 0.1367816091954023,
+      "avg_robustness": -231.39080459770116,
+      "n_scenarios": 3
+    },
+    {
+      "tag": "ewa_attraction",
+      "avg_expected_pnl": -52.265326521924216,
+      "avg_first_place_rate": 0.12395317156236696,
+      "avg_robustness": -252.26532652192427,
+      "n_scenarios": 3
+    },
+    {
+      "tag": "ewa_fast",
+      "avg_expected_pnl": -55.02144927536232,
+      "avg_first_place_rate": 0.1112463768115942,
+      "avg_robustness": -254.99608695652174,
+      "n_scenarios": 3
+    },
+    {
+      "tag": "ewa_slow",
+      "avg_expected_pnl": -59.47426257459506,
+      "avg_first_place_rate": 0.1324075021312873,
+      "avg_robustness": -259.4522037510656,
+      "n_scenarios": 3
+    },
+    {
+      "tag": "quantal_response",
+      "avg_expected_pnl": -73.23770396270396,
+      "avg_first_place_rate": 0.11526806526806527,
+      "avg_robustness": -273.23770396270396,
+      "n_scenarios": 3
+    },
+    {
+      "tag": "quantal_hot",
+      "avg_expected_pnl": -83.14801587301588,
+      "avg_first_place_rate": 0.10647546897546899,
+      "avg_robustness": -283.1480158730159,
+      "n_scenarios": 3
+    },
+    {
+      "tag": "quantal_cold",
+      "avg_expected_pnl": -96.87811355311355,
+      "avg_first_place_rate": 0.07718253968253969,
+      "avg_robustness": -296.865293040293,
+      "n_scenarios": 3
+    },
+    {
+      "tag": "level_k_l1",
+      "avg_expected_pnl": -120.982417184265,
+      "avg_first_place_rate": 0.041419944789510006,
+      "avg_robustness": -320.982417184265,
+      "n_scenarios": 3
+    },
+    {
+      "tag": "delta_value",
+      "avg_expected_pnl": -140.05063131313133,
+      "avg_first_place_rate": 0.025820707070707067,
+      "avg_robustness": -340.05063131313136,
+      "n_scenarios": 3
+    }
+  ]
+}

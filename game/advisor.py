@@ -5,7 +5,8 @@ from dataclasses import dataclass
 from itertools import product
 
 from game.utils import classify_hand
-from strategies import PlayerProfile, StrategyContext, build_strategy
+from strategies import PlayerProfile, StrategyContext
+from strategies.loader import load_strategy
 
 Card = tuple[int, str]
 BASE_DECK = list(product(range(1, 11), "CDHSX"))
@@ -130,7 +131,7 @@ def recommend_action(
     known_cards: list[Card] | None = None,
 ) -> Recommendation:
     known_cards = known_cards or []
-    strategy = build_strategy(strategy_tag)
+    strategy = load_strategy(strategy_tag)
     ctx = StrategyContext(
         seat=seat,
         seller_idx=seller_idx,

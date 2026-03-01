@@ -43,6 +43,8 @@ class MatchRunner:
         seat: int,
         profiles: dict[int, PlayerProfile],
         objective: str,
+        game_index: int,
+        match_n_games: int,
     ) -> StrategyContext:
         return StrategyContext(
             seat=seat,
@@ -56,6 +58,8 @@ class MatchRunner:
             ranking_policy=game.rules.hand_ranking_policy,
             objective=objective,
             player_profiles=profiles,
+            match_game_index=game_index,
+            match_n_games=match_n_games,
         )
 
     def run(
@@ -82,7 +86,14 @@ class MatchRunner:
 
                 for seat, strategy in enumerate(self.strategies):
                     strategy.on_round_start(
-                        self._ctx(game, seat, profiles, self.config.objective)
+                        self._ctx(
+                            game,
+                            seat,
+                            profiles,
+                            self.config.objective,
+                            game_index=gix,
+                            match_n_games=self.config.n_games,
+                        )
                     )
 
                 while True:
@@ -91,13 +102,27 @@ class MatchRunner:
                         raise RuntimeError("Seller index unexpectedly None")
 
                     if seller >= 0:
-                        sell_ctx = self._ctx(game, seller, profiles, self.config.objective)
+                        sell_ctx = self._ctx(
+                            game,
+                            seller,
+                            profiles,
+                            self.config.objective,
+                            game_index=gix,
+                            match_n_games=self.config.n_games,
+                        )
                         sell_indices = self.strategies[seller].choose_sell_indices(sell_ctx)
                         game.prepare_auction(card_indices=sell_indices)
 
                     raw_bids: dict[int, int] = {}
                     for bidder in game.eligible_bidders():
-                        bid_ctx = self._ctx(game, bidder, profiles, self.config.objective)
+                        bid_ctx = self._ctx(
+                            game,
+                            bidder,
+                            profiles,
+                            self.config.objective,
+                            game_index=gix,
+                            match_n_games=self.config.n_games,
+                        )
                         raw_bid = self.strategies[bidder].bid_amount(bid_ctx)
                         adj_bid = adjust_bid(
                             bidder,
@@ -123,7 +148,26 @@ class MatchRunner:
 
                     close = game.close_bids()
                     winner = close["winner"]
-                    choose_ctx = self._ctx(game, winner, profiles, self.config.objective)
+                    win_bid = close["bid_price"]
+                    winner_prof = profiles[winner]
+                    winner_prof.win_count += 1
+                    winner_prof.avg_win_bid += (
+                        (win_bid - winner_prof.avg_win_bid) / winner_prof.win_count
+                    )
+                    if seller is not None and seller >= 0:
+                        seller_prof = profiles[seller]
+                        seller_prof.sell_count += 1
+                        seller_prof.avg_sell_price += (
+                            (win_bid - seller_prof.avg_sell_price) / seller_prof.sell_count
+                        )
+                    choose_ctx = self._ctx(
+                        game,
+                        winner,
+                        profiles,
+                        self.config.objective,
+                        game_index=gix,
+                        match_n_games=self.config.n_games,
+                    )
                     chosen_idx = self.strategies[winner].choose_won_card(choose_ctx)
                     chosen_idx = max(0, min(chosen_idx, len(game.auc_cards) - 1))
                     out = game.win_card(chosen_idx)

@@ -1,0 +1,636 @@
+{
+  "strategies": [
+    "conservative",
+    "meta_switch_soft",
+    "meta_switch",
+    "level_k",
+    "level_k|level=2|l0_fraction=0.28|tag=levelk_base",
+    "level_k|level=3|l0_fraction=0.258|tag=levelk_42207",
+    "level_k|level=2|l0_fraction=0.309|tag=levelk_207605",
+    "level_k|level=3|l0_fraction=0.268|tag=levelk_926417",
+    "pot_fraction"
+  ],
+  "rows": [
+    {
+      "objective": "ev",
+      "corr": "none",
+      "metric": "expected_pnl",
+      "winner": "levelk_207605",
+      "winner_metric": 54.38913043478261,
+      "top5": [
+        {
+          "tag": "levelk_207605",
+          "samples": 460,
+          "expected_pnl": 54.38913043478261,
+          "first_place_rate": 0.31521739130434784,
+          "robustness": -53.45869565217391,
+          "composites": {
+            "balanced_50_30_20": 25.959347826086955,
+            "upside_60_30_10": 36.74413043478261,
+            "robust_40_20_40": 6.676521739130436
+          }
+        },
+        {
+          "tag": "levelk_926417",
+          "samples": 390,
+          "expected_pnl": 45.62564102564102,
+          "first_place_rate": 0.2717948717948718,
+          "robustness": -52.96410256410257,
+          "composites": {
+            "balanced_50_30_20": 20.373846153846152,
+            "upside_60_30_10": 30.232820512820506,
+            "robust_40_20_40": 2.5005128205128138
+          }
+        },
+        {
+          "tag": "meta_switch",
+          "samples": 440,
+          "expected_pnl": 38.67045454545455,
+          "first_place_rate": 0.25,
+          "robustness": -78.23863636363636,
+          "composites": {
+            "balanced_50_30_20": 11.1875,
+            "upside_60_30_10": 22.87840909090909,
+            "robust_40_20_40": -10.827272727272728
+          }
+        },
+        {
+          "tag": "levelk_base",
+          "samples": 390,
+          "expected_pnl": 34.635897435897434,
+          "first_place_rate": 0.2512820512820513,
+          "robustness": -88.94102564102565,
+          "composites": {
+            "balanced_50_30_20": 7.0682051282051255,
+            "upside_60_30_10": 19.425897435897433,
+            "robust_40_20_40": -16.696410256410264
+          }
+        },
+        {
+          "tag": "level_k",
+          "samples": 500,
+          "expected_pnl": 24.848,
+          "first_place_rate": 0.254,
+          "robustness": -82.532,
+          "composites": {
+            "balanced_50_30_20": 3.537600000000001,
+            "upside_60_30_10": 14.2756,
+            "robust_40_20_40": -17.9936
+          }
+        }
+      ]
+    },
+    {
+      "objective": "ev",
+      "corr": "respect",
+      "metric": "expected_pnl",
+      "winner": "levelk_42207",
+      "winner_metric": 38.6975,
+      "top5": [
+        {
+          "tag": "levelk_42207",
+          "samples": 400,
+          "expected_pnl": 38.6975,
+          "first_place_rate": 0.305,
+          "robustness": -86.84,
+          "composites": {
+            "balanced_50_30_20": 11.130749999999999,
+            "upside_60_30_10": 23.684499999999996,
+            "robust_40_20_40": -13.157000000000004
+          }
+        },
+        {
+          "tag": "levelk_base",
+          "samples": 450,
+          "expected_pnl": 30.57777777777778,
+          "first_place_rate": 0.2511111111111111,
+          "robustness": -91.8,
+          "composites": {
+            "balanced_50_30_20": 4.462222222222223,
+            "upside_60_30_10": 16.700000000000003,
+            "robust_40_20_40": -19.466666666666665
+          }
+        },
+        {
+          "tag": "level_k",
+          "samples": 500,
+          "expected_pnl": 20.006,
+          "first_place_rate": 0.196,
+          "robustness": -77.554,
+          "composites": {
+            "balanced_50_30_20": 0.37219999999999764,
+            "upside_60_30_10": 10.1282,
+            "robust_40_20_40": -19.099200000000003
+          }
+        },
+        {
+          "tag": "levelk_207605",
+          "samples": 380,
+          "expected_pnl": 13.289473684210526,
+          "first_place_rate": 0.21842105263157896,
+          "robustness": -116.80263157894737,
+          "composites": {
+            "balanced_50_30_20": -10.163157894736845,
+            "upside_60_30_10": 2.846052631578946,
+            "robust_40_20_40": -37.03684210526316
+          }
+        },
+        {
+          "tag": "levelk_926417",
+          "samples": 470,
+          "expected_pnl": 11.029787234042553,
+          "first_place_rate": 0.1723404255319149,
+          "robustness": -119.5127659574468,
+          "composites": {
+            "balanced_50_30_20": -13.217446808510637,
+            "upside_60_30_10": -0.16319148936170258,
+            "robust_40_20_40": -39.9463829787234
+          }
+        }
+      ]
+    },
+    {
+      "objective": "ev",
+      "corr": "kingmaker",
+      "metric": "expected_pnl",
+      "winner": "meta_switch_soft",
+      "winner_metric": 43.72195121951219,
+      "top5": [
+        {
+          "tag": "meta_switch_soft",
+          "samples": 410,
+          "expected_pnl": 43.72195121951219,
+          "first_place_rate": 0.348780487804878,
+          "robustness": -100.92439024390245,
+          "composites": {
+            "balanced_50_30_20": 12.139512195121945,
+            "upside_60_30_10": 26.604146341463412,
+            "robust_40_20_40": -15.905365853658544
+          }
+        },
+        {
+          "tag": "levelk_926417",
+          "samples": 300,
+          "expected_pnl": 43.053333333333335,
+          "first_place_rate": 0.2833333333333333,
+          "robustness": -47.24666666666666,
+          "composites": {
+            "balanced_50_30_20": 20.577333333333335,
+            "upside_60_30_10": 29.607333333333333,
+            "robust_40_20_40": 3.9893333333333345
+          }
+        },
+        {
+          "tag": "level_k",
+          "samples": 470,
+          "expected_pnl": 40.50851063829787,
+          "first_place_rate": 0.24468085106382978,
+          "robustness": -57.28936170212766,
+          "composites": {
+            "balanced_50_30_20": 16.136808510638296,
+            "upside_60_30_10": 25.916595744680848,
+            "robust_40_20_40": -1.8187234042553158
+          }
+        },
+        {
+          "tag": "levelk_base",
+          "samples": 490,
+          "expected_pnl": 27.426530612244896,
+          "first_place_rate": 0.2571428571428571,
+          "robustness": -76.73673469387757,
+          "composites": {
+            "balanced_50_30_20": 6.080204081632646,
+            "upside_60_30_10": 16.49653061224489,
+            "robust_40_20_40": -14.581224489795925
+          }
+        },
+        {
+          "tag": "levelk_207605",
+          "samples": 390,
+          "expected_pnl": 26.141025641025642,
+          "first_place_rate": 0.2076923076923077,
+          "robustness": -76.61538461538461,
+          "composites": {
+            "balanced_50_30_20": 3.9782051282051274,
+            "upside_60_30_10": 14.253846153846151,
+            "robust_40_20_40": -16.035897435897436
+          }
+        }
+      ]
+    },
+    {
+      "objective": "first_place",
+      "corr": "none",
+      "metric": "first_place_rate",
+      "winner": "level_k",
+      "winner_metric": 0.32,
+      "top5": [
+        {
+          "tag": "level_k",
+          "samples": 450,
+          "expected_pnl": 52.44,
+          "first_place_rate": 0.32,
+          "robustness": -51.48222222222222,
+          "composites": {
+            "balanced_50_30_20": 25.523555555555554,
+            "upside_60_30_10": 35.91577777777778,
+            "robust_40_20_40": 6.783111111111108
+          }
+        },
+        {
+          "tag": "levelk_207605",
+          "samples": 410,
+          "expected_pnl": 42.421951219512195,
+          "first_place_rate": 0.2951219512195122,
+          "robustness": -71.17560975609756,
+          "composites": {
+            "balanced_50_30_20": 15.82951219512195,
+            "upside_60_30_10": 27.189268292682925,
+            "robust_40_20_40": -5.599024390243901
+          }
+        },
+        {
+          "tag": "conservative",
+          "samples": 410,
+          "expected_pnl": 18.504878048780487,
+          "first_place_rate": 0.3073170731707317,
+          "robustness": -136.25121951219512,
+          "composites": {
+            "balanced_50_30_20": -8.778292682926832,
+            "upside_60_30_10": 6.69731707317073,
+            "robust_40_20_40": -40.95219512195122
+          }
+        },
+        {
+          "tag": "levelk_926417",
+          "samples": 440,
+          "expected_pnl": 14.693181818181818,
+          "first_place_rate": 0.21818181818181817,
+          "robustness": -100.95454545454545,
+          "composites": {
+            "balanced_50_30_20": -6.298863636363638,
+            "upside_60_30_10": 5.265909090909091,
+            "robust_40_20_40": -30.14090909090909
+          }
+        },
+        {
+          "tag": "meta_switch_soft",
+          "samples": 370,
+          "expected_pnl": 14.283783783783784,
+          "first_place_rate": 0.22702702702702704,
+          "robustness": -138.0810810810811,
+          "composites": {
+            "balanced_50_30_20": -13.663513513513518,
+            "upside_60_30_10": 1.5729729729729716,
+            "robust_40_20_40": -44.97837837837838
+          }
+        }
+      ]
+    },
+    {
+      "objective": "first_place",
+      "corr": "respect",
+      "metric": "first_place_rate",
+      "winner": "levelk_207605",
+      "winner_metric": 0.2909090909090909,
+      "top5": [
+        {
+          "tag": "levelk_207605",
+          "samples": 440,
+          "expected_pnl": 40.33409090909091,
+          "first_place_rate": 0.2909090909090909,
+          "robustness": -71.16590909090908,
+          "composites": {
+            "balanced_50_30_20": 14.661136363636365,
+            "upside_60_30_10": 25.811136363636358,
+            "robust_40_20_40": -6.514545454545452
+          }
+        },
+        {
+          "tag": "level_k",
+          "samples": 440,
+          "expected_pnl": 27.3,
+          "first_place_rate": 0.2431818181818182,
+          "robustness": -88.24545454545455,
+          "composites": {
+            "balanced_50_30_20": 3.2963636363636333,
+            "upside_60_30_10": 14.850909090909086,
+            "robust_40_20_40": -19.51454545454546
+          }
+        },
+        {
+          "tag": "levelk_base",
+          "samples": 460,
+          "expected_pnl": 24.06304347826087,
+          "first_place_rate": 0.21956521739130436,
+          "robustness": -89.45869565217392,
+          "composites": {
+            "balanced_50_30_20": 0.7267391304347832,
+            "upside_60_30_10": 12.078913043478261,
+            "robust_40_20_40": -21.76695652173913
+          }
+        },
+        {
+          "tag": "levelk_926417",
+          "samples": 410,
+          "expected_pnl": 10.002439024390243,
+          "first_place_rate": 0.20243902439024392,
+          "robustness": -105.60731707317073,
+          "composites": {
+            "balanced_50_30_20": -10.04707317073171,
+            "upside_60_30_10": 1.5139024390243883,
+            "robust_40_20_40": -34.193170731707326
+          }
+        },
+        {
+          "tag": "levelk_42207",
+          "samples": 440,
+          "expected_pnl": 8.911363636363637,
+          "first_place_rate": 0.21363636363636362,
+          "robustness": -115.10000000000001,
+          "composites": {
+            "balanced_50_30_20": -12.155227272727277,
+            "upside_60_30_10": 0.24590909090908752,
+            "robust_40_20_40": -38.20272727272728
+          }
+        }
+      ]
+    },
+    {
+      "objective": "first_place",
+      "corr": "kingmaker",
+      "metric": "first_place_rate",
+      "winner": "meta_switch_soft",
+      "winner_metric": 0.36666666666666664,
+      "top5": [
+        {
+          "tag": "meta_switch_soft",
+          "samples": 450,
+          "expected_pnl": 62.882222222222225,
+          "first_place_rate": 0.36666666666666664,
+          "robustness": -45.00666666666666,
+          "composites": {
+            "balanced_50_30_20": 33.43977777777778,
+            "upside_60_30_10": 44.22866666666667,
+            "robust_40_20_40": 14.483555555555558
+          }
+        },
+        {
+          "tag": "levelk_926417",
+          "samples": 440,
+          "expected_pnl": 46.44318181818182,
+          "first_place_rate": 0.3,
+          "robustness": -52.86363636363637,
+          "composites": {
+            "balanced_50_30_20": 21.648863636363632,
+            "upside_60_30_10": 31.579545454545453,
+            "robust_40_20_40": 3.43181818181818
+          }
+        },
+        {
+          "tag": "levelk_42207",
+          "samples": 420,
+          "expected_pnl": 30.40714285714286,
+          "first_place_rate": 0.22142857142857142,
+          "robustness": -67.04523809523809,
+          "composites": {
+            "balanced_50_30_20": 8.437380952380952,
+            "upside_60_30_10": 18.182619047619045,
+            "robust_40_20_40": -10.226666666666667
+          }
+        },
+        {
+          "tag": "level_k",
+          "samples": 430,
+          "expected_pnl": 19.22093023255814,
+          "first_place_rate": 0.19069767441860466,
+          "robustness": -84.56976744186048,
+          "composites": {
+            "balanced_50_30_20": -1.582558139534889,
+            "upside_60_30_10": 8.796511627906975,
+            "robust_40_20_40": -22.32558139534885
+          }
+        },
+        {
+          "tag": "levelk_207605",
+          "samples": 420,
+          "expected_pnl": 5.966666666666667,
+          "first_place_rate": 0.1380952380952381,
+          "robustness": -97.50952380952381,
+          "composites": {
+            "balanced_50_30_20": -12.375714285714288,
+            "upside_60_30_10": -2.028095238095239,
+            "robust_40_20_40": -33.8552380952381
+          }
+        }
+      ]
+    },
+    {
+      "objective": "robustness",
+      "corr": "none",
+      "metric": "robustness",
+      "winner": "levelk_207605",
+      "winner_metric": -63.97083333333333,
+      "top5": [
+        {
+          "tag": "level_k",
+          "samples": 420,
+          "expected_pnl": 34.88333333333333,
+          "first_place_rate": 0.2523809523809524,
+          "robustness": -66.44999999999999,
+          "composites": {
+            "balanced_50_30_20": 11.723095238095237,
+            "upside_60_30_10": 21.85642857142857,
+            "robust_40_20_40": -7.579047619047618
+          }
+        },
+        {
+          "tag": "levelk_207605",
+          "samples": 480,
+          "expected_pnl": 30.372916666666665,
+          "first_place_rate": 0.24166666666666667,
+          "robustness": -63.97083333333333,
+          "composites": {
+            "balanced_50_30_20": 9.642291666666663,
+            "upside_60_30_10": 19.076666666666664,
+            "robust_40_20_40": -8.605833333333333
+          }
+        },
+        {
+          "tag": "levelk_42207",
+          "samples": 450,
+          "expected_pnl": 30.34888888888889,
+          "first_place_rate": 0.24,
+          "robustness": -81.99555555555555,
+          "composites": {
+            "balanced_50_30_20": 5.975333333333332,
+            "upside_60_30_10": 17.209777777777777,
+            "robust_40_20_40": -15.858666666666664
+          }
+        },
+        {
+          "tag": "levelk_base",
+          "samples": 470,
+          "expected_pnl": 12.912765957446808,
+          "first_place_rate": 0.20212765957446807,
+          "robustness": -93.8531914893617,
+          "composites": {
+            "balanced_50_30_20": -6.250425531914896,
+            "upside_60_30_10": 4.426170212765955,
+            "robust_40_20_40": -28.3336170212766
+          }
+        },
+        {
+          "tag": "levelk_926417",
+          "samples": 380,
+          "expected_pnl": 3.3026315789473686,
+          "first_place_rate": 0.1763157894736842,
+          "robustness": -109.60526315789474,
+          "composites": {
+            "balanced_50_30_20": -14.98026315789474,
+            "upside_60_30_10": -3.689473684210528,
+            "robust_40_20_40": -38.99473684210527
+          }
+        }
+      ]
+    },
+    {
+      "objective": "robustness",
+      "corr": "respect",
+      "metric": "robustness",
+      "winner": "level_k",
+      "winner_metric": -42.220370370370375,
+      "top5": [
+        {
+          "tag": "levelk_42207",
+          "samples": 410,
+          "expected_pnl": 45.197560975609754,
+          "first_place_rate": 0.28780487804878047,
+          "robustness": -47.85121951219512,
+          "composites": {
+            "balanced_50_30_20": 21.662682926829266,
+            "upside_60_30_10": 30.967560975609754,
+            "robust_40_20_40": 4.694634146341464
+          }
+        },
+        {
+          "tag": "levelk_base",
+          "samples": 490,
+          "expected_pnl": 36.93061224489796,
+          "first_place_rate": 0.3040816326530612,
+          "robustness": -80.58979591836734,
+          "composites": {
+            "balanced_50_30_20": 11.469795918367346,
+            "upside_60_30_10": 23.221836734693877,
+            "robust_40_20_40": -11.382040816326533
+          }
+        },
+        {
+          "tag": "level_k",
+          "samples": 540,
+          "expected_pnl": 36.83518518518518,
+          "first_place_rate": 0.23148148148148148,
+          "robustness": -42.220370370370375,
+          "composites": {
+            "balanced_50_30_20": 16.91796296296296,
+            "upside_60_30_10": 24.823518518518515,
+            "robust_40_20_40": 2.4755555555555517
+          }
+        },
+        {
+          "tag": "levelk_926417",
+          "samples": 390,
+          "expected_pnl": 23.933333333333334,
+          "first_place_rate": 0.2205128205128205,
+          "robustness": -85.39999999999999,
+          "composites": {
+            "balanced_50_30_20": 1.5020512820512835,
+            "upside_60_30_10": 12.435384615384613,
+            "robust_40_20_40": -20.17641025641025
+          }
+        },
+        {
+          "tag": "conservative",
+          "samples": 400,
+          "expected_pnl": -9.5075,
+          "first_place_rate": 0.2,
+          "robustness": -144.58249999999998,
+          "composites": {
+            "balanced_50_30_20": -27.67025,
+            "upside_60_30_10": -14.162749999999999,
+            "robust_40_20_40": -57.635999999999996
+          }
+        }
+      ]
+    },
+    {
+      "objective": "robustness",
+      "corr": "kingmaker",
+      "metric": "robustness",
+      "winner": "levelk_base",
+      "winner_metric": -59.29183673469388,
+      "top5": [
+        {
+          "tag": "levelk_base",
+          "samples": 490,
+          "expected_pnl": 43.56530612244898,
+          "first_place_rate": 0.336734693877551,
+          "robustness": -59.29183673469388,
+          "composites": {
+            "balanced_50_30_20": 20.02632653061224,
+            "upside_60_30_10": 30.312040816326522,
+            "robust_40_20_40": 0.44408163265305944
+          }
+        },
+        {
+          "tag": "levelk_207605",
+          "samples": 460,
+          "expected_pnl": 29.026086956521738,
+          "first_place_rate": 0.22608695652173913,
+          "robustness": -67.71304347826087,
+          "composites": {
+            "balanced_50_30_20": 7.7530434782608655,
+            "upside_60_30_10": 17.426956521739125,
+            "robust_40_20_40": -10.95304347826087
+          }
+        },
+        {
+          "tag": "levelk_926417",
+          "samples": 450,
+          "expected_pnl": 26.351111111111113,
+          "first_place_rate": 0.2511111111111111,
+          "robustness": -75.59333333333333,
+          "composites": {
+            "balanced_50_30_20": 5.590222222222222,
+            "upside_60_30_10": 15.784666666666666,
+            "robust_40_20_40": -14.674666666666667
+          }
+        },
+        {
+          "tag": "levelk_42207",
+          "samples": 350,
+          "expected_pnl": 19.174285714285713,
+          "first_place_rate": 0.17142857142857143,
+          "robustness": -71.66857142857143,
+          "composites": {
+            "balanced_50_30_20": 0.39628571428571213,
+            "upside_60_30_10": 9.480571428571427,
+            "robust_40_20_40": -17.569142857142857
+          }
+        },
+        {
+          "tag": "level_k",
+          "samples": 460,
+          "expected_pnl": -2.9608695652173913,
+          "first_place_rate": 0.09347826086956522,
+          "robustness": -97.61304347826088,
+          "composites": {
+            "balanced_50_30_20": -18.198695652173917,
+            "upside_60_30_10": -8.733478260869568,
+            "robust_40_20_40": -38.36000000000001
+          }
+        }
+      ]
+    }
+  ]
+}
