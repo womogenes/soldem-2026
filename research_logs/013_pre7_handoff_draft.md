@@ -63,3 +63,4 @@ Local time: 2026-03-01 04:34 PST
 - `da6c86a`: ante-threshold calibration and updated high-ante trigger.
 - `9492469`: post-calibration full preflight validation log refresh.
 - `b71d8bc`: preflight policy smoke checks for first-place routing.
+- `d0a6bb9`: high-ante ratio trigger tuned to `0.26` with evaluator-backed evidence.

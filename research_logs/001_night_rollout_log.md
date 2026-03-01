@@ -899,3 +899,7 @@ Local time: 2026-03-01 01:25:02 PST
 - Result:
   - all baseline/high-ante/below-trigger checks passed.
 - Updated status/handoff docs with latest policy-smoke timestamp.
+
+## 2026-03-01 05:48:23 PST
+
+- Updated `research_logs/013_pre7_handoff_draft.md` commit checkpoint list with latest calibration commit `d0a6bb9`.
