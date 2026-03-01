@@ -24,6 +24,7 @@ This workstream follows `research_logs/000_god_prompt.md` as the controlling spe
 6. One-command autosolve+patch helper:
 - `scripts/day_of_autosolve_patch.py`
 - includes prior-guardrail filtering to reduce low-sample solver noise by default.
+- prior map is aligned with live resolver first-place rules (exact baseline/meta, winner-takes-all sprint+high-ante pot-fraction pockets).
 7. PocketBase EC2 deployment + schema sync + metadata seeding.
 
 ## Best strategy recommendations from rollouts

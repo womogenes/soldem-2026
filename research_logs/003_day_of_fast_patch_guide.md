@@ -84,6 +84,7 @@ Notes:
 - runs the quick hero solver under the specified variant,
 - applies profile/overrides to API,
 - applies prior guardrails by default so low-sample noisy flips are ignored unless margin is meaningful,
+- prior map now mirrors live resolver first-place logic (exact baseline `meta_switch`; sprint/high-ante `winner_takes_all` pockets favor `pot_fraction`),
 - sets champions and locks manual mode by default.
 - observed runtime on this machine with defaults (`n_tables=12`, `n_games=8`): about `22.9s`.
 

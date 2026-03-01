@@ -692,3 +692,18 @@ Local time: 2026-03-01 01:25:02 PST
   - `research_logs/006_variant_lookup_table.md`
   - `research_logs/013_pre7_handoff_draft.md`
   - `research_logs/015_random_variant_fuzz.md`
+
+## 2026-03-01 05:12:11 PST
+
+- Aligned `scripts/day_of_autosolve_patch.py` prior selection with updated API first-place resolver logic.
+- Changes:
+  - exact baseline profile -> first-place prior `meta_switch`.
+  - sprint override requires `winner_takes_all`.
+  - added high-ante-pressure `winner_takes_all` prior (`ante/start>=0.33`, `n_orbits>=3`) -> `pot_fraction`.
+  - fixed script import path bootstrapping for `game.rules` by inserting project root into `sys.path`.
+- Dry-run verification (small budget):
+  - baseline prior -> `meta_switch`
+  - high-ante winner-takes-all prior -> `pot_fraction`
+  - sprint split-pot prior -> `equity_evolved_v1`
+- Validation:
+  - `uv run python -m unittest tests.test_api_session tests.test_llm_advisor` -> `15/15` passing.

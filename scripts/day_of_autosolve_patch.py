@@ -11,6 +11,10 @@ from urllib import request
 
 
 ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from game.rules import BASELINE_PROFILE, resolve_profile
 
 
 def post_json(url: str, payload: dict) -> dict:
@@ -72,14 +76,22 @@ def objective_winners(solver_out: dict) -> dict[str, str]:
 
 
 def prior_champions(rule_profile: str, overrides: dict) -> dict[str, str]:
-    n_orbits = int(overrides.get("n_orbits", 3))
-    start_chips = int(overrides.get("start_chips", 200))
-    sprint_profile = n_orbits <= 2 and start_chips <= 150
+    profile = resolve_profile(rule_profile, **overrides)
+    sprint_profile = profile.n_orbits <= 2 and profile.start_chips <= 150
+    high_ante_pressure = (
+        profile.start_chips > 0
+        and (profile.ante_amt / profile.start_chips) >= 0.33
+        and profile.n_orbits >= 3
+        and profile.pot_distribution_policy == "winner_takes_all"
+    )
+    exact_baseline = profile == BASELINE_PROFILE
 
     first_place = "equity_evolved_v1"
-    if sprint_profile:
+    if sprint_profile and profile.pot_distribution_policy == "winner_takes_all":
         first_place = "pot_fraction"
-    elif rule_profile == "baseline_v1":
+    elif high_ante_pressure:
+        first_place = "pot_fraction"
+    elif exact_baseline:
         first_place = "meta_switch"
 
     return {
