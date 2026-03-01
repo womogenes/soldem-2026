@@ -1157,3 +1157,10 @@ Local time: 2026-03-01 01:25:02 PST
 - Committed backend/session safety patch and smoke expansion:
   - commit: `5ef9e69`
   - summary: sync API session/player-profile state with active `n_players`; add correlated-pair branch coverage to policy smoke; update runbooks to `34/34` test baseline.
+
+## 2026-03-01 06:58:48 PST
+
+- Final quick API+policy smoke on latest commit:
+  - command: `bash scripts/day_of_preflight.sh --api-url http://127.0.0.1:8024 --with-policy-smoke`
+  - result: pass
+  - includes correlated-pair defensive branch check.

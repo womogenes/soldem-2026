@@ -43,7 +43,7 @@ Local time: 2026-03-01 06:34 PST
 - Integrated preflight (`tests + web + policy smoke`) passed at `2026-03-01 06:56 PST`.
 - Full-stack preflight (`tests + web + policy smoke + bedrock + PB health`) passed at `2026-03-01 06:56 PST`.
 - Quick solver and sim runner now support `n_players != 5` (validated by tests and smoke run).
-- Policy smoke re-run at `2026-03-01 06:56 PST` passed with expanded winner-takes-all branch + 6-player checks.
+- Policy smoke re-run at `2026-03-01 06:58 PST` passed with expanded winner-takes-all branch + 6-player checks.
 
 ## Latest key docs
 
