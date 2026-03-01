@@ -1,6 +1,6 @@
 # Sold 'Em system summary
 
-Local timestamp: 2026-03-01 03:51:12 PST
+Local timestamp: 2026-03-01 05:25:18 PST
 
 ## What is ready now
 
@@ -20,9 +20,9 @@ Local timestamp: 2026-03-01 03:51:12 PST
 ## Best current strategy
 
 - Recommended objective-specific champions:
-- `ev`: `seller_extraction:opportunistic_delta=3300,reserve_bid_floor=0.029,sell_count=2`
-- `first_place`: `seller_extraction:opportunistic_delta=3300,reserve_bid_floor=0.029,sell_count=2`
-- `robustness`: `seller_extraction:opportunistic_delta=3300,reserve_bid_floor=0.029,sell_count=2`
+- `ev`: `seller_extraction:opportunistic_delta=4400,reserve_bid_floor=0.02,sell_count=2`
+- `first_place`: `seller_extraction:opportunistic_delta=4400,reserve_bid_floor=0.02,sell_count=2`
+- `robustness`: `seller_extraction:opportunistic_delta=4400,reserve_bid_floor=0.02,sell_count=2`
 - Evidence path:
 - Legacy high-confidence distributed runs favored `reserve_bid_floor=0.086`:
   - 777 / 864 scenario wins across runs `20260301-015615`, `20260301-020134`, `20260301-021037`, `20260301-023132`.
@@ -47,6 +47,15 @@ Local timestamp: 2026-03-01 03:51:12 PST
 - 10-game-format extraction (`horizon=10`) from run `20260301-033100`:
   - artifact: `research_logs/experiment_outputs/horizon10_confirmation_20260301-033100.json`
   - confirms only marginal challenger edge slices; retained primary recommendation unchanged.
+- Focused evolution-driven distributed run (`20260301-045734`) and targeted param sweep (`20260301-050721`) discovered and confirmed a stronger upgrade:
+  - promoted strategy: `seller_extraction:opportunistic_delta=4400,reserve_bid_floor=0.02,sell_count=2`
+  - param sweep mean delta vs `3300/0.029/2`: `+5.133` over 108 scenarios (77 wins, 31 losses)
+  - horizon-10 delta: `+8.031` over 36 scenarios (30 wins, 6 losses)
+  - objective-specific horizon-10 deltas:
+    - `ev`: `+8.365`
+    - `first_place`: `+0.0586`
+    - `robustness`: `+15.671`
+  - promotion artifact: `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-050721.json`
 
 ## Key artifacts
 
@@ -73,6 +82,7 @@ Local timestamp: 2026-03-01 03:51:12 PST
 - `research_logs/experiment_outputs/distributed_20260301-022736/aggregate_summary.json`
 - `research_logs/experiment_outputs/distributed_20260301-030400/aggregate_summary.json`
 - `research_logs/experiment_outputs/distributed_20260301-031824/aggregate_summary.json`
+- `research_logs/experiment_outputs/distributed_20260301-045734/aggregate_summary.json`
 - `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-015615.json`
 - `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-020134.json`
 - `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-021037.json`
@@ -81,14 +91,19 @@ Local timestamp: 2026-03-01 03:51:12 PST
 - `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-022736.json`
 - `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-030400.json`
 - `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-031824.json`
+- `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-045734.json`
 - `research_logs/experiment_outputs/distributed_master_summary_20260301.json`
 - `research_logs/experiment_outputs/param_sweep_20260301-024646/aggregate_summary.json`
 - `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-030400.json`
 - `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-033100.json`
+- `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-050721.json`
 - `research_logs/experiment_outputs/evolution_20260301-025553/aggregate_summary.json`
 - `research_logs/experiment_outputs/evolution_20260301-025732/aggregate_summary.json`
+- `research_logs/experiment_outputs/evolution_20260301-044713/aggregate_summary.json`
 - `research_logs/experiment_outputs/param_sweep_20260301-033100/aggregate_summary.json`
+- `research_logs/experiment_outputs/param_sweep_20260301-050721/aggregate_summary.json`
 - `research_logs/experiment_outputs/horizon10_confirmation_20260301-033100.json`
+- `research_logs/experiment_outputs/horizon10_confirmation_20260301-050721.json`
 
 ## Run instructions
 

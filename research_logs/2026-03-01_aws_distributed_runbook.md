@@ -15,6 +15,8 @@ Run large experiment grids in parallel on EC2, collect outputs from S3, and sync
 - Param sweep collector: `scripts/aws/collect_param_sweep_results.py`
 - Evolution launcher: `scripts/aws/launch_evolution_experiments.sh`
 - Evolution collector: `scripts/aws/collect_evolution_results.py`
+- Distributed summary synthesizer: `scripts/aws/summarize_distributed_champions.py`
+- Strategy pool builder: `scripts/aws/build_strategy_pool.py`
 - PocketBase schema bootstrap: `scripts/pocketbase/apply_collections.py`
 - PocketBase artifact sync: `scripts/pocketbase/sync_discovery.py`
 
@@ -113,6 +115,25 @@ Note: run `20260301-030400` used an expanded strategy pool and should be treated
   - `20260301-025732`:
     - outputs: `research_logs/experiment_outputs/evolution_20260301-025732/aggregate_summary.json`
     - candidate pool: `research_logs/experiment_inputs/evolution_candidate_pool_20260301-025732.txt`
+  - `20260301-044713`:
+    - outputs: `research_logs/experiment_outputs/evolution_20260301-044713/aggregate_summary.json`
+    - candidate pool: `research_logs/experiment_inputs/evolution_candidate_pool_20260301-044713.txt`
+- Distributed candidate validation run:
+  - `20260301-045734`
+  - outputs:
+    - `research_logs/experiment_outputs/distributed_20260301-045734/aggregate_summary.json`
+    - `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-045734.json`
+    - `research_logs/experiment_outputs/upgrade_validation_candidate_20260301-045734.json`
+  - note: this run is stored as candidate-only and intentionally not auto-promoted to HUD defaults.
+- Targeted param sweep promotion run:
+  - failed attempt `20260301-050045` (artifact missing candidate specs file), instances terminated
+  - corrected run `20260301-050721`:
+    - outputs: `research_logs/experiment_outputs/param_sweep_20260301-050721/aggregate_summary.json`
+    - horizon-10 extraction: `research_logs/experiment_outputs/horizon10_confirmation_20260301-050721.json`
+    - promoted upgrade artifact:
+      - `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-050721.json`
+    - promoted strategy:
+      - `seller_extraction:opportunistic_delta=4400,reserve_bid_floor=0.02,sell_count=2`
 
 Loop automation smoke runs:
 
@@ -158,7 +179,22 @@ uv run python scripts/aws/collect_distributed_results.py \
   --sync-pocketbase-token <pb-superuser-token>
 ```
 
-5. Terminate completed workers:
+5. Build distributed champion summary artifacts:
+
+```bash
+uv run python scripts/aws/summarize_distributed_champions.py \
+  --aggregate research_logs/experiment_outputs/distributed_<run_id>/aggregate_summary.json
+```
+
+6. Promote to active HUD defaults only after confirmation:
+
+```bash
+uv run python scripts/aws/summarize_distributed_champions.py \
+  --aggregate research_logs/experiment_outputs/distributed_<run_id>/aggregate_summary.json \
+  --promote-upgrade
+```
+
+7. Terminate completed workers:
 
 ```bash
 aws ec2 terminate-instances --instance-ids <ids...> --region us-east-1

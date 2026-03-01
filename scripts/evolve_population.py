@@ -7,12 +7,14 @@ import random
 import sys
 from dataclasses import dataclass
 from pathlib import Path
+from statistics import mean
 
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from sim import CorrelationModel, run_population_tournament
+from sim import CorrelationModel, run_match
+from sim.metrics import composite_profiles, composite_score, first_place_rate, robustness_score
 
 
 @dataclass
@@ -90,20 +92,45 @@ def _evaluate(
     objective: str,
     correlation: CorrelationModel,
 ) -> dict:
-    tags = baseline_pool + [candidate.spec]
-    result = run_population_tournament(
-        tags,
-        n_matches=n_matches,
-        n_games_per_match=n_games_per_match,
-        rule_profile=rule_profile,
-        seed=seed,
-        objective=objective,
-        correlation=correlation,
-    )
-    row = next((r for r in result["leaderboard"] if r["tag"] == candidate.spec), None)
-    if row is None:
-        raise RuntimeError(f"Candidate not present in leaderboard: {candidate.spec}")
-    return row
+    if len(baseline_pool) < 4:
+        raise ValueError("Need at least 4 baseline strategies for candidate evaluation")
+
+    rng = random.Random(seed)
+    cand_pnls: list[float] = []
+    cand_ranks: list[int] = []
+
+    for _ in range(n_matches):
+        opponents = rng.sample(baseline_pool, 4)
+        seats = [candidate.spec, *opponents]
+        rng.shuffle(seats)
+        out = run_match(
+            seats,
+            n_games=n_games_per_match,
+            seed=rng.randint(0, 2**31 - 1),
+            rule_profile=rule_profile,
+            objective=objective,
+            correlation=correlation,
+        )
+        cand_seat = out["strategy_tags"].index(candidate.spec)
+        for game in out["games"]:
+            cand_pnls.append(float(game["pnl"][cand_seat]))
+            cand_ranks.append(int(game["rk"][cand_seat]))
+
+    expected_pnl = mean(cand_pnls) if cand_pnls else 0.0
+    first_place = first_place_rate(cand_ranks)
+    robustness = robustness_score(cand_pnls)
+    composites = {
+        name: composite_score(expected_pnl, first_place, robustness, weights)
+        for name, weights in composite_profiles().items()
+    }
+    return {
+        "tag": candidate.spec,
+        "samples": len(cand_pnls),
+        "expected_pnl": expected_pnl,
+        "first_place_rate": first_place,
+        "robustness": robustness,
+        "composites": composites,
+    }
 
 
 def main() -> None:
@@ -120,6 +147,22 @@ def main() -> None:
     ap.add_argument("--correlation-mode", default="none")
     ap.add_argument("--correlation-strength", type=float, default=0.0)
     ap.add_argument("--correlation-pairs", default="")
+    ap.add_argument(
+        "--baseline-spec",
+        action="append",
+        default=[],
+        help="Additional strategy spec to include in baseline pool (repeatable)",
+    )
+    ap.add_argument(
+        "--baseline-file",
+        default="",
+        help="Text file with one strategy spec per line to include in baseline pool",
+    )
+    ap.add_argument(
+        "--replace-default-baseline",
+        action="store_true",
+        help="Use only provided baseline specs (from --baseline-spec/--baseline-file)",
+    )
     args = ap.parse_args()
 
     out_dir = Path(args.out_dir)
@@ -148,6 +191,30 @@ def main() -> None:
         "seller_profit",
         "adaptive_profile",
     ]
+    if args.replace_default_baseline:
+        baseline_pool = []
+    if args.baseline_file:
+        path = Path(args.baseline_file)
+        if not path.exists():
+            raise FileNotFoundError(f"Baseline file not found: {path}")
+        for line in path.read_text(encoding="utf-8").splitlines():
+            spec = line.strip()
+            if not spec or spec.startswith("#"):
+                continue
+            baseline_pool.append(spec)
+    if args.baseline_spec:
+        baseline_pool.extend(spec.strip() for spec in args.baseline_spec if spec.strip())
+    # Stable de-dup preserving order.
+    dedup: list[str] = []
+    seen: set[str] = set()
+    for spec in baseline_pool:
+        if spec in seen:
+            continue
+        seen.add(spec)
+        dedup.append(spec)
+    baseline_pool = dedup
+    if len(baseline_pool) < 4:
+        raise ValueError("Baseline pool must contain at least 4 unique strategy specs")
     key = _objective_key(args.objective)
     all_rows: list[dict] = []
     survivors: list[Candidate] = []
@@ -211,6 +278,7 @@ def main() -> None:
             "strength": correlation.strength,
             "pairs": correlation.pairs,
         },
+        "baseline_pool": baseline_pool,
         "top_candidates": top_rows,
         "jsonl_path": str(jsonl_path),
     }

@@ -369,3 +369,70 @@ Local timezone: PST (America/Los_Angeles)
   - `uv run python -m unittest discover -s tests -v` -> 16/16 passing.
   - `scripts/print_latest_champions.py` resolves to
     `distributed_upgrade_validation_20260301-033100.json` with champion `3300/0.029/2`.
+
+## 2026-03-01 04:49:45 PST
+
+- Hardened evolutionary evaluator in `scripts/evolve_population.py`:
+  - added baseline controls (`--baseline-file`, `--baseline-spec`, `--replace-default-baseline`),
+  - changed candidate evaluation to guaranteed-in-table matches via `run_match` so candidates cannot disappear from leaderboard sampling,
+  - emitted `baseline_pool` in summary artifacts.
+- Added focused baseline and jobs for champion-aware search:
+  - `research_logs/experiment_inputs/evolution_baseline_20260301-0447.txt`
+  - `research_logs/experiment_inputs/evolution_jobs_20260301_0447.txt`
+- Added utility script to build distributed validation pools from evolution artifacts:
+  - `scripts/aws/build_strategy_pool.py`.
+- Built and uploaded fresh worktree artifact:
+  - `s3://soldem-2026-539881456097-1772358537/artifacts/soldem_worktree_20260301-044700.tar.gz`.
+- Launched new EC2 evolution fleet:
+  - run id: `20260301-044713`
+  - 18x `c7i.large`
+  - mapping file: `research_logs/aws_evolution_worker_map_20260301-044713.jsonl`
+  - objectives/profiles include 10-game focused sweeps plus correlated variants.
+- Started live S3 completion monitor for run `20260301-044713` (`54` expected files).
+
+## 2026-03-01 05:10:32 PST
+
+- Collected and synced focused evolution run `20260301-044713`:
+  - aggregate: `research_logs/experiment_outputs/evolution_20260301-044713/aggregate_summary.json`
+  - candidate pool: `research_logs/experiment_inputs/evolution_candidate_pool_20260301-044713.txt`
+  - PocketBase sync complete (`champions` objective `evolution_20260301-044713`).
+- Built evolution-driven distributed validation pool:
+  - `research_logs/experiment_inputs/distributed_upgrade_pool_20260301-0456.txt` (27 strategies).
+- Launched and collected distributed run `20260301-045734` (14x `c7i.large`, `n_matches=240`), then terminated workers.
+  - aggregate: `research_logs/experiment_outputs/distributed_20260301-045734/aggregate_summary.json`
+  - auto-summary artifacts:
+    - `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-045734.json`
+    - `research_logs/experiment_outputs/upgrade_validation_candidate_20260301-045734.json`
+- Added automation script:
+  - `scripts/aws/summarize_distributed_champions.py` to generate both distributed summary artifacts from aggregate output.
+- Safety update:
+  - `summarize_distributed_champions.py` now defaults to writing non-promoting candidate upgrade files,
+    requiring explicit `--promote-upgrade` to produce `distributed_upgrade_validation_<run_id>.json`.
+- Current stable HUD recommendation remains `3300/0.029/2`:
+  - latest promoted artifact still `distributed_upgrade_validation_20260301-043312.json`.
+- Param sweep incident and recovery:
+  - first launch `20260301-050045` failed because candidate specs file was missing from artifact,
+  - terminated failed fleet,
+  - rebuilt/uploaded artifact `soldem_worktree_20260301-050705.tar.gz`,
+  - relaunched as `20260301-050721` and resumed monitoring.
+
+## 2026-03-01 05:26:05 PST
+
+- Completed corrected EC2 param sweep run `20260301-050721` (16x `c7i.large`, 16 candidates, `n_matches=160`) against champion `3300/0.029/2`.
+  - aggregate: `research_logs/experiment_outputs/param_sweep_20260301-050721/aggregate_summary.json`
+  - top challenger:
+    - `seller_extraction:opportunistic_delta=4400,reserve_bid_floor=0.02,sell_count=2`
+    - mean delta vs champion: `+5.133`
+    - wins/losses: `77/31` over 108 scenarios.
+- Extracted horizon-10 confirmation from per-scenario rows:
+  - artifact: `research_logs/experiment_outputs/horizon10_confirmation_20260301-050721.json`
+  - `4400/0.02/2` horizon-10 mean delta: `+8.031` (`30/6` wins/losses).
+- Promoted new session champion artifact:
+  - `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-050721.json`
+  - objective recommendations set to `4400/0.02/2` for `ev`, `first_place`, `robustness`.
+- Synced promotion evidence to PocketBase (`champions` records with objective prefix `promotion_20260301-050721_*`).
+- Updated code defaults and discovery pools toward promoted strategy:
+  - `game/api.py` default champion and advisor fallback now `4400/0.02/2`.
+  - `DISCOVERY_STRATEGY_SPECS` expanded with new top challengers (`4400/0.02/2`, `4500/0.02/2`, `2600/0.023/2`).
+  - `scripts/aws/launch_distributed_experiments.sh` default pool updated to include new promoted strategy and strongest challengers.
+- Terminated all worker instances for `20260301-050721` and verified no active `soldem-dist|soldem-evolution|soldem-param-sweep` EC2 workers remain.

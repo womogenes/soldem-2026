@@ -1,16 +1,18 @@
 # Sold 'Em quick reference card
 
-Local timestamp: 2026-03-01 04:35:52 PST
+Local timestamp: 2026-03-01 05:24:40 PST
 
 ## Primary strategy
 
 - Default for `ev`, `first_place`, and `robustness`:
-- `seller_extraction:opportunistic_delta=3300,reserve_bid_floor=0.029,sell_count=2`
+- `seller_extraction:opportunistic_delta=4400,reserve_bid_floor=0.02,sell_count=2`
 
 ## Why this is current default
 
-- Expanded EC2 run `20260301-031824` surfaced `3300/0.029/2` as dominant winner.
-- Targeted EC2 confirmation run `20260301-033100` found no challenger with positive mean delta vs this champion.
+- EC2 param sweep `20260301-050721` vs prior champion `3300/0.029/2`:
+- mean delta `+5.13` and wins/losses `77/31`.
+- 10-game extraction from same run:
+- mean delta `+8.03` and wins/losses `30/6`.
 
 ## Turn actions
 

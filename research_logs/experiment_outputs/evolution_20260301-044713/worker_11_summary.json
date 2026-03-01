@@ -1,0 +1,231 @@
+{
+  "objective": "robustness",
+  "metric_key": "robustness",
+  "generations": 6,
+  "population_size": 16,
+  "survivors": 4,
+  "n_matches": 60,
+  "n_games_per_match": 10,
+  "rule_profile": "top2_split",
+  "correlation": {
+    "mode": "herd",
+    "strength": 0.3,
+    "pairs": [
+      [
+        3,
+        4
+      ]
+    ]
+  },
+  "baseline_pool": [
+    "random",
+    "pot_fraction",
+    "delta_value",
+    "conservative",
+    "bully",
+    "seller_profit",
+    "adaptive_profile",
+    "seller_extraction:opportunistic_delta=3300,reserve_bid_floor=0.029,sell_count=2",
+    "seller_extraction:opportunistic_delta=5400,reserve_bid_floor=0.032,sell_count=2",
+    "seller_extraction:opportunistic_delta=4200,reserve_bid_floor=0.054,sell_count=2",
+    "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.06,sell_count=2",
+    "seller_extraction:opportunistic_delta=3600,reserve_bid_floor=0.06,sell_count=2",
+    "risk_sniper:bid_scale=0.769,late_round_bonus=0.311,sell_count=2,stack_cap_fraction=0.258,trigger_delta=1600"
+  ],
+  "top_candidates": [
+    {
+      "generation": 5,
+      "seed": 21410422,
+      "objective": "robustness",
+      "rule_profile": "top2_split",
+      "candidate": "seller_extraction:opportunistic_delta=3300,reserve_bid_floor=0.04,sell_count=2",
+      "metrics": {
+        "tag": "seller_extraction:opportunistic_delta=3300,reserve_bid_floor=0.04,sell_count=2",
+        "samples": 600,
+        "expected_pnl": 106.06166666666667,
+        "first_place_rate": 0.5883333333333334,
+        "robustness": 94.63666666666667,
+        "composites": {
+          "balanced_50_30_20": 89.60816666666668,
+          "upside_60_30_10": 90.75066666666667,
+          "robust_40_20_40": 92.04599999999999
+        }
+      }
+    },
+    {
+      "generation": 4,
+      "seed": 21400394,
+      "objective": "robustness",
+      "rule_profile": "top2_split",
+      "candidate": "seller_extraction:opportunistic_delta=3500,reserve_bid_floor=0.041,sell_count=2",
+      "metrics": {
+        "tag": "seller_extraction:opportunistic_delta=3500,reserve_bid_floor=0.041,sell_count=2",
+        "samples": 600,
+        "expected_pnl": 99.445,
+        "first_place_rate": 0.485,
+        "robustness": 88.00333333333333,
+        "composites": {
+          "balanced_50_30_20": 81.87316666666666,
+          "upside_60_30_10": 83.01733333333333,
+          "robust_40_20_40": 84.67933333333333
+        }
+      }
+    },
+    {
+      "generation": 5,
+      "seed": 21410423,
+      "objective": "robustness",
+      "rule_profile": "top2_split",
+      "candidate": "seller_extraction:opportunistic_delta=3000,reserve_bid_floor=0.047,sell_count=2",
+      "metrics": {
+        "tag": "seller_extraction:opportunistic_delta=3000,reserve_bid_floor=0.047,sell_count=2",
+        "samples": 600,
+        "expected_pnl": 99.35,
+        "first_place_rate": 0.43666666666666665,
+        "robustness": 85.25,
+        "composites": {
+          "balanced_50_30_20": 79.82499999999999,
+          "upside_60_30_10": 81.235,
+          "robust_40_20_40": 82.57333333333334
+        }
+      }
+    },
+    {
+      "generation": 5,
+      "seed": 21410417,
+      "objective": "robustness",
+      "rule_profile": "top2_split",
+      "candidate": "seller_extraction:opportunistic_delta=3500,reserve_bid_floor=0.035,sell_count=2",
+      "metrics": {
+        "tag": "seller_extraction:opportunistic_delta=3500,reserve_bid_floor=0.035,sell_count=2",
+        "samples": 600,
+        "expected_pnl": 83.575,
+        "first_place_rate": 0.42833333333333334,
+        "robustness": 72.65,
+        "composites": {
+          "balanced_50_30_20": 69.1675,
+          "upside_60_30_10": 70.26,
+          "robust_40_20_40": 71.05666666666667
+        }
+      }
+    },
+    {
+      "generation": 4,
+      "seed": 21400407,
+      "objective": "robustness",
+      "rule_profile": "top2_split",
+      "candidate": "seller_extraction:opportunistic_delta=3400,reserve_bid_floor=0.036,sell_count=2",
+      "metrics": {
+        "tag": "seller_extraction:opportunistic_delta=3400,reserve_bid_floor=0.036,sell_count=2",
+        "samples": 600,
+        "expected_pnl": 90.48333333333333,
+        "first_place_rate": 0.455,
+        "robustness": 71.35,
+        "composites": {
+          "balanced_50_30_20": 73.16166666666666,
+          "upside_60_30_10": 75.075,
+          "robust_40_20_40": 73.83333333333334
+        }
+      }
+    },
+    {
+      "generation": 4,
+      "seed": 21400396,
+      "objective": "robustness",
+      "rule_profile": "top2_split",
+      "candidate": "seller_extraction:opportunistic_delta=3000,reserve_bid_floor=0.045,sell_count=2",
+      "metrics": {
+        "tag": "seller_extraction:opportunistic_delta=3000,reserve_bid_floor=0.045,sell_count=2",
+        "samples": 600,
+        "expected_pnl": 88.93833333333333,
+        "first_place_rate": 0.44,
+        "robustness": 69.76333333333334,
+        "composites": {
+          "balanced_50_30_20": 71.62183333333334,
+          "upside_60_30_10": 73.53933333333333,
+          "robust_40_20_40": 72.28066666666666
+        }
+      }
+    },
+    {
+      "generation": 3,
+      "seed": 21390380,
+      "objective": "robustness",
+      "rule_profile": "top2_split",
+      "candidate": "seller_extraction:opportunistic_delta=3500,reserve_bid_floor=0.041,sell_count=1",
+      "metrics": {
+        "tag": "seller_extraction:opportunistic_delta=3500,reserve_bid_floor=0.041,sell_count=1",
+        "samples": 600,
+        "expected_pnl": 86.94166666666666,
+        "first_place_rate": 0.435,
+        "robustness": 68.36666666666666,
+        "composites": {
+          "balanced_50_30_20": 70.19416666666666,
+          "upside_60_30_10": 72.05166666666668,
+          "robust_40_20_40": 70.82333333333332
+        }
+      }
+    },
+    {
+      "generation": 5,
+      "seed": 21410411,
+      "objective": "robustness",
+      "rule_profile": "top2_split",
+      "candidate": "seller_extraction:opportunistic_delta=3400,reserve_bid_floor=0.036,sell_count=1",
+      "metrics": {
+        "tag": "seller_extraction:opportunistic_delta=3400,reserve_bid_floor=0.036,sell_count=1",
+        "samples": 600,
+        "expected_pnl": 82.445,
+        "first_place_rate": 0.39166666666666666,
+        "robustness": 67.42833333333333,
+        "composites": {
+          "balanced_50_30_20": 66.45816666666667,
+          "upside_60_30_10": 67.95983333333332,
+          "robust_40_20_40": 67.78266666666667
+        }
+      }
+    },
+    {
+      "generation": 4,
+      "seed": 21400399,
+      "objective": "robustness",
+      "rule_profile": "top2_split",
+      "candidate": "seller_extraction:opportunistic_delta=3400,reserve_bid_floor=0.04,sell_count=2",
+      "metrics": {
+        "tag": "seller_extraction:opportunistic_delta=3400,reserve_bid_floor=0.04,sell_count=2",
+        "samples": 600,
+        "expected_pnl": 89.72,
+        "first_place_rate": 0.44,
+        "robustness": 64.33666666666667,
+        "composites": {
+          "balanced_50_30_20": 70.92733333333334,
+          "upside_60_30_10": 73.46566666666666,
+          "robust_40_20_40": 70.42266666666667
+        }
+      }
+    },
+    {
+      "generation": 3,
+      "seed": 21390382,
+      "objective": "robustness",
+      "rule_profile": "top2_split",
+      "candidate": "seller_extraction:opportunistic_delta=3400,reserve_bid_floor=0.041,sell_count=2",
+      "metrics": {
+        "tag": "seller_extraction:opportunistic_delta=3400,reserve_bid_floor=0.041,sell_count=2",
+        "samples": 600,
+        "expected_pnl": 81.29166666666667,
+        "first_place_rate": 0.4166666666666667,
+        "robustness": 63.733333333333334,
+        "composites": {
+          "balanced_50_30_20": 65.8925,
+          "upside_60_30_10": 67.64833333333333,
+          "robust_40_20_40": 66.34333333333335
+        }
+      }
+    }
+  ],
+  "jsonl_path": "/opt/soldem/out/evolution_runs.jsonl",
+  "worker_idx": 11,
+  "seed": 21360330,
+  "job_args": "--generations 6 --population-size 16 --survivors 4 --n-matches 60 --n-games-per-match 10 --rule-profile top2_split --objective robustness --correlation-mode herd --correlation-strength 0.30 --correlation-pairs 3-4 --baseline-file research_logs/experiment_inputs/evolution_baseline_20260301-0447.txt"
+}
