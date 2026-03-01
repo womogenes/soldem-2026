@@ -74,6 +74,26 @@ class ChampionLoaderTests(unittest.TestCase):
             self.assertEqual(champs["ev"], "b")
             self.assertEqual(details["summary_path"], str(newer))
 
+    def test_find_latest_summary_path_respects_pattern_priority(self):
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            root = Path(tmp_dir)
+            preferred = root / "distributed_upgrade_validation_20260301.json"
+            fallback = root / "param_sweep_20260301-000001" / "aggregate_summary.json"
+            fallback.parent.mkdir(parents=True, exist_ok=True)
+
+            preferred.write_text(
+                json.dumps({"recommended_session_champions": {"ev": "a", "first_place": "a", "robustness": "a"}}),
+                encoding="utf-8",
+            )
+            time.sleep(0.01)
+            fallback.write_text(
+                json.dumps({"candidate_summary": [{"candidate": "b", "mean_delta_vs_champion": 1.0, "wins": 1, "losses": 0}]}),
+                encoding="utf-8",
+            )
+
+            latest = find_latest_summary_path(root)
+            self.assertEqual(latest, preferred)
+
     def test_profile_objective_votes_format(self):
         payload = {
             "baseline_v1": {

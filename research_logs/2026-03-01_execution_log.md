@@ -353,3 +353,19 @@ Local timezone: PST (America/Los_Angeles)
   - primary champion `3300/0.029/2` remains strongest overall across objectives in targeted sweep,
   - challenger `5400/0.032/2` shows only narrow robustness-focused advantage slices and remains negative overall vs champion.
 - Provisioned optional extra head-to-head run `20260301-035736` (very high `n_matches=420`) and terminated early to avoid low-yield EC2 burn after no uploads for extended runtime.
+
+## 2026-03-01 04:32:25 PST
+
+- Added day-of utility script:
+  - `scripts/print_latest_champions.py` prints resolved champions from latest artifacts.
+- Added quick operator card:
+  - `research_logs/2026-03-01_quick_reference_card.md`.
+- Fixed champion artifact resolution precedence bug:
+  - `game/champion_loader.py` now respects pattern priority order (upgrade-validation artifacts first),
+    instead of picking whichever summary file has latest mtime.
+- Added regression test:
+  - `test_find_latest_summary_path_respects_pattern_priority` in `tests/test_champion_loader.py`.
+- Validation:
+  - `uv run python -m unittest discover -s tests -v` -> 16/16 passing.
+  - `scripts/print_latest_champions.py` resolves to
+    `distributed_upgrade_validation_20260301-033100.json` with champion `3300/0.029/2`.

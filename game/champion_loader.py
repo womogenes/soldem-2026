@@ -186,9 +186,8 @@ def find_latest_summary_path(base_dir: Path | str) -> Path | None:
         "distributed_precomputed_variation_champions_*.json",
         "param_sweep_*/aggregate_summary.json",
     ]
-    candidates: list[Path] = []
     for pattern in patterns:
-        candidates.extend(root.glob(pattern))
-    if not candidates:
-        return None
-    return max(candidates, key=lambda p: (p.stat().st_mtime, p.name))
+        candidates = list(root.glob(pattern))
+        if candidates:
+            return max(candidates, key=lambda p: (p.stat().st_mtime, p.name))
+    return None
