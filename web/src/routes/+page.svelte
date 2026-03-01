@@ -1,75 +1,144 @@
 <script lang="ts">
-	import { Button } from '$lib/components/ui/button';
 	import { onMount } from 'svelte';
 
 	type Suit = 'C' | 'D' | 'H' | 'S' | 'X';
 	type Card = [number, Suit];
 	type Phase = 'sell' | 'bid' | 'choose' | 'showdown';
 	type Objective = 'ev' | 'first_place' | 'robustness';
-	type OutputMode = 'action_first' | 'top3' | 'metrics' | 'all';
 
-	const API = 'http://127.0.0.1:8000';
+	const API = import.meta.env.VITE_API_BASE ?? '/api';
 
-	let phase: Phase = 'bid';
 	let objective: Objective = 'ev';
-	let outputMode: OutputMode = 'all';
-	let strategyTag = '';
-	let policyConditionKey = '';
-	let matchHorizon = 10;
-	let autoPolicyCondition = true;
+	let phase: Phase = 'bid';
 	let seat = 0;
 	let sellerIdx = -1;
 	let pot = 200;
 	let roundNum = 0;
 	let nOrbits = 3;
-	let stacks: number[] = [160, 160, 160, 160, 160];
+	let stacksText = '160 160 160 160 160';
 	let myCardsText = '7H 8H 9H 4C 4D';
 	let auctionCardsText = '10H';
-	let knownCardsText = '';
-	let status = '';
-	let loading = false;
-	let championsLoading = false;
-	let recommendation: any = null;
+	let intelBySeatText = '1: 8H 9H; 3: 10C';
+	let strategyOverride = '';
+	let useAutoStrategy = true;
 	let sessionState: any = null;
-	let eventType: 'bid' | 'auction_result' | 'showdown' | 'note' = 'bid';
-	let eventSeat = 0;
-	let eventAmount = 0;
-	let eventWinner = 0;
-	let eventNote = '';
+	let recommendation: any = null;
+	let loading = false;
+	let status = '';
 
 	function parseCards(input: string): Card[] {
-		const toks = input
+		const tokens = input
 			.toUpperCase()
-			.split(/\s+/)
+			.split(/[,\s]+/)
 			.map((v) => v.trim())
 			.filter(Boolean);
 		const cards: Card[] = [];
-		for (const t of toks) {
-			const m = t.match(/^(10|[1-9])([CDHSX])$/);
-			if (!m) continue;
-			cards.push([Number(m[1]), m[2] as Suit]);
+		for (const token of tokens) {
+			const match = token.match(/^(10|[1-9])([CDHSX])$/);
+			if (!match) continue;
+			cards.push([Number(match[1]), match[2] as Suit]);
 		}
 		return cards;
 	}
 
-	function cardLabel(card: Card) {
-		return `${card[0]}${card[1]}`;
+	function parseStacks(input: string): number[] {
+		const raw = input
+			.split(/[,\s]+/)
+			.map((v) => Number(v))
+			.filter((v) => Number.isFinite(v))
+			.map((v) => Math.max(0, Math.round(v)));
+		const stacks = raw.slice(0, 5);
+		while (stacks.length < 5) stacks.push(160);
+		return stacks;
 	}
 
-	function modeEntries(modes: Record<string, any> | undefined): [string, any][] {
-		return Object.entries(modes ?? {});
+	function parseIntelBySeat(input: string): Record<number, Card[]> {
+		const out: Record<number, Card[]> = {};
+		const chunks = input
+			.split(';')
+			.map((v) => v.trim())
+			.filter(Boolean);
+		for (const chunk of chunks) {
+			const parts = chunk.split(':');
+			if (parts.length < 2) continue;
+			const seat = Number(parts[0].trim());
+			if (!Number.isFinite(seat) || seat < 0 || seat > 4) continue;
+			const cards = parseCards(parts.slice(1).join(':'));
+			if (cards.length) out[seat] = cards;
+		}
+		return out;
+	}
+
+	function mergeIntelBySeat(
+		base: Record<number, Card[]>,
+		overlay: Record<number, Card[]>
+	): Record<number, Card[]> {
+		const out: Record<number, Card[]> = {};
+		for (const [rawSeat, cards] of Object.entries(base)) {
+			const seat = Number(rawSeat);
+			if (!Number.isFinite(seat)) continue;
+			out[seat] = [...cards];
+		}
+		for (const [rawSeat, cards] of Object.entries(overlay)) {
+			const seat = Number(rawSeat);
+			if (!Number.isFinite(seat)) continue;
+			const seen = new Set((out[seat] ?? []).map((c) => `${c[0]}${c[1]}`));
+			const merged = [...(out[seat] ?? [])];
+			for (const card of cards) {
+				const key = `${card[0]}${card[1]}`;
+				if (seen.has(key)) continue;
+				seen.add(key);
+				merged.push(card);
+			}
+			out[seat] = merged;
+		}
+		return out;
+	}
+
+	function defaultStrategyFor(state: any, obj: Objective): string {
+		return state?.policy_map?.default?.[obj] ?? state?.champions?.[obj] ?? '';
+	}
+
+	function alternatesFor(state: any, obj: Objective): string[] {
+		const row = state?.policy_map?.alternates?.[obj];
+		return Array.isArray(row) ? row : [];
+	}
+
+	$: defaultStrategy = defaultStrategyFor(sessionState, objective);
+	$: alternateStrategies = alternatesFor(sessionState, objective);
+	$: activeStrategy = useAutoStrategy ? defaultStrategy : strategyOverride.trim();
+
+	$: output = recommendation?.modes?.action_first ?? recommendation;
+	$: primaryAction = output?.primary_action ?? {};
+	$: primaryType = String(primaryAction?.type ?? 'hold').toUpperCase();
+	$: primaryAmount = primaryAction?.amount;
+
+	function setAlternate(tag: string) {
+		strategyOverride = tag;
+		useAutoStrategy = false;
+		status = `Override active: ${tag}`;
 	}
 
 	async function loadSession() {
-		const res = await fetch(`${API}/session/state`);
-		sessionState = await res.json();
-		if (!strategyTag) strategyTag = sessionState?.champions?.ev ?? '';
+		try {
+			const res = await fetch(`${API}/session/state`);
+			sessionState = await res.json();
+			if (useAutoStrategy && defaultStrategyFor(sessionState, objective)) {
+				strategyOverride = '';
+			}
+		} catch (err) {
+			status = `Session load failed: ${String(err)}`;
+		}
 	}
 
-	async function recommend() {
+	async function runCall() {
 		loading = true;
 		status = '';
 		try {
+			const textIntel = parseIntelBySeat(intelBySeatText);
+			const sessionIntel = (sessionState?.known_cards_by_seat ?? {}) as Record<number, Card[]>;
+			const intelBySeat = mergeIntelBySeat(sessionIntel, textIntel);
+			const knownCards = Object.values(intelBySeat).flat();
 			const payload = {
 				seat,
 				phase,
@@ -77,16 +146,16 @@
 				round_num: roundNum,
 				n_orbits: nOrbits,
 				pot,
-				stacks,
+				stacks: parseStacks(stacksText),
 				my_cards: parseCards(myCardsText),
 				auction_cards: parseCards(auctionCardsText),
-				known_cards: parseCards(knownCardsText),
+				known_cards: knownCards,
+				known_cards_by_seat: intelBySeat,
 				objective,
-				output_mode: outputMode,
-				strategy_tag: strategyTag || null,
-				policy_condition_key: policyConditionKey || null,
-				match_horizon: matchHorizon,
-				auto_policy_condition: autoPolicyCondition
+				output_mode: 'all',
+				strategy_tag: activeStrategy || null,
+				auto_policy_condition: true,
+				match_horizon: 10
 			};
 			const res = await fetch(`${API}/advisor/recommend`, {
 				method: 'POST',
@@ -94,263 +163,470 @@
 				body: JSON.stringify(payload)
 			});
 			recommendation = await res.json();
-			status = 'Recommendation updated';
+			status = 'Call computed';
 		} catch (err) {
-			status = `Request failed: ${String(err)}`;
+			status = `Call failed: ${String(err)}`;
 		} finally {
 			loading = false;
 		}
 	}
 
-	async function sendEvent() {
-		const payload: any = {
-			event_type: eventType,
-			seat: eventSeat,
-			amount: eventAmount,
-			winner_idx: eventWinner,
-			note: eventNote || null
-		};
-		await fetch(`${API}/session/event`, {
-			method: 'POST',
-			headers: { 'content-type': 'application/json' },
-			body: JSON.stringify(payload)
-		});
-		eventNote = '';
+	onMount(async () => {
 		await loadSession();
-		status = 'Event logged';
+		await runCall();
+	});
+</script>
+
+<svelte:head>
+	<title>Sold 'Em command board</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+	<link
+		href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;600&display=swap"
+		rel="stylesheet"
+	/>
+</svelte:head>
+
+<main class="stage">
+	<div class="orb orb-1" aria-hidden="true"></div>
+	<div class="orb orb-2" aria-hidden="true"></div>
+
+	<section class="panel hero">
+		<div class="eyebrow">Live call</div>
+		<div class="headline">{primaryType}</div>
+		{#if primaryAmount !== undefined}
+			<div class="amount">{primaryAmount}</div>
+		{/if}
+		<div class="hero-meta">
+			<span>Objective: {objective}</span>
+			<span>Phase: {phase}</span>
+			<span>Strategy: <code>{activeStrategy || 'auto'}</code></span>
+		</div>
+		<div class="hero-actions">
+			<button class="btn btn-primary" onclick={runCall} disabled={loading}>
+				{loading ? 'Computing...' : 'Recompute now'}
+			</button>
+			<button class="btn" onclick={loadSession}>Refresh state</button>
+		</div>
+		{#if status}
+			<div class="status">{status}</div>
+		{/if}
+	</section>
+
+	<section class="grid">
+		<article class="panel block reveal-1">
+			<h2>Decision switches</h2>
+			<div class="field-row">
+				<label>Objective
+					<select bind:value={objective}>
+						<option value="ev">ev</option>
+						<option value="first_place">first_place</option>
+						<option value="robustness">robustness</option>
+					</select>
+				</label>
+				<label>Phase
+					<select bind:value={phase}>
+						<option value="sell">sell</option>
+						<option value="bid">bid</option>
+						<option value="choose">choose</option>
+						<option value="showdown">showdown</option>
+					</select>
+				</label>
+			</div>
+			<div class="field-row">
+				<label>Seat
+					<input type="number" min="0" max="4" bind:value={seat} />
+				</label>
+				<label>Seller
+					<input type="number" min="-1" max="4" bind:value={sellerIdx} />
+				</label>
+				<label>Pot
+					<input type="number" min="0" bind:value={pot} />
+				</label>
+			</div>
+			<div class="field-row">
+				<label>Round
+					<input type="number" min="0" bind:value={roundNum} />
+				</label>
+				<label>Orbits
+					<input type="number" min="1" bind:value={nOrbits} />
+				</label>
+			</div>
+		</article>
+
+		<article class="panel block reveal-2">
+			<h2>Table input</h2>
+			<label>My cards
+				<input bind:value={myCardsText} placeholder="7H 8H 9H 4C 4D" />
+			</label>
+			<label>Auction cards
+				<input bind:value={auctionCardsText} placeholder="10H" />
+			</label>
+			<label>Stacks (P0 P1 P2 P3 P4)
+				<input bind:value={stacksText} placeholder="160 160 160 160 160" />
+			</label>
+			<label>Opponent intel by seat
+				<input bind:value={intelBySeatText} placeholder="1: 8H 9H; 3: 10C 10D" />
+			</label>
+		</article>
+
+		<article class="panel block reveal-3">
+			<h2>Strategy rail</h2>
+			<div class="mini">
+				<div>Default</div>
+				<code>{defaultStrategy || 'n/a'}</code>
+			</div>
+			<div class="mini">
+				<label class="toggle">
+					<input
+						type="checkbox"
+						bind:checked={useAutoStrategy}
+						onchange={() => {
+							if (useAutoStrategy) strategyOverride = '';
+						}}
+					/>
+					<span>Auto strategy</span>
+				</label>
+			</div>
+			<label>Manual override
+				<input
+					bind:value={strategyOverride}
+					oninput={() => {
+						if (strategyOverride.trim()) useAutoStrategy = false;
+					}}
+					placeholder="seller_extraction:opportunistic_delta=2600,reserve_bid_floor=0.023,sell_count=2"
+				/>
+			</label>
+			{#if alternateStrategies.length}
+				<div class="chips">
+					{#each alternateStrategies as alt}
+						<button class="chip" type="button" onclick={() => setAlternate(alt)}>{alt}</button>
+					{/each}
+				</div>
+			{/if}
+		</article>
+
+		<article class="panel block reveal-4">
+			<h2>Signal feed</h2>
+			<div class="mini"><div>Correlation</div><code>{recommendation?.inferred_correlation?.mode ?? 'n/a'}</code></div>
+			<div class="mini"><div>Condition key</div><code>{recommendation?.selected_condition_key ?? 'n/a'}</code></div>
+			<div class="mini"><div>Known card count</div><code>{output?.metrics?.known_cards_count ?? 0}</code></div>
+			<div class="mini"><div>Rationale</div><p>{output?.rationale ?? 'No rationale yet.'}</p></div>
+			{#if output?.top_actions?.length}
+				<div class="mini">
+					<div>Top actions</div>
+					<pre>{JSON.stringify(output.top_actions, null, 2)}</pre>
+				</div>
+			{/if}
+		</article>
+	</section>
+</main>
+
+<style>
+	:global(body) {
+		font-family: 'Space Grotesk', 'Trebuchet MS', sans-serif;
 	}
 
-	async function recomputeChampions() {
-		championsLoading = true;
-		status = '';
-		try {
-			await fetch(`${API}/strategies/recompute_champions`, {
-				method: 'POST',
-				headers: { 'content-type': 'application/json' },
-				body: JSON.stringify({ n_matches: 60, n_games_per_match: 10, seed: Date.now() % 100000 })
-			});
-			await loadSession();
-			status = 'Champions recomputed';
-		} catch (err) {
-			status = `Champion run failed: ${String(err)}`;
-		} finally {
-			championsLoading = false;
+	.stage {
+		position: relative;
+		min-height: 100vh;
+		padding: 2.4rem 1rem 3rem;
+		background:
+			radial-gradient(1200px 700px at 15% -10%, rgba(255, 202, 140, 0.5), transparent 65%),
+			radial-gradient(900px 600px at 90% 0%, rgba(106, 173, 255, 0.45), transparent 62%),
+			linear-gradient(180deg, #f9f5ee 0%, #f3f7fb 55%, #eef3f7 100%);
+		color: #112235;
+	}
+
+	.orb {
+		position: absolute;
+		border-radius: 999px;
+		filter: blur(28px);
+		pointer-events: none;
+		animation: drift 12s ease-in-out infinite;
+	}
+
+	.orb-1 {
+		width: 210px;
+		height: 210px;
+		top: 8%;
+		right: 7%;
+		background: rgba(255, 156, 84, 0.2);
+	}
+
+	.orb-2 {
+		width: 260px;
+		height: 260px;
+		left: -40px;
+		bottom: 8%;
+		background: rgba(92, 160, 245, 0.22);
+		animation-delay: -6s;
+	}
+
+	.panel {
+		position: relative;
+		z-index: 1;
+		border: 1px solid rgba(17, 34, 53, 0.16);
+		background: rgba(255, 255, 255, 0.76);
+		backdrop-filter: blur(8px);
+	}
+
+	.hero {
+		max-width: 1100px;
+		margin: 0 auto 1.25rem;
+		padding: 1.2rem 1.2rem 1.35rem;
+		animation: lift-in 420ms ease-out;
+	}
+
+	.eyebrow {
+		font-size: 0.78rem;
+		text-transform: uppercase;
+		letter-spacing: 0.16em;
+		font-weight: 700;
+		color: #295a83;
+	}
+
+	.headline {
+		margin-top: 0.4rem;
+		font-size: clamp(2rem, 4.5vw, 3.6rem);
+		font-weight: 700;
+		letter-spacing: 0.02em;
+		line-height: 0.92;
+	}
+
+	.amount {
+		font-family: 'IBM Plex Mono', 'Consolas', monospace;
+		font-size: clamp(1.9rem, 5vw, 3.1rem);
+		margin-top: 0.15rem;
+		font-weight: 600;
+		color: #0f4d7f;
+	}
+
+	.hero-meta {
+		margin-top: 0.65rem;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.45rem;
+		font-size: 0.86rem;
+	}
+
+	.hero-meta span {
+		border: 1px solid rgba(17, 34, 53, 0.2);
+		padding: 0.24rem 0.5rem;
+		background: rgba(255, 255, 255, 0.65);
+	}
+
+	.hero-meta code,
+	code,
+	pre {
+		font-family: 'IBM Plex Mono', 'Consolas', monospace;
+	}
+
+	.hero-actions {
+		margin-top: 0.75rem;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.55rem;
+	}
+
+	.btn {
+		padding: 0.48rem 0.82rem;
+		border: 1px solid rgba(17, 34, 53, 0.35);
+		background: rgba(255, 255, 255, 0.78);
+		font-weight: 600;
+		font-size: 0.85rem;
+		cursor: pointer;
+		transition: transform 140ms ease, background 140ms ease;
+	}
+
+	.btn:hover {
+		transform: translateY(-1px);
+		background: rgba(246, 251, 255, 0.96);
+	}
+
+	.btn-primary {
+		background: linear-gradient(135deg, #0f5f9b, #1f7f9e);
+		color: #f8fcff;
+		border-color: transparent;
+	}
+
+	.btn:disabled {
+		opacity: 0.6;
+		cursor: wait;
+	}
+
+	.status {
+		margin-top: 0.5rem;
+		font-size: 0.84rem;
+		color: #235678;
+	}
+
+	.grid {
+		max-width: 1100px;
+		margin: 0 auto;
+		display: grid;
+		gap: 0.8rem;
+		grid-template-columns: repeat(12, minmax(0, 1fr));
+	}
+
+	.block {
+		padding: 0.85rem;
+	}
+
+	.block h2 {
+		margin: 0 0 0.55rem;
+		font-size: 0.95rem;
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+	}
+
+	.block label {
+		display: block;
+		font-size: 0.78rem;
+		font-weight: 500;
+		margin-bottom: 0.55rem;
+	}
+
+	.block input,
+	.block select {
+		display: block;
+		margin-top: 0.24rem;
+		width: 100%;
+		padding: 0.48rem 0.56rem;
+		font-size: 0.88rem;
+		border: 1px solid rgba(17, 34, 53, 0.25);
+		background: rgba(255, 255, 255, 0.87);
+	}
+
+	.field-row {
+		display: grid;
+		gap: 0.5rem;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+
+	.field-row + .field-row {
+		margin-top: 0.2rem;
+	}
+
+	.mini {
+		margin-bottom: 0.55rem;
+		padding: 0.5rem;
+		border: 1px solid rgba(17, 34, 53, 0.14);
+		background: rgba(255, 255, 255, 0.68);
+		font-size: 0.78rem;
+	}
+
+	.mini p {
+		margin: 0.2rem 0 0;
+		line-height: 1.4;
+	}
+
+	.mini pre {
+		margin: 0.25rem 0 0;
+		font-size: 0.72rem;
+		white-space: pre-wrap;
+		word-break: break-word;
+	}
+
+	.toggle {
+		display: flex;
+		align-items: center;
+		gap: 0.45rem;
+		margin: 0;
+	}
+
+	.toggle input {
+		width: auto;
+		margin: 0;
+	}
+
+	.chips {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.4rem;
+	}
+
+	.chip {
+		border: 1px solid rgba(17, 34, 53, 0.24);
+		background: rgba(244, 251, 255, 0.85);
+		padding: 0.35rem 0.45rem;
+		font-size: 0.7rem;
+		cursor: pointer;
+	}
+
+	.chip:hover {
+		background: rgba(230, 246, 255, 0.95);
+	}
+
+	.reveal-1 {
+		grid-column: span 6;
+		animation: lift-in 350ms ease-out 40ms both;
+	}
+
+	.reveal-2 {
+		grid-column: span 6;
+		animation: lift-in 350ms ease-out 90ms both;
+	}
+
+	.reveal-3 {
+		grid-column: span 5;
+		animation: lift-in 350ms ease-out 140ms both;
+	}
+
+	.reveal-4 {
+		grid-column: span 7;
+		animation: lift-in 350ms ease-out 190ms both;
+	}
+
+	@keyframes lift-in {
+		from {
+			opacity: 0;
+			transform: translateY(10px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
 		}
 	}
 
-	function setStack(i: number, value: string) {
-		const n = Number(value);
-		stacks[i] = Number.isFinite(n) ? Math.max(0, n) : 0;
-		stacks = [...stacks];
+	@keyframes drift {
+		0%,
+		100% {
+			transform: translate(0, 0) scale(1);
+		}
+		50% {
+			transform: translate(12px, -10px) scale(1.04);
+		}
 	}
 
-	onMount(loadSession);
-</script>
+	@media (max-width: 960px) {
+		.grid {
+			grid-template-columns: 1fr;
+		}
 
-<main class="mx-auto flex min-h-screen w-full max-w-6xl flex-col gap-4 p-4">
-	<header class="rounded-none border bg-[linear-gradient(130deg,#f8f4e8,#fff,#e7f3ff)] p-4">
-		<h1 class="text-xl font-semibold tracking-tight">Sold 'Em live HUD advisor</h1>
-		<p class="mt-1 text-sm text-muted-foreground">
-			Fast state entry, objective-aware recommendations, and profile tracking under a 10-second turn budget.
-		</p>
-	</header>
+		.reveal-1,
+		.reveal-2,
+		.reveal-3,
+		.reveal-4 {
+			grid-column: span 1;
+		}
 
-	<div class="grid gap-4 lg:grid-cols-[1.2fr_1fr]">
-		<section class="space-y-4">
-			<div class="rounded-none border bg-card p-3">
-				<div class="mb-2 text-sm font-medium">Round state input</div>
-				<div class="grid gap-2 sm:grid-cols-3">
-					<label class="text-sm">Phase
-						<select class="mt-1 h-9 w-full border bg-background px-2" bind:value={phase}>
-							<option value="sell">sell</option>
-							<option value="bid">bid</option>
-							<option value="choose">choose</option>
-							<option value="showdown">showdown</option>
-						</select>
-					</label>
-					<label class="text-sm">Objective
-						<select class="mt-1 h-9 w-full border bg-background px-2" bind:value={objective}>
-							<option value="ev">ev</option>
-							<option value="first_place">first_place</option>
-							<option value="robustness">robustness</option>
-						</select>
-					</label>
-					<label class="text-sm">Output mode
-						<select class="mt-1 h-9 w-full border bg-background px-2" bind:value={outputMode}>
-							<option value="action_first">action_first</option>
-							<option value="top3">top3</option>
-							<option value="metrics">metrics</option>
-							<option value="all">all</option>
-						</select>
-					</label>
-					<label class="text-sm">Your seat
-						<input class="mt-1 h-9 w-full border bg-background px-2" type="number" min="0" max="4" bind:value={seat} />
-					</label>
-					<label class="text-sm">Seller seat
-						<input class="mt-1 h-9 w-full border bg-background px-2" type="number" min="-1" max="4" bind:value={sellerIdx} />
-					</label>
-					<label class="text-sm">Pot
-						<input class="mt-1 h-9 w-full border bg-background px-2" type="number" min="0" bind:value={pot} />
-					</label>
-					<label class="text-sm">Round num
-						<input class="mt-1 h-9 w-full border bg-background px-2" type="number" min="0" bind:value={roundNum} />
-					</label>
-					<label class="text-sm">Orbits
-						<input class="mt-1 h-9 w-full border bg-background px-2" type="number" min="1" bind:value={nOrbits} />
-					</label>
-					<label class="text-sm">Strategy tag (optional)
-						<input class="mt-1 h-9 w-full border bg-background px-2" placeholder="adaptive_profile" bind:value={strategyTag} />
-					</label>
-					<label class="text-sm">Policy condition key (optional)
-						<input class="mt-1 h-9 w-full border bg-background px-2" placeholder="baseline_v1|ev|h10|none" bind:value={policyConditionKey} />
-					</label>
-					<label class="text-sm">Match horizon
-						<input class="mt-1 h-9 w-full border bg-background px-2" type="number" min="1" bind:value={matchHorizon} />
-					</label>
-					<label class="mt-7 flex items-center gap-2 text-sm">
-						<input type="checkbox" bind:checked={autoPolicyCondition} />
-						Auto policy condition
-					</label>
-				</div>
+		.field-row {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+	}
 
-				<div class="mt-3 grid gap-2 sm:grid-cols-3">
-					<div class="text-sm">
-						<div>My cards</div>
-						<input class="mt-1 h-9 w-full border bg-background px-2" bind:value={myCardsText} />
-					</div>
-					<div class="text-sm">
-						<div>Auction cards</div>
-						<input class="mt-1 h-9 w-full border bg-background px-2" bind:value={auctionCardsText} />
-					</div>
-					<div class="text-sm">
-						<div>Known cards</div>
-						<input class="mt-1 h-9 w-full border bg-background px-2" bind:value={knownCardsText} />
-					</div>
-				</div>
+	@media (max-width: 620px) {
+		.stage {
+			padding: 1rem 0.75rem 2rem;
+		}
 
-				<div class="mt-3">
-					<div class="mb-1 text-sm">Stacks (P0-P4)</div>
-					<div class="grid grid-cols-5 gap-2">
-						{#each stacks as stack, i}
-							<input
-								class="h-9 w-full border bg-background px-2 text-sm"
-								type="number"
-								value={stack}
-								oninput={(e) => setStack(i, (e.target as HTMLInputElement).value)}
-							/>
-						{/each}
-					</div>
-				</div>
+		.field-row {
+			grid-template-columns: 1fr;
+		}
 
-				<div class="mt-3 flex flex-wrap gap-2">
-					<Button class="rounded-none" onclick={recommend} disabled={loading}>
-						{loading ? 'Thinking...' : 'Get recommendation'}
-					</Button>
-					<Button class="rounded-none" variant="outline" onclick={loadSession}>Refresh session</Button>
-					<Button class="rounded-none" variant="outline" onclick={recomputeChampions} disabled={championsLoading}>
-						{championsLoading ? 'Running...' : 'Recompute champions'}
-					</Button>
-				</div>
-			</div>
-
-			<div class="rounded-none border bg-card p-3">
-				<div class="mb-2 text-sm font-medium">Advisor output</div>
-				{#if recommendation}
-					{#if recommendation.modes}
-						<div class="grid gap-2 md:grid-cols-3">
-							{#each modeEntries(recommendation.modes) as [mode, rec]}
-								<div class="border p-2 text-sm">
-									<div class="font-medium">{mode}</div>
-									<div class="mt-1">Primary: {JSON.stringify(rec.primary_action)}</div>
-									<div class="mt-1 text-xs text-muted-foreground">{rec.rationale}</div>
-								</div>
-							{/each}
-						</div>
-					{:else}
-						<div class="text-sm">Primary: {JSON.stringify(recommendation.primary_action)}</div>
-						<div class="mt-2 text-sm">Top actions:</div>
-						<div class="mt-1 flex flex-wrap gap-2">
-							{#each recommendation.top_actions ?? [] as a}
-								<div class="border px-2 py-1 text-xs">{JSON.stringify(a)}</div>
-							{/each}
-						</div>
-						<div class="mt-2 text-xs text-muted-foreground">{recommendation.rationale}</div>
-					{/if}
-					{#if recommendation.selected_condition_key}
-						<div class="mt-2 text-xs text-muted-foreground">
-							Condition key: {recommendation.selected_condition_key}
-						</div>
-					{/if}
-					{#if recommendation.inferred_correlation}
-						<div class="mt-1 text-xs text-muted-foreground">
-							Inferred correlation: {recommendation.inferred_correlation.mode} (strength
-							{recommendation.inferred_correlation.strength?.toFixed?.(2) ?? recommendation.inferred_correlation.strength})
-						</div>
-					{/if}
-				{:else}
-					<div class="text-sm text-muted-foreground">No recommendation yet.</div>
-				{/if}
-			</div>
-		</section>
-
-		<aside class="space-y-4">
-			<div class="rounded-none border bg-card p-3">
-				<div class="mb-2 text-sm font-medium">Session tracking</div>
-				<div class="grid gap-2 sm:grid-cols-2">
-					<label class="text-sm">Event
-						<select class="mt-1 h-9 w-full border bg-background px-2" bind:value={eventType}>
-							<option value="bid">bid</option>
-							<option value="auction_result">auction_result</option>
-							<option value="showdown">showdown</option>
-							<option value="note">note</option>
-						</select>
-					</label>
-					<label class="text-sm">Seat
-						<input class="mt-1 h-9 w-full border bg-background px-2" type="number" min="0" max="4" bind:value={eventSeat} />
-					</label>
-					<label class="text-sm">Amount
-						<input class="mt-1 h-9 w-full border bg-background px-2" type="number" bind:value={eventAmount} />
-					</label>
-					<label class="text-sm">Winner
-						<input class="mt-1 h-9 w-full border bg-background px-2" type="number" min="0" max="4" bind:value={eventWinner} />
-					</label>
-				</div>
-				<label class="mt-2 block text-sm">Note
-					<input class="mt-1 h-9 w-full border bg-background px-2" bind:value={eventNote} />
-				</label>
-				<div class="mt-3 flex gap-2">
-					<Button class="rounded-none" onclick={sendEvent}>Log event</Button>
-					<Button class="rounded-none" variant="outline" onclick={() => fetch(`${API}/session/reset`, { method: 'POST' }).then(loadSession)}>
-						Reset session
-					</Button>
-				</div>
-				{#if status}
-					<div class="mt-2 text-xs text-muted-foreground">{status}</div>
-				{/if}
-			</div>
-
-			<div class="rounded-none border bg-card p-3">
-				<div class="mb-2 text-sm font-medium">Champions and profiles</div>
-				{#if sessionState}
-					<div class="text-xs">Rule profile: {sessionState.rule_profile?.name}</div>
-					<div class="mt-2 text-xs">Champions: {JSON.stringify(sessionState.champions)}</div>
-					<div class="mt-2 text-xs">Composite presets: {JSON.stringify(sessionState.composite_profiles)}</div>
-					<div class="mt-2 max-h-60 overflow-y-auto text-xs">
-						{#each Object.entries(sessionState.player_profiles ?? {}) as [seatId, profile]}
-							<div class="border-b py-1">P{seatId}: {JSON.stringify(profile)}</div>
-						{/each}
-					</div>
-				{:else}
-					<div class="text-sm text-muted-foreground">Loading...</div>
-				{/if}
-			</div>
-		</aside>
-	</div>
-
-	<footer class="rounded-none border p-3 text-xs text-muted-foreground">
-		Card format: `value+suit`, for example `10X 7H 4D`. Suits are `C D H S X`.
-		{#if recommendation && recommendation.primary_action?.amount !== undefined}
-			Last suggested bid: {recommendation.primary_action.amount}
-		{/if}
-	</footer>
-</main>
+		.hero {
+			padding: 1rem;
+		}
+	}
+</style>

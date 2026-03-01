@@ -60,6 +60,8 @@ class MatchRunner:
             player_profiles=profiles,
             match_game_index=game_index,
             match_n_games=match_n_games,
+            known_cards=[],
+            known_cards_by_seat={},
         )
 
     def run(

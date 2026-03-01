@@ -33,6 +33,8 @@ class StrategyContext:
     player_profiles: dict[int, PlayerProfile] = field(default_factory=dict)
     match_game_index: int = 0
     match_n_games: int = 1
+    known_cards: list[Card] = field(default_factory=list)
+    known_cards_by_seat: dict[int, list[Card]] = field(default_factory=dict)
 
 
 class Strategy(Protocol):

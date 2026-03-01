@@ -24,6 +24,7 @@ N_MATCHES=35
 SEED_BASE=20260301
 NAME_PREFIX="soldem-dist-worker"
 STRATEGIES_FILE=""
+SCENARIO_PRESET="full"
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -41,6 +42,7 @@ while [[ $# -gt 0 ]]; do
     --seed-base) SEED_BASE="$2"; shift 2;;
     --name-prefix) NAME_PREFIX="$2"; shift 2;;
     --strategies-file) STRATEGIES_FILE="$2"; shift 2;;
+    --scenario-preset) SCENARIO_PRESET="$2"; shift 2;;
     *) echo "Unknown arg: $1"; exit 1;;
   esac
 done
@@ -98,6 +100,54 @@ fi
 
 STRATEGIES_B64=$(printf '%s' "$STRATEGIES_JSON" | base64 | tr -d '\n')
 
+OBJECTIVES_JSON='["ev","first_place","robustness"]'
+case "$SCENARIO_PRESET" in
+  fast)
+    PROFILES_JSON='["baseline_v1","standard_rankings"]'
+    HORIZONS_JSON='[10]'
+    CORR_SPECS_JSON='[
+      ["none","none",0.0,[]],
+      ["respect","respect",0.35,[[1,2]]],
+      ["kingmaker","kingmaker",0.35,[[0,1]]]
+    ]'
+    ;;
+  medium)
+    PROFILES_JSON='["baseline_v1","standard_rankings","seller_self_bid"]'
+    HORIZONS_JSON='[5,10]'
+    CORR_SPECS_JSON='[
+      ["none","none",0.0,[]],
+      ["respect","respect",0.35,[[1,2]]],
+      ["herd","herd",0.30,[[3,4]]]
+    ]'
+    ;;
+  full)
+    PROFILES_JSON='[
+      "baseline_v1",
+      "standard_rankings",
+      "seller_self_bid",
+      "top2_split",
+      "high_low_split",
+      "single_card_sell"
+    ]'
+    HORIZONS_JSON='[5,10,20]'
+    CORR_SPECS_JSON='[
+      ["none","none",0.0,[]],
+      ["respect","respect",0.35,[[1,2]]],
+      ["herd","herd",0.30,[[3,4]]],
+      ["kingmaker","kingmaker",0.35,[[0,1]]]
+    ]'
+    ;;
+  *)
+    echo "Unknown scenario preset: $SCENARIO_PRESET (use fast|medium|full)"
+    exit 1
+    ;;
+esac
+
+PROFILES_B64=$(printf '%s' "$PROFILES_JSON" | base64 | tr -d '\n')
+OBJECTIVES_B64=$(printf '%s' "$OBJECTIVES_JSON" | base64 | tr -d '\n')
+HORIZONS_B64=$(printf '%s' "$HORIZONS_JSON" | base64 | tr -d '\n')
+CORR_SPECS_B64=$(printf '%s' "$CORR_SPECS_JSON" | base64 | tr -d '\n')
+
 if [[ -z "$SUBNET_ID" ]]; then
   SUBNET_ID=$(aws ec2 describe-subnets \
     --region "$REGION" \
@@ -128,6 +178,7 @@ mkdir -p research_logs
 echo "run_id=$RUN_ID"
 echo "artifact=s3://$BUCKET/$ARTIFACT_KEY"
 echo "mapping_file=$LOCAL_MAP"
+echo "scenario_preset=$SCENARIO_PRESET"
 
 for i in $(seq 0 $((COUNT - 1))); do
   RESULT_KEY="$OUT_PREFIX/$RUN_ID/worker_${i}.json"
@@ -155,23 +206,22 @@ n_matches = $N_MATCHES
 seed_base = $SEED_BASE
 
 strategies = json.loads(base64.b64decode("$STRATEGIES_B64").decode("utf-8"))
-
-profiles = [
-    "baseline_v1",
-    "standard_rankings",
-    "seller_self_bid",
-    "top2_split",
-    "high_low_split",
-    "single_card_sell",
-]
-objectives = ["ev", "first_place", "robustness"]
-horizons = [5, 10, 20]
-correlations = [
-    ("none", CorrelationModel(mode="none", strength=0.0, pairs=[])),
-    ("respect", CorrelationModel(mode="respect", strength=0.35, pairs=[(1, 2)])),
-    ("herd", CorrelationModel(mode="herd", strength=0.30, pairs=[(3, 4)])),
-    ("kingmaker", CorrelationModel(mode="kingmaker", strength=0.35, pairs=[(0, 1)])),
-]
+profiles = json.loads(base64.b64decode("$PROFILES_B64").decode("utf-8"))
+objectives = json.loads(base64.b64decode("$OBJECTIVES_B64").decode("utf-8"))
+horizons = json.loads(base64.b64decode("$HORIZONS_B64").decode("utf-8"))
+corr_specs = json.loads(base64.b64decode("$CORR_SPECS_B64").decode("utf-8"))
+correlations = []
+for name, mode, strength, pairs in corr_specs:
+    correlations.append(
+        (
+            name,
+            CorrelationModel(
+                mode=mode,
+                strength=float(strength),
+                pairs=[tuple(x) for x in pairs],
+            ),
+        )
+    )
 
 scenarios = []
 for p in profiles:

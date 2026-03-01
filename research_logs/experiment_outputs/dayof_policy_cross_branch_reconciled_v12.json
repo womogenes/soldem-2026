@@ -1,0 +1,36 @@
+{
+  "default": {
+    "ev": "seller_extraction:opportunistic_delta=2600,reserve_bid_floor=0.023,sell_count=2",
+    "first_place": "meta_switch_v4",
+    "robustness": "seller_extraction:opportunistic_delta=2600,reserve_bid_floor=0.023,sell_count=2"
+  },
+  "alternates": {
+    "ev": [
+      "seller_extraction:opportunistic_delta=4500,reserve_bid_floor=0.02,sell_count=2",
+      "seller_extraction:opportunistic_delta=3300,reserve_bid_floor=0.029,sell_count=2",
+      "conservative_plus"
+    ],
+    "first_place": [
+      "seller_extraction:opportunistic_delta=4500,reserve_bid_floor=0.02,sell_count=2",
+      "seller_extraction:opportunistic_delta=2600,reserve_bid_floor=0.023,sell_count=2"
+    ],
+    "robustness": [
+      "seller_extraction:opportunistic_delta=4500,reserve_bid_floor=0.02,sell_count=2",
+      "regime_switch_robust",
+      "conservative_plus"
+    ]
+  },
+  "provenance": {
+    "note": "Reconciled from EC2 distributed cross-branch runs (fast, medium, focus).",
+    "run_ids": [
+      "20260301-074139",
+      "20260301-074335",
+      "20260301-074854"
+    ],
+    "summary_files": [
+      "research_logs/experiment_outputs/distributed_fast_20260301-074139_summary.json",
+      "research_logs/experiment_outputs/distributed_medium_20260301-074335_summary.json",
+      "research_logs/experiment_outputs/distributed_focus_20260301-074854_summary.json"
+    ]
+  }
+}

@@ -33,6 +33,7 @@ class RecommendationReq(BaseModel):
     my_cards: list[tuple[int, str]] = Field(default_factory=list)
     auction_cards: list[tuple[int, str]] = Field(default_factory=list)
     known_cards: list[tuple[int, str]] = Field(default_factory=list)
+    known_cards_by_seat: dict[int, list[tuple[int, str]]] = Field(default_factory=dict)
     objective: Objective = "ev"
     output_mode: OutputMode = "action_first"
     strategy_tag: str | None = None
@@ -48,6 +49,7 @@ class SessionEventReq(BaseModel):
     seller_idx: int | None = None
     amount: int | None = None
     winner_idx: int | None = None
+    revealed_cards_by_seat: dict[int, list[tuple[int, str]]] | None = None
     note: str | None = None
     ts: float | None = None
 
@@ -72,6 +74,9 @@ class Session:
         self.rule_profile: RuleProfile = resolve_profile("baseline_v1")
         self.events: list[dict[str, Any]] = []
         self.player_profiles = {i: PlayerProfile(seat=i) for i in range(5)}
+        self.known_cards_by_seat: dict[int, list[tuple[int, str]]] = {
+            i: [] for i in range(5)
+        }
         self.champions = {
             "ev": "adaptive_profile",
             "first_place": "bully",
@@ -84,6 +89,31 @@ class Session:
     def reset(self):
         self.events = []
         self.player_profiles = {i: PlayerProfile(seat=i) for i in range(5)}
+        self.known_cards_by_seat = {i: [] for i in range(5)}
+
+    @staticmethod
+    def _dedupe_cards(cards: list[tuple[int, str]]) -> list[tuple[int, str]]:
+        out: list[tuple[int, str]] = []
+        seen: set[tuple[int, str]] = set()
+        for card in cards:
+            if card in seen:
+                continue
+            seen.add(card)
+            out.append(card)
+        return out
+
+    def _merge_known_cards(self, revealed: dict[int, list[tuple[int, str]]] | None) -> None:
+        if not revealed:
+            return
+        for raw_seat, cards in revealed.items():
+            try:
+                seat = int(raw_seat)
+            except (TypeError, ValueError):
+                continue
+            if seat < 0 or seat >= self.rule_profile.n_players:
+                continue
+            merged = list(self.known_cards_by_seat.get(seat, [])) + list(cards or [])
+            self.known_cards_by_seat[seat] = self._dedupe_cards(merged)
 
     def apply_profile(self, profile_name: str, overrides: dict[str, Any]):
         self.rule_profile = resolve_profile(profile_name, **overrides)
@@ -96,10 +126,12 @@ class Session:
             "seller_idx": event.seller_idx,
             "amount": event.amount,
             "winner_idx": event.winner_idx,
+            "revealed_cards_by_seat": event.revealed_cards_by_seat,
             "note": event.note,
             "ts": ts,
         }
         self.events.append(row)
+        self._merge_known_cards(event.revealed_cards_by_seat)
 
         if event.event_type == "bid" and event.seat is not None and event.amount is not None:
             profile = self.player_profiles[event.seat]
@@ -109,6 +141,9 @@ class Session:
 
     def state(self) -> dict[str, Any]:
         corr = infer_correlation_mode(self.events, n_players=self.rule_profile.n_players)
+        known_cards_global = self._dedupe_cards(
+            [card for cards in self.known_cards_by_seat.values() for card in cards]
+        )
         return {
             "rule_profile": self.rule_profile.to_dict(),
             "champions": self.champions,
@@ -126,6 +161,8 @@ class Session:
                 }
                 for i, p in self.player_profiles.items()
             },
+            "known_cards_by_seat": self.known_cards_by_seat,
+            "known_cards_global": known_cards_global,
             "composite_profiles": composite_profiles(),
             "policy_map": self.policy_map,
             "correlation_inference": corr,
@@ -174,6 +211,7 @@ class Session:
         candidates = [p for p in [env_path] if p]
         candidates.extend(
             [
+                "research_logs/experiment_outputs/dayof_policy_cross_branch_reconciled_v12.json",
                 "research_logs/experiment_outputs/dayof_policy_hybrid_v11_lcb.json",
                 "research_logs/experiment_outputs/dayof_policy_hybrid_v10_lcb.json",
                 "research_logs/experiment_outputs/dayof_policy_hybrid_v9_lcb.json",
@@ -270,6 +308,34 @@ def strategies_load_policy(req: LoadPolicyReq):
 
 @app.post("/advisor/recommend")
 def advisor_recommend(req: RecommendationReq):
+    def dedupe_cards(cards: list[tuple[int, str]]) -> list[tuple[int, str]]:
+        out: list[tuple[int, str]] = []
+        seen: set[tuple[int, str]] = set()
+        for card in cards:
+            if card in seen:
+                continue
+            seen.add(card)
+            out.append(card)
+        return out
+
+    known_by_seat: dict[int, list[tuple[int, str]]] = {
+        seat: list(cards)
+        for seat, cards in session.known_cards_by_seat.items()
+    }
+    for raw_seat, cards in (req.known_cards_by_seat or {}).items():
+        try:
+            seat = int(raw_seat)
+        except (TypeError, ValueError):
+            continue
+        if seat < 0 or seat >= session.rule_profile.n_players:
+            continue
+        known_by_seat[seat] = dedupe_cards(list(known_by_seat.get(seat, [])) + list(cards or []))
+
+    known_cards_merged = dedupe_cards(
+        list(req.known_cards)
+        + [card for cards in known_by_seat.values() for card in cards]
+    )
+
     ranking_policy = req.ranking_policy or session.rule_profile.hand_ranking_policy
     strategy_tag = req.strategy_tag
     inferred_corr = infer_correlation_mode(session.events, n_players=session.rule_profile.n_players)
@@ -304,7 +370,8 @@ def advisor_recommend(req: RecommendationReq):
                 objective=req.objective,
                 output_mode=mode,
                 player_profiles=session.player_profiles,
-                known_cards=req.known_cards,
+                known_cards=known_cards_merged,
+                known_cards_by_seat=known_by_seat,
             )
             out[mode] = rec.to_dict()
         return {
@@ -330,7 +397,8 @@ def advisor_recommend(req: RecommendationReq):
         objective=req.objective,
         output_mode=req.output_mode,
         player_profiles=session.player_profiles,
-        known_cards=req.known_cards,
+        known_cards=known_cards_merged,
+        known_cards_by_seat=known_by_seat,
     )
     out = rec.to_dict()
     out["rule_profile"] = session.rule_profile.to_dict()
