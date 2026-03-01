@@ -56,15 +56,26 @@ class RecomputeChampionsReq(BaseModel):
     seed: int = 0
 
 
+DISCOVERY_STRATEGY_SPECS = list(built_in_strategy_factories().keys()) + [
+    "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.086,sell_count=2",
+    "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.106,sell_count=2",
+    "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.099,sell_count=1",
+    "risk_sniper:bid_scale=0.769,late_round_bonus=0.311,sell_count=2,stack_cap_fraction=0.258,trigger_delta=1600",
+]
+
+
 class Session:
     def __init__(self):
         self.rule_profile: RuleProfile = resolve_profile("baseline_v1")
         self.events: list[dict[str, Any]] = []
         self.player_profiles = {i: PlayerProfile(seat=i) for i in range(5)}
+        default_champion = (
+            "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.086,sell_count=2"
+        )
         self.champions = {
-            "ev": "adaptive_profile",
-            "first_place": "bully",
-            "robustness": "conservative",
+            "ev": default_champion,
+            "first_place": default_champion,
+            "robustness": default_champion,
         }
         self.last_leaderboards: dict[str, list[dict[str, Any]]] = {}
 
@@ -112,7 +123,7 @@ class Session:
         }
 
     def recompute_champions(self, req: RecomputeChampionsReq) -> dict[str, Any]:
-        strategy_tags = list(built_in_strategy_factories().keys())
+        strategy_tags = list(DISCOVERY_STRATEGY_SPECS)
         leaderboards: dict[str, list[dict[str, Any]]] = {}
 
         objective_to_key = {
@@ -198,7 +209,10 @@ def strategies_recompute(req: RecomputeChampionsReq):
 @app.post("/advisor/recommend")
 def advisor_recommend(req: RecommendationReq):
     ranking_policy = req.ranking_policy or session.rule_profile.hand_ranking_policy
-    strategy_tag = req.strategy_tag or session.champions.get(req.objective, "adaptive_profile")
+    strategy_tag = req.strategy_tag or session.champions.get(
+        req.objective,
+        "seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.086,sell_count=2",
+    )
 
     if req.output_mode == "all":
         out = {}

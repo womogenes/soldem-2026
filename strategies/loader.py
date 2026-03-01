@@ -16,10 +16,52 @@ def _load_module_from_path(path: Path):
     return mod
 
 
+def _coerce_param(raw: str):
+    low = raw.lower()
+    if low == "true":
+        return True
+    if low == "false":
+        return False
+    try:
+        return int(raw)
+    except ValueError:
+        pass
+    try:
+        return float(raw)
+    except ValueError:
+        return raw
+
+
+def _parse_builtin_spec(spec: str) -> tuple[str, dict]:
+    if ":" not in spec:
+        return spec, {}
+    tag, param_str = spec.split(":", 1)
+    params: dict[str, object] = {}
+    for chunk in param_str.split(","):
+        part = chunk.strip()
+        if not part:
+            continue
+        if "=" not in part:
+            raise ValueError(f"Invalid strategy parameter fragment: '{part}'")
+        k, v = part.split("=", 1)
+        params[k.strip()] = _coerce_param(v.strip())
+    return tag, params
+
+
+def _canonical_tag(tag: str, params: dict) -> str:
+    if not params:
+        return tag
+    serialized = ",".join(f"{k}={params[k]}" for k in sorted(params))
+    return f"{tag}:{serialized}"
+
+
 def load_strategy(spec: str):
+    tag, params = _parse_builtin_spec(spec)
     factories = built_in_strategy_factories()
-    if spec in factories:
-        return factories[spec]()
+    if tag in factories:
+        strategy = build_strategy(tag, **params)
+        strategy.tag = _canonical_tag(getattr(strategy, "tag", tag), params)
+        return strategy
 
     p = Path(spec)
     if not p.exists():

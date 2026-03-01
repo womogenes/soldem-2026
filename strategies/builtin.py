@@ -4,6 +4,11 @@ import random
 from dataclasses import dataclass
 
 from game.utils import classify_hand
+from strategies.advanced import (
+    ProbabilisticValueStrategy,
+    RiskManagedSniperStrategy,
+    SellerExtractionStrategy,
+)
 from strategies.base import Card, StrategyContext
 
 
@@ -217,18 +222,21 @@ class AdaptiveProfileStrategy:
 
 def built_in_strategy_factories() -> dict[str, callable]:
     return {
-        "random": lambda: RandomStrategy(),
-        "pot_fraction": lambda: PotFractionStrategy(0.25),
-        "delta_value": lambda: DeltaValueStrategy(multiplier=1.0),
-        "conservative": lambda: ConservativeStrategy(),
-        "bully": lambda: BullyStrategy(),
-        "seller_profit": lambda: SellerProfitStrategy(),
-        "adaptive_profile": lambda: AdaptiveProfileStrategy(),
+        "random": lambda **kwargs: RandomStrategy(**kwargs),
+        "pot_fraction": lambda **kwargs: PotFractionStrategy(**kwargs),
+        "delta_value": lambda **kwargs: DeltaValueStrategy(**kwargs),
+        "conservative": lambda **kwargs: ConservativeStrategy(**kwargs),
+        "bully": lambda **kwargs: BullyStrategy(**kwargs),
+        "seller_profit": lambda **kwargs: SellerProfitStrategy(**kwargs),
+        "adaptive_profile": lambda **kwargs: AdaptiveProfileStrategy(**kwargs),
+        "prob_value": lambda **kwargs: ProbabilisticValueStrategy(**kwargs),
+        "risk_sniper": lambda **kwargs: RiskManagedSniperStrategy(**kwargs),
+        "seller_extraction": lambda **kwargs: SellerExtractionStrategy(**kwargs),
     }
 
 
-def build_strategy(tag: str):
+def build_strategy(tag: str, **kwargs):
     factories = built_in_strategy_factories()
     if tag not in factories:
         raise KeyError(f"Unknown strategy tag: {tag}")
-    return factories[tag]()
+    return factories[tag](**kwargs)

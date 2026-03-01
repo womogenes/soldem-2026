@@ -3,7 +3,7 @@ set -euo pipefail
 
 # Launch N EC2 workers that can run simulation jobs and heartbeat into PocketBase.
 # Usage:
-# scripts/aws/launch_worker_swarm.sh --key-name my-key --count 4 --repo git@github.com:org/repo.git --pocketbase-url http://x.x.x.x:8090
+# scripts/aws/launch_worker_swarm.sh --key-name my-key --count 4 --repo git@github.com:org/repo.git --pocketbase-url http://x.x.x.x:8090 --job-cmd "uv run python scripts/run_population.py ..."
 
 REGION="us-east-1"
 COUNT=2
@@ -14,6 +14,8 @@ REPO_URL=""
 BRANCH="main"
 POCKETBASE_URL=""
 WORKER_ROLE="sim"
+ADMIN_TOKEN=""
+JOB_CMD=""
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -26,6 +28,8 @@ while [[ $# -gt 0 ]]; do
     --branch) BRANCH="$2"; shift 2;;
     --pocketbase-url) POCKETBASE_URL="$2"; shift 2;;
     --worker-role) WORKER_ROLE="$2"; shift 2;;
+    --admin-token) ADMIN_TOKEN="$2"; shift 2;;
+    --job-cmd) JOB_CMD="$2"; shift 2;;
     *) echo "Unknown arg: $1"; exit 1;;
   esac
 done
@@ -56,7 +60,18 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 source /root/.local/bin/env
 git clone --branch "$BRANCH" "$REPO_URL" soldem
 cd soldem
-python3 scripts/worker_heartbeat.py --base-url "$POCKETBASE_URL" --worker-id "$WORKER_ID" --role "$WORKER_ROLE" --status "booted" || true
+python3 scripts/worker_heartbeat.py --base-url "$POCKETBASE_URL" --admin-token "$ADMIN_TOKEN" --worker-id "$WORKER_ID" --role "$WORKER_ROLE" --status "booted" || true
+source /root/.local/bin/env
+cd /opt/soldem
+uv sync
+python3 scripts/worker_heartbeat.py --base-url "$POCKETBASE_URL" --admin-token "$ADMIN_TOKEN" --worker-id "$WORKER_ID" --role "$WORKER_ROLE" --status "ready" || true
+if [[ -n "$JOB_CMD" ]]; then
+  if bash -lc "$JOB_CMD" >>/opt/soldem/worker_job.log 2>&1; then
+    python3 scripts/worker_heartbeat.py --base-url "$POCKETBASE_URL" --admin-token "$ADMIN_TOKEN" --worker-id "$WORKER_ID" --role "$WORKER_ROLE" --status "completed" || true
+  else
+    python3 scripts/worker_heartbeat.py --base-url "$POCKETBASE_URL" --admin-token "$ADMIN_TOKEN" --worker-id "$WORKER_ID" --role "$WORKER_ROLE" --status "failed" || true
+  fi
+fi
 EOF
 
   INSTANCE_ID=$(aws ec2 run-instances \
