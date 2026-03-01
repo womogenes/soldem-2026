@@ -260,3 +260,13 @@ Local time: 2026-03-01 01:25:02 PST
   - strategies_seeded: 0
   - strategies_updated: 17
   - champions: `ev=conservative_plus`, `first_place=equity_evolved_v1`, `robustness=conservative_plus`
+
+## 2026-03-01 03:08:59 PST
+
+- Updated variant solver defaults to include `equity_evolved_v1` in candidate sets:
+  - `scripts/quick_variant_solver.py`
+  - `scripts/quick_variant_hero_solver.py`
+- Added fresh smoke artifacts:
+  - `research_logs/experiment_outputs/quick_variant_smoke_v3.json`
+  - `research_logs/experiment_outputs/quick_variant_hero_smoke_v2.json`
+- Revalidated backend test suite after updates: 12/12 pass.

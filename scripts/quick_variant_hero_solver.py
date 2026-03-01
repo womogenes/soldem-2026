@@ -86,6 +86,7 @@ def main() -> None:
         nargs="+",
         default=[
             "conservative_plus",
+            "equity_evolved_v1",
             "equity_sniper_ultra",
             "pot_fraction",
             "meta_switch",

@@ -33,11 +33,11 @@ def main() -> None:
         nargs="+",
         default=[
             "conservative_plus",
+            "equity_evolved_v1",
             "equity_sniper_ultra",
             "pot_fraction",
             "house_hammer",
             "meta_switch",
-            "equity_sniper",
         ],
     )
     ap.add_argument("--n-matches", type=int, default=80)
