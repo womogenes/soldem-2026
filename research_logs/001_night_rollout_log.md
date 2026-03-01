@@ -910,3 +910,8 @@ Local time: 2026-03-01 01:25:02 PST
   - EV default now `equity_evolved_v1` (removed stale `conservative_plus` default).
   - added explicit first-place trigger ladder (baseline meta, high-ante WTA, sprint WTA, passive high-confidence).
   - added checks for `First-place routing cues` and `resolved_champion_reasons` during rehearsal.
+
+## 2026-03-01 05:49:55 PST
+
+- Refreshed pre-7 handoff commit checkpoint list with latest commits:
+  - `1a62ea5`, `7052415`, `4aa0808`.

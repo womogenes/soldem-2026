@@ -64,3 +64,6 @@ Local time: 2026-03-01 04:34 PST
 - `9492469`: post-calibration full preflight validation log refresh.
 - `b71d8bc`: preflight policy smoke checks for first-place routing.
 - `d0a6bb9`: high-ante ratio trigger tuned to `0.26` with evaluator-backed evidence.
+- `1a62ea5`: Bedrock preflight smoke logged in runbooks.
+- `7052415`: handoff checkpoint refresh after `0.26` calibration commit.
+- `4aa0808`: human training drills aligned with current policy cues.
