@@ -970,3 +970,16 @@ Local time: 2026-03-01 01:25:02 PST
 - Updated pre-7 handoff commit trail with latest commits:
   - `dd0a087` (integrated preflight readiness)
   - `38e0060` (non-5-player solver/sim support)
+
+## 2026-03-01 05:59:33 PST
+
+- Expanded `scripts/policy_smoke.py` coverage and validated through preflight:
+  - added ratio-trigger check (`160/42/o3`)
+  - added non-5-player check (`n_players=6`)
+- Validation command:
+  - `bash scripts/day_of_preflight.sh --api-url http://127.0.0.1:8017 --with-policy-smoke`
+- Result: all policy checks passed.
+- Updated docs:
+  - `research_logs/003_day_of_fast_patch_guide.md`
+  - `research_logs/004_status_snapshot.md`
+  - `research_logs/013_pre7_handoff_draft.md`

@@ -81,6 +81,7 @@ Policy-routing smoke option:
 `bash scripts/day_of_preflight.sh --api-url http://127.0.0.1:8000 --with-policy-smoke`
 Latest integrated preflight pass completed at `2026-03-01 05:52 PST` using API `:8015` + PocketBase `18.204.1.6:8090` with:
 `--with-tests --with-web --with-policy-smoke --with-bedrock --bedrock-region us-east-1`.
+Latest policy-smoke-only pass completed at `2026-03-01 05:59 PST` using API `:8017` with expanded ratio + 6-player checks.
 Full backend discovery tests currently pass: `28/28`.
 Bedrock smoke check is included in the integrated preflight above.
 

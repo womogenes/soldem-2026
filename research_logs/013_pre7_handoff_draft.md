@@ -38,6 +38,7 @@ Local time: 2026-03-01 04:34 PST
 - Frontend check/build passing.
 - Integrated preflight (`tests + web + policy smoke + bedrock + PB health`) passed at `2026-03-01 05:52 PST`.
 - Quick solver and sim runner now support `n_players != 5` (validated by tests and smoke run).
+- Policy smoke re-run at `2026-03-01 05:59 PST` passed with expanded ratio + 6-player checks.
 
 ## Latest key docs
 

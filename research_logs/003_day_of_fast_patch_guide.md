@@ -12,6 +12,12 @@ Patch rule variations and keep advisor strategy alignment in under 2 minutes.
 `bash scripts/day_of_preflight.sh --api-url http://127.0.0.1:8000 --pb-url http://18.204.1.6:8090`
 Optional policy branch check:
 `bash scripts/day_of_preflight.sh --api-url http://127.0.0.1:8000 --with-policy-smoke`
+Policy smoke now validates:
+- exact baseline branch
+- high-ante absolute branch (`200/50/o4`)
+- high-ante ratio branch (`160/42/o3`)
+- below-trigger branch (`140/35/o4`)
+- non-5-player branch (`n_players=6`)
 
 1. Start API if not running.
 `uv run uvicorn game.api:app --host 0.0.0.0 --port 8000`
