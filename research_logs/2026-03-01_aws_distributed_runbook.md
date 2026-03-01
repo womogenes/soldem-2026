@@ -1,6 +1,6 @@
 # AWS distributed runbook
 
-Local timestamp: 2026-03-01 06:25:18 PST
+Local timestamp: 2026-03-01 06:46:09 PST
 
 ## Purpose
 
@@ -159,6 +159,19 @@ Note: run `20260301-030400` used an expanded strategy pool and should be treated
     - `ev`: `5400/0.032/2`
     - `first_place`: `seller_profit`
     - `robustness`: `4400/0.02/2`
+- Quick pre-7am exploitability check and conservative promotion:
+  - launched param sweep `20260301-062640` (`n_matches=140`) but terminated early as too slow for deadline
+  - completed quick param sweep `20260301-063621` (`n_matches=50`) against champion `5400/0.032/2`
+  - output:
+    - `research_logs/experiment_outputs/param_sweep_20260301-063621/aggregate_summary.json`
+  - key result:
+    - multiple challengers show positive mean delta vs `5400`, including `4500/0.02/2` and `4400/0.02/2`
+  - conservative promoted artifact:
+    - `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-064350-safe.json`
+  - conservative objective split:
+    - `ev`: `4400/0.02/2`
+    - `first_place`: `seller_profit`
+    - `robustness`: `4400/0.02/2`
 
 Loop automation smoke runs:
 
@@ -259,6 +272,8 @@ scripts/aws/continuous_distributed_loop.sh \
 - `research_logs/experiment_outputs/distributed_20260301-062400-merged/aggregate_summary.json`
 - `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-062400-merged.json`
 - `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-062400-merged.json`
+- `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-064350-safe.json`
+- `research_logs/experiment_outputs/param_sweep_20260301-063621/aggregate_summary.json`
 - `research_logs/experiment_outputs/param_sweep_20260301-024646/aggregate_summary.json`
 - `research_logs/experiment_outputs/param_sweep_20260301-033100/aggregate_summary.json`
 - `research_logs/experiment_outputs/evolution_20260301-025553/aggregate_summary.json`

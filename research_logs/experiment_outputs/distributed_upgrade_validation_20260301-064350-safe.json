@@ -1,0 +1,34 @@
+{
+  "run_id": "20260301-064350-safe",
+  "n_scenarios": 432,
+  "winner_counts": {},
+  "objective_champions": {
+    "ev": {
+      "champion_tag": "seller_extraction:opportunistic_delta=4400,reserve_bid_floor=0.02,sell_count=2",
+      "win_count": 21,
+      "total": 144
+    },
+    "first_place": {
+      "champion_tag": "seller_profit",
+      "win_count": 37,
+      "total": 144
+    },
+    "robustness": {
+      "champion_tag": "seller_extraction:opportunistic_delta=4400,reserve_bid_floor=0.02,sell_count=2",
+      "win_count": 30,
+      "total": 144
+    }
+  },
+  "recommended_session_champions": {
+    "ev": "seller_extraction:opportunistic_delta=4400,reserve_bid_floor=0.02,sell_count=2",
+    "first_place": "seller_profit",
+    "robustness": "seller_extraction:opportunistic_delta=4400,reserve_bid_floor=0.02,sell_count=2"
+  },
+  "notes": "Conservative promotion after merged human-focused distributed evidence (053816 + 061228) and quick exploitability check (param_sweep_20260301-063621) showing 5400/0.032 is vulnerable to multiple challengers. Using 4400/0.02 for ev+robustness and seller_profit for first_place.",
+  "source_artifacts": [
+    "research_logs/experiment_outputs/distributed_upgrade_validation_20260301-062400-merged.json",
+    "research_logs/experiment_outputs/param_sweep_20260301-063621/aggregate_summary.json",
+    "research_logs/experiment_outputs/param_sweep_20260301-054824/aggregate_summary.json"
+  ],
+  "generated_at_local": "2026-03-01 06:43:32 PST"
+}

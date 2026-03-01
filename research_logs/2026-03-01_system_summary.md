@@ -1,6 +1,6 @@
 # Sold 'Em system summary
 
-Local timestamp: 2026-03-01 06:24:48 PST
+Local timestamp: 2026-03-01 06:45:46 PST
 
 ## What is ready now
 
@@ -20,7 +20,7 @@ Local timestamp: 2026-03-01 06:24:48 PST
 ## Best current strategy
 
 - Recommended objective-specific champions:
-- `ev`: `seller_extraction:opportunistic_delta=5400,reserve_bid_floor=0.032,sell_count=2`
+- `ev`: `seller_extraction:opportunistic_delta=4400,reserve_bid_floor=0.02,sell_count=2`
 - `first_place`: `seller_profit`
 - `robustness`: `seller_extraction:opportunistic_delta=4400,reserve_bid_floor=0.02,sell_count=2`
 - Evidence path:
@@ -69,6 +69,12 @@ Local timestamp: 2026-03-01 06:24:48 PST
   - merged promotion across the two latest human-focused runs (`053816` + `061228`, 432 scenarios):
     - `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-062400-merged.json`
     - objective split: `ev=5400/0.032/2`, `first_place=seller_profit`, `robustness=4400/0.02/2`
+  - quick exploitability sweep against `5400/0.032/2` (`param_sweep_20260301-063621`, `n_matches=50`) found positive mean delta challengers:
+    - `4500/0.02/2`: `+3.787`
+    - `4400/0.02/2`: `+2.277`
+  - conservative pre-7am promotion artifact:
+    - `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-064350-safe.json`
+    - objective split: `ev=4400/0.02/2`, `first_place=seller_profit`, `robustness=4400/0.02/2`
 - Added day-of helper script:
   - `scripts/day_of/apply_rule_variation.py` for sub-2-minute profile apply + recompute + state verification.
 - Improved distributed summarizer signal:
@@ -124,12 +130,14 @@ Local timestamp: 2026-03-01 06:24:48 PST
 - `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-050721.json`
 - `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-060740.json`
 - `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-062400-merged.json`
+- `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-064350-safe.json`
 - `research_logs/experiment_outputs/evolution_20260301-025553/aggregate_summary.json`
 - `research_logs/experiment_outputs/evolution_20260301-025732/aggregate_summary.json`
 - `research_logs/experiment_outputs/evolution_20260301-044713/aggregate_summary.json`
 - `research_logs/experiment_outputs/param_sweep_20260301-033100/aggregate_summary.json`
 - `research_logs/experiment_outputs/param_sweep_20260301-050721/aggregate_summary.json`
 - `research_logs/experiment_outputs/param_sweep_20260301-054824/aggregate_summary.json`
+- `research_logs/experiment_outputs/param_sweep_20260301-063621/aggregate_summary.json`
 - `research_logs/experiment_outputs/horizon10_confirmation_20260301-033100.json`
 - `research_logs/experiment_outputs/horizon10_confirmation_20260301-050721.json`
 

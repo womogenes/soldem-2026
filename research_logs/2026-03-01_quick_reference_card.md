@@ -1,10 +1,10 @@
 # Sold 'Em quick reference card
 
-Local timestamp: 2026-03-01 06:24:22 PST
+Local timestamp: 2026-03-01 06:45:09 PST
 
 ## Primary strategies
 
-- `ev`: `seller_extraction:opportunistic_delta=5400,reserve_bid_floor=0.032,sell_count=2`
+- `ev`: `seller_extraction:opportunistic_delta=4400,reserve_bid_floor=0.02,sell_count=2`
 - `first_place`: `seller_profit`
 - `robustness`: `seller_extraction:opportunistic_delta=4400,reserve_bid_floor=0.02,sell_count=2`
 
@@ -23,6 +23,10 @@ Local timestamp: 2026-03-01 06:24:22 PST
 - robustness winner count slightly favored `4400/0.02/2` over `4500/0.02/2`.
 - merged promotion artifact across `053816` + `061228` (432 scenarios):
 - `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-062400-merged.json`.
+- quick exploitability sweep vs `5400/0.032/2`:
+- `research_logs/experiment_outputs/param_sweep_20260301-063621/aggregate_summary.json`.
+- conservative final promotion artifact:
+- `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-064350-safe.json`.
 
 ## Turn actions
 

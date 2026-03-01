@@ -478,3 +478,28 @@ Local timezone: PST (America/Los_Angeles)
   - `research_logs/2026-03-01_aws_distributed_runbook.md`
   - `research_logs/2026-03-01_day_of_patch_guide.md`
 - Terminated all worker instances from run `20260301-061228` after collection.
+
+## 2026-03-01 06:46:42 PST
+
+- Started additional pre-7am validation to test whether `5400/0.032/2` EV promotion is stable under param-sweep settings.
+- Uploaded artifact:
+  - `s3://soldem-2026-539881456097-1772358537/artifacts/soldem_v5_3b8befb_20260301-062624.tar.gz`
+- Launched param sweep run `20260301-062640` (`n_matches=140`, 16x workers) against champion `5400/0.032/2`.
+- Terminated run `20260301-062640` early due wall-clock risk before 7:00 AM and relaunched reduced sweep:
+  - run `20260301-063621` (`n_matches=50`, 16x workers)
+  - mapping file: `research_logs/aws_param_sweep_worker_map_20260301-063621.jsonl`
+- Collected reduced sweep output:
+  - `research_logs/experiment_outputs/param_sweep_20260301-063621/aggregate_summary.json`
+- Key result vs champion `5400/0.032/2`:
+  - positive mean-delta challengers include:
+    - `seller_extraction:opportunistic_delta=4500,reserve_bid_floor=0.02,sell_count=2` (`+3.787`)
+    - `seller_extraction:opportunistic_delta=4400,reserve_bid_floor=0.02,sell_count=2` (`+2.277`)
+- Conservative pre-7am promotion applied:
+  - `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-064350-safe.json`
+  - objective split:
+    - `ev`: `seller_extraction:opportunistic_delta=4400,reserve_bid_floor=0.02,sell_count=2`
+    - `first_place`: `seller_profit`
+    - `robustness`: `seller_extraction:opportunistic_delta=4400,reserve_bid_floor=0.02,sell_count=2`
+- Verified resolver points to this latest safe artifact:
+  - `uv run python scripts/print_latest_champions.py`
+- Terminated all workers from run `20260301-063621` after collection.

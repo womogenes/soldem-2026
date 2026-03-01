@@ -1,6 +1,6 @@
 # Day-of rapid patch guide for rule variations
 
-Local timestamp: 2026-03-01 06:25:42 PST
+Local timestamp: 2026-03-01 06:45:24 PST
 
 ## Goal
 
@@ -82,7 +82,7 @@ curl -sS http://127.0.0.1:8000/session/state | python -m json.tool
 Current objective-specific fallback set:
 
 - `ev`: `seller_extraction:opportunistic_delta=4400,reserve_bid_floor=0.02,sell_count=2`
-- `ev`: `seller_extraction:opportunistic_delta=5400,reserve_bid_floor=0.032,sell_count=2`
+- `ev`: `seller_extraction:opportunistic_delta=4400,reserve_bid_floor=0.02,sell_count=2`
 - `first_place`: `seller_profit`
 - `robustness`: `seller_extraction:opportunistic_delta=4400,reserve_bid_floor=0.02,sell_count=2`
 
@@ -108,6 +108,7 @@ Higher-confidence distributed fallback maps are also available:
 - `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-050721.json`
 - `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-060740.json`
 - `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-062400-merged.json`
+- `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-064350-safe.json`
 - `research_logs/experiment_outputs/horizon10_confirmation_20260301-033100.json` (10-game extraction)
 
 ## Patch templates for unknown new rule types
