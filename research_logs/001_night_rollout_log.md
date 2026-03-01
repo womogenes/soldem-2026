@@ -418,3 +418,10 @@ Local time: 2026-03-01 01:25:02 PST
     - `robustness_gap=20.0`
   - override available with `--no-prior-guardrail`.
 - Updated guide docs to include guardrail behavior and override flag.
+
+## 2026-03-01 04:07:08 PST
+
+- Benchmarked autosolve patch runtime using default budget:
+  - command: `scripts/day_of_autosolve_patch.py --n-tables 12 --n-games 8 --dry-run`
+  - measured wall-clock: `22.895s`
+- This is comfortably inside the 2-minute patch requirement.
