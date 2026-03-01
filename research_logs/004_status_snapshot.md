@@ -50,6 +50,8 @@ Latest evidence:
   - first-place: `pot_fraction` only in sprint profiles (`n_orbits=2`, low starting stacks).
 - horizon sensitivity check (`5/10/20` games, none+respect correlation):
   - EV winner remained `equity_evolved_v1` in all tested horizons and regimes.
+- first-place horizon check (`5/10/20`, respect 0.35 with multi-seed):
+  - baseline first-place mean favored `meta_switch`, so baseline first-place default stays `meta_switch`.
 
 ## How to run now
 
@@ -68,9 +70,7 @@ Latest evidence:
 - As events accumulate, use `Use auto table read preset` to apply mode-aware switching.
 - Auto table-read mode map:
   - EV/robustness: keep `equity_evolved_v1`.
-  - first-place + baseline:
-    - balanced/calm: `meta_switch`
-    - competitive/correlated/aggressive: `equity_evolved_v1`
+  - first-place + baseline: `meta_switch`
   - `passive` + first-place objective: may move to `pot_fraction`.
 
 ## Day-of fast patch

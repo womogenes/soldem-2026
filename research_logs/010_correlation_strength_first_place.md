@@ -43,10 +43,10 @@ Check whether baseline first-place should always use `meta_switch`, or if correl
 
 ## Takeaway
 
-- Baseline first-place is mode-sensitive rather than strictly `meta_switch`.
-- Updated resolver policy:
-  - baseline + balanced/calm read: `meta_switch`
-  - baseline + competitive/correlated/aggressive read: `equity_evolved_v1`
+- This sweep showed mixed outcomes and was treated as exploratory.
+- A later multi-seed horizon check (`research_logs/011_horizon_sensitivity.md` plus added first-place seed extensions) favored `meta_switch` for baseline first-place on average.
+- Final policy kept in API:
+  - baseline first-place: `meta_switch`
   - passive high-confidence or sprint short-stack: `pot_fraction`
 
 ## Artifacts

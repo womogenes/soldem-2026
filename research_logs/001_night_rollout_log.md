@@ -528,3 +528,23 @@ Local time: 2026-03-01 01:25:02 PST
 - Result:
   - `strategies_updated`: 17
   - champions unchanged (`ev=evolved`, `first_place=meta_switch`, `robustness=evolved`).
+
+## 2026-03-01 04:30:14 PST
+
+- Ran first-place horizon sweeps (`5/10/20`) under baseline rules for:
+  - no-correlation (`night_horizon_first_*_none_seed*.json`)
+  - respect correlation 0.35 (`night_horizon_first_*_respect35_seed*.json`)
+- Added extra seeds for ambiguous respect cases:
+  - 5-game: `56105/56106/56107`
+  - 10-game: `56110/56111/56112`
+  - 20-game: `56120/56121/56122`
+- Multi-seed respect aggregates favored `meta_switch` for baseline first-place across all horizons.
+- Reverted temporary baseline dynamic-mode first-place override:
+  - baseline first-place now stays `meta_switch` (except sprint/passive `pot_fraction` overrides).
+- Added summary:
+  - `research_logs/012_first_place_horizon_check.md`
+- Updated related docs:
+  - `research_logs/003_day_of_fast_patch_guide.md`
+  - `research_logs/004_status_snapshot.md`
+  - `research_logs/006_variant_lookup_table.md`
+  - `research_logs/010_correlation_strength_first_place.md` (marked exploratory).

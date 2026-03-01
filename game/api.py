@@ -248,9 +248,7 @@ class Session:
             if sprint_profile:
                 return "pot_fraction", "sprint_profile_first_place"
             if self.rule_profile.name == "baseline_v1":
-                if mode in {"competitive", "correlated_pair", "aggressive"}:
-                    return "equity_evolved_v1", "baseline_dynamic_mode_first_place"
-                return "meta_switch", "baseline_balanced_first_place"
+                return "meta_switch", "baseline_first_place_meta"
             return "equity_evolved_v1", "non_baseline_first_place"
         if objective in {"ev", "robustness"}:
             return "equity_evolved_v1", "ev_robust_default"

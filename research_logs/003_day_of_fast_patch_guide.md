@@ -46,9 +46,7 @@ Expected fields: `resolved_champions.ev`, `resolved_champions.first_place`, `res
 
 - Default EV and robustness: `equity_evolved_v1`.
 - First-place mode:
-  - `baseline_v1`:
-    - calm/balanced read: `meta_switch`
-    - `competitive` / `correlated_pair` / `aggressive` read: `equity_evolved_v1`
+  - `baseline_v1`: `meta_switch`
   - other built-in variants: `equity_evolved_v1`.
 - Dynamic table-read shifts:
   - `passive` with high confidence and first-place objective: may choose `pot_fraction`.

@@ -63,8 +63,7 @@ Local time: 2026-03-01 03:32 PST
 1. Safe default when uncertain:
 - EV and robustness: `equity_evolved_v1`
 - first-place:
-  - baseline calm/balanced table: `meta_switch`
-  - baseline competitive/correlated/aggressive read: `equity_evolved_v1`
+  - baseline: `meta_switch`
   - sprint short-stack (`n_orbits<=2`, low stack): `pot_fraction`
   - otherwise: `equity_evolved_v1`
 
