@@ -56,6 +56,11 @@ Combined distributed total across three runs:
 - scenarios: 648
 - champion wins: 571 (`seller_extraction:opportunistic_delta=4000,reserve_bid_floor=0.086,sell_count=2`)
 
+Loop automation smoke runs:
+
+- `20260301-022349` (manual recovery of early loop failure run)
+- `20260301-022736` (full loop end-to-end validation run)
+
 ## Standard run flow
 
 1. Build and upload artifact tarball:

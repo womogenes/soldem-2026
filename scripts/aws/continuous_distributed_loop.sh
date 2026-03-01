@@ -106,7 +106,7 @@ PY
 
   start_wait=$(date +%s)
   while true; do
-    have=$(aws s3 ls "s3://$BUCKET/distributed_runs/$run_id/" 2>/dev/null | wc -l)
+    have=$( (aws s3 ls "s3://$BUCKET/distributed_runs/$run_id/" 2>/dev/null || true) | wc -l )
     echo "run_id=$run_id files=$have/$expected" | tee -a "$LOOP_LOG"
     if [[ "$have" -ge "$expected" ]]; then
       break

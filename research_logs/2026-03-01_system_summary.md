@@ -50,9 +50,14 @@ Local timestamp: 2026-03-01 01:45:55 PST
 - `research_logs/experiment_outputs/precomputed_variation_champions.json`
 - `research_logs/experiment_outputs/distributed_20260301-015615/aggregate_summary.json`
 - `research_logs/experiment_outputs/distributed_20260301-020134/aggregate_summary.json`
+- `research_logs/experiment_outputs/distributed_20260301-021037/aggregate_summary.json`
+- `research_logs/experiment_outputs/distributed_20260301-022349/aggregate_summary.json`
+- `research_logs/experiment_outputs/distributed_20260301-022736/aggregate_summary.json`
 - `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-015615.json`
 - `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-020134.json`
 - `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-021037.json`
+- `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-022349.json`
+- `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-022736.json`
 - `research_logs/experiment_outputs/distributed_master_summary_20260301.json`
 
 ## Run instructions

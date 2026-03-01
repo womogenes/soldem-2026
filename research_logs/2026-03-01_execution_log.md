@@ -185,3 +185,21 @@ Local timezone: PST (America/Los_Angeles)
   - optional PocketBase sync
   - terminate workers
   - repeat for N cycles or until epoch deadline.
+
+## 2026-03-01 02:28:54 PST
+
+- Fixed and validated continuous loop script behavior:
+  - patched S3 polling for empty-prefix safety under `set -euo pipefail`.
+  - verified end-to-end one-cycle automation run:
+    - run id: `20260301-022736`
+    - 2 workers
+    - completed:
+      - launch
+      - S3 completion wait
+      - collect aggregate summary
+      - PocketBase sync
+      - worker termination
+      - final `continuous loop complete` status.
+- Recovered manual smoke run from earlier loop failure:
+  - run id: `20260301-022349`
+  - collected + synced + terminated workers.
