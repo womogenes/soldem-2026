@@ -763,3 +763,8 @@ Local time: 2026-03-01 01:25:02 PST
   - `uv run -m unittest discover -s tests -v` -> `23/23` passing.
   - `pnpm -C web check` -> 0 errors / 0 warnings.
   - `pnpm -C web build` -> successful build.
+
+## 2026-03-01 05:24:22 PST
+
+- Updated `research_logs/013_pre7_handoff_draft.md` with a `Latest commit checkpoints` section for fast operator reference.
+- Included recent commits covering resolver logic, autosolve alignment, HUD cue updates, and validation refresh.

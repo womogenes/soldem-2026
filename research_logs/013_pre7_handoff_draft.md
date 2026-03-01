@@ -47,3 +47,12 @@ Local time: 2026-03-01 04:34 PST
 - `research_logs/012_first_place_horizon_check.md`
 - `research_logs/016_first_place_fuzz_confirmation.md`
 - `research_logs/017_resolver_policy_backtest.md`
+
+## Latest commit checkpoints
+
+- `e861471`: first-place resolver refinement from random-variant confirmations.
+- `cc1ba28`: autosolve prior alignment with updated resolver logic.
+- `0bbadd0`: resolver backtest evidence docs.
+- `62f2fff`: HUD first-place routing cues UI.
+- `d382fcd`: preflight + full-suite validation log refresh.
+- `9ebf784`: backend-exported first-place policy cues wired into HUD.
