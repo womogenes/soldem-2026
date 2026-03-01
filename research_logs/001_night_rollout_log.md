@@ -455,3 +455,21 @@ Local time: 2026-03-01 01:25:02 PST
   - latency: `2806 ms`
   - output parsed successfully into normalized hint schema (`bid`, `confidence`, `mode`, `rationale`).
 - Updated `research_logs/007_bedrock_latency.md` with this live invocation confirmation.
+
+## 2026-03-01 04:16:37 PST
+
+- Ran baseline first-place correlation-strength sweep using `scripts/benchmark_hero.py`:
+  - artifacts: `night_corr_strength_0p00/0p20/0p35/0p50/0p70_*.json`
+  - heroes: `meta_switch`, `equity_evolved_v1`, `pot_fraction`
+  - objective: `first_place`
+- Finding:
+  - baseline first-place is mode-sensitive; `meta_switch` is not always dominant under correlated/competitive conditions.
+- Updated resolver policy:
+  - baseline + balanced/calm -> `meta_switch`
+  - baseline + `competitive` / `correlated_pair` / `aggressive` -> `equity_evolved_v1`
+  - sprint profile or passive/high-confidence first-place -> `pot_fraction`
+- Updated docs:
+  - `research_logs/003_day_of_fast_patch_guide.md`
+  - `research_logs/004_status_snapshot.md`
+  - `research_logs/006_variant_lookup_table.md`
+  - new summary: `research_logs/010_correlation_strength_first_place.md`

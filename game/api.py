@@ -237,6 +237,8 @@ class Session:
             if sprint_profile:
                 return "pot_fraction"
             if self.rule_profile.name == "baseline_v1":
+                if mode in {"competitive", "correlated_pair", "aggressive"}:
+                    return "equity_evolved_v1"
                 return "meta_switch"
             return "equity_evolved_v1"
         if objective in {"ev", "robustness"}:

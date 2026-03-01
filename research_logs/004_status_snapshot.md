@@ -65,7 +65,9 @@ Latest evidence:
 - As events accumulate, use `Use auto table read preset` to apply mode-aware switching.
 - Auto table-read mode map:
   - EV/robustness: keep `equity_evolved_v1`.
-  - first-place + baseline: prefer `meta_switch`.
+  - first-place + baseline:
+    - balanced/calm: `meta_switch`
+    - competitive/correlated/aggressive: `equity_evolved_v1`
   - `passive` + first-place objective: may move to `pot_fraction`.
 
 ## Day-of fast patch

@@ -73,6 +73,7 @@ class ApiSessionTests(unittest.TestCase):
         read = s.infer_table_read()
         self.assertEqual(read["mode"], "correlated_pair")
         self.assertEqual(s.resolve_champion("ev"), "equity_evolved_v1")
+        self.assertEqual(s.resolve_champion("first_place"), "equity_evolved_v1")
 
     def test_rule_profile_override_still_takes_precedence(self):
         s = Session()
@@ -94,6 +95,7 @@ class ApiSessionTests(unittest.TestCase):
         read = s.infer_table_read()
         self.assertEqual(read["mode"], "competitive")
         self.assertEqual(s.resolve_champion("ev"), "equity_evolved_v1")
+        self.assertEqual(s.resolve_champion("first_place"), "equity_evolved_v1")
 
     def test_manual_champion_override(self):
         s = Session()

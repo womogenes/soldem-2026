@@ -62,7 +62,11 @@ Local time: 2026-03-01 03:32 PST
 
 1. Safe default when uncertain:
 - EV and robustness: `equity_evolved_v1`
-- first-place: `equity_evolved_v1`, except baseline profile where `meta_switch` is preferred.
+- first-place:
+  - baseline calm/balanced table: `meta_switch`
+  - baseline competitive/correlated/aggressive read: `equity_evolved_v1`
+  - sprint short-stack (`n_orbits<=2`, low stack): `pot_fraction`
+  - otherwise: `equity_evolved_v1`
 
 2. If quick solver supports a specific variant and time allows manual lock:
 - apply variant with `scripts/day_of_patch.py`
