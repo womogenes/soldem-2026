@@ -720,3 +720,19 @@ Local time: 2026-03-01 01:25:02 PST
   - no observed regressions in this sample.
 - Added summary doc:
   - `research_logs/017_resolver_policy_backtest.md`
+
+## 2026-03-01 05:18:12 PST
+
+- Improved HUD clarity for day-of rapid decisions:
+  - updated `web/src/routes/+page.svelte` to add a `First-place routing cues` block in the session panel.
+  - cues now explicitly call out:
+    - exact baseline default (`meta_switch`),
+    - sprint winner-takes-all `pot_fraction` trigger,
+    - high-ante-pressure winner-takes-all `pot_fraction` trigger,
+    - sprint split-pot case where sprint trigger is intentionally disabled.
+- Web validation:
+  - `pnpm -C web check` -> 0 errors / 0 warnings
+  - `pnpm -C web build` -> successful production build.
+- Updated docs:
+  - `research_logs/003_day_of_fast_patch_guide.md`
+  - `research_logs/004_status_snapshot.md`

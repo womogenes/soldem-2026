@@ -29,6 +29,7 @@ This sets API `dynamic_resolution_enabled=false` so manual champions stay fixed.
 
 6. Confirm resolved champions from output.
 Expected fields: `resolved_champions.ev`, `resolved_champions.first_place`, `resolved_champions.robustness`.
+HUD side check: the session panel now includes `First-place routing cues` for baseline/sprint/high-ante trigger visibility.
 
 7. Refresh HUD and use `Use objective champion` button.
 8. After logging a few auctions/bids, use `Use auto table read preset` to adapt to observed table style.

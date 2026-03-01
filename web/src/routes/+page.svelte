@@ -43,6 +43,7 @@
 	let eventAmount = 0;
 	let eventWinner = 0;
 	let eventNote = '';
+	let firstPlaceRoutingNotes: { level: 'info' | 'warn'; text: string }[] = [];
 
 	function parseCards(input: string): Card[] {
 		const toks = input
@@ -197,6 +198,64 @@
 		stacks = [...stacks];
 	}
 
+	function firstPlaceNotesFromState(state: any): { level: 'info' | 'warn'; text: string }[] {
+		const rule = state?.rule_profile;
+		if (!rule) return [];
+
+		const start = Number(rule.start_chips ?? 0);
+		const ante = Number(rule.ante_amt ?? 0);
+		const nOrbits = Number(rule.n_orbits ?? 0);
+		const potPolicy = String(rule.pot_distribution_policy ?? 'winner_takes_all');
+		const anteRatio = start > 0 ? ante / start : 0;
+		const sprint = nOrbits <= 2 && start <= 150;
+		const highAntePressure = anteRatio >= 0.33 && nOrbits >= 3 && potPolicy === 'winner_takes_all';
+
+		const exactBaseline =
+			rule.name === 'baseline_v1' &&
+			Number(rule.n_players ?? 0) === 5 &&
+			Number(rule.cards_per_player ?? 0) === 5 &&
+			start === 200 &&
+			ante === 40 &&
+			nOrbits === 3 &&
+			Boolean(rule.allow_multi_card_sell) &&
+			!Boolean(rule.seller_can_bid_own_card) &&
+			Boolean(rule.tie_break_first_bid_wins) &&
+			String(rule.hand_ranking_policy ?? '') === 'rarity_50' &&
+			potPolicy === 'winner_takes_all';
+
+		const notes: { level: 'info' | 'warn'; text: string }[] = [];
+		if (exactBaseline) {
+			notes.push({
+				level: 'info',
+				text: 'Exact baseline profile: first-place default is meta_switch.'
+			});
+		} else {
+			notes.push({
+				level: 'info',
+				text: 'Non-baseline profile: first-place default is equity_evolved_v1.'
+			});
+		}
+		if (sprint && potPolicy === 'winner_takes_all') {
+			notes.push({
+				level: 'warn',
+				text: 'Sprint + winner_takes_all: pot_fraction trigger is active.'
+			});
+		} else if (sprint) {
+			notes.push({
+				level: 'info',
+				text: `Sprint + ${potPolicy}: sprint pot_fraction trigger is disabled.`
+			});
+		}
+		if (highAntePressure) {
+			notes.push({
+				level: 'warn',
+				text: `High ante pressure (${anteRatio.toFixed(2)}): pot_fraction trigger is active.`
+			});
+		}
+		return notes;
+	}
+
+	$: firstPlaceRoutingNotes = firstPlaceNotesFromState(sessionState);
 	onMount(loadSession);
 </script>
 
@@ -409,6 +468,16 @@
 					<div class="mt-2 text-xs">Resolved champions: {JSON.stringify(sessionState.resolved_champions)}</div>
 					<div class="mt-2 text-xs">Resolved reasons: {JSON.stringify(sessionState.resolved_champion_reasons)}</div>
 					<div class="mt-2 text-xs">Table read: {JSON.stringify(sessionState.table_read)}</div>
+					{#if firstPlaceRoutingNotes.length}
+						<div class="mt-3 border p-2">
+							<div class="text-xs font-medium">First-place routing cues</div>
+							{#each firstPlaceRoutingNotes as note}
+								<div class={`mt-1 text-xs ${note.level === 'warn' ? 'text-amber-700' : 'text-muted-foreground'}`}>
+									{note.text}
+								</div>
+							{/each}
+						</div>
+					{/if}
 					<div class="mt-2 text-xs">Recommended preset: {sessionState.recommended_preset}</div>
 					<div class="mt-2 text-xs">Strategy presets: {JSON.stringify(sessionState.strategy_presets)}</div>
 					<div class="mt-2 text-xs">Composite presets: {JSON.stringify(sessionState.composite_profiles)}</div>

@@ -27,6 +27,8 @@ Local time: 2026-03-01 04:34 PST
 3. Keep dynamic resolution after autosolve:
 - `uv run python scripts/day_of_autosolve_patch.py --rule-profile baseline_v1 --keep-dynamic`
 
+4. In HUD session panel, verify `First-place routing cues` before game start so trigger assumptions are explicit.
+
 ## Runtime checks
 
 - Autosolve default runtime benchmark: about `22.9s`.

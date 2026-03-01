@@ -80,6 +80,7 @@ Latest evidence:
 - Optional second opinion: click `Get LLM hint` (Bedrock-backed, deterministic recommendation remains primary).
 - Recommendation and LLM panels now show resolved strategy reason labels (for example `baseline_first_place_meta`, `sprint_profile_first_place`).
 - Recommendation and LLM panels now show resolved strategy reason labels (for example `baseline_first_place_meta_exact`, `sprint_wta_first_place`, `high_ante_pressure_first_place`).
+- HUD now shows a dedicated `First-place routing cues` block in the session panel to make baseline/sprint/high-ante triggers visible without parsing raw JSON.
 - As events accumulate, use `Use auto table read preset` to apply mode-aware switching.
 - Auto table-read mode map:
   - EV/robustness: keep `equity_evolved_v1`.
