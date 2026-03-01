@@ -238,6 +238,25 @@
 		return notes;
 	}
 
+	function describeReason(code: string | undefined): string {
+		const c = (code ?? '').trim();
+		if (!c) return 'No resolver reason available.';
+		const map: Record<string, string> = {
+			manual_lock: 'Manual lock is active; dynamic routing is disabled.',
+			ev_robust_default: 'EV/robustness default anchor is equity_evolved_v1.',
+			passive_high_confidence_first_place:
+				'Passive table read with high confidence: first-place routing moved to pot_fraction.',
+			sprint_wta_first_place:
+				'Sprint + winner-takes-all profile: first-place routing moved to pot_fraction.',
+			high_ante_pressure_first_place:
+				'High-ante winner-takes-all pressure: first-place routing moved to pot_fraction.',
+			baseline_first_place_meta_exact: 'Exact baseline rules: first-place default is meta_switch.',
+			non_baseline_first_place: 'Non-baseline profile: first-place default is equity_evolved_v1.',
+			fallback_champion_map: 'Fallback champion mapping was used.'
+		};
+		return map[c] ?? c;
+	}
+
 	$: firstPlaceRoutingNotes = firstPlaceNotesFromState(sessionState);
 	onMount(loadSession);
 </script>
@@ -363,6 +382,9 @@
 					<div class="mb-2 text-xs text-muted-foreground">
 						strategy: {recommendation.strategy_tag} ({recommendation.strategy_reason})
 					</div>
+					<div class="mb-2 text-xs text-muted-foreground">
+						{describeReason(recommendation.strategy_reason)}
+					</div>
 					{#if recommendation.modes}
 						<div class="grid gap-2 md:grid-cols-3">
 							{#each modeEntries(recommendation.modes) as [mode, rec]}
@@ -393,6 +415,7 @@
 					{#if llmHint}
 						<div class="text-xs">ok: {String(llmHint.ok)}</div>
 						<div class="mt-1 text-xs">strategy: {llmHint.strategy_tag} ({llmHint.strategy_reason})</div>
+						<div class="mt-1 text-xs text-muted-foreground">{describeReason(llmHint.strategy_reason)}</div>
 						<div class="mt-1 text-xs">model: {llmHint.llm?.model_id}</div>
 						<div class="mt-1 text-xs">latency ms: {llmHint.llm?.latency_ms}</div>
 						<div class="mt-1 text-xs">hint: {JSON.stringify(llmHint.llm?.hint)}</div>

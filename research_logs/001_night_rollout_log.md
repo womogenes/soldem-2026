@@ -922,3 +922,12 @@ Local time: 2026-03-01 01:25:02 PST
   - `research_logs/019_pre7_final_checklist.md`
 - Covers fixed T-20/T-15/T-10/T-5 flow, priority preflight commands, fast rule patch steps, and in-game execution constraints.
 - Linked checklist in `research_logs/013_pre7_handoff_draft.md` under latest key docs.
+
+## 2026-03-01 05:52:07 PST
+
+- Improved HUD readability for operator speed:
+  - `web/src/routes/+page.svelte` now maps resolver reason codes to plain-English descriptions in recommendation and LLM hint panels.
+- Web validation:
+  - `pnpm -C web check` -> 0 errors / 0 warnings
+  - `pnpm -C web build` -> successful build.
+- Updated status snapshot to note human-readable reason descriptions.

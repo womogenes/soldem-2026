@@ -89,6 +89,7 @@ Bedrock smoke check passed at `2026-03-01 05:40 PST` in `us-east-1` (`scripts/aw
 - Enter state and click `Get recommendation`.
 - Optional second opinion: click `Get LLM hint` (Bedrock-backed, deterministic recommendation remains primary).
 - Recommendation and LLM panels now show resolved strategy reason labels (for example `baseline_first_place_meta_exact`, `sprint_wta_first_place`, `high_ante_pressure_first_place`).
+- HUD now renders plain-English descriptions for strategy reason codes in recommendation and LLM hint panels.
 - HUD now shows a dedicated `First-place routing cues` block in the session panel to make baseline/sprint/high-ante triggers visible without parsing raw JSON.
 - API exports these cues as `first_place_policy_cues` in `/session/state` for deterministic client or script checks.
 - As events accumulate, use `Use auto table read preset` to apply mode-aware switching.
