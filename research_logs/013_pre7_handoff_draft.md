@@ -40,10 +40,10 @@ Local time: 2026-03-01 06:34 PST
 - Backend tests currently passing: `32/32`.
 - Frontend check/build passing.
 - HUD input now supports non-5-player variants (`n_players`-aware seat bounds and dynamic stacks).
-- Integrated preflight (`tests + web + policy smoke`) passed at `2026-03-01 06:50 PST`.
-- Full-stack preflight (`tests + web + policy smoke + bedrock + PB health`) passed at `2026-03-01 05:52 PST`.
+- Integrated preflight (`tests + web + policy smoke`) passed at `2026-03-01 06:51 PST`.
+- Full-stack preflight (`tests + web + policy smoke + bedrock + PB health`) passed at `2026-03-01 06:51 PST`.
 - Quick solver and sim runner now support `n_players != 5` (validated by tests and smoke run).
-- Policy smoke re-run at `2026-03-01 06:50 PST` passed with expanded winner-takes-all branch + 6-player checks.
+- Policy smoke re-run at `2026-03-01 06:51 PST` passed with expanded winner-takes-all branch + 6-player checks.
 
 ## Latest key docs
 
@@ -83,3 +83,4 @@ Local time: 2026-03-01 06:34 PST
 - `747aa79`: winner-takes-all first-place banding update with rollout matrix + hero confirmations.
 - `930cced`: HUD input now supports dynamic `n_players` stack/seat handling.
 - `bee4a15`: correlated-pair defensive first-place override with extreme-correlation evidence.
+- `1eb9bed`: readiness docs refreshed after final preflight and extreme-correlation probe.

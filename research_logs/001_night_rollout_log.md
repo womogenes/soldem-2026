@@ -1107,3 +1107,15 @@ Local time: 2026-03-01 01:25:02 PST
   - backend tests: `32/32` pass
   - web check: pass
   - policy smoke: pass.
+
+## 2026-03-01 06:51:54 PST
+
+- Ran final full-stack preflight on latest commits:
+  - command: `bash scripts/day_of_preflight.sh --api-url http://127.0.0.1:8021 --pb-url http://18.204.1.6:8090 --with-tests --with-web --with-policy-smoke --with-bedrock --bedrock-region us-east-1`
+  - result: pass
+  - API health/session: pass
+  - PocketBase health: pass
+  - backend tests: `32/32` pass
+  - web check: pass
+  - Bedrock smoke: pass
+  - policy smoke: pass.

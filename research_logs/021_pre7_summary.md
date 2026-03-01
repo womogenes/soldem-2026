@@ -1,6 +1,6 @@
 # Pre-7 summary
 
-Local time: 2026-03-01 06:50:30 PST
+Local time: 2026-03-01 06:51:54 PST
 
 ## What is ready
 
@@ -31,7 +31,7 @@ Local time: 2026-03-01 06:50:30 PST
 - Backend tests: `32/32` pass.
 - Web check/build: pass.
 - Policy smoke: pass for baseline, WTA pot-pressure, WTA high-stack relief, and 6-player branch.
-- Latest integrated preflight (`tests + web + policy smoke`) passed at `2026-03-01 06:50 PST`.
+- Latest integrated preflight (`tests + web + policy smoke`) passed at `2026-03-01 06:51 PST`.
 
 ## How to use at game time
 
@@ -66,4 +66,4 @@ Local time: 2026-03-01 06:50:30 PST
 
 - `930cced` Make HUD n_players-aware for day-of variant input
 - `bee4a15` Add correlated-pair defensive first-place override
-- `ff3635a` Log final preflight and refresh readiness timestamps
+- `1eb9bed` Refresh pre-7 docs after final preflight and correlation probe
