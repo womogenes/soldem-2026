@@ -1151,3 +1151,9 @@ Local time: 2026-03-01 01:25:02 PST
   - web check: pass
   - Bedrock smoke: pass
   - policy smoke: pass, including correlated-pair defensive branch.
+
+## 2026-03-01 06:58:00 PST
+
+- Committed backend/session safety patch and smoke expansion:
+  - commit: `5ef9e69`
+  - summary: sync API session/player-profile state with active `n_players`; add correlated-pair branch coverage to policy smoke; update runbooks to `34/34` test baseline.
