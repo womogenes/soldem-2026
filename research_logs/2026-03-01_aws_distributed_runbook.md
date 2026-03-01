@@ -1,6 +1,6 @@
 # AWS distributed runbook
 
-Local timestamp: 2026-03-01 06:46:09 PST
+Local timestamp: 2026-03-01 06:55:38 PST
 
 ## Purpose
 
@@ -172,6 +172,27 @@ Note: run `20260301-030400` used an expanded strategy pool and should be treated
     - `ev`: `4400/0.02/2`
     - `first_place`: `seller_profit`
     - `robustness`: `4400/0.02/2`
+- Final pre-7am distributed confirmation and merged promotion:
+  - run `20260301-064700`
+  - 16x `c7i.large`
+  - `n_matches=120`
+  - outputs:
+    - `research_logs/experiment_outputs/distributed_20260301-064700/aggregate_summary.json`
+    - `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-064700.json`
+    - `research_logs/experiment_outputs/upgrade_validation_candidate_20260301-064700.json`
+  - merged promotion across three human-focused distributed runs:
+    - source runs:
+      - `20260301-053816`
+      - `20260301-061228`
+      - `20260301-064700`
+    - merged aggregate:
+      - `research_logs/experiment_outputs/distributed_20260301-065230-merged3/aggregate_summary.json`
+    - promoted artifact:
+      - `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-065230-merged3.json`
+    - promoted objective split:
+      - `ev`: `5400/0.032/2`
+      - `first_place`: `seller_profit`
+      - `robustness`: `4400/0.02/2`
 
 Loop automation smoke runs:
 
@@ -273,6 +294,11 @@ scripts/aws/continuous_distributed_loop.sh \
 - `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-062400-merged.json`
 - `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-062400-merged.json`
 - `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-064350-safe.json`
+- `research_logs/experiment_outputs/distributed_20260301-064700/aggregate_summary.json`
+- `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-064700.json`
+- `research_logs/experiment_outputs/distributed_20260301-065230-merged3/aggregate_summary.json`
+- `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-065230-merged3.json`
+- `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-065230-merged3.json`
 - `research_logs/experiment_outputs/param_sweep_20260301-063621/aggregate_summary.json`
 - `research_logs/experiment_outputs/param_sweep_20260301-024646/aggregate_summary.json`
 - `research_logs/experiment_outputs/param_sweep_20260301-033100/aggregate_summary.json`

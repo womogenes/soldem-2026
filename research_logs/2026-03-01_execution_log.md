@@ -503,3 +503,36 @@ Local timezone: PST (America/Los_Angeles)
 - Verified resolver points to this latest safe artifact:
   - `uv run python scripts/print_latest_champions.py`
 - Terminated all workers from run `20260301-063621` after collection.
+
+## 2026-03-01 06:56:11 PST
+
+- Uploaded fresh artifact for final pre-7am distributed confirmation:
+  - `s3://soldem-2026-539881456097-1772358537/artifacts/soldem_v5_47149fd_20260301-064642.tar.gz`
+- Launched and collected distributed run `20260301-064700`:
+  - 16x `c7i.large`
+  - `n_matches=120`
+  - mapping file:
+    - `research_logs/aws_worker_map_20260301-064700.jsonl`
+  - collected outputs:
+    - `research_logs/experiment_outputs/distributed_20260301-064700/aggregate_summary.json`
+    - `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-064700.json`
+    - `research_logs/experiment_outputs/upgrade_validation_candidate_20260301-064700.json`
+- Key run signal:
+  - winner-count recommendation:
+    - `ev`: `5400/0.032/2`
+    - `first_place`: `adaptive_profile`
+    - `robustness`: `4400/0.02/2`
+  - objective-strength and merged multi-run evidence still favor `seller_profit` for first-place.
+- Built merged aggregate across three human-focused distributed runs:
+  - source runs: `053816`, `061228`, `064700`
+  - merged aggregate:
+    - `research_logs/experiment_outputs/distributed_20260301-065230-merged3/aggregate_summary.json`
+  - promoted final artifact:
+    - `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-065230-merged3.json`
+  - final objective split:
+    - `ev`: `seller_extraction:opportunistic_delta=5400,reserve_bid_floor=0.032,sell_count=2`
+    - `first_place`: `seller_profit`
+    - `robustness`: `seller_extraction:opportunistic_delta=4400,reserve_bid_floor=0.02,sell_count=2`
+- Verified resolver now points to merged3 artifact via:
+  - `uv run python scripts/print_latest_champions.py`
+- Terminated all workers from run `20260301-064700` after collection.

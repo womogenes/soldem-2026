@@ -1,6 +1,6 @@
 # Human playbook for Sold 'Em
 
-Local timestamp: 2026-03-01 06:44:57 PST
+Local timestamp: 2026-03-01 06:53:18 PST
 
 ## Core principle
 
@@ -14,7 +14,7 @@ In this rule set, overpaying in first-price auctions is the biggest leak. The cu
 
 Current objective-specific champion set:
 
-- `ev`: `seller_extraction:opportunistic_delta=4400,reserve_bid_floor=0.02,sell_count=2`
+- `ev`: `seller_extraction:opportunistic_delta=5400,reserve_bid_floor=0.032,sell_count=2`
 - `first_place`: `seller_profit`
 - `robustness`: `seller_extraction:opportunistic_delta=4400,reserve_bid_floor=0.02,sell_count=2`
 
@@ -55,9 +55,14 @@ Recent EC2 confirmation path:
 - `robustness`: `4400/0.02/2`
 - Fast exploitability sweep against `5400/0.032/2` (`param_sweep_20260301-063621`) found multiple challengers with positive mean delta vs 5400, including:
 - `4500/0.02/2` (`+3.79`) and `4400/0.02/2` (`+2.28`) overall.
-- Conservative final promotion before 7:00 AM:
+- Conservative temporary promotion before 7:00 AM:
 - `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-064350-safe.json`
-- `ev` + `robustness` pinned back to `4400/0.02/2`; `first_place` remains `seller_profit`.
+- Final pre-7:00 distributed confirmation run `20260301-064700` (216 scenarios) and 3-run merged promotion (648 scenarios):
+- `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-065230-merged3.json`
+- final objective split:
+- `ev`: `5400/0.032/2`
+- `first_place`: `seller_profit`
+- `robustness`: `4400/0.02/2`
 
 ## Turn-by-turn guidance
 

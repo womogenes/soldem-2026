@@ -1,6 +1,6 @@
 # Sold 'Em system summary
 
-Local timestamp: 2026-03-01 06:45:46 PST
+Local timestamp: 2026-03-01 06:54:05 PST
 
 ## What is ready now
 
@@ -20,7 +20,7 @@ Local timestamp: 2026-03-01 06:45:46 PST
 ## Best current strategy
 
 - Recommended objective-specific champions:
-- `ev`: `seller_extraction:opportunistic_delta=4400,reserve_bid_floor=0.02,sell_count=2`
+- `ev`: `seller_extraction:opportunistic_delta=5400,reserve_bid_floor=0.032,sell_count=2`
 - `first_place`: `seller_profit`
 - `robustness`: `seller_extraction:opportunistic_delta=4400,reserve_bid_floor=0.02,sell_count=2`
 - Evidence path:
@@ -75,6 +75,14 @@ Local timestamp: 2026-03-01 06:45:46 PST
   - conservative pre-7am promotion artifact:
     - `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-064350-safe.json`
     - objective split: `ev=4400/0.02/2`, `first_place=seller_profit`, `robustness=4400/0.02/2`
+  - final fast distributed confirmation run `20260301-064700` (16 workers, `n_matches=120`, 216 scenarios):
+    - candidate objective picks:
+      - `ev=5400/0.032/2`
+      - `first_place=adaptive_profile` (winner count), with rank-strength still favoring `seller_profit`
+      - `robustness=4400/0.02/2`
+  - merged promotion across three human-focused distributed runs (`053816 + 061228 + 064700`, 648 scenarios):
+    - `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-065230-merged3.json`
+    - final objective split: `ev=5400/0.032/2`, `first_place=seller_profit`, `robustness=4400/0.02/2`
 - Added day-of helper script:
   - `scripts/day_of/apply_rule_variation.py` for sub-2-minute profile apply + recompute + state verification.
 - Improved distributed summarizer signal:
@@ -109,7 +117,9 @@ Local timestamp: 2026-03-01 06:45:46 PST
 - `research_logs/experiment_outputs/distributed_20260301-053008/aggregate_summary.json`
 - `research_logs/experiment_outputs/distributed_20260301-053816/aggregate_summary.json`
 - `research_logs/experiment_outputs/distributed_20260301-061228/aggregate_summary.json`
+- `research_logs/experiment_outputs/distributed_20260301-064700/aggregate_summary.json`
 - `research_logs/experiment_outputs/distributed_20260301-062400-merged/aggregate_summary.json`
+- `research_logs/experiment_outputs/distributed_20260301-065230-merged3/aggregate_summary.json`
 - `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-015615.json`
 - `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-020134.json`
 - `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-021037.json`
@@ -123,6 +133,8 @@ Local timestamp: 2026-03-01 06:45:46 PST
 - `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-053816.json`
 - `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-061228.json`
 - `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-062400-merged.json`
+- `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-064700.json`
+- `research_logs/experiment_outputs/distributed_precomputed_variation_champions_20260301-065230-merged3.json`
 - `research_logs/experiment_outputs/distributed_master_summary_20260301.json`
 - `research_logs/experiment_outputs/param_sweep_20260301-024646/aggregate_summary.json`
 - `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-030400.json`
@@ -131,6 +143,7 @@ Local timestamp: 2026-03-01 06:45:46 PST
 - `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-060740.json`
 - `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-062400-merged.json`
 - `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-064350-safe.json`
+- `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-065230-merged3.json`
 - `research_logs/experiment_outputs/evolution_20260301-025553/aggregate_summary.json`
 - `research_logs/experiment_outputs/evolution_20260301-025732/aggregate_summary.json`
 - `research_logs/experiment_outputs/evolution_20260301-044713/aggregate_summary.json`

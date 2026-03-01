@@ -1,20 +1,20 @@
 # Pre-7am handoff summary
 
-Local timestamp: 2026-03-01 06:45:34 PST
+Local timestamp: 2026-03-01 06:54:26 PST
 
 ## Final promoted strategy set
 
-- Active artifact: `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-064350-safe.json`
+- Active artifact: `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-065230-merged3.json`
 - Active objective champions:
-- `ev`: `seller_extraction:opportunistic_delta=4400,reserve_bid_floor=0.02,sell_count=2`
+- `ev`: `seller_extraction:opportunistic_delta=5400,reserve_bid_floor=0.032,sell_count=2`
 - `first_place`: `seller_profit`
 - `robustness`: `seller_extraction:opportunistic_delta=4400,reserve_bid_floor=0.02,sell_count=2`
 
 ## Why this is final
 
-- Human-focused merged distributed evidence (`053816` + `061228`, 432 scenarios) briefly favored `5400/0.032/2` for `ev`.
-- Quick exploitability sweep against `5400/0.032/2` (`param_sweep_20260301-063621`) showed multiple challengers with positive mean delta vs 5400.
-- Conservative pre-7am rollback selected `4400/0.02/2` as safer EV/robustness baseline while retaining `seller_profit` for first-place pushes.
+- Human-focused merged distributed evidence (`053816` + `061228`, 432 scenarios) favored `5400/0.032/2` for `ev`.
+- Quick exploitability sweep against `5400/0.032/2` (`param_sweep_20260301-063621`) showed challengers, so a temporary conservative rollback was created.
+- Final fast distributed confirmation run (`064700`) and merged 3-run promotion (`648` scenarios) restored `5400/0.032/2` for `ev` while keeping `4400/0.02/2` for robustness and `seller_profit` for first-place.
 
 ## What to run day-of
 
