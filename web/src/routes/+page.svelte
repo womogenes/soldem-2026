@@ -21,6 +21,7 @@
 	let outputMode: OutputMode = 'all';
 	let strategyTag = '';
 	let presetKey: PresetKey = 'balanced_default';
+	let playerCount = 5;
 	let seat = 0;
 	let sellerIdx = -1;
 	let pot = 200;
@@ -64,9 +65,49 @@
 		return Object.entries(modes ?? {});
 	}
 
+	function clampInt(value: number, min: number, max: number): number {
+		return Math.max(min, Math.min(max, value));
+	}
+
+	function syncInputsWithRuleProfile(state: any, resetStacks: boolean) {
+		const nRaw = Number(state?.rule_profile?.n_players ?? 5);
+		const n = Number.isFinite(nRaw) && nRaw >= 2 ? Math.floor(nRaw) : 5;
+		const startRaw = Number(state?.rule_profile?.start_chips ?? 160);
+		const start = Number.isFinite(startRaw) && startRaw > 0 ? Math.floor(startRaw) : 160;
+
+		const nextStacks = resetStacks
+			? Array.from({ length: n }, () => start)
+			: Array.from({ length: n }, (_, i) => {
+					if (i < stacks.length) return Math.max(0, Math.floor(Number(stacks[i]) || 0));
+					return start;
+				});
+
+		playerCount = n;
+		stacks = nextStacks;
+
+		const maxSeat = Math.max(0, n - 1);
+		seat = clampInt(Math.floor(seat), 0, maxSeat);
+		sellerIdx = clampInt(Math.floor(sellerIdx), -1, maxSeat);
+		eventSeat = clampInt(Math.floor(eventSeat), 0, maxSeat);
+		eventSeller = clampInt(Math.floor(eventSeller), -1, maxSeat);
+		eventWinner = clampInt(Math.floor(eventWinner), 0, maxSeat);
+
+		const orbitRaw = Number(state?.rule_profile?.n_orbits);
+		if (Number.isFinite(orbitRaw) && orbitRaw >= 1) {
+			nOrbits = Math.floor(orbitRaw);
+		}
+	}
+
+	function resetStacksToRuleStart() {
+		if (!sessionState) return;
+		syncInputsWithRuleProfile(sessionState, true);
+		status = 'Stacks reset to rule start chips';
+	}
+
 	async function loadSession() {
 		const res = await fetch(`${API}/session/state`);
 		sessionState = await res.json();
+		syncInputsWithRuleProfile(sessionState, false);
 		if (!strategyTag) {
 			strategyTag = sessionState?.strategy_presets?.balanced_default ?? sessionState?.champions?.ev ?? '';
 		}
@@ -262,6 +303,7 @@
 		return String(map[c] ?? c);
 	}
 
+	$: seatMax = Math.max(0, playerCount - 1);
 	$: firstPlaceRoutingNotes = firstPlaceNotesFromState(sessionState);
 	onMount(loadSession);
 </script>
@@ -303,10 +345,10 @@
 						</select>
 					</label>
 					<label class="text-sm">Your seat
-						<input class="mt-1 h-9 w-full border bg-background px-2" type="number" min="0" max="4" bind:value={seat} />
+						<input class="mt-1 h-9 w-full border bg-background px-2" type="number" min="0" max={seatMax} bind:value={seat} />
 					</label>
 					<label class="text-sm">Seller seat
-						<input class="mt-1 h-9 w-full border bg-background px-2" type="number" min="-1" max="4" bind:value={sellerIdx} />
+						<input class="mt-1 h-9 w-full border bg-background px-2" type="number" min="-1" max={seatMax} bind:value={sellerIdx} />
 					</label>
 					<label class="text-sm">Pot
 						<input class="mt-1 h-9 w-full border bg-background px-2" type="number" min="0" bind:value={pot} />
@@ -354,16 +396,26 @@
 				</div>
 
 				<div class="mt-3">
-					<div class="mb-1 text-sm">Stacks (P0-P4)</div>
-					<div class="grid grid-cols-5 gap-2">
-						{#each stacks as stack, i}
-							<input
-								class="h-9 w-full border bg-background px-2 text-sm"
-								type="number"
-								value={stack}
-								oninput={(e) => setStack(i, (e.target as HTMLInputElement).value)}
-							/>
-						{/each}
+					<div class="mb-1 text-sm">Stacks (P0-P{seatMax})</div>
+					<div class="overflow-x-auto">
+						<div
+							class="grid min-w-[20rem] gap-2"
+							style={`grid-template-columns: repeat(${Math.max(1, playerCount)}, minmax(0, 1fr));`}
+						>
+							{#each stacks as stack, i (i)}
+								<input
+									class="h-9 w-full border bg-background px-2 text-sm"
+									type="number"
+									value={stack}
+									oninput={(e) => setStack(i, (e.target as HTMLInputElement).value)}
+								/>
+							{/each}
+						</div>
+					</div>
+					<div class="mt-2">
+						<Button class="rounded-none" variant="outline" onclick={resetStacksToRuleStart}>
+							Reset stacks to rule start
+						</Button>
 					</div>
 				</div>
 
@@ -446,16 +498,16 @@
 						</select>
 					</label>
 						<label class="text-sm">Seat
-							<input class="mt-1 h-9 w-full border bg-background px-2" type="number" min="0" max="4" bind:value={eventSeat} />
+							<input class="mt-1 h-9 w-full border bg-background px-2" type="number" min="0" max={seatMax} bind:value={eventSeat} />
 						</label>
 						<label class="text-sm">Seller
-							<input class="mt-1 h-9 w-full border bg-background px-2" type="number" min="-1" max="4" bind:value={eventSeller} />
+							<input class="mt-1 h-9 w-full border bg-background px-2" type="number" min="-1" max={seatMax} bind:value={eventSeller} />
 						</label>
 						<label class="text-sm">Amount
 							<input class="mt-1 h-9 w-full border bg-background px-2" type="number" bind:value={eventAmount} />
 						</label>
 					<label class="text-sm">Winner
-						<input class="mt-1 h-9 w-full border bg-background px-2" type="number" min="0" max="4" bind:value={eventWinner} />
+						<input class="mt-1 h-9 w-full border bg-background px-2" type="number" min="0" max={seatMax} bind:value={eventWinner} />
 					</label>
 				</div>
 				<label class="mt-2 block text-sm">Note

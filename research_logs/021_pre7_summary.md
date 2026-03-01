@@ -9,6 +9,7 @@ Local time: 2026-03-01 06:43:59 PST
 - Web HUD: `web/src/routes/+page.svelte`
 - Rule patching: `scripts/day_of_patch.py`
 - One-command autosolve + patch: `scripts/day_of_autosolve_patch.py`
+- HUD is now `n_players`-aware (dynamic stack slots and seat bounds for non-5-player variants).
 
 2. First-place routing is recalibrated for winner-takes-all variants:
 - exact baseline: `meta_switch`

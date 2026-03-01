@@ -21,12 +21,13 @@ This workstream follows `research_logs/000_god_prompt.md` as the controlling spe
 3. Hero-vs-opponent-pool benchmark harness (`scripts/benchmark_hero.py`).
 4. Rule-profile-aware API champion resolution and HUD quick preset controls.
 5. Simulation and quick-solver path now supports variable player counts (`n_players != 5`) for day-of variant probing.
-6. Day-of fast patch script and guide.
-7. One-command autosolve+patch helper:
+6. HUD input path now supports variable player counts (`n_players`-aware seat bounds + dynamic stack editor).
+7. Day-of fast patch script and guide.
+8. One-command autosolve+patch helper:
 - `scripts/day_of_autosolve_patch.py`
 - includes prior-guardrail filtering to reduce low-sample solver noise by default.
 - prior map is aligned with live resolver first-place rules (exact baseline, winner-takes-all banding, passive-table override).
-8. PocketBase EC2 deployment + schema sync + metadata seeding.
+9. PocketBase EC2 deployment + schema sync + metadata seeding.
 
 ## Best strategy recommendations from rollouts
 

@@ -1061,3 +1061,19 @@ Local time: 2026-03-01 01:25:02 PST
 - Added final pre-7 summary handoff doc:
   - `research_logs/021_pre7_summary.md`
 - Doc includes current strategy policy, exact start commands, preflight/patch workflow, and latest commit checkpoints.
+
+## 2026-03-01 06:46:39 PST
+
+- Re-read `research_logs/000_god_prompt.md` and completed a day-of HUD hardening pass for non-5-player variants.
+- Updated HUD input model to track `rule_profile.n_players` dynamically:
+  - seat/seller/event max bounds now derive from live player count,
+  - stack editor now renders dynamic columns (`P0..P{n-1}`) instead of fixed 5 slots,
+  - added `Reset stacks to rule start` action for fast variant transitions,
+  - load flow now clamps seat indices and syncs stack length to active rule profile.
+- File updated:
+  - `web/src/routes/+page.svelte`
+- Validation:
+  - `pnpm -C web check` pass
+  - `pnpm -C web build` pass
+  - API smoke (`n_players=6`) pass, including `advisor/recommend` with 6-stack payload.
+  - backend tests re-run: `32/32` pass.

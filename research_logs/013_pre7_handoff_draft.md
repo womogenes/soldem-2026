@@ -38,6 +38,7 @@ Local time: 2026-03-01 06:34 PST
 - Autosolve first-place guardrail default: `first_gap=0.07`.
 - Backend tests currently passing: `32/32`.
 - Frontend check/build passing.
+- HUD input now supports non-5-player variants (`n_players`-aware seat bounds and dynamic stacks).
 - Integrated preflight (`tests + web + policy smoke`) passed at `2026-03-01 06:42 PST`.
 - Full-stack preflight (`tests + web + policy smoke + bedrock + PB health`) passed at `2026-03-01 05:52 PST`.
 - Quick solver and sim runner now support `n_players != 5` (validated by tests and smoke run).
