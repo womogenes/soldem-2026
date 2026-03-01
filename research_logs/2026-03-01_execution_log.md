@@ -548,3 +548,14 @@ Local timezone: PST (America/Los_Angeles)
   - no active `soldem-dist|soldem-evolution|soldem-param-sweep` EC2 instances
   - latest resolver artifact:
     - `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-065230-merged3.json`
+
+## 2026-03-01 06:59:48 PST
+
+- Final pre-7am timestamp checkpoint recorded.
+- Confirmed active promotion remains:
+  - `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-065230-merged3.json`
+  - objective split:
+    - `ev`: `5400/0.032/2`
+    - `first_place`: `seller_profit`
+    - `robustness`: `4400/0.02/2`
+- Reconfirmed no active simulation workers in EC2.
