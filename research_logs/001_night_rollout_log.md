@@ -214,3 +214,12 @@ Local time: 2026-03-01 01:25:02 PST
   - `research_logs/006_variant_lookup_table.md`
 - This lookup is generated from hero-vs-mixed-pool solver outputs in `quick_variant_hero_suite_v3` and is intended for rapid manual champion locking via `scripts/day_of_patch.py`.
 - Added explicit caution that `pot_fraction` can win short-stack first-place races but remains high downside risk in broader fields.
+
+## 2026-03-01 02:49:43 PST
+
+- Validated PocketBase worker heartbeat pipeline end-to-end using `scripts/worker_heartbeat.py`.
+- Created smoke worker record:
+  - worker_id: `local-smoke-1`
+  - status: `alive`
+  - role: `sim`
+- Verified record is queryable in `workers` collection.
