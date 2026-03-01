@@ -1,9 +1,49 @@
 import unittest
 
-from game.api import Session, SessionEventReq, SetChampionsReq, resolver_reason_text
+from game.api import (
+    Session,
+    SessionEventReq,
+    SetChampionsReq,
+    normalize_round_request,
+    resolver_reason_text,
+)
+from game.rules import resolve_profile
 
 
 class ApiSessionTests(unittest.TestCase):
+    def test_normalize_round_request_pads_and_clamps_for_six_players(self):
+        profile = resolve_profile("baseline_v1", n_players=6, start_chips=200)
+        norm = normalize_round_request(
+            seat=9,
+            seller_idx=8,
+            stacks=[100, -5, 50],
+            round_num=-3,
+            n_orbits=0,
+            pot=-20,
+            rule_profile=profile,
+        )
+        self.assertEqual(norm["seat"], 5)
+        self.assertEqual(norm["seller_idx"], 5)
+        self.assertEqual(norm["round_num"], 0)
+        self.assertEqual(norm["n_orbits"], 1)
+        self.assertEqual(norm["pot"], 0)
+        self.assertEqual(norm["stacks"], [100, 0, 50, 200, 200, 200])
+
+    def test_normalize_round_request_trims_extra_stacks(self):
+        profile = resolve_profile("baseline_v1", n_players=5, start_chips=160)
+        norm = normalize_round_request(
+            seat=-2,
+            seller_idx=-9,
+            stacks=[10, 20, 30, 40, 50, 999, 111],
+            round_num=2,
+            n_orbits=3,
+            pot=100,
+            rule_profile=profile,
+        )
+        self.assertEqual(norm["seat"], 0)
+        self.assertEqual(norm["seller_idx"], -1)
+        self.assertEqual(norm["stacks"], [10, 20, 30, 40, 50])
+
     def test_resolver_reason_text_helper(self):
         self.assertEqual(
             resolver_reason_text("high_ante_pressure_first_place"),

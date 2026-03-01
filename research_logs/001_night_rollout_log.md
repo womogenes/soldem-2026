@@ -1164,3 +1164,15 @@ Local time: 2026-03-01 01:25:02 PST
   - command: `bash scripts/day_of_preflight.sh --api-url http://127.0.0.1:8024 --with-policy-smoke`
   - result: pass
   - includes correlated-pair defensive branch check.
+
+## 2026-03-01 07:02:10 PST
+
+- Added request normalization hardening for advisor endpoints:
+  - new helper `normalize_round_request(...)` in `game/api.py`
+  - `/advisor/recommend` and `/advisor/llm_hint` now clamp seat/seller/round/orbits/pot and normalize stacks to active `rule_profile.n_players`.
+  - prevents out-of-range seat + short stack payloads from causing runtime issues in live play.
+- Added unit tests for normalizer behavior in `tests/test_api_session.py`.
+- Validation:
+  - backend tests: `36/36` pass
+  - web check: pass
+  - API smoke with intentionally malformed 6-player payload: pass.

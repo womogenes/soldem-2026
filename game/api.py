@@ -57,6 +57,40 @@ def resolver_reason_text(reason_code: str) -> str:
     return RESOLVER_REASON_TEXT.get(code, code)
 
 
+def normalize_round_request(
+    *,
+    seat: int,
+    seller_idx: int,
+    stacks: list[int],
+    round_num: int,
+    n_orbits: int,
+    pot: int,
+    rule_profile: RuleProfile,
+) -> dict[str, int | list[int]]:
+    n_players = max(2, int(rule_profile.n_players))
+    start_chips = max(1, int(rule_profile.start_chips))
+
+    norm_stacks: list[int] = []
+    for i in range(n_players):
+        if i < len(stacks):
+            try:
+                v = int(stacks[i])
+            except Exception:
+                v = start_chips
+            norm_stacks.append(max(0, v))
+        else:
+            norm_stacks.append(start_chips)
+
+    return {
+        "seat": max(0, min(int(seat), n_players - 1)),
+        "seller_idx": max(-1, min(int(seller_idx), n_players - 1)),
+        "stacks": norm_stacks,
+        "round_num": max(0, int(round_num)),
+        "n_orbits": max(1, int(n_orbits)),
+        "pot": max(0, int(pot)),
+    }
+
+
 class RecommendationReq(BaseModel):
     seat: int = 0
     phase: Phase = "bid"
@@ -536,6 +570,15 @@ def strategies_set_champions(req: SetChampionsReq):
 @app.post("/advisor/recommend")
 def advisor_recommend(req: RecommendationReq):
     ranking_policy = req.ranking_policy or session.rule_profile.hand_ranking_policy
+    norm = normalize_round_request(
+        seat=req.seat,
+        seller_idx=req.seller_idx,
+        stacks=req.stacks,
+        round_num=req.round_num,
+        n_orbits=req.n_orbits,
+        pot=req.pot,
+        rule_profile=session.rule_profile,
+    )
     if req.strategy_tag:
         strategy_tag = req.strategy_tag
         strategy_reason = "request_override"
@@ -549,14 +592,14 @@ def advisor_recommend(req: RecommendationReq):
             rec = recommend_action(
                 phase=req.phase,
                 strategy_tag=strategy_tag,
-                seat=req.seat,
-                seller_idx=req.seller_idx,
-                pot=req.pot,
-                stacks=req.stacks,
+                seat=int(norm["seat"]),
+                seller_idx=int(norm["seller_idx"]),
+                pot=int(norm["pot"]),
+                stacks=list(norm["stacks"]),
                 my_cards=req.my_cards,
                 auction_cards=req.auction_cards,
-                round_num=req.round_num,
-                n_orbits=req.n_orbits,
+                round_num=int(norm["round_num"]),
+                n_orbits=int(norm["n_orbits"]),
                 ranking_policy=ranking_policy,
                 objective=req.objective,
                 output_mode=mode,
@@ -575,14 +618,14 @@ def advisor_recommend(req: RecommendationReq):
     rec = recommend_action(
         phase=req.phase,
         strategy_tag=strategy_tag,
-        seat=req.seat,
-        seller_idx=req.seller_idx,
-        pot=req.pot,
-        stacks=req.stacks,
+        seat=int(norm["seat"]),
+        seller_idx=int(norm["seller_idx"]),
+        pot=int(norm["pot"]),
+        stacks=list(norm["stacks"]),
         my_cards=req.my_cards,
         auction_cards=req.auction_cards,
-        round_num=req.round_num,
-        n_orbits=req.n_orbits,
+        round_num=int(norm["round_num"]),
+        n_orbits=int(norm["n_orbits"]),
         ranking_policy=ranking_policy,
         objective=req.objective,
         output_mode=req.output_mode,
@@ -600,6 +643,15 @@ def advisor_recommend(req: RecommendationReq):
 @app.post("/advisor/llm_hint")
 def advisor_llm_hint(req: LlmHintReq):
     ranking_policy = req.ranking_policy or session.rule_profile.hand_ranking_policy
+    norm = normalize_round_request(
+        seat=req.seat,
+        seller_idx=req.seller_idx,
+        stacks=req.stacks,
+        round_num=req.round_num,
+        n_orbits=req.n_orbits,
+        pot=req.pot,
+        rule_profile=session.rule_profile,
+    )
     if req.strategy_tag:
         strategy_tag = req.strategy_tag
         strategy_reason = "request_override"
@@ -609,14 +661,14 @@ def advisor_llm_hint(req: LlmHintReq):
     base = recommend_action(
         phase=req.phase,
         strategy_tag=strategy_tag,
-        seat=req.seat,
-        seller_idx=req.seller_idx,
-        pot=req.pot,
-        stacks=req.stacks,
+        seat=int(norm["seat"]),
+        seller_idx=int(norm["seller_idx"]),
+        pot=int(norm["pot"]),
+        stacks=list(norm["stacks"]),
         my_cards=req.my_cards,
         auction_cards=req.auction_cards,
-        round_num=req.round_num,
-        n_orbits=req.n_orbits,
+        round_num=int(norm["round_num"]),
+        n_orbits=int(norm["n_orbits"]),
         ranking_policy=ranking_policy,
         objective=req.objective,
         output_mode="metrics",
@@ -626,16 +678,16 @@ def advisor_llm_hint(req: LlmHintReq):
     state = {
         "phase": req.phase,
         "objective": req.objective,
-        "seat": req.seat,
-        "seller_idx": req.seller_idx,
-        "pot": req.pot,
-        "stack": req.stacks[req.seat] if 0 <= req.seat < len(req.stacks) else 0,
-        "stacks": req.stacks,
+        "seat": int(norm["seat"]),
+        "seller_idx": int(norm["seller_idx"]),
+        "pot": int(norm["pot"]),
+        "stack": list(norm["stacks"])[int(norm["seat"])],
+        "stacks": list(norm["stacks"]),
         "my_cards": req.my_cards,
         "auction_cards": req.auction_cards,
         "known_cards": req.known_cards,
-        "round_num": req.round_num,
-        "n_orbits": req.n_orbits,
+        "round_num": int(norm["round_num"]),
+        "n_orbits": int(norm["n_orbits"]),
         "fair_bid": int(base.metrics.get("fair_bid", 0)),
         "delta_score": int(base.metrics.get("delta_score", 0)),
         "showdown_win_prob": float(base.metrics.get("showdown_win_prob", 0.0)),
