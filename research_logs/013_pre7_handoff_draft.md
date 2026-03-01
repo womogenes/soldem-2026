@@ -38,6 +38,7 @@ Local time: 2026-03-01 04:34 PST
 - Frontend check/build passing.
 - Preflight smoke (`API + PocketBase`) passed at `2026-03-01 05:37 PST` with backend tests + web check.
 - Policy smoke (`baseline` / `high-ante` / `below-trigger`) passed at `2026-03-01 05:39 PST`.
+- Bedrock smoke passed at `2026-03-01 05:40 PST` (`us-east-1`).
 
 ## Latest key docs
 

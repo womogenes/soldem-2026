@@ -856,3 +856,12 @@ Local time: 2026-03-01 01:25:02 PST
 
 - Refreshed `research_logs/013_pre7_handoff_draft.md` commit checkpoint list with latest calibration/preflight commits:
   - `da6c86a`, `9492469`, `b71d8bc`.
+
+## 2026-03-01 05:40:53 PST
+
+- Ran Bedrock-included preflight against temporary local API:
+  - `bash scripts/day_of_preflight.sh --api-url http://127.0.0.1:8013 --with-bedrock --bedrock-region us-east-1`
+- Result:
+  - API health/session: pass
+  - Bedrock model listing smoke: pass (returned model IDs in `us-east-1`).
+- Updated status/handoff docs with Bedrock smoke timestamp.

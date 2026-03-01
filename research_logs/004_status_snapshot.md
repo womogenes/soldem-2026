@@ -80,6 +80,7 @@ Policy-routing smoke option:
 `bash scripts/day_of_preflight.sh --api-url http://127.0.0.1:8000 --with-policy-smoke`
 Latest preflight pass completed at `2026-03-01 05:37 PST` using API `:8011` + PocketBase `18.204.1.6:8090` with `--with-tests --with-web`.
 Full backend discovery tests currently pass: `25/25`.
+Bedrock smoke check passed at `2026-03-01 05:40 PST` in `us-east-1` (`scripts/aws/bedrock_smoke_test.sh` via preflight).
 
 4. Open HUD and use quick controls.
 - Set objective (`ev` recommended by default).
