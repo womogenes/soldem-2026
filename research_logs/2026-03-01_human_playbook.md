@@ -24,6 +24,7 @@ Recent EC2 confirmation path:
 - Param sweep run `20260301-024646` found `reserve_bid_floor=0.06` variants with strong positive delta over old champion.
 - Validation run `20260301-030400` with expanded pool gave 210/216 wins to the two `reserve_bid_floor=0.06` variants.
 - Expanded-pool run `20260301-031824` and targeted confirmation sweep `20260301-033100` upgraded final recommendation to `3300/0.029/2`.
+- 10-game extraction artifact (`horizon10_confirmation_20260301-033100.json`) supports keeping `3300/0.029/2` as the primary default.
 
 ## Turn-by-turn guidance
 

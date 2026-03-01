@@ -344,3 +344,12 @@ Local timezone: PST (America/Los_Angeles)
   - `scripts/aws/collect_param_sweep_results.py` for run `20260301-033100` with DB sync.
 - Verified DB records:
   - `champions` records include objectives `distributed_20260301-031824` and `param_sweep_20260301-033100`.
+
+## 2026-03-01 04:30:25 PST
+
+- Derived 10-game specific confirmation artifact from targeted sweep `20260301-033100`:
+  - `research_logs/experiment_outputs/horizon10_confirmation_20260301-033100.json`.
+- Horizon-10 signal:
+  - primary champion `3300/0.029/2` remains strongest overall across objectives in targeted sweep,
+  - challenger `5400/0.032/2` shows only narrow robustness-focused advantage slices and remains negative overall vs champion.
+- Provisioned optional extra head-to-head run `20260301-035736` (very high `n_matches=420`) and terminated early to avoid low-yield EC2 burn after no uploads for extended runtime.

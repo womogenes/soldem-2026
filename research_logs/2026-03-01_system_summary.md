@@ -44,6 +44,9 @@ Local timestamp: 2026-03-01 03:51:12 PST
   - no challenger achieved positive mean delta vs champion
   - best challenger `5400/0.032/2` still at mean delta `-1.475` (46 wins, 62 losses)
   - recommendation upgraded to `3300/0.029/2` for all objectives.
+- 10-game-format extraction (`horizon=10`) from run `20260301-033100`:
+  - artifact: `research_logs/experiment_outputs/horizon10_confirmation_20260301-033100.json`
+  - confirms only marginal challenger edge slices; retained primary recommendation unchanged.
 
 ## Key artifacts
 
@@ -85,6 +88,7 @@ Local timestamp: 2026-03-01 03:51:12 PST
 - `research_logs/experiment_outputs/evolution_20260301-025553/aggregate_summary.json`
 - `research_logs/experiment_outputs/evolution_20260301-025732/aggregate_summary.json`
 - `research_logs/experiment_outputs/param_sweep_20260301-033100/aggregate_summary.json`
+- `research_logs/experiment_outputs/horizon10_confirmation_20260301-033100.json`
 
 ## Run instructions
 

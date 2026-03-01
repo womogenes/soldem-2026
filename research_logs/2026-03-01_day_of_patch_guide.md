@@ -93,6 +93,7 @@ Higher-confidence distributed fallback maps are also available:
 - `research_logs/experiment_outputs/distributed_master_summary_20260301.json`
 - `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-030400.json`
 - `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-033100.json`
+- `research_logs/experiment_outputs/horizon10_confirmation_20260301-033100.json` (10-game extraction)
 
 ## Patch templates for unknown new rule types
 
