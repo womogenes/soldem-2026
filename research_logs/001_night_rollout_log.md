@@ -374,3 +374,16 @@ Local time: 2026-03-01 01:25:02 PST
   - `test_sprint_profile_first_place_prefers_pot_fraction` in `tests/test_api_session.py`.
 - Added dedicated summary:
   - `research_logs/008_weird_variant_stress.md`.
+
+## 2026-03-01 04:01:49 PST
+
+- Hardened Bedrock hint parsing in `game/llm_advisor.py`:
+  - robust JSON extraction from code-fenced or mixed-text model responses.
+  - output normalization and guardrails:
+    - bid clamped to `[0, stack]`
+    - confidence clamped to `[0, 1]`
+    - mode constrained to `{conservative, balanced, aggressive}`
+    - rationale cleaned with bounded length.
+- Added parser/normalization regression tests:
+  - `tests/test_llm_advisor.py` (`3` tests).
+- Re-ran full test suite: `19/19` passing.

@@ -39,13 +39,62 @@ def _extract_text_response(raw: dict[str, Any]) -> str:
 def _safe_json(text: str) -> dict[str, Any]:
     text = text.strip()
     if text.startswith("```"):
-        text = text.strip("`")
-        if text.startswith("json"):
-            text = text[4:].strip()
-    out = json.loads(text)
+        lines = text.splitlines()
+        if lines and lines[0].startswith("```"):
+            lines = lines[1:]
+        if lines and lines[-1].startswith("```"):
+            lines = lines[:-1]
+        if lines and lines[0].strip().lower() == "json":
+            lines = lines[1:]
+        text = "\n".join(lines).strip()
+
+    try:
+        out = json.loads(text)
+    except json.JSONDecodeError:
+        start = text.find("{")
+        end = text.rfind("}")
+        if start < 0 or end <= start:
+            raise
+        out = json.loads(text[start : end + 1])
     if not isinstance(out, dict):
         raise ValueError("LLM output is not an object")
     return out
+
+
+def _normalize_hint(raw: dict[str, Any], state: dict[str, Any]) -> dict[str, Any]:
+    stack = max(0, int(state.get("stack", 0)))
+    fair = max(0, int(state.get("fair_bid", 0)))
+
+    bid = raw.get("bid", fair)
+    try:
+        bid = int(float(bid))
+    except (TypeError, ValueError):
+        bid = fair
+    bid = max(0, min(stack, bid))
+
+    confidence = raw.get("confidence", 0.5)
+    try:
+        confidence = float(confidence)
+    except (TypeError, ValueError):
+        confidence = 0.5
+    confidence = max(0.0, min(1.0, confidence))
+
+    mode = str(raw.get("mode", "balanced")).strip().lower()
+    if mode not in {"conservative", "balanced", "aggressive"}:
+        mode = "balanced"
+
+    rationale = str(raw.get("rationale", "model_output")).strip()
+    if not rationale:
+        rationale = "model_output"
+    if len(rationale) > 180:
+        rationale = rationale[:180]
+
+    return {
+        "bid": bid,
+        "confidence": confidence,
+        "mode": mode,
+        "rationale": rationale,
+    }
 
 
 def bedrock_llm_hint(
@@ -117,7 +166,7 @@ def bedrock_llm_hint(
             with open(out_path, "r", encoding="utf-8") as f:
                 raw = json.load(f)
             text = _extract_text_response(raw)
-            out = _safe_json(text)
+            out = _normalize_hint(_safe_json(text), state)
             return {
                 "ok": True,
                 "source": "bedrock",
