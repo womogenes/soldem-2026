@@ -76,6 +76,39 @@ class ApiSessionTests(unittest.TestCase):
         )
         self.assertEqual(s.resolve_champion("first_place"), "pot_fraction")
 
+    def test_first_place_policy_cues_export(self):
+        s = Session()
+        base = s.first_place_policy_cues()
+        self.assertTrue(base["exact_baseline"])
+        self.assertEqual(base["default_first_place"], "meta_switch")
+
+        s.apply_profile(
+            "baseline_v1",
+            {
+                "n_orbits": 4,
+                "start_chips": 140,
+                "ante_amt": 50,
+                "pot_distribution_policy": "winner_takes_all",
+            },
+        )
+        high = s.first_place_policy_cues()
+        self.assertTrue(high["high_ante_pressure"])
+        self.assertEqual(high["default_first_place"], "pot_fraction")
+
+        s.apply_profile(
+            "baseline_v1",
+            {
+                "n_orbits": 2,
+                "start_chips": 140,
+                "ante_amt": 30,
+                "pot_distribution_policy": "high_low_split",
+            },
+        )
+        split = s.first_place_policy_cues()
+        self.assertTrue(split["sprint_profile"])
+        self.assertFalse(split["winner_takes_all"])
+        self.assertEqual(split["default_first_place"], "equity_evolved_v1")
+
     def test_correlated_pair_bias_switches_ev_to_evolved(self):
         s = Session()
         events = [

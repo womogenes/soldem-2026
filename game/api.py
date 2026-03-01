@@ -117,6 +117,7 @@ class Session:
 
     def state(self) -> dict[str, Any]:
         table_read = self.infer_table_read()
+        first_place_cues = self.first_place_policy_cues()
         resolved: dict[str, str] = {}
         reasons: dict[str, str] = {}
         for objective in ["ev", "first_place", "robustness"]:
@@ -133,6 +134,7 @@ class Session:
             "resolved_champions": resolved,
             "resolved_champion_reasons": reasons,
             "table_read": table_read,
+            "first_place_policy_cues": first_place_cues,
             "recommended_preset": self.recommend_preset(table_read),
             "strategy_presets": self.strategy_presets,
             "events_count": len(self.events),
@@ -227,6 +229,36 @@ class Session:
             return "correlated_table"
         return "balanced_default"
 
+    def first_place_policy_cues(self) -> dict[str, Any]:
+        start = self.rule_profile.start_chips
+        ante_ratio = (self.rule_profile.ante_amt / start) if start > 0 else 0.0
+        sprint_profile = self.rule_profile.n_orbits <= 2 and start <= 150
+        winner_takes_all = self.rule_profile.pot_distribution_policy == "winner_takes_all"
+        high_ante_pressure = (
+            start > 0
+            and ante_ratio >= 0.33
+            and self.rule_profile.n_orbits >= 3
+            and winner_takes_all
+        )
+        exact_baseline_profile = self.rule_profile == BASELINE_PROFILE
+
+        default_first_place = "equity_evolved_v1"
+        if sprint_profile and winner_takes_all:
+            default_first_place = "pot_fraction"
+        elif high_ante_pressure:
+            default_first_place = "pot_fraction"
+        elif exact_baseline_profile:
+            default_first_place = "meta_switch"
+
+        return {
+            "exact_baseline": exact_baseline_profile,
+            "sprint_profile": sprint_profile,
+            "winner_takes_all": winner_takes_all,
+            "high_ante_pressure": high_ante_pressure,
+            "ante_ratio": ante_ratio,
+            "default_first_place": default_first_place,
+        }
+
     def resolve_champion_with_reason(
         self,
         objective: str,
@@ -239,24 +271,15 @@ class Session:
         # Day-of adjustment from offline short-horizon simulation sweeps.
         read = table_read or self.infer_table_read()
         mode = read.get("mode", "balanced")
-        sprint_profile = (
-            self.rule_profile.n_orbits <= 2 and self.rule_profile.start_chips <= 150
-        )
-        high_ante_pressure = (
-            self.rule_profile.start_chips > 0
-            and (self.rule_profile.ante_amt / self.rule_profile.start_chips) >= 0.33
-            and self.rule_profile.n_orbits >= 3
-            and self.rule_profile.pot_distribution_policy == "winner_takes_all"
-        )
-        exact_baseline_profile = self.rule_profile == BASELINE_PROFILE
+        first_place_cues = self.first_place_policy_cues()
         if objective == "first_place":
             if mode == "passive" and read.get("confidence", 0.0) >= 0.7:
                 return "pot_fraction", "passive_high_confidence_first_place"
-            if sprint_profile and self.rule_profile.pot_distribution_policy == "winner_takes_all":
+            if first_place_cues["sprint_profile"] and first_place_cues["winner_takes_all"]:
                 return "pot_fraction", "sprint_wta_first_place"
-            if high_ante_pressure:
+            if first_place_cues["high_ante_pressure"]:
                 return "pot_fraction", "high_ante_pressure_first_place"
-            if exact_baseline_profile:
+            if first_place_cues["exact_baseline"]:
                 return "meta_switch", "baseline_first_place_meta_exact"
             return "equity_evolved_v1", "non_baseline_first_place"
         if objective in {"ev", "robustness"}:

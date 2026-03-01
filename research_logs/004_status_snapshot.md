@@ -73,7 +73,7 @@ Latest evidence:
 3. Optional quick preflight.
 `bash scripts/day_of_preflight.sh --api-url http://127.0.0.1:8000 --pb-url http://18.204.1.6:8090`
 Latest smoke pass completed at `2026-03-01 05:16 PST` using API `:8010` + PocketBase `18.204.1.6:8090`.
-Full backend discovery tests currently pass: `22/22`.
+Full backend discovery tests currently pass: `23/23`.
 
 4. Open HUD and use quick controls.
 - Set objective (`ev` recommended by default).
@@ -83,6 +83,7 @@ Full backend discovery tests currently pass: `22/22`.
 - Recommendation and LLM panels now show resolved strategy reason labels (for example `baseline_first_place_meta`, `sprint_profile_first_place`).
 - Recommendation and LLM panels now show resolved strategy reason labels (for example `baseline_first_place_meta_exact`, `sprint_wta_first_place`, `high_ante_pressure_first_place`).
 - HUD now shows a dedicated `First-place routing cues` block in the session panel to make baseline/sprint/high-ante triggers visible without parsing raw JSON.
+- API exports these cues as `first_place_policy_cues` in `/session/state` for deterministic client or script checks.
 - As events accumulate, use `Use auto table read preset` to apply mode-aware switching.
 - Auto table-read mode map:
   - EV/robustness: keep `equity_evolved_v1`.

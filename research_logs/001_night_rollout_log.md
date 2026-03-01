@@ -750,3 +750,16 @@ Local time: 2026-03-01 01:25:02 PST
   - command: `uv run -m unittest discover -s tests -v`
   - result: `22/22` passing.
 - Updated handoff/status docs to reflect current test count.
+
+## 2026-03-01 05:22:06 PST
+
+- Eliminated UI/backend drift risk for first-place trigger display:
+  - added `first_place_policy_cues` to `/session/state` in `game/api.py`.
+  - resolver now reuses same cue computation for first-place routing decisions.
+  - HUD (`web/src/routes/+page.svelte`) now renders routing cues from backend-provided policy cues instead of duplicating profile logic client-side.
+- Added regression coverage:
+  - `test_first_place_policy_cues_export` in `tests/test_api_session.py`.
+- Validation:
+  - `uv run -m unittest discover -s tests -v` -> `23/23` passing.
+  - `pnpm -C web check` -> 0 errors / 0 warnings.
+  - `pnpm -C web build` -> successful build.

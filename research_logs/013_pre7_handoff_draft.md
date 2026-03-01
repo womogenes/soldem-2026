@@ -27,13 +27,13 @@ Local time: 2026-03-01 04:34 PST
 3. Keep dynamic resolution after autosolve:
 - `uv run python scripts/day_of_autosolve_patch.py --rule-profile baseline_v1 --keep-dynamic`
 
-4. In HUD session panel, verify `First-place routing cues` before game start so trigger assumptions are explicit.
+4. In HUD session panel, verify `First-place routing cues` before game start so trigger assumptions are explicit (`/session/state.first_place_policy_cues`).
 
 ## Runtime checks
 
 - Autosolve default runtime benchmark: about `22.9s`.
 - Autosolve first-place guardrail default: `first_gap=0.07`.
-- Backend tests currently passing: `22/22`.
+- Backend tests currently passing: `23/23`.
 - Frontend check/build passing.
 - Preflight smoke (`API + PocketBase`) passed at `2026-03-01 05:16 PST`.
 

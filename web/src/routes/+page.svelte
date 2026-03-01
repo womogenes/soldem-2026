@@ -200,31 +200,13 @@
 
 	function firstPlaceNotesFromState(state: any): { level: 'info' | 'warn'; text: string }[] {
 		const rule = state?.rule_profile;
-		if (!rule) return [];
+		const cues = state?.first_place_policy_cues;
+		if (!rule || !cues) return [];
 
-		const start = Number(rule.start_chips ?? 0);
-		const ante = Number(rule.ante_amt ?? 0);
-		const nOrbits = Number(rule.n_orbits ?? 0);
 		const potPolicy = String(rule.pot_distribution_policy ?? 'winner_takes_all');
-		const anteRatio = start > 0 ? ante / start : 0;
-		const sprint = nOrbits <= 2 && start <= 150;
-		const highAntePressure = anteRatio >= 0.33 && nOrbits >= 3 && potPolicy === 'winner_takes_all';
-
-		const exactBaseline =
-			rule.name === 'baseline_v1' &&
-			Number(rule.n_players ?? 0) === 5 &&
-			Number(rule.cards_per_player ?? 0) === 5 &&
-			start === 200 &&
-			ante === 40 &&
-			nOrbits === 3 &&
-			Boolean(rule.allow_multi_card_sell) &&
-			!Boolean(rule.seller_can_bid_own_card) &&
-			Boolean(rule.tie_break_first_bid_wins) &&
-			String(rule.hand_ranking_policy ?? '') === 'rarity_50' &&
-			potPolicy === 'winner_takes_all';
 
 		const notes: { level: 'info' | 'warn'; text: string }[] = [];
-		if (exactBaseline) {
+		if (Boolean(cues.exact_baseline)) {
 			notes.push({
 				level: 'info',
 				text: 'Exact baseline profile: first-place default is meta_switch.'
@@ -235,18 +217,19 @@
 				text: 'Non-baseline profile: first-place default is equity_evolved_v1.'
 			});
 		}
-		if (sprint && potPolicy === 'winner_takes_all') {
+		if (Boolean(cues.sprint_profile) && Boolean(cues.winner_takes_all)) {
 			notes.push({
 				level: 'warn',
 				text: 'Sprint + winner_takes_all: pot_fraction trigger is active.'
 			});
-		} else if (sprint) {
+		} else if (Boolean(cues.sprint_profile)) {
 			notes.push({
 				level: 'info',
 				text: `Sprint + ${potPolicy}: sprint pot_fraction trigger is disabled.`
 			});
 		}
-		if (highAntePressure) {
+		if (Boolean(cues.high_ante_pressure)) {
+			const anteRatio = Number(cues.ante_ratio ?? 0);
 			notes.push({
 				level: 'warn',
 				text: `High ante pressure (${anteRatio.toFixed(2)}): pot_fraction trigger is active.`
