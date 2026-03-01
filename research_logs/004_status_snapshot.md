@@ -114,5 +114,7 @@ Current seeded collections:
 
 1. Restrict inbound security group CIDRs before event time.
 2. Rotate PocketBase admin credentials after session.
-3. Stop EC2 instance when idle to reduce spend:
-`aws ec2 stop-instances --region us-east-1 --instance-ids i-0214ea32290cb6b1a`
+3. Multiple EC2 instances are currently running in `us-east-1`; active PocketBase target in this workflow is:
+- `i-0214ea32290cb6b1a` (`18.204.1.6`)
+4. Stop idle non-target instances to reduce spend (verify before running):
+`aws ec2 stop-instances --region us-east-1 --instance-ids i-0952920bc2c2dd3f7 i-03d70cfd94261af31 i-0854d429f873e6c52 i-08f41ea7a4d11aaca i-0a229522e15035179`

@@ -623,3 +623,11 @@ Local time: 2026-03-01 01:25:02 PST
   - preflight command,
   - autosolve guardrail default (`first_gap=0.07`),
   - refreshed run sequence for day-of execution.
+
+## 2026-03-01 04:45:27 PST
+
+- Audited running EC2 instances in `us-east-1` and found multiple active hosts.
+- Confirmed workflow target remains PocketBase on `i-0214ea32290cb6b1a` (`18.204.1.6`).
+- Added explicit cost-control guidance to `research_logs/004_status_snapshot.md`:
+  - list of extra running instance IDs,
+  - one command to stop likely idle non-target instances (with verification reminder).
