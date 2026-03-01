@@ -400,3 +400,21 @@ Local time: 2026-03-01 01:25:02 PST
 - Updated docs:
   - `research_logs/003_day_of_fast_patch_guide.md`
   - `research_logs/004_status_snapshot.md`
+
+## 2026-03-01 04:05:48 PST
+
+- Ran end-to-end smoke of `scripts/day_of_autosolve_patch.py` against live local API instance (`uvicorn` on `127.0.0.1:8010`).
+- Confirmed one-command flow executes:
+  - `POST /rules/apply_profile`
+  - `POST /strategies/set_champions`
+  - `GET /session/state`
+- Added prior-guardrail logic to autosolve script to reduce noisy overrides at low sample sizes:
+  - default priors by profile:
+    - EV/robustness: `equity_evolved_v1`
+    - first-place: `meta_switch` (baseline), `equity_evolved_v1` (non-baseline), `pot_fraction` (sprint profiles)
+  - solver top tags are only accepted when margin exceeds thresholds (defaults):
+    - `ev_gap=12.0`
+    - `first_gap=0.04`
+    - `robustness_gap=20.0`
+  - override available with `--no-prior-guardrail`.
+- Updated guide docs to include guardrail behavior and override flag.

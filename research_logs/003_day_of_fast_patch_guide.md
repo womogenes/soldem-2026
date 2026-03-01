@@ -79,11 +79,16 @@ Use this when host-announced rules are clear and you want an empirical lock in o
 Notes:
 - runs the quick hero solver under the specified variant,
 - applies profile/overrides to API,
-- sets champions to objective winners and locks manual mode by default.
+- applies prior guardrails by default so low-sample noisy flips are ignored unless margin is meaningful,
+- sets champions and locks manual mode by default.
 
 To keep dynamic resolution active after setting winners:
 
 `uv run python scripts/day_of_autosolve_patch.py --rule-profile baseline_v1 --overrides-json '{"n_orbits":2,"start_chips":140,"ante_amt":30}' --keep-dynamic`
+
+To disable guardrails and trust raw solver winners:
+
+`uv run python scripts/day_of_autosolve_patch.py --rule-profile baseline_v1 --overrides-json '{"n_orbits":2,"start_chips":140,"ante_amt":30}' --no-prior-guardrail`
 
 ## Weird-variation checklist
 

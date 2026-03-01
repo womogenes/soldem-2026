@@ -23,6 +23,7 @@ This workstream follows `research_logs/000_god_prompt.md` as the controlling spe
 5. Day-of fast patch script and guide.
 6. One-command autosolve+patch helper:
 - `scripts/day_of_autosolve_patch.py`
+- includes prior-guardrail filtering to reduce low-sample solver noise by default.
 7. PocketBase EC2 deployment + schema sync + metadata seeding.
 
 ## Best strategy recommendations from rollouts

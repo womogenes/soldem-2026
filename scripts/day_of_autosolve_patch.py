@@ -71,6 +71,80 @@ def objective_winners(solver_out: dict) -> dict[str, str]:
     return {"ev": ev, "first_place": fp, "robustness": rb}
 
 
+def prior_champions(rule_profile: str, overrides: dict) -> dict[str, str]:
+    n_orbits = int(overrides.get("n_orbits", 3))
+    start_chips = int(overrides.get("start_chips", 200))
+    sprint_profile = n_orbits <= 2 and start_chips <= 150
+
+    first_place = "equity_evolved_v1"
+    if sprint_profile:
+        first_place = "pot_fraction"
+    elif rule_profile == "baseline_v1":
+        first_place = "meta_switch"
+
+    return {
+        "ev": "equity_evolved_v1",
+        "first_place": first_place,
+        "robustness": "equity_evolved_v1",
+    }
+
+
+def stabilized_winners(
+    solver_out: dict,
+    priors: dict[str, str],
+    *,
+    ev_gap: float,
+    first_gap: float,
+    robustness_gap: float,
+) -> tuple[dict[str, str], dict[str, dict]]:
+    gaps = {
+        "ev": ev_gap,
+        "first_place": first_gap,
+        "robustness": robustness_gap,
+    }
+    detail: dict[str, dict] = {}
+    selected = dict(priors)
+    ow = solver_out.get("objective_winners", {})
+    for objective in ["ev", "first_place", "robustness"]:
+        rec = ow.get(objective, {})
+        ranking = rec.get("ranking", [])
+        if not ranking:
+            detail[objective] = {
+                "decision": "prior_no_ranking",
+                "winner": priors[objective],
+            }
+            continue
+
+        top = ranking[0]
+        top_tag = str(top.get("tag", "")).strip()
+        top_metric = float(top.get("mean_metric_value", 0.0))
+        second_metric = (
+            float(ranking[1].get("mean_metric_value", 0.0))
+            if len(ranking) > 1
+            else top_metric
+        )
+        gap = top_metric - second_metric
+        prior = priors[objective]
+
+        if top_tag and (top_tag == prior or gap >= gaps[objective]):
+            selected[objective] = top_tag
+            decision = "solver_top"
+        else:
+            selected[objective] = prior
+            decision = "prior_guardrail"
+
+        detail[objective] = {
+            "prior": prior,
+            "solver_top": top_tag,
+            "solver_gap": gap,
+            "threshold": gaps[objective],
+            "decision": decision,
+            "selected": selected[objective],
+        }
+
+    return selected, detail
+
+
 def main() -> None:
     ap = argparse.ArgumentParser(
         description="Run quick variant solver and patch API champions in one command"
@@ -81,6 +155,10 @@ def main() -> None:
     ap.add_argument("--n-tables", type=int, default=12)
     ap.add_argument("--n-games", type=int, default=8)
     ap.add_argument("--seed", type=int, default=0)
+    ap.add_argument("--ev-gap", type=float, default=12.0)
+    ap.add_argument("--first-gap", type=float, default=0.04)
+    ap.add_argument("--robustness-gap", type=float, default=20.0)
+    ap.add_argument("--no-prior-guardrail", action="store_true")
     ap.add_argument("--keep-dynamic", action="store_true")
     ap.add_argument("--dry-run", action="store_true")
     args = ap.parse_args()
@@ -93,7 +171,26 @@ def main() -> None:
         n_games=args.n_games,
         seed=args.seed,
     )
-    winners = objective_winners(solver_out)
+    solver_winners = objective_winners(solver_out)
+    priors = prior_champions(args.rule_profile, overrides)
+    if args.no_prior_guardrail:
+        winners = solver_winners
+        detail = {
+            k: {
+                "decision": "solver_top_no_guardrail",
+                "solver_top": solver_winners[k],
+                "selected": solver_winners[k],
+            }
+            for k in ["ev", "first_place", "robustness"]
+        }
+    else:
+        winners, detail = stabilized_winners(
+            solver_out,
+            priors,
+            ev_gap=args.ev_gap,
+            first_gap=args.first_gap,
+            robustness_gap=args.robustness_gap,
+        )
 
     payload = {
         "profile_name": args.rule_profile,
@@ -118,7 +215,10 @@ def main() -> None:
                     },
                     "rule_profile": args.rule_profile,
                     "overrides": overrides,
+                    "priors": priors,
+                    "solver_winners": solver_winners,
                     "winners": winners,
+                    "winner_decisions": detail,
                     "apply_payload": payload,
                     "set_payload": set_payload,
                 },
