@@ -536,3 +536,15 @@ Local timezone: PST (America/Los_Angeles)
 - Verified resolver now points to merged3 artifact via:
   - `uv run python scripts/print_latest_champions.py`
 - Terminated all workers from run `20260301-064700` after collection.
+
+## 2026-03-01 06:55:28 PST
+
+- Added day-of mode-switch policy doc:
+  - `research_logs/2026-03-01_mode_switch_policy.md`
+  - defines trigger rules for aggressive merged3 mode vs conservative safe fallback.
+- Linked mode-switch doc from pre-7am handoff summary:
+  - `research_logs/2026-03-01_pre7am_summary.md`
+- Final state check:
+  - no active `soldem-dist|soldem-evolution|soldem-param-sweep` EC2 instances
+  - latest resolver artifact:
+    - `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-065230-merged3.json`
