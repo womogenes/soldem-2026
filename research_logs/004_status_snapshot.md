@@ -32,8 +32,9 @@ Primary recommendation for day-of EV stability:
 - `equity_evolved_v1`
 
 First-place/correlation-heavy fallback:
-- baseline rules: `meta_switch`
-- non-baseline built-in variants: `equity_evolved_v1`
+- exact baseline rules: `meta_switch`
+- non-baseline variants: `equity_evolved_v1`
+- high ante pressure winner-takes-all (`ante/start>=0.33`, `n_orbits>=3`): `pot_fraction`
 
 High-variance exploit mode (only if table looks soft/passive):
 - `pot_fraction`
@@ -48,6 +49,9 @@ Latest evidence:
 - weird-variant stress runs (`n_tables=40`) show:
   - EV and robustness: `equity_evolved_v1` in 5/5 tested mixed overrides.
   - first-place: `pot_fraction` only in sprint profiles (`n_orbits=2`, low starting stacks).
+- random-variant fuzz recheck + seeded confirmations:
+  - sprint override should be constrained to `winner_takes_all` (split-pot sprint outliers did not consistently favor `pot_fraction`).
+  - high ante pressure winner-takes-all (`140/50`, `n_orbits=4`) repeatedly favored `pot_fraction`.
 - horizon sensitivity check (`5/10/20` games, none+respect correlation):
   - EV winner remained `equity_evolved_v1` in all tested horizons and regimes.
 - first-place horizon check (`5/10/20`, respect 0.35 with multi-seed):
@@ -70,10 +74,11 @@ Latest evidence:
 - Enter state and click `Get recommendation`.
 - Optional second opinion: click `Get LLM hint` (Bedrock-backed, deterministic recommendation remains primary).
 - Recommendation and LLM panels now show resolved strategy reason labels (for example `baseline_first_place_meta`, `sprint_profile_first_place`).
+- Recommendation and LLM panels now show resolved strategy reason labels (for example `baseline_first_place_meta_exact`, `sprint_wta_first_place`, `high_ante_pressure_first_place`).
 - As events accumulate, use `Use auto table read preset` to apply mode-aware switching.
 - Auto table-read mode map:
   - EV/robustness: keep `equity_evolved_v1`.
-  - first-place + baseline: `meta_switch`
+  - first-place + exact baseline: `meta_switch`
   - `passive` + first-place objective: may move to `pot_fraction`.
 
 ## Day-of fast patch

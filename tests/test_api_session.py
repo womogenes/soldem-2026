@@ -50,6 +50,32 @@ class ApiSessionTests(unittest.TestCase):
         )
         self.assertEqual(s.resolve_champion("first_place"), "pot_fraction")
 
+    def test_sprint_split_pot_profile_uses_evolved_first_place(self):
+        s = Session()
+        s.apply_profile(
+            "baseline_v1",
+            {
+                "n_orbits": 2,
+                "start_chips": 140,
+                "ante_amt": 30,
+                "pot_distribution_policy": "high_low_split",
+            },
+        )
+        self.assertEqual(s.resolve_champion("first_place"), "equity_evolved_v1")
+
+    def test_high_ante_pressure_prefers_pot_fraction_first_place(self):
+        s = Session()
+        s.apply_profile(
+            "baseline_v1",
+            {
+                "n_orbits": 4,
+                "start_chips": 140,
+                "ante_amt": 50,
+                "pot_distribution_policy": "winner_takes_all",
+            },
+        )
+        self.assertEqual(s.resolve_champion("first_place"), "pot_fraction")
+
     def test_correlated_pair_bias_switches_ev_to_evolved(self):
         s = Session()
         events = [
@@ -79,6 +105,17 @@ class ApiSessionTests(unittest.TestCase):
         s = Session()
         s.apply_profile("high_low_split", {})
         self.assertEqual(s.resolve_champion("ev"), "equity_evolved_v1")
+
+    def test_baseline_name_with_nonbaseline_overrides_uses_evolved_first_place(self):
+        s = Session()
+        s.apply_profile(
+            "baseline_v1",
+            {
+                "pot_distribution_policy": "top2_split",
+                "allow_multi_card_sell": False,
+            },
+        )
+        self.assertEqual(s.resolve_champion("first_place"), "equity_evolved_v1")
 
     def test_competitive_mode_switches_ev_to_evolved(self):
         s = Session()

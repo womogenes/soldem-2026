@@ -7,9 +7,10 @@ Local time: 2026-03-01 04:34 PST
 - EV: `equity_evolved_v1`
 - robustness: `equity_evolved_v1`
 - first-place:
-  - baseline: `meta_switch`
-  - non-baseline built-in variants: `equity_evolved_v1`
-  - sprint short-stack (`n_orbits<=2` and `start_chips<=150`): `pot_fraction`
+  - exact baseline: `meta_switch`
+  - non-baseline variants: `equity_evolved_v1`
+  - sprint short-stack (`n_orbits<=2` and `start_chips<=150`) only with `winner_takes_all`: `pot_fraction`
+  - high ante pressure winner-takes-all (`ante/start>=0.33`, `n_orbits>=3`): `pot_fraction`
   - passive high-confidence table read: `pot_fraction`
 
 ## Fast day-of commands

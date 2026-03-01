@@ -49,11 +49,12 @@ Expected fields: `resolved_champions.ev`, `resolved_champions.first_place`, `res
 
 - Default EV and robustness: `equity_evolved_v1`.
 - First-place mode:
-  - `baseline_v1`: `meta_switch`
-  - other built-in variants: `equity_evolved_v1`.
+  - exact baseline rules: `meta_switch`
+  - non-baseline variants: `equity_evolved_v1`.
 - Dynamic table-read shifts:
   - `passive` with high confidence and first-place objective: may choose `pot_fraction`.
-  - sprint rules (`n_orbits<=2` and `start_chips<=150`) with first-place objective: choose `pot_fraction`.
+  - sprint rules (`n_orbits<=2` and `start_chips<=150`) with first-place objective choose `pot_fraction` only when pot policy is `winner_takes_all`.
+  - high ante pressure (`ante_amt/start_chips>=0.33`, `n_orbits>=3`, `winner_takes_all`) with first-place objective: choose `pot_fraction`.
   - all other EV/robustness modes stay on `equity_evolved_v1`.
 
 ## Fast fallback if rules are unknown
@@ -98,6 +99,14 @@ Default first-place guardrail is `--first-gap 0.07`.
 To make it even more conservative, raise further:
 
 `uv run python scripts/day_of_autosolve_patch.py --rule-profile top2_split --first-gap 0.10`
+
+## Optional random-variant fuzz
+
+If the announced rules are unusual and you have a few extra minutes, run a small random fuzz pass:
+
+`uv run python scripts/random_variant_fuzz.py --n-variants 6 --n-tables 10 --n-games 8 --seed 60001 --out research_logs/experiment_outputs/random_variant_fuzz_live.json`
+
+Then inspect `winner_counts` and choose manual locks only if one strategy dominates the relevant objective.
 
 ## Weird-variation checklist
 

@@ -9,7 +9,7 @@ from pydantic import BaseModel, Field
 
 from game.advisor import recommend_action
 from game.llm_advisor import bedrock_llm_hint
-from game.rules import RuleProfile, resolve_profile
+from game.rules import BASELINE_PROFILE, RuleProfile, resolve_profile
 from sim.metrics import composite_profiles
 from sim.runner import run_population_tournament
 from strategies import PlayerProfile, built_in_strategy_factories
@@ -242,13 +242,22 @@ class Session:
         sprint_profile = (
             self.rule_profile.n_orbits <= 2 and self.rule_profile.start_chips <= 150
         )
+        high_ante_pressure = (
+            self.rule_profile.start_chips > 0
+            and (self.rule_profile.ante_amt / self.rule_profile.start_chips) >= 0.33
+            and self.rule_profile.n_orbits >= 3
+            and self.rule_profile.pot_distribution_policy == "winner_takes_all"
+        )
+        exact_baseline_profile = self.rule_profile == BASELINE_PROFILE
         if objective == "first_place":
             if mode == "passive" and read.get("confidence", 0.0) >= 0.7:
                 return "pot_fraction", "passive_high_confidence_first_place"
-            if sprint_profile:
-                return "pot_fraction", "sprint_profile_first_place"
-            if self.rule_profile.name == "baseline_v1":
-                return "meta_switch", "baseline_first_place_meta"
+            if sprint_profile and self.rule_profile.pot_distribution_policy == "winner_takes_all":
+                return "pot_fraction", "sprint_wta_first_place"
+            if high_ante_pressure:
+                return "pot_fraction", "high_ante_pressure_first_place"
+            if exact_baseline_profile:
+                return "meta_switch", "baseline_first_place_meta_exact"
             return "equity_evolved_v1", "non_baseline_first_place"
         if objective in {"ev", "robustness"}:
             return "equity_evolved_v1", "ev_robust_default"

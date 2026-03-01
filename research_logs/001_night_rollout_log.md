@@ -617,6 +617,20 @@ Local time: 2026-03-01 01:25:02 PST
   - `research_logs/003_day_of_fast_patch_guide.md`
   - `research_logs/004_status_snapshot.md`
 
+## 2026-03-01 04:52:32 PST
+
+- Added random variant fuzz utility:
+  - `scripts/random_variant_fuzz.py`
+- Executed sampled fuzz pass:
+  - `random_variant_fuzz_6v_seed60001.json`
+  - winner counts:
+    - EV: `equity_evolved_v1` 5/6
+    - first-place: `equity_evolved_v1` 5/6
+    - robustness: `equity_evolved_v1` 4/6
+- Added summary doc:
+  - `research_logs/015_random_variant_fuzz.md`
+- Updated day-of guide with optional fuzz command path for weird announcements.
+
 ## 2026-03-01 04:44:25 PST
 
 - Updated rolling handoff draft (`research_logs/013_pre7_handoff_draft.md`) to include:
@@ -638,3 +652,43 @@ Local time: 2026-03-01 01:25:02 PST
 - Result:
   - `strategies_updated`: 17
   - champion map remains `equity_evolved_v1` / `meta_switch` / `equity_evolved_v1`.
+
+## 2026-03-01 04:56:54 PST
+
+- Ran expanded random variant fuzz with calibrated budget:
+  - `research_logs/experiment_outputs/random_variant_fuzz_16v_seed60111_lowbudget.json`
+  - command:
+    - `uv run python scripts/random_variant_fuzz.py --n-variants 16 --n-tables 4 --n-games 4 --seed 60111 --out research_logs/experiment_outputs/random_variant_fuzz_16v_seed60111_lowbudget.json`
+- Low-budget first-place winners were mixed (`equity_evolved_v1` 11/16 with several outliers), so treated as directional only.
+
+## 2026-03-01 05:03:00 PST
+
+- Re-ran first-place outlier variants with medium-budget multi-seed confirmations:
+  - variants: `0, 5, 10, 12, 15`
+  - seeds: `61001`, `61002`
+  - artifacts: `random_variant_confirm2_first_<idx>_seed<seed>.json`
+- Confirmed stable outlier:
+  - variant `10` (`start_chips=140`, `ante_amt=50`, `n_orbits=4`, `winner_takes_all`) favored `pot_fraction` in both seeds.
+- Sprint split-pot outliers were unstable (alternated between `equity_evolved_v1`, `conservative_plus`, and one `house_hammer`), so no broad split-pot sprint `pot_fraction` rule.
+- Added summary doc:
+  - `research_logs/016_first_place_fuzz_confirmation.md`
+
+## 2026-03-01 05:08:40 PST
+
+- Updated API dynamic first-place resolver in `game/api.py`:
+  - baseline first-place `meta_switch` now requires exact baseline profile, not just profile name.
+  - sprint `pot_fraction` override now gated to `winner_takes_all` only.
+  - added high-ante-pressure override (`ante_amt/start_chips>=0.33`, `n_orbits>=3`, `winner_takes_all`) -> `pot_fraction`.
+- Added/updated regression tests in `tests/test_api_session.py`:
+  - split-pot sprint does not force `pot_fraction`.
+  - high-ante-pressure rule triggers `pot_fraction`.
+  - baseline-name plus overrides resolves as non-baseline first-place.
+- Validation:
+  - `uv run python -m unittest tests.test_api_session tests.test_llm_advisor`
+  - result: `15/15` passing.
+- Updated runbooks with new policy:
+  - `research_logs/003_day_of_fast_patch_guide.md`
+  - `research_logs/004_status_snapshot.md`
+  - `research_logs/006_variant_lookup_table.md`
+  - `research_logs/013_pre7_handoff_draft.md`
+  - `research_logs/015_random_variant_fuzz.md`
