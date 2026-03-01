@@ -70,6 +70,21 @@ Then set manual champions from `objective_winners` if you want to lock them:
 
 `uv run python scripts/day_of_patch.py --preset baseline --overrides-json '{"n_orbits":4}' --set-ev <tag> --set-first-place <tag> --set-robustness <tag>`
 
+## One-command autosolve and patch
+
+Use this when host-announced rules are clear and you want an empirical lock in one command:
+
+`uv run python scripts/day_of_autosolve_patch.py --rule-profile baseline_v1 --overrides-json '{"n_orbits":2,"start_chips":140,"ante_amt":30}' --n-tables 12 --n-games 8 --seed 42`
+
+Notes:
+- runs the quick hero solver under the specified variant,
+- applies profile/overrides to API,
+- sets champions to objective winners and locks manual mode by default.
+
+To keep dynamic resolution active after setting winners:
+
+`uv run python scripts/day_of_autosolve_patch.py --rule-profile baseline_v1 --overrides-json '{"n_orbits":2,"start_chips":140,"ante_amt":30}' --keep-dynamic`
+
 ## Weird-variation checklist
 
 1. Player count changed (`n_players != 5`): patch profile immediately and run a 20-table smoke benchmark if time allows.

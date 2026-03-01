@@ -387,3 +387,16 @@ Local time: 2026-03-01 01:25:02 PST
 - Added parser/normalization regression tests:
   - `tests/test_llm_advisor.py` (`3` tests).
 - Re-ran full test suite: `19/19` passing.
+
+## 2026-03-01 04:03:13 PST
+
+- Added one-command day-of variant solve-and-patch helper:
+  - `scripts/day_of_autosolve_patch.py`
+- Behavior:
+  - runs `quick_variant_hero_solver.py` with specified variant and small budget,
+  - extracts objective winners,
+  - applies rule profile and champion lock directly to API.
+- Added `--dry-run` mode for preflight verification.
+- Updated docs:
+  - `research_logs/003_day_of_fast_patch_guide.md`
+  - `research_logs/004_status_snapshot.md`

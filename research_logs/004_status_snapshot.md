@@ -21,7 +21,9 @@ This workstream follows `research_logs/000_god_prompt.md` as the controlling spe
 3. Hero-vs-opponent-pool benchmark harness (`scripts/benchmark_hero.py`).
 4. Rule-profile-aware API champion resolution and HUD quick preset controls.
 5. Day-of fast patch script and guide.
-6. PocketBase EC2 deployment + schema sync + metadata seeding.
+6. One-command autosolve+patch helper:
+- `scripts/day_of_autosolve_patch.py`
+7. PocketBase EC2 deployment + schema sync + metadata seeding.
 
 ## Best strategy recommendations from rollouts
 
