@@ -19,6 +19,7 @@ Local time: 2026-03-01 06:43:59 PST
 - remaining non-sprint WTA: `meta_switch`
 - non-WTA: `equity_evolved_v1`
 - passive high-confidence table read override: `pot_fraction`
+- correlated-pair high-confidence table read override: `equity_evolved_v1`
 
 3. Supporting evidence is logged:
 - Matrix/horizon runs: `research_logs/experiment_outputs/first_place_rollout_matrix_6c_3h_60m_seed63201.json`

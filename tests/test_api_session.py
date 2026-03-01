@@ -9,6 +9,10 @@ class ApiSessionTests(unittest.TestCase):
             resolver_reason_text("high_ante_pressure_first_place"),
             "High-ante winner-takes-all pressure: first-place routing moved to pot_fraction.",
         )
+        self.assertEqual(
+            resolver_reason_text("correlated_pair_defensive_first_place"),
+            "Correlated-pair table read with high confidence: first-place routing moved to equity_evolved_v1.",
+        )
         self.assertEqual(resolver_reason_text(""), "No resolver reason available.")
         self.assertEqual(resolver_reason_text("unknown_reason"), "unknown_reason")
 
@@ -231,7 +235,9 @@ class ApiSessionTests(unittest.TestCase):
         read = s.infer_table_read()
         self.assertEqual(read["mode"], "correlated_pair")
         self.assertEqual(s.resolve_champion("ev"), "equity_evolved_v1")
-        self.assertEqual(s.resolve_champion("first_place"), "meta_switch")
+        tag, reason = s.resolve_champion_with_reason("first_place")
+        self.assertEqual(tag, "equity_evolved_v1")
+        self.assertEqual(reason, "correlated_pair_defensive_first_place")
 
     def test_rule_profile_override_still_takes_precedence(self):
         s = Session()

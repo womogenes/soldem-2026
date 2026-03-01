@@ -1077,3 +1077,22 @@ Local time: 2026-03-01 01:25:02 PST
   - `pnpm -C web build` pass
   - API smoke (`n_players=6`) pass, including `advisor/recommend` with 6-stack payload.
   - backend tests re-run: `32/32` pass.
+
+## 2026-03-01 06:49:22 PST
+
+- Ran extreme-correlation first-place probe to stress social-collusion dynamics:
+  - artifact: `research_logs/experiment_outputs/extreme_correlation_probe_3c_3s_80m10g_seed64201.json`
+  - scenarios: `respect_060`, `herd_055`, `kingmaker_060`
+  - cases: baseline exact, WTA pot-pressure (`140/35/o4`), WTA high-stack relief (`200/35/o4`)
+- Signal:
+  - baseline and high-stack-relief cases were consistently won by `equity_evolved_v1` under extreme correlation.
+  - WTA pot-pressure case became less stable (`equity_evolved_v1` in respect/herd, `bully` in kingmaker), indicating increased first-place routing risk under collusive patterns.
+- Applied defensive dynamic override in resolver:
+  - if `table_read.mode == correlated_pair` with high confidence, first-place routing now uses `equity_evolved_v1`.
+  - reason code added: `correlated_pair_defensive_first_place`.
+- Files updated:
+  - `game/api.py`
+  - `tests/test_api_session.py`
+- Validation:
+  - backend tests `32/32` pass
+  - web check pass.

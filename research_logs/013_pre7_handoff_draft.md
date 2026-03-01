@@ -13,6 +13,7 @@ Local time: 2026-03-01 06:34 PST
   - winner-takes-all high-stack low-ante (`n_orbits>=3`, `start>=180`, `ante/start<0.20`): `equity_evolved_v1`
   - remaining non-sprint winner-takes-all band: `meta_switch`
   - non-winner-takes-all variants: `equity_evolved_v1`
+  - correlated-pair high-confidence table read: `equity_evolved_v1` (defensive override)
   - passive high-confidence table read: `pot_fraction`
 
 ## Fast day-of commands

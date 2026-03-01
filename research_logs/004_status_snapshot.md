@@ -41,6 +41,7 @@ First-place/correlation-heavy fallback:
 - winner-takes-all high-stack low-ante band (`n_orbits>=3`, `start_chips>=180`, `ante/start<0.20`): `equity_evolved_v1`
 - remaining non-sprint winner-takes-all band: `meta_switch`
 - non-winner-takes-all variants: `equity_evolved_v1`
+- correlated-pair high-confidence table read: `equity_evolved_v1` (defensive anti-collusion override)
 
 High-variance exploit mode (only if table looks soft/passive):
 - `pot_fraction`
@@ -62,6 +63,9 @@ Latest evidence:
   - artifacts now include 8/10/12-game horizon matrices and hero-vs-pool boundary probes at `start=140/150/160/180/200`.
   - strongest offline policy fit on current artifact set: first-place WTA banding around `ante/start>=0.25` plus high-stack low-ante relief.
   - summary: `research_logs/018_ante_threshold_calibration.md`
+- extreme-correlation stress probe (`respect_060`, `herd_055`, `kingmaker_060`):
+  - artifact: `research_logs/experiment_outputs/extreme_correlation_probe_3c_3s_80m10g_seed64201.json`
+  - motivated correlated-pair defensive first-place override to `equity_evolved_v1`.
 - resolver policy backtest over archived variant artifacts:
   - old first-place routing match rate: `10/25` (`0.40`)
   - updated routing match rate: `19/25` (`0.76`)
@@ -103,6 +107,7 @@ Bedrock smoke check is included in the full-stack preflight above.
   - EV/robustness: keep `equity_evolved_v1`.
   - first-place + exact baseline: `meta_switch`
   - first-place + non-sprint winner-takes-all: follow WTA banding cues (`pot_fraction` / `meta_switch` / `equity_evolved_v1`)
+  - first-place + correlated-pair high-confidence: force `equity_evolved_v1` defensive path
   - `passive` + first-place objective: may move to `pot_fraction`.
 
 ## Day-of fast patch

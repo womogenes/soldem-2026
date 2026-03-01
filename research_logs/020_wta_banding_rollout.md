@@ -14,6 +14,7 @@ Earlier first-place routing forced many non-baseline variants to `equity_evolved
 2. `equity_evolved_v1` for winner-takes-all high-stack low-ante relief (`n_orbits>=3`, `start>=180`, `ante/start<0.20`).
 3. `meta_switch` for the remaining non-sprint winner-takes-all band.
 4. `equity_evolved_v1` for non-winner-takes-all variants.
+5. Additional dynamic safety: if table read is `correlated_pair` with high confidence, first-place routes to `equity_evolved_v1`.
 
 ## Core evidence artifacts
 
@@ -25,6 +26,8 @@ Earlier first-place routing forced many non-baseline variants to `equity_evolved
   - `research_logs/experiment_outputs/hero_first_place_high_ante_ratio_9s_80t10g_seed63501.json`
   - `research_logs/experiment_outputs/hero_first_place_wta_o4_s200_a35_9s_80t10g_seed64001.json`
   - `research_logs/experiment_outputs/hero_first_place_wta_o4_s200_a45_9s_80t10g_seed64051.json`
+- Extreme-correlation stress probe:
+  - `research_logs/experiment_outputs/extreme_correlation_probe_3c_3s_80m10g_seed64201.json`
 - Policy evaluator:
   - `research_logs/experiment_outputs/first_place_policy_eval_post_wta_banding.json`
 

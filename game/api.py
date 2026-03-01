@@ -25,6 +25,9 @@ RESOLVER_REASON_TEXT: dict[str, str] = {
     "passive_high_confidence_first_place": (
         "Passive table read with high confidence: first-place routing moved to pot_fraction."
     ),
+    "correlated_pair_defensive_first_place": (
+        "Correlated-pair table read with high confidence: first-place routing moved to equity_evolved_v1."
+    ),
     "sprint_wta_first_place": (
         "Sprint + winner-takes-all profile: first-place routing moved to pot_fraction."
     ),
@@ -334,6 +337,8 @@ class Session:
         mode = read.get("mode", "balanced")
         first_place_cues = self.first_place_policy_cues()
         if objective == "first_place":
+            if mode == "correlated_pair" and read.get("confidence", 0.0) >= 0.75:
+                return "equity_evolved_v1", "correlated_pair_defensive_first_place"
             if mode == "passive" and read.get("confidence", 0.0) >= 0.7:
                 return "pot_fraction", "passive_high_confidence_first_place"
             if first_place_cues["sprint_profile"] and first_place_cues["winner_takes_all"]:
