@@ -46,9 +46,9 @@ This structure creates a classical multi-agent tradeoff:
 
 We evaluated policies under three explicit objectives:
 
-- `ev`: $ \mathbb{E}[X] $, where $X$ is per-game PnL
-- `first_place`: $ \Pr(R=1) $, where $R$ is finishing rank
-- `robustness`: $ \mathbb{E}[X] - \max(0,-\text{CVaR}_{20\%}(X)) $
+- `ev`: $\mathbb{E}[X]$, where $X$ is per-game PnL
+- `first_place`: $\Pr(R=1)$, where $R$ is finishing rank
+- `robustness`: $\mathbb{E}[X] - \max(0,-\text{CVaR}_{20\%}(X))$
 
 Interpretation of robustness:
 

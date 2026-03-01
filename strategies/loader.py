@@ -22,16 +22,38 @@ def _parse_value(raw: str):
 
 
 def _parse_builtin_spec(spec: str) -> tuple[str, dict]:
-    # Format: tag|k=v|k=v
-    parts = [p for p in spec.split("|") if p]
-    tag = parts[0]
-    overrides = {}
-    for item in parts[1:]:
-        if "=" not in item:
-            continue
-        k, v = item.split("=", 1)
-        overrides[k.strip()] = _parse_value(v)
-    return tag, overrides
+    # Format A: tag|k=v|k=v
+    # Format B: tag:k=v,k=v
+    if "|" in spec:
+        parts = [p for p in spec.split("|") if p]
+        tag = parts[0]
+        overrides = {}
+        for item in parts[1:]:
+            if "=" not in item:
+                continue
+            k, v = item.split("=", 1)
+            overrides[k.strip()] = _parse_value(v)
+        return tag, overrides
+
+    if ":" in spec:
+        tag, rest = spec.split(":", 1)
+        overrides = {}
+        for item in rest.split(","):
+            part = item.strip()
+            if not part or "=" not in part:
+                continue
+            k, v = part.split("=", 1)
+            overrides[k.strip()] = _parse_value(v)
+        return tag, overrides
+
+    return spec, {}
+
+
+def _canonical_tag(tag: str, overrides: dict) -> str:
+    if not overrides:
+        return tag
+    serialized = ",".join(f"{k}={overrides[k]}" for k in sorted(overrides))
+    return f"{tag}:{serialized}"
 
 
 def _load_module_from_path(path: Path):
@@ -48,7 +70,9 @@ def load_strategy(spec: str):
     factories = built_in_strategy_factories()
     base_tag, overrides = _parse_builtin_spec(spec)
     if base_tag in factories:
-        return build_strategy(base_tag, overrides=overrides)
+        strategy = build_strategy(base_tag, overrides=overrides)
+        strategy.tag = _canonical_tag(getattr(strategy, "tag", base_tag), overrides)
+        return strategy
 
     p = Path(spec)
     if not p.exists():
