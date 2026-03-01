@@ -1,6 +1,6 @@
 # Human training drills for day-of execution
 
-Local time: 2026-03-01 02:25 PST
+Local time: 2026-03-01 06:34 PST
 
 ## Purpose
 
@@ -20,8 +20,10 @@ Convert simulation findings into repeatable human decisions under the 10-second 
 3. Keep this fallback ladder ready:
 - default: `equity_evolved_v1`
 - exact baseline + first-place objective: `meta_switch`
-- high-ante winner-takes-all (`n_orbits>=3` and (`ante/start>=0.26` or `ante>=50`)): `pot_fraction`
 - sprint winner-takes-all (`n_orbits<=2`, low stack): `pot_fraction`
+- winner-takes-all pot-pressure (`n_orbits>=3` and (`ante/start>=0.25` or `ante>=50`)): `pot_fraction`
+- winner-takes-all high-stack low-ante (`n_orbits>=3`, `start>=180`, `ante/start<0.20`): `equity_evolved_v1`
+- remaining non-sprint winner-takes-all band: `meta_switch`
 - passive high-confidence table read + first-place objective: `pot_fraction`
 
 ## Drill block A: fast data entry discipline (10 minutes)
@@ -46,7 +48,7 @@ Goal: trust but verify switching rules.
 3. Simulate a seller-winner pair repeatedly in `auction_result`.
 4. Confirm `table_read.mode` moves to `correlated_pair` and switch to sniper profile.
 4. Confirm `table_read.mode` moves to `correlated_pair` and use auto preset (`correlated_table`).
-5. Confirm `resolved_champion_reasons.first_place` is sensible for the current rules (`baseline_first_place_meta_exact`, `high_ante_pressure_first_place`, etc.).
+5. Confirm `resolved_champion_reasons.first_place` is sensible for the current rules (`baseline_first_place_meta_exact`, `wta_pot_pressure_first_place`, `wta_meta_band_first_place`, etc.).
 
 Success metric: correct mode transitions without confusion.
 
@@ -68,7 +70,7 @@ Success metric: objective switches are deliberate, not reactive to one bad hand.
 1. Is this spot high delta for my hand or a trap overpay?
 2. Does current table-read suggest conservative or sniper behavior?
 3. Is my objective still correct (`ev` vs `first_place`)?
-3. If on `first_place`, is a trigger active (baseline meta / high-ante WTA / sprint WTA / passive high-confidence)?
+3. If on `first_place`, is a trigger active (baseline meta / sprint WTA / WTA pot-pressure / passive high-confidence)?
 4. Can I win this auction without violating stack discipline?
 
 ## Critical anti-tilt rules

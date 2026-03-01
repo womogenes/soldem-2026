@@ -1,6 +1,6 @@
 # Day-of fast patch guide
 
-Local time: 2026-03-01 01:58 PST
+Local time: 2026-03-01 06:34 PST
 
 ## Goal
 
@@ -16,8 +16,9 @@ Policy smoke now validates:
 - exact baseline branch
 - high-ante absolute branch (`200/50/o4`)
 - high-ante ratio branch (`160/42/o3`)
-- below-trigger branch (`140/35/o4`)
-- non-5-player branch (`n_players=6`)
+- WTA pot-pressure branch (`140/35/o4`)
+- WTA high-stack relief branch (`200/35/o4`)
+- non-5-player WTA branch (`n_players=6`, `200/40/o3`)
 
 1. Start API if not running.
 `uv run uvicorn game.api:app --host 0.0.0.0 --port 8000`
@@ -37,7 +38,7 @@ This sets API `dynamic_resolution_enabled=false` so manual champions stay fixed.
 
 6. Confirm resolved champions from output.
 Expected fields: `resolved_champions.ev`, `resolved_champions.first_place`, `resolved_champions.robustness`.
-HUD side check: the session panel now includes `First-place routing cues` for baseline/sprint/high-ante trigger visibility.
+HUD side check: the session panel now includes `First-place routing cues` for baseline/sprint/winner-takes-all band trigger visibility.
 API side check: `/session/state` now includes `first_place_policy_cues` for scriptable verification.
 
 7. Refresh HUD and use `Use objective champion` button.
@@ -60,11 +61,15 @@ API side check: `/session/state` now includes `first_place_policy_cues` for scri
 - Default EV and robustness: `equity_evolved_v1`.
 - First-place mode:
   - exact baseline rules: `meta_switch`
-  - non-baseline variants: `equity_evolved_v1`.
+  - winner-takes-all sprint profile (`n_orbits<=2`, `start_chips<=150`): `pot_fraction`
+  - winner-takes-all pot-pressure band (`n_orbits>=3` and (`ante_amt/start_chips>=0.25` or `ante_amt>=50`)): `pot_fraction`
+  - winner-takes-all high-stack low-ante band (`n_orbits>=3`, `start_chips>=180`, and `ante_amt/start_chips<0.20`): `equity_evolved_v1`
+  - remaining non-sprint winner-takes-all band: `meta_switch`
+  - non-winner-takes-all variants: `equity_evolved_v1`
 - Dynamic table-read shifts:
   - `passive` with high confidence and first-place objective: may choose `pot_fraction`.
   - sprint rules (`n_orbits<=2` and `start_chips<=150`) with first-place objective choose `pot_fraction` only when pot policy is `winner_takes_all`.
-  - high ante pressure (`winner_takes_all`, `n_orbits>=3`, and (`ante_amt/start_chips>=0.26` or `ante_amt>=50`)) with first-place objective: choose `pot_fraction`.
+  - winner-takes-all pot-pressure (`n_orbits>=3`, (`ante_amt/start_chips>=0.25` or `ante_amt>=50`)) with first-place objective: choose `pot_fraction`.
   - all other EV/robustness modes stay on `equity_evolved_v1`.
 
 ## Fast fallback if rules are unknown
@@ -94,7 +99,7 @@ Notes:
 - runs the quick hero solver under the specified variant,
 - applies profile/overrides to API,
 - applies prior guardrails by default so low-sample noisy flips are ignored unless margin is meaningful,
-- prior map now mirrors live resolver first-place logic (exact baseline `meta_switch`; sprint/high-ante `winner_takes_all` pockets favor `pot_fraction`),
+- prior map now mirrors live resolver first-place logic (exact baseline `meta_switch`; winner-takes-all uses sprint/pot-pressure/meta-band/high-stack-relief routing),
 - sets champions and locks manual mode by default.
 - observed runtime on this machine with defaults (`n_tables=12`, `n_games=8`): about `22.9s`.
 

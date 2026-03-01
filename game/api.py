@@ -19,6 +19,41 @@ OutputMode = Literal["action_first", "top3", "metrics", "all"]
 Objective = Literal["ev", "first_place", "robustness"]
 
 
+RESOLVER_REASON_TEXT: dict[str, str] = {
+    "manual_lock": "Manual lock is active; dynamic routing is disabled.",
+    "ev_robust_default": "EV/robustness default anchor is equity_evolved_v1.",
+    "passive_high_confidence_first_place": (
+        "Passive table read with high confidence: first-place routing moved to pot_fraction."
+    ),
+    "sprint_wta_first_place": (
+        "Sprint + winner-takes-all profile: first-place routing moved to pot_fraction."
+    ),
+    "high_ante_pressure_first_place": (
+        "High-ante winner-takes-all pressure: first-place routing moved to pot_fraction."
+    ),
+    "wta_pot_pressure_first_place": (
+        "Winner-takes-all medium/high ante pressure: first-place routing moved to pot_fraction."
+    ),
+    "wta_meta_band_first_place": (
+        "Winner-takes-all low/mid ante band: first-place routing moved to meta_switch."
+    ),
+    "high_stack_low_ante_first_place": (
+        "High-stack low-ante winner-takes-all profile: first-place routing moved to equity_evolved_v1."
+    ),
+    "baseline_first_place_meta_exact": "Exact baseline rules: first-place default is meta_switch.",
+    "non_baseline_first_place": "Non-baseline profile: first-place default is equity_evolved_v1.",
+    "fallback_champion_map": "Fallback champion mapping was used.",
+    "request_override": "Request override supplied: strategy tag bypassed resolver routing.",
+}
+
+
+def resolver_reason_text(reason_code: str) -> str:
+    code = (reason_code or "").strip()
+    if not code:
+        return "No resolver reason available."
+    return RESOLVER_REASON_TEXT.get(code, code)
+
+
 class RecommendationReq(BaseModel):
     seat: int = 0
     phase: Phase = "bid"
@@ -120,6 +155,7 @@ class Session:
         first_place_cues = self.first_place_policy_cues()
         resolved: dict[str, str] = {}
         reasons: dict[str, str] = {}
+        reason_texts: dict[str, str] = {}
         for objective in ["ev", "first_place", "robustness"]:
             tag, reason = self.resolve_champion_with_reason(
                 objective,
@@ -127,12 +163,15 @@ class Session:
             )
             resolved[objective] = tag
             reasons[objective] = reason
+            reason_texts[objective] = resolver_reason_text(reason)
         return {
             "rule_profile": self.rule_profile.to_dict(),
             "champions": self.champions,
             "dynamic_resolution_enabled": self.dynamic_resolution_enabled,
             "resolved_champions": resolved,
             "resolved_champion_reasons": reasons,
+            "resolved_champion_reason_texts": reason_texts,
+            "resolver_reason_text_map": RESOLVER_REASON_TEXT,
             "table_read": table_read,
             "first_place_policy_cues": first_place_cues,
             "recommended_preset": self.recommend_preset(table_read),
@@ -234,29 +273,49 @@ class Session:
         ante_ratio = (self.rule_profile.ante_amt / start) if start > 0 else 0.0
         sprint_profile = self.rule_profile.n_orbits <= 2 and start <= 150
         winner_takes_all = self.rule_profile.pot_distribution_policy == "winner_takes_all"
+        wta_non_sprint = winner_takes_all and self.rule_profile.n_orbits >= 3
+        wta_pot_pressure = (
+            wta_non_sprint
+            and (
+                (start > 0 and ante_ratio >= 0.25)
+                or self.rule_profile.ante_amt >= 50
+            )
+        )
         high_ante_pressure = (
             winner_takes_all
             and self.rule_profile.n_orbits >= 3
             and (
-                (start > 0 and ante_ratio >= 0.26)
+                (start > 0 and ante_ratio >= 0.25)
                 or self.rule_profile.ante_amt >= 50
             )
+        )
+        high_stack_low_ante_relief = (
+            wta_non_sprint
+            and start >= 180
+            and ante_ratio < 0.20
         )
         exact_baseline_profile = self.rule_profile == BASELINE_PROFILE
 
         default_first_place = "equity_evolved_v1"
         if sprint_profile and winner_takes_all:
             default_first_place = "pot_fraction"
-        elif high_ante_pressure:
-            default_first_place = "pot_fraction"
         elif exact_baseline_profile:
+            default_first_place = "meta_switch"
+        elif wta_pot_pressure:
+            default_first_place = "pot_fraction"
+        elif high_stack_low_ante_relief:
+            default_first_place = "equity_evolved_v1"
+        elif wta_non_sprint:
             default_first_place = "meta_switch"
 
         return {
             "exact_baseline": exact_baseline_profile,
             "sprint_profile": sprint_profile,
             "winner_takes_all": winner_takes_all,
+            "wta_non_sprint": wta_non_sprint,
+            "wta_pot_pressure": wta_pot_pressure,
             "high_ante_pressure": high_ante_pressure,
+            "high_stack_low_ante_relief": high_stack_low_ante_relief,
             "ante_ratio": ante_ratio,
             "default_first_place": default_first_place,
         }
@@ -279,10 +338,14 @@ class Session:
                 return "pot_fraction", "passive_high_confidence_first_place"
             if first_place_cues["sprint_profile"] and first_place_cues["winner_takes_all"]:
                 return "pot_fraction", "sprint_wta_first_place"
-            if first_place_cues["high_ante_pressure"]:
-                return "pot_fraction", "high_ante_pressure_first_place"
             if first_place_cues["exact_baseline"]:
                 return "meta_switch", "baseline_first_place_meta_exact"
+            if first_place_cues["wta_pot_pressure"]:
+                return "pot_fraction", "wta_pot_pressure_first_place"
+            if first_place_cues["high_stack_low_ante_relief"]:
+                return "equity_evolved_v1", "high_stack_low_ante_first_place"
+            if first_place_cues["wta_non_sprint"]:
+                return "meta_switch", "wta_meta_band_first_place"
             return "equity_evolved_v1", "non_baseline_first_place"
         if objective in {"ev", "robustness"}:
             return "equity_evolved_v1", "ev_robust_default"
@@ -335,6 +398,7 @@ class Session:
         table_read = self.infer_table_read()
         resolved: dict[str, str] = {}
         reasons: dict[str, str] = {}
+        reason_texts: dict[str, str] = {}
         for objective in ["ev", "first_place", "robustness"]:
             tag, reason = self.resolve_champion_with_reason(
                 objective,
@@ -342,11 +406,13 @@ class Session:
             )
             resolved[objective] = tag
             reasons[objective] = reason
+            reason_texts[objective] = resolver_reason_text(reason)
         return {
             "champions": self.champions,
             "dynamic_resolution_enabled": self.dynamic_resolution_enabled,
             "resolved_champions": resolved,
             "resolved_champion_reasons": reasons,
+            "resolved_champion_reason_texts": reason_texts,
         }
 
 
@@ -390,13 +456,27 @@ def rules_apply_profile(req: ApplyProfileReq):
 
 @app.get("/strategies/champions")
 def strategies_champions():
+    ev_tag, ev_reason = session.resolve_champion_with_reason("ev")
+    fp_tag, fp_reason = session.resolve_champion_with_reason("first_place")
+    rb_tag, rb_reason = session.resolve_champion_with_reason("robustness")
     return {
         "champions": session.champions,
         "resolved_champions": {
-            "ev": session.resolve_champion("ev"),
-            "first_place": session.resolve_champion("first_place"),
-            "robustness": session.resolve_champion("robustness"),
+            "ev": ev_tag,
+            "first_place": fp_tag,
+            "robustness": rb_tag,
         },
+        "resolved_champion_reasons": {
+            "ev": ev_reason,
+            "first_place": fp_reason,
+            "robustness": rb_reason,
+        },
+        "resolved_champion_reason_texts": {
+            "ev": resolver_reason_text(ev_reason),
+            "first_place": resolver_reason_text(fp_reason),
+            "robustness": resolver_reason_text(rb_reason),
+        },
+        "resolver_reason_text_map": RESOLVER_REASON_TEXT,
         "strategy_presets": session.strategy_presets,
         "composite_profiles": composite_profiles(),
         "leaderboards": session.last_leaderboards,
@@ -421,6 +501,7 @@ def advisor_recommend(req: RecommendationReq):
         strategy_reason = "request_override"
     else:
         strategy_tag, strategy_reason = session.resolve_champion_with_reason(req.objective)
+    strategy_reason_text = resolver_reason_text(strategy_reason)
 
     if req.output_mode == "all":
         out = {}
@@ -446,6 +527,7 @@ def advisor_recommend(req: RecommendationReq):
         return {
             "strategy_tag": strategy_tag,
             "strategy_reason": strategy_reason,
+            "strategy_reason_text": strategy_reason_text,
             "rule_profile": session.rule_profile.to_dict(),
             "modes": out,
         }
@@ -470,6 +552,7 @@ def advisor_recommend(req: RecommendationReq):
     out = rec.to_dict()
     out["strategy_tag"] = strategy_tag
     out["strategy_reason"] = strategy_reason
+    out["strategy_reason_text"] = strategy_reason_text
     out["rule_profile"] = session.rule_profile.to_dict()
     return out
 
@@ -482,6 +565,7 @@ def advisor_llm_hint(req: LlmHintReq):
         strategy_reason = "request_override"
     else:
         strategy_tag, strategy_reason = session.resolve_champion_with_reason(req.objective)
+    strategy_reason_text = resolver_reason_text(strategy_reason)
     base = recommend_action(
         phase=req.phase,
         strategy_tag=strategy_tag,
@@ -523,6 +607,7 @@ def advisor_llm_hint(req: LlmHintReq):
         "ok": llm.get("ok", False),
         "strategy_tag": strategy_tag,
         "strategy_reason": strategy_reason,
+        "strategy_reason_text": strategy_reason_text,
         "rule_profile": session.rule_profile.to_dict(),
         "deterministic": base.to_dict(),
         "llm": llm,

@@ -95,8 +95,8 @@ def main() -> None:
                 "n_orbits": 4,
                 "pot_distribution_policy": "winner_takes_all",
             },
-            expect_first="equity_evolved_v1",
-            expect_high_ante=False,
+            expect_first="pot_fraction",
+            expect_high_ante=True,
         )
     )
     checks.append(
@@ -107,6 +107,19 @@ def main() -> None:
                 "start_chips": 200,
                 "ante_amt": 40,
                 "n_orbits": 3,
+                "pot_distribution_policy": "winner_takes_all",
+            },
+            expect_first="meta_switch",
+            expect_high_ante=False,
+        )
+    )
+    checks.append(
+        apply_and_check(
+            args.api,
+            overrides={
+                "start_chips": 200,
+                "ante_amt": 35,
+                "n_orbits": 4,
                 "pot_distribution_policy": "winner_takes_all",
             },
             expect_first="equity_evolved_v1",

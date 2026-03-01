@@ -86,19 +86,22 @@ def predict_from_rule(
     profile = resolve_profile("baseline_v1", **overrides)
     sprint = profile.n_orbits <= 2 and profile.start_chips <= 150
     winner_takes_all = profile.pot_distribution_policy == "winner_takes_all"
+    wta_non_sprint = winner_takes_all and profile.n_orbits >= 3
     ante_ratio = (profile.ante_amt / profile.start_chips) if profile.start_chips > 0 else 0.0
 
-    high_ante = winner_takes_all and profile.n_orbits >= 3 and ante_ratio >= ratio_threshold
+    high_ante = wta_non_sprint and ante_ratio >= ratio_threshold
     if absolute_ante is not None:
-        high_ante = high_ante or (
-            winner_takes_all and profile.n_orbits >= 3 and profile.ante_amt >= absolute_ante
-        )
+        high_ante = high_ante or (wta_non_sprint and profile.ante_amt >= absolute_ante)
 
     if sprint and winner_takes_all:
         return "pot_fraction"
-    if high_ante:
-        return "pot_fraction"
     if profile == BASELINE_PROFILE:
+        return "meta_switch"
+    if wta_non_sprint:
+        if high_ante:
+            return "pot_fraction"
+        if profile.start_chips >= 180 and ante_ratio < 0.20:
+            return "equity_evolved_v1"
         return "meta_switch"
     return "equity_evolved_v1"
 

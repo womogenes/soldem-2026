@@ -1,9 +1,17 @@
 import unittest
 
-from game.api import Session, SessionEventReq, SetChampionsReq
+from game.api import Session, SessionEventReq, SetChampionsReq, resolver_reason_text
 
 
 class ApiSessionTests(unittest.TestCase):
+    def test_resolver_reason_text_helper(self):
+        self.assertEqual(
+            resolver_reason_text("high_ante_pressure_first_place"),
+            "High-ante winner-takes-all pressure: first-place routing moved to pot_fraction.",
+        )
+        self.assertEqual(resolver_reason_text(""), "No resolver reason available.")
+        self.assertEqual(resolver_reason_text("unknown_reason"), "unknown_reason")
+
     def test_passive_table_can_trigger_risk_on_first_place(self):
         s = Session()
         for _ in range(12):
@@ -102,13 +110,39 @@ class ApiSessionTests(unittest.TestCase):
         )
         self.assertEqual(s.resolve_champion("first_place"), "pot_fraction")
 
-    def test_non_sprint_low_ante_wta_uses_evolved_first_place(self):
+    def test_non_sprint_low_ante_wta_prefers_pot_fraction_first_place(self):
         s = Session()
         s.apply_profile(
             "baseline_v1",
             {
                 "n_orbits": 4,
                 "start_chips": 140,
+                "ante_amt": 35,
+                "pot_distribution_policy": "winner_takes_all",
+            },
+        )
+        self.assertEqual(s.resolve_champion("first_place"), "pot_fraction")
+
+    def test_non_sprint_mid_ante_wta_prefers_meta_switch_first_place(self):
+        s = Session()
+        s.apply_profile(
+            "baseline_v1",
+            {
+                "n_orbits": 4,
+                "start_chips": 160,
+                "ante_amt": 35,
+                "pot_distribution_policy": "winner_takes_all",
+            },
+        )
+        self.assertEqual(s.resolve_champion("first_place"), "meta_switch")
+
+    def test_high_stack_low_ante_wta_prefers_evolved_first_place(self):
+        s = Session()
+        s.apply_profile(
+            "baseline_v1",
+            {
+                "n_orbits": 4,
+                "start_chips": 200,
                 "ante_amt": 35,
                 "pot_distribution_policy": "winner_takes_all",
             },
@@ -146,6 +180,19 @@ class ApiSessionTests(unittest.TestCase):
         high_abs = s.first_place_policy_cues()
         self.assertTrue(high_abs["high_ante_pressure"])
         self.assertEqual(high_abs["default_first_place"], "pot_fraction")
+
+        s.apply_profile(
+            "baseline_v1",
+            {
+                "n_orbits": 4,
+                "start_chips": 200,
+                "ante_amt": 35,
+                "pot_distribution_policy": "winner_takes_all",
+            },
+        )
+        relief = s.first_place_policy_cues()
+        self.assertTrue(relief["high_stack_low_ante_relief"])
+        self.assertEqual(relief["default_first_place"], "equity_evolved_v1")
 
         s.apply_profile(
             "baseline_v1",
@@ -233,6 +280,22 @@ class ApiSessionTests(unittest.TestCase):
         self.assertEqual(out["champions"]["first_place"], "meta_switch")
         self.assertFalse(out["dynamic_resolution_enabled"])
         self.assertEqual(out["resolved_champions"]["first_place"], "meta_switch")
+        self.assertEqual(out["resolved_champion_reasons"]["first_place"], "manual_lock")
+        self.assertEqual(
+            out["resolved_champion_reason_texts"]["first_place"],
+            "Manual lock is active; dynamic routing is disabled.",
+        )
+
+    def test_session_state_exports_reason_texts(self):
+        s = Session()
+        state = s.state()
+        self.assertIn("resolved_champion_reasons", state)
+        self.assertIn("resolved_champion_reason_texts", state)
+        self.assertIn("resolver_reason_text_map", state)
+        self.assertEqual(
+            state["resolved_champion_reason_texts"]["first_place"],
+            "Exact baseline rules: first-place default is meta_switch.",
+        )
 
 
 if __name__ == "__main__":

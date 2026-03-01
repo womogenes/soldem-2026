@@ -1,75 +1,77 @@
 # Ante threshold calibration
 
-Local time: 2026-03-01 05:29 PST
+Local time: 2026-03-01 06:34 PST
 
 ## Goal
 
-Recalibrate the first-place high-ante `pot_fraction` trigger with direct sweeps around the previous cutoff.
+Refit first-place winner-takes-all routing for near day-of horizons (8-12 games) under correlation models, using both population and hero-vs-pool rollouts.
 
-## Experiments
+## New experiments
 
-1. Broad grid sweep (`19` cases x `2` seeds, first-place only)
-- Command:
-  - `uv run python scripts/ante_threshold_sweep.py --n-tables 6 --n-games 8 --seeds 62001,62002 --out research_logs/experiment_outputs/ante_threshold_sweep_19c_2s_6t8g_seed62001.json`
-- Artifact:
-  - `research_logs/experiment_outputs/ante_threshold_sweep_19c_2s_6t8g_seed62001.json`
-- Signal:
-  - non-sprint winner-takes-all at ratios `0.286+` consistently favored `pot_fraction` in this pass.
-  - ratio `0.25` was mixed by profile (`meta_switch` and `pot_fraction` both appeared).
+1. First-place rollout matrix (`6` rule cases x `3` horizons x `4` correlation scenarios)
+- Script:
+  - `scripts/first_place_rollout_matrix.py`
+- Artifacts:
+  - `research_logs/experiment_outputs/first_place_rollout_matrix_smoke_seed63101.json`
+  - `research_logs/experiment_outputs/first_place_rollout_matrix_6c_3h_60m_seed63201.json`
 
-2. Near-threshold probe (`6` cases x `2` seeds)
-- Artifact:
-  - `research_logs/experiment_outputs/ante_threshold_probe_6c_2s_10t8g_seed62101.json`
-- Signal:
-  - at ratios `0.269` to `0.290`, all probed non-sprint winner-takes-all cases favored `pot_fraction`.
+2. Targeted first-place confirmations (population and hero-vs-pool)
+- Baseline and low-ante WTA confirms:
+  - `baseline_first_place_confirm_6s_140m_10g_seed63301.json`
+  - `low_ante_wta_first_place_confirm_6s_140m_10g_seed63351.json`
+- Hero-vs-pool anchor checks:
+  - `hero_first_place_baseline_9s_80t10g_seed63401.json`
+  - `hero_first_place_low_ante_wta_9s_80t10g_seed63451.json`
+  - `hero_first_place_high_ante_ratio_9s_80t10g_seed63501.json`
 
-3. Focused ratio-0.25 confirmations (higher budget)
-- Artifact:
-  - `research_logs/experiment_outputs/ante_ratio_025_confirm_3c_2s_20t10g_seed62251.json`
-- Signal:
-  - `140/35/o4`: `meta_switch` both seeds (small gaps).
-  - `160/40/o3`: split (`meta_switch` / `pot_fraction`).
-  - `200/50/o4`: `pot_fraction` both seeds.
+3. Boundary probes for non-sprint winner-takes-all
+- Mid-stack and high-stack checks:
+  - `hero_first_place_wta_o4_s150_a35_9s_80t10g_seed63551.json`
+  - `hero_first_place_wta_o4_s160_a35_9s_80t10g_seed63601.json`
+  - `hero_first_place_wta_o4_s180_a35_9s_80t10g_seed63651.json`
+  - `hero_first_place_wta_o4_s140_a30_9s_80t10g_seed63701.json`
+  - `hero_first_place_wta_o4_s140_a40_9s_80t10g_seed63751.json`
+  - `hero_first_place_wta_o4_s200_a35_9s_80t10g_seed64001.json`
+  - `hero_first_place_wta_o4_s200_a45_9s_80t10g_seed64051.json`
+- Ambiguous spot seed ensemble (`s=140, a=35, o=4`):
+  - `hero_first_place_wta_o4_s140_a35_9s_80t10g_seed63801.json`
+  - `hero_first_place_wta_o4_s140_a35_9s_80t10g_seed63851.json`
+  - `hero_first_place_wta_o4_s140_a35_9s_80t10g_seed63901.json`
+  - `hero_first_place_wta_o4_s140_a35_9s_80t10g_seed63951.json`
 
-4. Boundary probe around `~0.26` (`3` cases x `2` seeds)
-- Artifact:
-  - `research_logs/experiment_outputs/ante_threshold_boundary_026_3c_2s_10t8g_seed62301.json`
-- Signal:
-  - `160/42/o3` and `200/52/o4` favored `pot_fraction` in both seeds.
-  - `140/36/o4` was mixed (`pot_fraction` / `meta_switch`).
-
-5. Policy evaluator over accumulated artifact rows
+4. Policy evaluator refresh
 - Script:
   - `scripts/evaluate_first_place_policy.py`
 - Artifact:
-  - `research_logs/experiment_outputs/first_place_policy_eval_post_boundary026.json`
-- Signal:
-  - old `0.33` ratio-only rule: `25/65` hits (`0.385`)
-  - `0.27 + ante>=50` rule: `48/65` hits (`0.738`)
-  - `0.26 + ante>=50` rule: `52/65` hits (`0.800`)
-  - best pure fit in this dataset was `0.25` ratio-only, but `0.26 + ante>=50` was chosen as a less aggressive compromise due mixed `~0.25` pockets.
+  - `research_logs/experiment_outputs/first_place_policy_eval_post_wta_banding.json`
+- Best fit on current artifact set:
+  - ratio threshold `0.25` (`68/80`, hit rate `0.850`).
 
-## Policy update
+## Routing update
 
-High-ante-pressure first-place trigger is now:
+First-place resolver now uses winner-takes-all banding (after baseline/sprint/passive overrides):
 
-- `winner_takes_all`
-- `n_orbits >= 3`
-- and either:
-  - `ante_amt / start_chips >= 0.26`, or
-  - `ante_amt >= 50`
-
-Sprint trigger remains unchanged:
-
-- `n_orbits <= 2` and `start_chips <= 150` and `winner_takes_all` => `pot_fraction`.
+- `pot_fraction` when:
+  - sprint winner-takes-all (`n_orbits<=2` and `start_chips<=150`), or
+  - winner-takes-all pot pressure (`n_orbits>=3` and (`ante/start>=0.25` or `ante>=50`)).
+- `equity_evolved_v1` when:
+  - winner-takes-all high-stack low-ante (`n_orbits>=3`, `start>=180`, `ante/start<0.20`).
+- `meta_switch` when:
+  - remaining non-sprint winner-takes-all band.
+- Exact baseline still defaults to `meta_switch`.
+- Non-winner-takes-all variants default to `equity_evolved_v1`.
 
 ## Why this rule
 
-- It captures stable non-sprint winner-takes-all pockets found in new probes near `~0.26` and absolute ante pressure cases like `200/50`.
-- It avoids forcing `pot_fraction` for lower-pressure non-sprint cases like `140/35` where `meta_switch` repeatedly held a small edge.
+- It removes a weak prior where most non-baseline variants were forced to `equity_evolved_v1` for first-place.
+- It preserves baseline behavior while adding empirically supported winner-takes-all banding for common day-of variant pockets.
+- It improved offline artifact-policy alignment from `0.709` (current pre-change logic on latest set) to `0.848`.
 
 ## Implementation updates
 
 - `game/api.py`
 - `scripts/day_of_autosolve_patch.py`
+- `scripts/policy_smoke.py`
+- `scripts/evaluate_first_place_policy.py`
 - `tests/test_api_session.py`
+- `web/src/routes/+page.svelte`

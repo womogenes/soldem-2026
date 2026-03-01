@@ -32,4 +32,4 @@ Estimate whether the updated first-place resolver rules better match historical 
 
 - This is an offline artifact backtest, not a strict unbiased holdout.
 - Still, the direction is strong enough to justify keeping the updated resolver and autosolve prior rules for day-of use.
-- This report predates the later ante-threshold recalibration. See `research_logs/018_ante_threshold_calibration.md`.
+- This report predates the later winner-takes-all banding recalibration. See `research_logs/018_ante_threshold_calibration.md`.

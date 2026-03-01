@@ -78,22 +78,24 @@ def objective_winners(solver_out: dict) -> dict[str, str]:
 def prior_champions(rule_profile: str, overrides: dict) -> dict[str, str]:
     profile = resolve_profile(rule_profile, **overrides)
     sprint_profile = profile.n_orbits <= 2 and profile.start_chips <= 150
-    high_ante_pressure = (
-        profile.pot_distribution_policy == "winner_takes_all"
-        and profile.n_orbits >= 3
-        and (
-            (profile.start_chips > 0 and (profile.ante_amt / profile.start_chips) >= 0.26)
-            or profile.ante_amt >= 50
-        )
-    )
+    start = profile.start_chips
+    ante_ratio = (profile.ante_amt / start) if start > 0 else 0.0
+    winner_takes_all = profile.pot_distribution_policy == "winner_takes_all"
+    wta_non_sprint = winner_takes_all and profile.n_orbits >= 3
+    wta_pot_pressure = wta_non_sprint and (ante_ratio >= 0.25 or profile.ante_amt >= 50)
+    high_stack_low_ante_relief = wta_non_sprint and start >= 180 and ante_ratio < 0.20
     exact_baseline = profile == BASELINE_PROFILE
 
     first_place = "equity_evolved_v1"
-    if sprint_profile and profile.pot_distribution_policy == "winner_takes_all":
-        first_place = "pot_fraction"
-    elif high_ante_pressure:
+    if sprint_profile and winner_takes_all:
         first_place = "pot_fraction"
     elif exact_baseline:
+        first_place = "meta_switch"
+    elif wta_pot_pressure:
+        first_place = "pot_fraction"
+    elif high_stack_low_ante_relief:
+        first_place = "equity_evolved_v1"
+    elif wta_non_sprint:
         first_place = "meta_switch"
 
     return {

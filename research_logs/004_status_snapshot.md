@@ -1,6 +1,6 @@
 # Status snapshot and operator guide
 
-Local time: 2026-03-01 03:44 PST
+Local time: 2026-03-01 06:34 PST
 
 ## Reference
 
@@ -25,7 +25,7 @@ This workstream follows `research_logs/000_god_prompt.md` as the controlling spe
 7. One-command autosolve+patch helper:
 - `scripts/day_of_autosolve_patch.py`
 - includes prior-guardrail filtering to reduce low-sample solver noise by default.
-- prior map is aligned with live resolver first-place rules (exact baseline/meta, winner-takes-all sprint+high-ante pot-fraction pockets).
+- prior map is aligned with live resolver first-place rules (exact baseline, winner-takes-all banding, passive-table override).
 8. PocketBase EC2 deployment + schema sync + metadata seeding.
 
 ## Best strategy recommendations from rollouts
@@ -35,8 +35,11 @@ Primary recommendation for day-of EV stability:
 
 First-place/correlation-heavy fallback:
 - exact baseline rules: `meta_switch`
-- non-baseline variants: `equity_evolved_v1`
-- high ante pressure winner-takes-all (`n_orbits>=3` and (`ante/start>=0.26` or `ante>=50`)): `pot_fraction`
+- winner-takes-all sprint profile (`n_orbits<=2`, `start_chips<=150`): `pot_fraction`
+- winner-takes-all pot-pressure band (`n_orbits>=3` and (`ante/start>=0.25` or `ante>=50`)): `pot_fraction`
+- winner-takes-all high-stack low-ante band (`n_orbits>=3`, `start_chips>=180`, `ante/start<0.20`): `equity_evolved_v1`
+- remaining non-sprint winner-takes-all band: `meta_switch`
+- non-winner-takes-all variants: `equity_evolved_v1`
 
 High-variance exploit mode (only if table looks soft/passive):
 - `pot_fraction`
@@ -54,9 +57,9 @@ Latest evidence:
 - random-variant fuzz recheck + seeded confirmations:
   - sprint override should be constrained to `winner_takes_all` (split-pot sprint outliers did not consistently favor `pot_fraction`).
   - high ante pressure winner-takes-all (`140/50`, `n_orbits=4`) repeatedly favored `pot_fraction`.
-- ante-threshold recalibration sweep + probes:
-  - non-sprint winner-takes-all pockets near `0.26` ratio also favored `pot_fraction`.
-  - ratio `0.25` was mixed, but absolute ante pressure (`ante>=50`) still favored `pot_fraction` in confirmations.
+- winner-takes-all banding recalibration + boundary confirms:
+  - artifacts now include 8/10/12-game horizon matrices and hero-vs-pool boundary probes at `start=140/150/160/180/200`.
+  - strongest offline policy fit on current artifact set: first-place WTA banding around `ante/start>=0.25` plus high-stack low-ante relief.
   - summary: `research_logs/018_ante_threshold_calibration.md`
 - resolver policy backtest over archived variant artifacts:
   - old first-place routing match rate: `10/25` (`0.40`)
@@ -79,10 +82,10 @@ Latest evidence:
 `bash scripts/day_of_preflight.sh --api-url http://127.0.0.1:8000 --pb-url http://18.204.1.6:8090`
 Policy-routing smoke option:
 `bash scripts/day_of_preflight.sh --api-url http://127.0.0.1:8000 --with-policy-smoke`
-Latest integrated preflight pass completed at `2026-03-01 05:52 PST` using API `:8015` + PocketBase `18.204.1.6:8090` with:
-`--with-tests --with-web --with-policy-smoke --with-bedrock --bedrock-region us-east-1`.
-Latest policy-smoke-only pass completed at `2026-03-01 05:59 PST` using API `:8017` with expanded ratio + 6-player checks.
-Full backend discovery tests currently pass: `28/28`.
+Latest integrated preflight (`tests + web + policy smoke`) completed at `2026-03-01 06:33 PST` using API `:8017`.
+Latest full-stack preflight including PocketBase + Bedrock completed at `2026-03-01 05:52 PST` using API `:8015`.
+Latest policy-smoke pass completed at `2026-03-01 06:33 PST` using API `:8017` with expanded WTA branch checks.
+Full backend discovery tests currently pass: `32/32`.
 Bedrock smoke check is included in the integrated preflight above.
 
 4. Open HUD and use quick controls.
@@ -90,14 +93,15 @@ Bedrock smoke check is included in the integrated preflight above.
 - Click `Use objective champion`.
 - Enter state and click `Get recommendation`.
 - Optional second opinion: click `Get LLM hint` (Bedrock-backed, deterministic recommendation remains primary).
-- Recommendation and LLM panels now show resolved strategy reason labels (for example `baseline_first_place_meta_exact`, `sprint_wta_first_place`, `high_ante_pressure_first_place`).
+- Recommendation and LLM panels now show resolved strategy reason labels and backend-authored plain-English reason text.
 - HUD now renders plain-English descriptions for strategy reason codes in recommendation and LLM hint panels.
-- HUD now shows a dedicated `First-place routing cues` block in the session panel to make baseline/sprint/high-ante triggers visible without parsing raw JSON.
+- HUD now shows a dedicated `First-place routing cues` block in the session panel to make baseline/sprint/WTA-band triggers visible without parsing raw JSON.
 - API exports these cues as `first_place_policy_cues` in `/session/state` for deterministic client or script checks.
 - As events accumulate, use `Use auto table read preset` to apply mode-aware switching.
 - Auto table-read mode map:
   - EV/robustness: keep `equity_evolved_v1`.
   - first-place + exact baseline: `meta_switch`
+  - first-place + non-sprint winner-takes-all: follow WTA banding cues (`pot_fraction` / `meta_switch` / `equity_evolved_v1`)
   - `passive` + first-place objective: may move to `pot_fraction`.
 
 ## Day-of fast patch

@@ -1,6 +1,6 @@
 # Pre-7 handoff draft
 
-Local time: 2026-03-01 04:34 PST
+Local time: 2026-03-01 06:34 PST
 
 ## Current recommended champion policy
 
@@ -8,9 +8,11 @@ Local time: 2026-03-01 04:34 PST
 - robustness: `equity_evolved_v1`
 - first-place:
   - exact baseline: `meta_switch`
-  - non-baseline variants: `equity_evolved_v1`
   - sprint short-stack (`n_orbits<=2` and `start_chips<=150`) only with `winner_takes_all`: `pot_fraction`
-  - high ante pressure winner-takes-all (`n_orbits>=3` and (`ante/start>=0.26` or `ante>=50`)): `pot_fraction`
+  - winner-takes-all pot-pressure (`n_orbits>=3` and (`ante/start>=0.25` or `ante>=50`)): `pot_fraction`
+  - winner-takes-all high-stack low-ante (`n_orbits>=3`, `start>=180`, `ante/start<0.20`): `equity_evolved_v1`
+  - remaining non-sprint winner-takes-all band: `meta_switch`
+  - non-winner-takes-all variants: `equity_evolved_v1`
   - passive high-confidence table read: `pot_fraction`
 
 ## Fast day-of commands
@@ -34,11 +36,12 @@ Local time: 2026-03-01 04:34 PST
 
 - Autosolve default runtime benchmark: about `22.9s`.
 - Autosolve first-place guardrail default: `first_gap=0.07`.
-- Backend tests currently passing: `28/28`.
+- Backend tests currently passing: `32/32`.
 - Frontend check/build passing.
-- Integrated preflight (`tests + web + policy smoke + bedrock + PB health`) passed at `2026-03-01 05:52 PST`.
+- Integrated preflight (`tests + web + policy smoke`) passed at `2026-03-01 06:33 PST`.
+- Full-stack preflight (`tests + web + policy smoke + bedrock + PB health`) passed at `2026-03-01 05:52 PST`.
 - Quick solver and sim runner now support `n_players != 5` (validated by tests and smoke run).
-- Policy smoke re-run at `2026-03-01 05:59 PST` passed with expanded ratio + 6-player checks.
+- Policy smoke re-run at `2026-03-01 06:33 PST` passed with expanded winner-takes-all branch + 6-player checks.
 
 ## Latest key docs
 
@@ -52,6 +55,7 @@ Local time: 2026-03-01 04:34 PST
 - `research_logs/017_resolver_policy_backtest.md`
 - `research_logs/018_ante_threshold_calibration.md`
 - `research_logs/019_pre7_final_checklist.md`
+- `research_logs/020_wta_banding_rollout.md`
 
 ## Latest commit checkpoints
 
@@ -72,3 +76,4 @@ Local time: 2026-03-01 04:34 PST
 - `5be08c0`: HUD reason codes now shown with plain-English descriptions.
 - `dd0a087`: integrated full-stack preflight marked as latest readiness check.
 - `38e0060`: quick solver and sim runner now support non-5-player variants.
+- `99dc4db`: policy smoke expanded with ratio and non-5-player branch checks.

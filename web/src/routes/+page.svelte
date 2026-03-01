@@ -228,33 +228,38 @@
 				text: `Sprint + ${potPolicy}: sprint pot_fraction trigger is disabled.`
 			});
 		}
-		if (Boolean(cues.high_ante_pressure)) {
+		if (Boolean(cues.wta_pot_pressure)) {
 			const anteRatio = Number(cues.ante_ratio ?? 0);
 			notes.push({
 				level: 'warn',
-				text: `High ante pressure (${anteRatio.toFixed(2)}): pot_fraction trigger is active.`
+				text: `WTA pot pressure (${anteRatio.toFixed(2)}): pot_fraction trigger is active.`
+			});
+		}
+		if (Boolean(cues.high_stack_low_ante_relief)) {
+			notes.push({
+				level: 'info',
+				text: 'High-stack + low-ante WTA: first-place routing shifts back to equity_evolved_v1.'
+			});
+		} else if (
+			Boolean(cues.wta_non_sprint) &&
+			!Boolean(cues.wta_pot_pressure) &&
+			!Boolean(cues.exact_baseline)
+		) {
+			notes.push({
+				level: 'info',
+				text: 'Non-sprint WTA meta band: first-place routing defaults to meta_switch.'
 			});
 		}
 		return notes;
 	}
 
-	function describeReason(code: string | undefined): string {
+	function describeReason(code: string | undefined, explicitText?: string | null): string {
+		const text = (explicitText ?? '').trim();
+		if (text) return text;
 		const c = (code ?? '').trim();
 		if (!c) return 'No resolver reason available.';
-		const map: Record<string, string> = {
-			manual_lock: 'Manual lock is active; dynamic routing is disabled.',
-			ev_robust_default: 'EV/robustness default anchor is equity_evolved_v1.',
-			passive_high_confidence_first_place:
-				'Passive table read with high confidence: first-place routing moved to pot_fraction.',
-			sprint_wta_first_place:
-				'Sprint + winner-takes-all profile: first-place routing moved to pot_fraction.',
-			high_ante_pressure_first_place:
-				'High-ante winner-takes-all pressure: first-place routing moved to pot_fraction.',
-			baseline_first_place_meta_exact: 'Exact baseline rules: first-place default is meta_switch.',
-			non_baseline_first_place: 'Non-baseline profile: first-place default is equity_evolved_v1.',
-			fallback_champion_map: 'Fallback champion mapping was used.'
-		};
-		return map[c] ?? c;
+		const map = sessionState?.resolver_reason_text_map ?? {};
+		return String(map[c] ?? c);
 	}
 
 	$: firstPlaceRoutingNotes = firstPlaceNotesFromState(sessionState);
@@ -383,7 +388,7 @@
 						strategy: {recommendation.strategy_tag} ({recommendation.strategy_reason})
 					</div>
 					<div class="mb-2 text-xs text-muted-foreground">
-						{describeReason(recommendation.strategy_reason)}
+						{describeReason(recommendation.strategy_reason, recommendation.strategy_reason_text)}
 					</div>
 					{#if recommendation.modes}
 						<div class="grid gap-2 md:grid-cols-3">
@@ -415,7 +420,9 @@
 					{#if llmHint}
 						<div class="text-xs">ok: {String(llmHint.ok)}</div>
 						<div class="mt-1 text-xs">strategy: {llmHint.strategy_tag} ({llmHint.strategy_reason})</div>
-						<div class="mt-1 text-xs text-muted-foreground">{describeReason(llmHint.strategy_reason)}</div>
+						<div class="mt-1 text-xs text-muted-foreground">
+							{describeReason(llmHint.strategy_reason, llmHint.strategy_reason_text)}
+						</div>
 						<div class="mt-1 text-xs">model: {llmHint.llm?.model_id}</div>
 						<div class="mt-1 text-xs">latency ms: {llmHint.llm?.latency_ms}</div>
 						<div class="mt-1 text-xs">hint: {JSON.stringify(llmHint.llm?.hint)}</div>
@@ -473,6 +480,7 @@
 					<div class="mt-2 text-xs">Champions: {JSON.stringify(sessionState.champions)}</div>
 					<div class="mt-2 text-xs">Resolved champions: {JSON.stringify(sessionState.resolved_champions)}</div>
 					<div class="mt-2 text-xs">Resolved reasons: {JSON.stringify(sessionState.resolved_champion_reasons)}</div>
+					<div class="mt-2 text-xs">Resolved reason text: {JSON.stringify(sessionState.resolved_champion_reason_texts)}</div>
 					<div class="mt-2 text-xs">Table read: {JSON.stringify(sessionState.table_read)}</div>
 					{#if firstPlaceRoutingNotes.length}
 						<div class="mt-3 border p-2">

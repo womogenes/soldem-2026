@@ -1,6 +1,6 @@
 # Pre-7 final checklist
 
-Local time: 2026-03-01 05:50 PST
+Local time: 2026-03-01 06:34 PST
 
 ## Purpose
 
@@ -59,6 +59,8 @@ Provide a fixed, low-latency runbook for the final 20 minutes before the 7:00 am
 
 - exact baseline: `meta_switch`
 - sprint + winner-takes-all: `pot_fraction`
-- high-ante + winner-takes-all (`n_orbits>=3` and (`ante/start>=0.26` or `ante>=50`)): `pot_fraction`
+- winner-takes-all pot-pressure (`n_orbits>=3` and (`ante/start>=0.25` or `ante>=50`)): `pot_fraction`
+- winner-takes-all high-stack low-ante (`n_orbits>=3`, `start>=180`, `ante/start<0.20`): `equity_evolved_v1`
+- remaining non-sprint winner-takes-all band: `meta_switch`
 - passive high-confidence table read: `pot_fraction`
 - otherwise: `equity_evolved_v1`

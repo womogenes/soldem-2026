@@ -1,0 +1,361 @@
+{
+  "rule_profile": "baseline_v1",
+  "rule_overrides": {
+    "n_orbits": 4,
+    "start_chips": 160,
+    "ante_amt": 35,
+    "pot_distribution_policy": "winner_takes_all"
+  },
+  "n_tables": 80,
+  "n_games": 10,
+  "strategies": [
+    "conservative_plus",
+    "equity_evolved_v1",
+    "equity_sniper_ultra",
+    "pot_fraction",
+    "meta_switch",
+    "house_hammer",
+    "bully",
+    "adaptive_profile",
+    "seller_profit"
+  ],
+  "opponents": [
+    "random",
+    "bully",
+    "seller_profit",
+    "adaptive_profile",
+    "conservative",
+    "conservative_plus",
+    "equity_sniper_ultra",
+    "equity_sniper",
+    "equity_flex",
+    "pot_fraction",
+    "house_hammer"
+  ],
+  "objective_winners": {
+    "first_place": {
+      "metric": "first_place_rate",
+      "winner": "meta_switch",
+      "ranking": [
+        {
+          "tag": "meta_switch",
+          "mean_metric_value": 0.3728125
+        },
+        {
+          "tag": "equity_evolved_v1",
+          "mean_metric_value": 0.3053125
+        },
+        {
+          "tag": "pot_fraction",
+          "mean_metric_value": 0.3003125
+        },
+        {
+          "tag": "bully",
+          "mean_metric_value": 0.2425
+        },
+        {
+          "tag": "adaptive_profile",
+          "mean_metric_value": 0.239375
+        },
+        {
+          "tag": "equity_sniper_ultra",
+          "mean_metric_value": 0.21687499999999998
+        },
+        {
+          "tag": "seller_profit",
+          "mean_metric_value": 0.215625
+        },
+        {
+          "tag": "conservative_plus",
+          "mean_metric_value": 0.21
+        },
+        {
+          "tag": "house_hammer",
+          "mean_metric_value": 0.1184375
+        }
+      ]
+    }
+  },
+  "scenarios": [
+    {
+      "objective": "first_place",
+      "correlation": "none",
+      "rows": [
+        {
+          "hero": "equity_evolved_v1",
+          "samples": 800,
+          "mean_pnl": 79.84625,
+          "first_place_rate": 0.365,
+          "robustness": 56.308749999999996
+        },
+        {
+          "hero": "meta_switch",
+          "samples": 800,
+          "mean_pnl": 19.2075,
+          "first_place_rate": 0.325,
+          "robustness": -124.30499999999999
+        },
+        {
+          "hero": "pot_fraction",
+          "samples": 800,
+          "mean_pnl": -9.8425,
+          "first_place_rate": 0.285,
+          "robustness": -169.48
+        },
+        {
+          "hero": "bully",
+          "samples": 800,
+          "mean_pnl": -62.09625,
+          "first_place_rate": 0.23125,
+          "robustness": -222.09625
+        },
+        {
+          "hero": "adaptive_profile",
+          "samples": 800,
+          "mean_pnl": -48.5125,
+          "first_place_rate": 0.22,
+          "robustness": -208.5125
+        },
+        {
+          "hero": "equity_sniper_ultra",
+          "samples": 800,
+          "mean_pnl": 59.65,
+          "first_place_rate": 0.2175,
+          "robustness": 31.568749999999998
+        },
+        {
+          "hero": "conservative_plus",
+          "samples": 800,
+          "mean_pnl": 51.225,
+          "first_place_rate": 0.19875,
+          "robustness": 29.087500000000002
+        },
+        {
+          "hero": "seller_profit",
+          "samples": 800,
+          "mean_pnl": -43.80375,
+          "first_place_rate": 0.1825,
+          "robustness": -203.80375
+        },
+        {
+          "hero": "house_hammer",
+          "samples": 800,
+          "mean_pnl": 40.43625,
+          "first_place_rate": 0.15375,
+          "robustness": 3.186250000000001
+        }
+      ],
+      "winner": "equity_evolved_v1"
+    },
+    {
+      "objective": "first_place",
+      "correlation": "respect",
+      "rows": [
+        {
+          "hero": "meta_switch",
+          "samples": 800,
+          "mean_pnl": 31.3325,
+          "first_place_rate": 0.37875,
+          "robustness": -104.34875000000001
+        },
+        {
+          "hero": "adaptive_profile",
+          "samples": 800,
+          "mean_pnl": -30.7825,
+          "first_place_rate": 0.30375,
+          "robustness": -190.7825
+        },
+        {
+          "hero": "pot_fraction",
+          "samples": 800,
+          "mean_pnl": -9.27,
+          "first_place_rate": 0.3025,
+          "robustness": -166.20125000000002
+        },
+        {
+          "hero": "equity_evolved_v1",
+          "samples": 800,
+          "mean_pnl": 55.24,
+          "first_place_rate": 0.24625,
+          "robustness": 25.28375
+        },
+        {
+          "hero": "bully",
+          "samples": 800,
+          "mean_pnl": -54.84625,
+          "first_place_rate": 0.23625,
+          "robustness": -214.84625
+        },
+        {
+          "hero": "seller_profit",
+          "samples": 800,
+          "mean_pnl": -29.72625,
+          "first_place_rate": 0.22375,
+          "robustness": -189.72625
+        },
+        {
+          "hero": "equity_sniper_ultra",
+          "samples": 800,
+          "mean_pnl": 54.3225,
+          "first_place_rate": 0.21,
+          "robustness": 20.49125
+        },
+        {
+          "hero": "conservative_plus",
+          "samples": 800,
+          "mean_pnl": 51.815,
+          "first_place_rate": 0.1975,
+          "robustness": 21.939999999999998
+        },
+        {
+          "hero": "house_hammer",
+          "samples": 800,
+          "mean_pnl": 26.9625,
+          "first_place_rate": 0.1125,
+          "robustness": -18.7875
+        }
+      ],
+      "winner": "meta_switch"
+    },
+    {
+      "objective": "first_place",
+      "correlation": "herd",
+      "rows": [
+        {
+          "hero": "meta_switch",
+          "samples": 800,
+          "mean_pnl": 41.6275,
+          "first_place_rate": 0.3975,
+          "robustness": -89.94125
+        },
+        {
+          "hero": "equity_evolved_v1",
+          "samples": 800,
+          "mean_pnl": 68.77,
+          "first_place_rate": 0.305,
+          "robustness": 40.576249999999995
+        },
+        {
+          "hero": "pot_fraction",
+          "samples": 800,
+          "mean_pnl": -0.14625,
+          "first_place_rate": 0.2725,
+          "robustness": -157.08375
+        },
+        {
+          "hero": "bully",
+          "samples": 800,
+          "mean_pnl": -53.69625,
+          "first_place_rate": 0.25875,
+          "robustness": -213.69625
+        },
+        {
+          "hero": "conservative_plus",
+          "samples": 800,
+          "mean_pnl": 60.08,
+          "first_place_rate": 0.25625,
+          "robustness": 29.22375
+        },
+        {
+          "hero": "seller_profit",
+          "samples": 800,
+          "mean_pnl": -29.18875,
+          "first_place_rate": 0.2275,
+          "robustness": -188.87625
+        },
+        {
+          "hero": "equity_sniper_ultra",
+          "samples": 800,
+          "mean_pnl": 51.6425,
+          "first_place_rate": 0.20375,
+          "robustness": 24.342499999999998
+        },
+        {
+          "hero": "adaptive_profile",
+          "samples": 800,
+          "mean_pnl": -55.76125,
+          "first_place_rate": 0.17,
+          "robustness": -215.76125
+        },
+        {
+          "hero": "house_hammer",
+          "samples": 800,
+          "mean_pnl": 31.115,
+          "first_place_rate": 0.1275,
+          "robustness": -19.985000000000003
+        }
+      ],
+      "winner": "meta_switch"
+    },
+    {
+      "objective": "first_place",
+      "correlation": "kingmaker",
+      "rows": [
+        {
+          "hero": "meta_switch",
+          "samples": 800,
+          "mean_pnl": 47.90125,
+          "first_place_rate": 0.39,
+          "robustness": -87.76749999999998
+        },
+        {
+          "hero": "pot_fraction",
+          "samples": 800,
+          "mean_pnl": -8.40625,
+          "first_place_rate": 0.34125,
+          "robustness": -164.7375
+        },
+        {
+          "hero": "equity_evolved_v1",
+          "samples": 800,
+          "mean_pnl": 66.2425,
+          "first_place_rate": 0.305,
+          "robustness": 36.68000000000001
+        },
+        {
+          "hero": "adaptive_profile",
+          "samples": 800,
+          "mean_pnl": -42.67,
+          "first_place_rate": 0.26375,
+          "robustness": -202.67000000000002
+        },
+        {
+          "hero": "bully",
+          "samples": 800,
+          "mean_pnl": -56.88375,
+          "first_place_rate": 0.24375,
+          "robustness": -216.88375
+        },
+        {
+          "hero": "equity_sniper_ultra",
+          "samples": 800,
+          "mean_pnl": 52.63625,
+          "first_place_rate": 0.23625,
+          "robustness": 16.348749999999995
+        },
+        {
+          "hero": "seller_profit",
+          "samples": 800,
+          "mean_pnl": -44.32,
+          "first_place_rate": 0.22875,
+          "robustness": -204.32
+        },
+        {
+          "hero": "conservative_plus",
+          "samples": 800,
+          "mean_pnl": 44.51125,
+          "first_place_rate": 0.1875,
+          "robustness": 7.154999999999994
+        },
+        {
+          "hero": "house_hammer",
+          "samples": 800,
+          "mean_pnl": 23.4675,
+          "first_place_rate": 0.08,
+          "robustness": -20.713749999999997
+        }
+      ],
+      "winner": "meta_switch"
+    }
+  ]
+}

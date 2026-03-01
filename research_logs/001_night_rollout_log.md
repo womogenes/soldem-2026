@@ -983,3 +983,66 @@ Local time: 2026-03-01 01:25:02 PST
   - `research_logs/003_day_of_fast_patch_guide.md`
   - `research_logs/004_status_snapshot.md`
   - `research_logs/013_pre7_handoff_draft.md`
+
+## 2026-03-01 06:34:32 PST
+
+- Re-read `research_logs/000_god_prompt.md` and continued rollout work focused on day-of first-place robustness under correlated-human models and 8-12 game horizons.
+- Added backend-owned resolver reason text export to prevent UI/API drift:
+  - `game/api.py` now exports `strategy_reason_text`, `resolved_champion_reason_texts`, and `resolver_reason_text_map`.
+  - HUD now consumes backend reason text directly (`web/src/routes/+page.svelte`).
+- Added rollout matrix tooling:
+  - `scripts/first_place_rollout_matrix.py` (cases x horizons x correlation scenarios, first-place objective).
+  - smoke artifact: `research_logs/experiment_outputs/first_place_rollout_matrix_smoke_seed63101.json`
+  - full artifact: `research_logs/experiment_outputs/first_place_rollout_matrix_6c_3h_60m_seed63201.json`
+- Ran targeted confirmation sweeps and boundary probes (all logged to `research_logs/experiment_outputs/`):
+  - `baseline_first_place_confirm_6s_140m_10g_seed63301.json`
+  - `low_ante_wta_first_place_confirm_6s_140m_10g_seed63351.json`
+  - `hero_first_place_baseline_9s_80t10g_seed63401.json`
+  - `hero_first_place_low_ante_wta_9s_80t10g_seed63451.json`
+  - `hero_first_place_high_ante_ratio_9s_80t10g_seed63501.json`
+  - `hero_first_place_wta_o4_s150_a35_9s_80t10g_seed63551.json`
+  - `hero_first_place_wta_o4_s160_a35_9s_80t10g_seed63601.json`
+  - `hero_first_place_wta_o4_s180_a35_9s_80t10g_seed63651.json`
+  - `hero_first_place_wta_o4_s140_a30_9s_80t10g_seed63701.json`
+  - `hero_first_place_wta_o4_s140_a40_9s_80t10g_seed63751.json`
+  - seed ensemble for ambiguous case `s140/a35/o4`: seeds `63801,63851,63901,63951`
+  - high-stack checks: `hero_first_place_wta_o4_s200_a35_9s_80t10g_seed64001.json`, `hero_first_place_wta_o4_s200_a45_9s_80t10g_seed64051.json`
+- Policy conclusion from these runs:
+  - Exact baseline first-place remains `meta_switch`.
+  - Non-sprint winner-takes-all requires banding; defaulting all non-baseline variants to `equity_evolved_v1` underperformed.
+  - Updated first-place resolver now uses winner-takes-all banding:
+    - `pot_fraction` for sprint WTA and WTA pot-pressure (`ante/start >= 0.25` or `ante >= 50`),
+    - `equity_evolved_v1` for high-stack low-ante WTA (`start >= 180` and `ante/start < 0.20`),
+    - `meta_switch` for remaining non-sprint WTA band,
+    - `equity_evolved_v1` elsewhere.
+- Updated implementation and aligned priors:
+  - `game/api.py`
+  - `scripts/day_of_autosolve_patch.py`
+  - `scripts/policy_smoke.py`
+  - `scripts/evaluate_first_place_policy.py`
+  - `tests/test_api_session.py`
+  - `web/src/routes/+page.svelte`
+- Added/updated validation artifacts:
+  - `research_logs/experiment_outputs/first_place_policy_eval_post_wta_banding.json`
+  - evaluator best on current artifact set: ratio threshold `0.25` (`68/80`, hit rate `0.850`).
+- Validation after patch:
+  - backend tests: `32/32` pass (`uv run -m unittest discover -s tests -v`)
+  - web check/build: pass
+  - policy smoke: pass against live API
+  - full preflight (`tests + web + policy smoke`) pass at `2026-03-01 06:33:53 PST` on API `:8017`.
+
+## 2026-03-01 06:41:11 PST
+
+- Ran explicit 6-player first-place confirmation for winner-takes-all mid-ante branch:
+  - artifact: `research_logs/experiment_outputs/hero_first_place_wta_o3_s200_a40_n6_9s_80t10g_seed64101.json`
+  - result: `meta_switch` won all four correlation scenarios and led aggregate mean first-place rate.
+- Kept non-sprint winner-takes-all mid-band default on `meta_switch` for this branch.
+- Refreshed day-of docs to align with winner-takes-all banding and latest validations:
+  - `research_logs/003_day_of_fast_patch_guide.md`
+  - `research_logs/004_status_snapshot.md`
+  - `research_logs/005_human_training_drills.md`
+  - `research_logs/006_variant_lookup_table.md`
+  - `research_logs/013_pre7_handoff_draft.md`
+  - `research_logs/018_ante_threshold_calibration.md`
+  - `research_logs/019_pre7_final_checklist.md`
+  - new summary: `research_logs/020_wta_banding_rollout.md`
