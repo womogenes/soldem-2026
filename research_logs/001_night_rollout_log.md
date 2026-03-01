@@ -1196,3 +1196,12 @@ Local time: 2026-03-01 01:25:02 PST
   - backend tests: `37/37` pass
   - web check: pass
   - API smoke: `top2_split + n_players=6 + overrides` recompute path passes.
+
+## 2026-03-01 07:06:41 PST
+
+- Committed recompute-overrides reliability patch:
+  - commit: `5a3bd7c`
+  - `Session.recompute_champions` now uses active rule overrides (including non-default `n_players`, stacks/ante/orbits/pot-policy variants).
+- Post-commit quick preflight:
+  - command: `bash scripts/day_of_preflight.sh --api-url http://127.0.0.1:8028 --with-policy-smoke`
+  - result: pass.

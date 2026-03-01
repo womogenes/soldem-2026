@@ -43,7 +43,7 @@ Local time: 2026-03-01 06:34 PST
 - Integrated preflight (`tests + web + policy smoke`) passed at `2026-03-01 07:03 PST`.
 - Full-stack preflight (`tests + web + policy smoke + bedrock + PB health`) passed at `2026-03-01 06:56 PST`.
 - Quick solver and sim runner now support `n_players != 5` (validated by tests and smoke run).
-- Policy smoke re-run at `2026-03-01 07:03 PST` passed with expanded winner-takes-all branch + 6-player checks.
+- Policy smoke re-run at `2026-03-01 07:06 PST` passed with expanded winner-takes-all branch + 6-player checks.
 
 ## Latest key docs
 
@@ -90,4 +90,5 @@ Local time: 2026-03-01 06:34 PST
 - `b3d22cc`: final 06:58 policy-smoke readiness timestamp refresh.
 - `01ee7da`: advisor request normalization to active rule-profile bounds.
 - `b5e1b20`: readiness docs refreshed after `07:03` integrated preflight.
+- `5a3bd7c`: recompute-champions now honors active rule overrides.
 - `1271c5b`: pre-7 summary refreshed with final readiness commit trail.

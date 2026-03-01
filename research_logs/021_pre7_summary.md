@@ -1,6 +1,6 @@
 # Pre-7 summary
 
-Local time: 2026-03-01 07:05:30 PST
+Local time: 2026-03-01 07:06:41 PST
 
 ## What is ready
 
@@ -65,6 +65,7 @@ Local time: 2026-03-01 07:05:30 PST
 
 ## Latest commits
 
+- `5a3bd7c` Honor active rule overrides when recomputing champions
 - `01ee7da` Normalize advisor round payloads to active rule profile bounds
 - `5ef9e69` Sync session n_players state and expand policy smoke checks
 - `b3d22cc` Record final 06:58 policy smoke readiness check
