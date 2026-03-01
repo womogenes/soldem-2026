@@ -87,3 +87,4 @@ Local time: 2026-03-01 06:34 PST
 - `0054dc7`: final full-stack preflight timestamp refresh (`06:56 PST`).
 - `ca4d87d`: final pre-7 handoff doc timestamp and commit-trail sync.
 - `5ef9e69`: session/profile `n_players` sync fix + correlated-pair smoke coverage.
+- `b3d22cc`: final 06:58 policy-smoke readiness timestamp refresh.

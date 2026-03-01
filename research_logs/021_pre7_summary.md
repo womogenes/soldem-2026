@@ -1,6 +1,6 @@
 # Pre-7 summary
 
-Local time: 2026-03-01 06:58:00 PST
+Local time: 2026-03-01 06:59:20 PST
 
 ## What is ready
 
@@ -64,7 +64,7 @@ Local time: 2026-03-01 06:58:00 PST
 
 ## Latest commits
 
+- `b3d22cc` Record final 06:58 policy smoke readiness check
 - `5ef9e69` Sync session n_players state and expand policy smoke checks
 - `930cced` Make HUD n_players-aware for day-of variant input
 - `bee4a15` Add correlated-pair defensive first-place override
-- `0054dc7` Record final full-stack preflight at 06:51 PST
