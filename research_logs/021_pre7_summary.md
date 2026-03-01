@@ -1,6 +1,6 @@
 # Pre-7 summary
 
-Local time: 2026-03-01 06:51:54 PST
+Local time: 2026-03-01 06:52:56 PST
 
 ## What is ready
 
@@ -66,4 +66,4 @@ Local time: 2026-03-01 06:51:54 PST
 
 - `930cced` Make HUD n_players-aware for day-of variant input
 - `bee4a15` Add correlated-pair defensive first-place override
-- `1eb9bed` Refresh pre-7 docs after final preflight and correlation probe
+- `0054dc7` Record final full-stack preflight at 06:51 PST
