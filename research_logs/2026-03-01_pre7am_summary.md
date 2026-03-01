@@ -9,6 +9,11 @@ Local timestamp: 2026-03-01 06:54:26 PST
 - `ev`: `seller_extraction:opportunistic_delta=5400,reserve_bid_floor=0.032,sell_count=2`
 - `first_place`: `seller_profit`
 - `robustness`: `seller_extraction:opportunistic_delta=4400,reserve_bid_floor=0.02,sell_count=2`
+- Conservative fallback artifact:
+- `research_logs/experiment_outputs/distributed_upgrade_validation_20260301-064350-safe.json`
+- Current final commits:
+- `0cc7648` (final distributed confirmation + merged3 promotion)
+- `47149fd` (pre-7am summary timestamp fix)
 
 ## Why this is final
 
