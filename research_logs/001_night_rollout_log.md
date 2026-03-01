@@ -601,3 +601,18 @@ Local time: 2026-03-01 01:25:02 PST
   - keep current champion policy unchanged.
 - Added summary:
   - `research_logs/014_first_place_candidate_screen.md`.
+
+## 2026-03-01 04:43:32 PST
+
+- Added day-of preflight script:
+  - `scripts/day_of_preflight.sh`
+- Capabilities:
+  - API health/state checks
+  - optional PocketBase health check
+  - optional backend tests / web check / Bedrock smoke
+- Smoke-tested successfully against:
+  - local API (`127.0.0.1:8010`)
+  - PocketBase (`http://18.204.1.6:8090`)
+- Updated runbooks:
+  - `research_logs/003_day_of_fast_patch_guide.md`
+  - `research_logs/004_status_snapshot.md`

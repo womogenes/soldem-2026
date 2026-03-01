@@ -61,12 +61,15 @@ Latest evidence:
 2. Start HUD web app.
 `pnpm -C web dev --host`
 
-3. Open HUD and use quick controls.
+3. Optional quick preflight.
+`bash scripts/day_of_preflight.sh --api-url http://127.0.0.1:8000 --pb-url http://18.204.1.6:8090`
+
+4. Open HUD and use quick controls.
 - Set objective (`ev` recommended by default).
 - Click `Use objective champion`.
 - Enter state and click `Get recommendation`.
 - Optional second opinion: click `Get LLM hint` (Bedrock-backed, deterministic recommendation remains primary).
-- Recommendation and LLM panels now show resolved strategy reason labels (for example `baseline_balanced_first_place`, `sprint_profile_first_place`).
+- Recommendation and LLM panels now show resolved strategy reason labels (for example `baseline_first_place_meta`, `sprint_profile_first_place`).
 - As events accumulate, use `Use auto table read preset` to apply mode-aware switching.
 - Auto table-read mode map:
   - EV/robustness: keep `equity_evolved_v1`.

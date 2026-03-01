@@ -8,6 +8,9 @@ Patch rule variations and keep advisor strategy alignment in under 2 minutes.
 
 ## 2-minute patch flow
 
+0. Optional quick preflight (API + PocketBase reachability).
+`bash scripts/day_of_preflight.sh --api-url http://127.0.0.1:8000 --pb-url http://18.204.1.6:8090`
+
 1. Start API if not running.
 `uv run uvicorn game.api:app --host 0.0.0.0 --port 8000`
 
