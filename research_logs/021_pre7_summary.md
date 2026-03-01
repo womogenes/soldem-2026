@@ -1,6 +1,6 @@
 # Pre-7 summary
 
-Local time: 2026-03-01 07:02:10 PST
+Local time: 2026-03-01 07:03:14 PST
 
 ## What is ready
 
@@ -31,7 +31,7 @@ Local time: 2026-03-01 07:02:10 PST
 - Backend tests: `36/36` pass.
 - Web check/build: pass.
 - Policy smoke: pass for baseline, WTA pot-pressure, WTA high-stack relief, and 6-player branch.
-- Latest integrated preflight (`tests + web + policy smoke`) passed at `2026-03-01 06:56 PST`.
+- Latest integrated preflight (`tests + web + policy smoke`) passed at `2026-03-01 07:03 PST`.
 
 ## How to use at game time
 
@@ -64,6 +64,7 @@ Local time: 2026-03-01 07:02:10 PST
 
 ## Latest commits
 
+- `01ee7da` Normalize advisor round payloads to active rule profile bounds
 - `5ef9e69` Sync session n_players state and expand policy smoke checks
 - `b3d22cc` Record final 06:58 policy smoke readiness check
 - `930cced` Make HUD n_players-aware for day-of variant input

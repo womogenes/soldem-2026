@@ -40,10 +40,10 @@ Local time: 2026-03-01 06:34 PST
 - Backend tests currently passing: `36/36`.
 - Frontend check/build passing.
 - HUD input now supports non-5-player variants (`n_players`-aware seat bounds and dynamic stacks).
-- Integrated preflight (`tests + web + policy smoke`) passed at `2026-03-01 06:56 PST`.
+- Integrated preflight (`tests + web + policy smoke`) passed at `2026-03-01 07:03 PST`.
 - Full-stack preflight (`tests + web + policy smoke + bedrock + PB health`) passed at `2026-03-01 06:56 PST`.
 - Quick solver and sim runner now support `n_players != 5` (validated by tests and smoke run).
-- Policy smoke re-run at `2026-03-01 06:58 PST` passed with expanded winner-takes-all branch + 6-player checks.
+- Policy smoke re-run at `2026-03-01 07:03 PST` passed with expanded winner-takes-all branch + 6-player checks.
 
 ## Latest key docs
 
@@ -88,4 +88,5 @@ Local time: 2026-03-01 06:34 PST
 - `ca4d87d`: final pre-7 handoff doc timestamp and commit-trail sync.
 - `5ef9e69`: session/profile `n_players` sync fix + correlated-pair smoke coverage.
 - `b3d22cc`: final 06:58 policy-smoke readiness timestamp refresh.
+- `01ee7da`: advisor request normalization to active rule-profile bounds.
 - `1271c5b`: pre-7 summary refreshed with final readiness commit trail.

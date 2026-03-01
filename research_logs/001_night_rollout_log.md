@@ -1176,3 +1176,12 @@ Local time: 2026-03-01 01:25:02 PST
   - backend tests: `36/36` pass
   - web check: pass
   - API smoke with intentionally malformed 6-player payload: pass.
+
+## 2026-03-01 07:03:14 PST
+
+- Integrated preflight on latest normalization commit (`01ee7da`) completed:
+  - command: `bash scripts/day_of_preflight.sh --api-url http://127.0.0.1:8026 --with-tests --with-web --with-policy-smoke`
+  - result: pass
+  - backend tests: `36/36` pass
+  - web check: pass
+  - policy smoke: pass, including correlated-pair defensive branch.
