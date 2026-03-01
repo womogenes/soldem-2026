@@ -38,10 +38,10 @@ Local time: 2026-03-01 06:34 PST
 - Autosolve first-place guardrail default: `first_gap=0.07`.
 - Backend tests currently passing: `32/32`.
 - Frontend check/build passing.
-- Integrated preflight (`tests + web + policy smoke`) passed at `2026-03-01 06:33 PST`.
+- Integrated preflight (`tests + web + policy smoke`) passed at `2026-03-01 06:42 PST`.
 - Full-stack preflight (`tests + web + policy smoke + bedrock + PB health`) passed at `2026-03-01 05:52 PST`.
 - Quick solver and sim runner now support `n_players != 5` (validated by tests and smoke run).
-- Policy smoke re-run at `2026-03-01 06:33 PST` passed with expanded winner-takes-all branch + 6-player checks.
+- Policy smoke re-run at `2026-03-01 06:42 PST` passed with expanded winner-takes-all branch + 6-player checks.
 
 ## Latest key docs
 

@@ -1046,3 +1046,12 @@ Local time: 2026-03-01 01:25:02 PST
   - `research_logs/018_ante_threshold_calibration.md`
   - `research_logs/019_pre7_final_checklist.md`
   - new summary: `research_logs/020_wta_banding_rollout.md`
+
+## 2026-03-01 06:42:54 PST
+
+- Final committed-state integrated preflight completed on API `:8018`:
+  - command: `bash scripts/day_of_preflight.sh --api-url http://127.0.0.1:8018 --with-tests --with-web --with-policy-smoke`
+  - result: pass
+  - backend tests: `32/32` pass
+  - web check: pass
+  - policy smoke: pass (baseline, WTA pot-pressure, WTA high-stack relief, 6-player branch).
