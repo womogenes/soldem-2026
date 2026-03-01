@@ -32,8 +32,10 @@
 	let knownCardsText = '';
 	let status = '';
 	let loading = false;
+	let llmLoading = false;
 	let championsLoading = false;
 	let recommendation: any = null;
+	let llmHint: any = null;
 	let sessionState: any = null;
 	let eventType: 'bid' | 'auction_result' | 'showdown' | 'note' = 'bid';
 	let eventSeat = 0;
@@ -116,6 +118,39 @@
 			status = `Request failed: ${String(err)}`;
 		} finally {
 			loading = false;
+		}
+	}
+
+	async function llmHintRequest() {
+		llmLoading = true;
+		status = '';
+		try {
+			const payload = {
+				seat,
+				phase,
+				seller_idx: sellerIdx,
+				round_num: roundNum,
+				n_orbits: nOrbits,
+				pot,
+				stacks,
+				my_cards: parseCards(myCardsText),
+				auction_cards: parseCards(auctionCardsText),
+				known_cards: parseCards(knownCardsText),
+				objective,
+				output_mode: outputMode,
+				strategy_tag: strategyTag || null
+			};
+			const res = await fetch(`${API}/advisor/llm_hint`, {
+				method: 'POST',
+				headers: { 'content-type': 'application/json' },
+				body: JSON.stringify(payload)
+			});
+			llmHint = await res.json();
+			status = 'LLM hint updated';
+		} catch (err) {
+			status = `LLM request failed: ${String(err)}`;
+		} finally {
+			llmLoading = false;
 		}
 	}
 
@@ -274,11 +309,14 @@
 					<Button class="rounded-none" variant="outline" onclick={recomputeChampions} disabled={championsLoading}>
 						{championsLoading ? 'Running...' : 'Recompute champions'}
 					</Button>
+					<Button class="rounded-none" variant="outline" onclick={llmHintRequest} disabled={llmLoading}>
+						{llmLoading ? 'Querying LLM...' : 'Get LLM hint'}
+					</Button>
 				</div>
 			</div>
 
-			<div class="rounded-none border bg-card p-3">
-				<div class="mb-2 text-sm font-medium">Advisor output</div>
+				<div class="rounded-none border bg-card p-3">
+					<div class="mb-2 text-sm font-medium">Advisor output</div>
 				{#if recommendation}
 					{#if recommendation.modes}
 						<div class="grid gap-2 md:grid-cols-3">
@@ -303,8 +341,21 @@
 				{:else}
 					<div class="text-sm text-muted-foreground">No recommendation yet.</div>
 				{/if}
-			</div>
-		</section>
+				</div>
+
+				<div class="rounded-none border bg-card p-3">
+					<div class="mb-2 text-sm font-medium">LLM hint (optional)</div>
+					{#if llmHint}
+						<div class="text-xs">ok: {String(llmHint.ok)}</div>
+						<div class="mt-1 text-xs">model: {llmHint.llm?.model_id}</div>
+						<div class="mt-1 text-xs">latency ms: {llmHint.llm?.latency_ms}</div>
+						<div class="mt-1 text-xs">hint: {JSON.stringify(llmHint.llm?.hint)}</div>
+						<div class="mt-1 text-xs text-muted-foreground">deterministic: {JSON.stringify(llmHint.deterministic?.primary_action)}</div>
+					{:else}
+						<div class="text-sm text-muted-foreground">No LLM hint yet.</div>
+					{/if}
+				</div>
+			</section>
 
 		<aside class="space-y-4">
 				<div class="rounded-none border bg-card p-3">

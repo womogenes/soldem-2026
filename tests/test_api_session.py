@@ -19,7 +19,30 @@ class ApiSessionTests(unittest.TestCase):
         self.assertGreaterEqual(read["confidence"], 0.7)
         self.assertEqual(s.resolve_champion("first_place"), "pot_fraction")
 
-    def test_correlated_pair_bias_switches_ev_to_sniper(self):
+    def test_baseline_first_place_prefers_meta_switch(self):
+        s = Session()
+        self.assertEqual(s.rule_profile.name, "baseline_v1")
+        self.assertEqual(s.resolve_champion("first_place"), "meta_switch")
+
+    def test_baseline_ev_prefers_evolved(self):
+        s = Session()
+        self.assertEqual(s.resolve_champion("ev"), "equity_evolved_v1")
+
+    def test_aggressive_mode_keeps_ev_on_evolved(self):
+        s = Session()
+        for i, amt in enumerate([90, 100, 95, 105, 98, 93, 101, 96, 110, 92, 99]):
+            s.record_event(
+                SessionEventReq(
+                    event_type="bid",
+                    seat=i % 5,
+                    amount=amt,
+                )
+            )
+        read = s.infer_table_read()
+        self.assertEqual(read["mode"], "aggressive")
+        self.assertEqual(s.resolve_champion("ev"), "equity_evolved_v1")
+
+    def test_correlated_pair_bias_switches_ev_to_evolved(self):
         s = Session()
         events = [
             (0, 1),

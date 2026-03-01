@@ -270,3 +270,62 @@ Local time: 2026-03-01 01:25:02 PST
   - `research_logs/experiment_outputs/quick_variant_smoke_v3.json`
   - `research_logs/experiment_outputs/quick_variant_hero_smoke_v2.json`
 - Revalidated backend test suite after updates: 12/12 pass.
+
+## 2026-03-01 03:11:25 PST
+
+- Validated Bedrock runtime access and measured practical latency.
+- Added `scripts/aws/bedrock_latency_probe.sh` (defaulting to a working inference profile ID).
+- Observed latency profile for `us.anthropic.claude-3-5-haiku-20241022-v1:0`:
+  - cold-ish first call can be ~6.8s
+  - warm calls ~1.8-2.1s
+  - 3-call average ~3.5s
+- Conclusion: LLM fallback is feasible within the 10-second turn budget if prompt scope remains tight.
+- Added summary doc:
+  - `research_logs/007_bedrock_latency.md`
+
+## 2026-03-01 03:13:26 PST
+
+- Re-read `research_logs/000_god_prompt.md` and continued rollout work under the same spec.
+- Verified uncommitted LLM advisor integration paths:
+  - API endpoint: `POST /advisor/llm_hint`
+  - UI control: `Get LLM hint`
+  - backend helper module: `game/llm_advisor.py`
+
+## 2026-03-01 03:31:12 PST
+
+- Started broad short-horizon solver pass (`n_tables=180`) and canceled after runtime proved too high without checkpointing.
+- Switched to bounded, parallel profile sweeps to keep throughput high:
+  - `night_qvhs_baseline_v1_50t_seed41001.json`
+  - `night_qvhs_top2_split_50t_seed41002.json`
+  - `night_qvhs_high_low_split_50t_seed41003.json`
+  - `night_qvhs_single_card_sell_50t_seed41004.json`
+  - `night_qvhs_seller_self_bid_50t_seed41005.json`
+  - `night_qvhs_standard_rankings_50t_seed41006.json`
+- Aggregate winners across six built-in profiles:
+  - EV: `equity_evolved_v1` won 6/6
+  - robustness: `equity_evolved_v1` won 6/6
+  - first-place: `equity_evolved_v1` won 4/6, `meta_switch` won 2/6
+
+## 2026-03-01 03:37:41 PST
+
+- Ran first-place tie-breaks with larger samples (`n_tables=150`) for the ambiguous profiles:
+  - baseline: `night_qvhs_baseline_v1_first_place_150t_seed42001.json`
+  - seller-self-bid: `night_qvhs_seller_self_bid_first_place_150t_seed42002.json`
+- Tie-break outcome:
+  - baseline first-place: `meta_switch` > `equity_evolved_v1` by ~0.013 first-place rate
+  - seller-self-bid first-place: `equity_evolved_v1` > `meta_switch` by ~0.001 first-place rate
+- Updated resolver policy:
+  - first-place + passive/high-confidence: `pot_fraction`
+  - first-place + baseline profile: `meta_switch`
+  - otherwise first-place: `equity_evolved_v1`
+  - EV/robustness: `equity_evolved_v1` default
+- Added regression tests for new policy in `tests/test_api_session.py`.
+
+## 2026-03-01 03:41:55 PST
+
+- Ran targeted chaos/aggression checks to validate removing conservative default:
+  - `night_aggressive_pool_check_43001.json`
+  - `night_mixed_chaos_pool_check_43002.json`
+- In both checks, `equity_evolved_v1` beat `conservative_plus` on EV and first-place, with better or comparable p10 tails.
+- Conclusion:
+  - keep `conservative_plus` as optional manual fallback only, not automatic default.

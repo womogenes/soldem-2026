@@ -18,11 +18,11 @@ Patch rule variations and keep advisor strategy alignment in under 2 minutes.
 `uv run python scripts/day_of_patch.py --preset baseline --overrides-json '{"n_orbits":4,"ante_amt":30}'`
 
 4. Optional: lock manual champions in same command.
-`uv run python scripts/day_of_patch.py --preset top2_split --set-ev equity_evolved_v1 --set-first-place equity_evolved_v1 --set-robustness conservative_plus`
+`uv run python scripts/day_of_patch.py --preset top2_split --set-ev equity_evolved_v1 --set-first-place equity_evolved_v1 --set-robustness equity_evolved_v1`
 This sets API `dynamic_resolution_enabled=false` so manual champions stay fixed.
 
 5. Optional: keep dynamic resolver active while updating champion defaults.
-`uv run python scripts/day_of_patch.py --preset baseline --set-ev conservative_plus --keep-dynamic`
+`uv run python scripts/day_of_patch.py --preset baseline --set-ev equity_evolved_v1 --set-first-place meta_switch --set-robustness equity_evolved_v1 --keep-dynamic`
 
 6. Confirm resolved champions from output.
 Expected fields: `resolved_champions.ev`, `resolved_champions.first_place`, `resolved_champions.robustness`.
@@ -44,15 +44,13 @@ Expected fields: `resolved_champions.ev`, `resolved_champions.first_place`, `res
 
 ## Champion policy used by API
 
-- Default EV and robustness: `conservative_plus`.
-- First-place mode: `equity_evolved_v1`.
+- Default EV and robustness: `equity_evolved_v1`.
+- First-place mode:
+  - `baseline_v1`: `meta_switch` (small first-place edge in latest 10-game sweep).
+  - other built-in variants: `equity_evolved_v1`.
 - Dynamic table-read shifts:
-  - `competitive` / `correlated_pair`: lean `equity_evolved_v1`.
-  - `aggressive` / `chaotic`: lean `conservative_plus`.
   - `passive` with high confidence and first-place objective: may choose `pot_fraction`.
-- Automatic shifts:
-  - `high_low_split` or seller self-bidding environments bias to `conservative_plus`.
-  - `top2_split`, standard ranking policy, or single-card selling bias to `equity_evolved_v1`.
+  - all other EV/robustness modes stay on `equity_evolved_v1`.
 
 ## Fast fallback if rules are unknown
 

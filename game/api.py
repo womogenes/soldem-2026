@@ -8,6 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
 from game.advisor import recommend_action
+from game.llm_advisor import bedrock_llm_hint
 from game.rules import RuleProfile, resolve_profile
 from sim.metrics import composite_profiles
 from sim.runner import run_population_tournament
@@ -33,6 +34,11 @@ class RecommendationReq(BaseModel):
     output_mode: OutputMode = "action_first"
     strategy_tag: str | None = None
     ranking_policy: str | None = None
+
+
+class LlmHintReq(RecommendationReq):
+    model_id: str | None = None
+    region: str | None = None
 
 
 class SessionEventReq(BaseModel):
@@ -69,14 +75,14 @@ class Session:
         self.events: list[dict[str, Any]] = []
         self.player_profiles = {i: PlayerProfile(seat=i) for i in range(5)}
         self.champions = {
-            "ev": "conservative_plus",
-            "first_place": "equity_evolved_v1",
-            "robustness": "conservative_plus",
+            "ev": "equity_evolved_v1",
+            "first_place": "meta_switch",
+            "robustness": "equity_evolved_v1",
         }
         self.dynamic_resolution_enabled = True
         self.last_leaderboards: dict[str, list[dict[str, Any]]] = {}
         self.strategy_presets = {
-            "balanced_default": "conservative_plus",
+            "balanced_default": "equity_evolved_v1",
             "correlated_table": "equity_evolved_v1",
             "risk_on_soft_table": "pot_fraction",
             "house_control": "house_hammer",
@@ -219,27 +225,18 @@ class Session:
         if not self.dynamic_resolution_enabled:
             return self.champions.get(objective, "conservative_plus")
 
-        # Fast day-of adjustment for known profile deltas from offline simulations.
+        # Day-of adjustment from offline short-horizon simulation sweeps.
         table_read = self.infer_table_read()
         mode = table_read.get("mode", "balanced")
-        profile_bias_evolved = (
-            self.rule_profile.pot_distribution_policy in {"high_low_split", "top2_split"}
-            or self.rule_profile.seller_can_bid_own_card
-            or self.rule_profile.hand_ranking_policy == "standard_plus_five_kind"
-            or not self.rule_profile.allow_multi_card_sell
-        )
-
-        if mode == "aggressive":
-            return "conservative_plus"
         if objective == "first_place":
             if mode == "passive" and table_read.get("confidence", 0.0) >= 0.7:
                 return "pot_fraction"
+            if self.rule_profile.name == "baseline_v1":
+                return "meta_switch"
             return "equity_evolved_v1"
-        if mode in {"competitive", "correlated_pair"}:
+        if objective in {"ev", "robustness"}:
             return "equity_evolved_v1"
-        if profile_bias_evolved:
-            return "equity_evolved_v1"
-        return "conservative_plus"
+        return self.champions.get(objective, "equity_evolved_v1")
 
     def recompute_champions(self, req: RecomputeChampionsReq) -> dict[str, Any]:
         strategy_tags = list(built_in_strategy_factories().keys())
@@ -407,3 +404,53 @@ def advisor_recommend(req: RecommendationReq):
     out = rec.to_dict()
     out["rule_profile"] = session.rule_profile.to_dict()
     return out
+
+
+@app.post("/advisor/llm_hint")
+def advisor_llm_hint(req: LlmHintReq):
+    ranking_policy = req.ranking_policy or session.rule_profile.hand_ranking_policy
+    strategy_tag = req.strategy_tag or session.resolve_champion(req.objective)
+    base = recommend_action(
+        phase=req.phase,
+        strategy_tag=strategy_tag,
+        seat=req.seat,
+        seller_idx=req.seller_idx,
+        pot=req.pot,
+        stacks=req.stacks,
+        my_cards=req.my_cards,
+        auction_cards=req.auction_cards,
+        round_num=req.round_num,
+        n_orbits=req.n_orbits,
+        ranking_policy=ranking_policy,
+        objective=req.objective,
+        output_mode="metrics",
+        player_profiles=session.player_profiles,
+        known_cards=req.known_cards,
+    )
+    state = {
+        "phase": req.phase,
+        "objective": req.objective,
+        "seat": req.seat,
+        "seller_idx": req.seller_idx,
+        "pot": req.pot,
+        "stack": req.stacks[req.seat] if 0 <= req.seat < len(req.stacks) else 0,
+        "stacks": req.stacks,
+        "my_cards": req.my_cards,
+        "auction_cards": req.auction_cards,
+        "known_cards": req.known_cards,
+        "round_num": req.round_num,
+        "n_orbits": req.n_orbits,
+        "fair_bid": int(base.metrics.get("fair_bid", 0)),
+        "delta_score": int(base.metrics.get("delta_score", 0)),
+        "showdown_win_prob": float(base.metrics.get("showdown_win_prob", 0.0)),
+        "deterministic_primary_action": base.primary_action,
+        "table_read": session.infer_table_read(),
+    }
+    llm = bedrock_llm_hint(state, model_id=req.model_id, region=req.region)
+    return {
+        "ok": llm.get("ok", False),
+        "strategy_tag": strategy_tag,
+        "rule_profile": session.rule_profile.to_dict(),
+        "deterministic": base.to_dict(),
+        "llm": llm,
+    }

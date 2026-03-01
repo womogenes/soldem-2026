@@ -1,6 +1,6 @@
 # Status snapshot and operator guide
 
-Local time: 2026-03-01 02:00 PST
+Local time: 2026-03-01 03:44 PST
 
 ## Reference
 
@@ -26,28 +26,22 @@ This workstream follows `research_logs/000_god_prompt.md` as the controlling spe
 ## Best strategy recommendations from rollouts
 
 Primary recommendation for day-of EV stability:
-- `conservative_plus`
+- `equity_evolved_v1`
 
 First-place/correlation-heavy fallback:
-- `equity_evolved_v1`
+- baseline rules: `meta_switch`
+- non-baseline built-in variants: `equity_evolved_v1`
 
 High-variance exploit mode (only if table looks soft/passive):
 - `pot_fraction`
 
-Observed horizon tendencies from `iter2_small` matrix:
-- 5-game windows: `conservative_plus` slightly favored.
-- 10-game windows: evolved/sniper family leads most often.
-- 20-game windows: `conservative_plus` regains edge.
-
-Observed field-type tendencies from `hero_suite_v2`:
-- mixed pool: `equity_sniper_ultra` 6/9 scenario wins.
-- shark pool: `equity_sniper_ultra` 9/9 scenario wins.
-- chaos pool: `conservative_plus` 9/9 scenario wins.
-- practical takeaway: when table looks disciplined/tight, prefer sniper mode; when table is erratic, stay conservative.
-
-Adaptive strategy experiment:
-- `meta_switch` was tested but did not beat fixed champions on EV robustness.
-- keep it as optional high-variance fallback only.
+Latest evidence:
+- six-profile short-horizon sweep (`n_tables=50`, `n_games=10`):
+  - EV winner: `equity_evolved_v1` in 6/6 profiles
+  - robustness winner: `equity_evolved_v1` in 6/6 profiles
+  - first-place winner: `equity_evolved_v1` in 4/6, `meta_switch` in 2/6
+- baseline first-place tie-break (`n_tables=150`): `meta_switch` edge over `equity_evolved_v1`.
+- seller-self-bid first-place tie-break (`n_tables=150`): `equity_evolved_v1` edge over `meta_switch`.
 
 ## How to run now
 
@@ -61,10 +55,11 @@ Adaptive strategy experiment:
 - Set objective (`ev` recommended by default).
 - Click `Use objective champion`.
 - Enter state and click `Get recommendation`.
+- Optional second opinion: click `Get LLM hint` (Bedrock-backed, deterministic recommendation remains primary).
 - As events accumulate, use `Use auto table read preset` to apply mode-aware switching.
 - Auto table-read mode map:
-  - `competitive` or `correlated_pair`: prefer evolved attack (`equity_evolved_v1`).
-  - `aggressive` / chaotic: prefer conservative (`conservative_plus`).
+  - EV/robustness: keep `equity_evolved_v1`.
+  - first-place + baseline: prefer `meta_switch`.
   - `passive` + first-place objective: may move to `pot_fraction`.
 
 ## Day-of fast patch
@@ -76,7 +71,7 @@ For custom host-announced changes:
 `uv run python scripts/day_of_patch.py --preset baseline --overrides-json '{"n_orbits":4,"ante_amt":30}'`
 
 For manual champion locks:
-`uv run python scripts/day_of_patch.py --preset baseline --set-ev conservative_plus --set-first-place equity_evolved_v1 --set-robustness conservative_plus`
+`uv run python scripts/day_of_patch.py --preset baseline --set-ev equity_evolved_v1 --set-first-place meta_switch --set-robustness equity_evolved_v1`
 
 For quick empirical champion probe under a new variant:
 `uv run python scripts/quick_variant_hero_solver.py --rule-profile baseline_v1 --rule-overrides-json '{"n_orbits":4}' --n-tables 12 --n-games 8 --out research_logs/experiment_outputs/live_variant_probe.json`
