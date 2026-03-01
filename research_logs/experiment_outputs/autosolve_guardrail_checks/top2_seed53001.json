@@ -1,0 +1,61 @@
+{
+  "dry_run": true,
+  "solver_budget": {
+    "n_tables": 12,
+    "n_games": 8,
+    "seed": 53001
+  },
+  "rule_profile": "top2_split",
+  "overrides": {},
+  "priors": {
+    "ev": "equity_evolved_v1",
+    "first_place": "equity_evolved_v1",
+    "robustness": "equity_evolved_v1"
+  },
+  "solver_winners": {
+    "ev": "equity_evolved_v1",
+    "first_place": "conservative_plus",
+    "robustness": "equity_evolved_v1"
+  },
+  "winners": {
+    "ev": "equity_evolved_v1",
+    "first_place": "equity_evolved_v1",
+    "robustness": "equity_evolved_v1"
+  },
+  "winner_decisions": {
+    "ev": {
+      "prior": "equity_evolved_v1",
+      "solver_top": "equity_evolved_v1",
+      "solver_gap": 12.481770833333329,
+      "threshold": 12.0,
+      "decision": "solver_top",
+      "selected": "equity_evolved_v1"
+    },
+    "first_place": {
+      "prior": "equity_evolved_v1",
+      "solver_top": "conservative_plus",
+      "solver_gap": 0.02604166666666663,
+      "threshold": 0.04,
+      "decision": "prior_guardrail",
+      "selected": "equity_evolved_v1"
+    },
+    "robustness": {
+      "prior": "equity_evolved_v1",
+      "solver_top": "equity_evolved_v1",
+      "solver_gap": 36.411458333333336,
+      "threshold": 20.0,
+      "decision": "solver_top",
+      "selected": "equity_evolved_v1"
+    }
+  },
+  "apply_payload": {
+    "profile_name": "top2_split",
+    "overrides": {}
+  },
+  "set_payload": {
+    "ev": "equity_evolved_v1",
+    "first_place": "equity_evolved_v1",
+    "robustness": "equity_evolved_v1",
+    "lock_manual": true
+  }
+}

@@ -425,3 +425,15 @@ Local time: 2026-03-01 01:25:02 PST
   - command: `scripts/day_of_autosolve_patch.py --n-tables 12 --n-games 8 --dry-run`
   - measured wall-clock: `22.895s`
 - This is comfortably inside the 2-minute patch requirement.
+
+## 2026-03-01 04:11:40 PST
+
+- Ran autosolve guardrail calibration across three profiles (`baseline_v1`, `top2_split`, sprint override) and three seeds (`53001-53003`):
+  - artifacts: `research_logs/experiment_outputs/autosolve_guardrail_checks/*.json`
+- Compared low-budget autosolve selections to high-confidence mapping:
+  - EV: guardrailed `9/9` match vs raw solver `5/9`
+  - first-place: guardrailed `8/9` match vs raw solver `5/9`
+  - robustness: guardrailed `9/9` match vs raw solver `7/9`
+- Added calibration summary:
+  - `research_logs/009_autosolve_guardrail_calibration.md`
+- Updated day-of guide to include stricter first-place margin option (`--first-gap 0.07`) when needed.
